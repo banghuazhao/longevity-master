@@ -36,9 +36,6 @@ class Habit {
     /// An array of dates when the habit was completed.
     var completionDates: [Date]
     
-    /// A flag indicating whether the habit is completed for the current day.
-    var isCompleted: Bool
-    
     /// Initializes a new habit with the specified properties.
     ///
     /// - Parameters:
@@ -50,7 +47,6 @@ class Habit {
     ///   - note: An optional note or description (default is `nil`).
     ///   - antiAgingRating: The anti-aging rating (1-5).
     ///   - completionDates: The list of completion dates (default is empty).
-    ///   - isCompleted: The completion status for today (default is `false`).
     init(
         name: String,
         category: HabitCategory,
@@ -59,8 +55,7 @@ class Habit {
         color: String,
         note: String? = nil,
         antiAgingRating: Int,
-        completionDates: [Date] = [],
-        isCompleted: Bool = false
+        completionDates: [Date] = []
     ) {
         self.name = name
         self.categoryRaw = category.rawValue
@@ -70,7 +65,6 @@ class Habit {
         self.note = note
         self.antiAgingRating = antiAgingRating
         self.completionDates = completionDates
-        self.isCompleted = isCompleted
     }
     
     // MARK: - Computed Properties

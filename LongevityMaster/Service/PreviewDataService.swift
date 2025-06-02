@@ -1,0 +1,70 @@
+//
+// Created by Banghua Zhao on 02/06/2025
+// Copyright Apps Bay Limited. All rights reserved.
+//
+
+import Foundation
+import SwiftData
+
+@MainActor
+class PreviewDataService {
+    static let shared = PreviewDataService()
+
+    let modelContainer: ModelContainer
+
+    var modelContext: ModelContext {
+        modelContainer.mainContext
+    }
+
+    private init() {
+        do {
+            modelContainer = try ModelContainer(
+                for: Schema([Habit.self]),
+                configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+            )
+
+            addMockData()
+        } catch {
+            fatalError("Could not create ModelContainer: \(error)")
+        }
+    }
+
+    private func addMockData() {
+        let mockHabits = [
+            Habit(
+                name: "Morning Run",
+                category: .exercise,
+                frequency: .nDaysEachWeek(3),
+                icon: "🏃‍♂️",
+                color: "green",
+                note: "Stay active!",
+                antiAgingRating: 4,
+                completionDates: []
+            ),
+            Habit(
+                name: "Meditate",
+                category: .mentalHealth,
+                frequency: .fixedDaysInWeek([1, 3, 5]),
+                icon: "🧘",
+                color: "purple",
+                note: "Find peace daily",
+                antiAgingRating: 3,
+                completionDates: [Date().addingTimeInterval(-86400)]
+            ),
+            Habit(
+                name: "Healthy Breakfast",
+                category: .diet,
+                frequency: .nDaysEachMonth(20),
+                icon: "🥑",
+                color: "teal",
+                note: "Start the day right!",
+                antiAgingRating: 2,
+                completionDates: []
+            ),
+        ]
+
+        for habit in mockHabits {
+            modelContext.insert(habit)
+        }
+    }
+}

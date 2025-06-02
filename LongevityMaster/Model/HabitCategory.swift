@@ -6,18 +6,11 @@
 
 /// An enumeration representing the categories of habits.
 enum HabitCategory: String, Codable {
-    /// General lifestyle habits.
-    case lifestyle = "Lifestyle"
-    
-    /// Food-related habits.
-    case food = "Food"
-    
-    /// Sports-related habits.
-    case sports = "Sports"
-    
-    /// Mental health-related habits.
+    case diet = "Diet"
+    case exercise = "Food"
+    case sleep = "Sleep"
+    case preventiveHealth = "Preventive Health"
     case mentalHealth = "Mental Health"
     
-    /// All possible habit categories.
-    static var allCases: [HabitCategory] = [.lifestyle, .food, .sports, .mentalHealth]
+    static var allCases: [HabitCategory] = [.diet, .exercise, .sleep, .preventiveHealth, .mentalHealth]
 }

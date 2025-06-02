@@ -11,7 +11,7 @@ import SwiftData
 struct LongevityMasterApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            Habit.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -24,7 +24,7 @@ struct LongevityMasterApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HabitsListView()
         }
         .modelContainer(sharedModelContainer)
     }

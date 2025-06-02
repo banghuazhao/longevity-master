@@ -77,7 +77,7 @@ class Habit {
     
     /// The category of the habit, mapped from the raw string value.
     var category: HabitCategory {
-        get { HabitCategory(rawValue: categoryRaw) ?? .lifestyle }
+        get { HabitCategory(rawValue: categoryRaw) ?? .diet }
         set { categoryRaw = newValue.rawValue }
     }
     
@@ -92,13 +92,15 @@ class Habit {
     /// Creates a default habit with predefined values.
     ///
     /// - Returns: A `Habit` instance with default settings.
-    static func makeDefaultHabit() -> Habit {
+    static func makeDefaultHabit(
+        name: String = ""
+    ) -> Habit {
         .init(
-            name: "",
-            category: .lifestyle,
+            name: name,
+            category: .diet,
             frequency: .fixedDaysInWeek(Set(1...7)), // All days by default
             icon: "🍣",
-            color: "#FFFFFF",
+            color: "#2F2F2F",
             antiAgingRating: 4
         )
     }

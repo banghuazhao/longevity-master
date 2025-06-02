@@ -51,10 +51,10 @@ class Habit {
         name: String,
         category: HabitCategory,
         frequency: HabitFrequency,
+        antiAgingRating: Int,
         icon: String,
         color: String,
         note: String? = nil,
-        antiAgingRating: Int,
         completionDates: [Date] = []
     ) {
         self.name = name
@@ -87,15 +87,22 @@ class Habit {
     ///
     /// - Returns: A `Habit` instance with default settings.
     static func makeDefaultHabit(
-        name: String = ""
+        name: String = "",
+        category: HabitCategory = .diet,
+        frequency: HabitFrequency = .fixedDaysInWeek(Set(1...7)),
+        antiAgingRating: Int = 4,
+        icon: String = "🫐",
+        color: String = "#73D6FF",
+        note: String? = nil
     ) -> Habit {
         .init(
             name: name,
-            category: .diet,
-            frequency: .fixedDaysInWeek(Set(1...7)), // All days by default
-            icon: "🍣",
-            color: "#2F2F2F",
-            antiAgingRating: 4
+            category: category,
+            frequency: frequency,
+            antiAgingRating: antiAgingRating,
+            icon: icon,
+            color: color,
+            note: note
         )
     }
 }

@@ -17,27 +17,31 @@ struct HabitCardView: View {
             VStack(alignment: .leading, spacing: 5) {
                 Text(habit.name)
                     .font(.subheadline).bold()
+                    .lineLimit(1)
 
                 HStack {
                     Image(systemName: "calendar")
                         .font(.caption2)
                     Text(frequencyDescription)
                         .font(.caption2)
+                        .lineLimit(1)
                 }
 
                 HStack {
                     Image(systemName: "hand.thumbsup")
                         .font(.caption2)
 
-                    ForEach(0 ..< habit.antiAgingRating, id: \.self) { _ in
-                        Image(systemName: "star.fill")
-                            .font(.caption2)
-                            .foregroundColor(.orange)
-                    }
-                    ForEach(habit.antiAgingRating ..< 5, id: \.self) { _ in
-                        Image(systemName: "star")
-                            .font(.caption2)
-                            .foregroundColor(.orange)
+                    HStack(spacing: 2) {
+                        ForEach(0 ..< habit.antiAgingRating, id: \.self) { _ in
+                            Image(systemName: "star.fill")
+                                .font(.caption2)
+                                .foregroundColor(.orange)
+                        }
+                        ForEach(habit.antiAgingRating ..< 5, id: \.self) { _ in
+                            Image(systemName: "star")
+                                .font(.caption2)
+                                .foregroundColor(.orange)
+                        }
                     }
                 }
             }
@@ -52,7 +56,7 @@ struct HabitCardView: View {
         }
         .padding()
         .background(
-            (Color(hex: habit.color) ?? .gray).opacity(0.2)
+            (Color(hex: habit.color) ?? .gray)
         )
         .cornerRadius(10)
         .overlay(
@@ -71,40 +75,42 @@ struct HabitCardView: View {
         case let .fixedDaysInWeek(days):
             return days.isEmpty ? "No days set" : "Every \(daysString(from: days))"
         case let .nDaysEachWeek(days):
-            return "\(days) day(s) each week"
+            if days == 1 {
+                return "1 day each week"
+            } else {
+                return "\(days) days each week"
+            }
         case let .fixedDaysInMonth(days):
             return days.isEmpty ? "No days set" : "Every \(daysString(from: days)) of month"
         case let .nDaysEachMonth(days):
-            return "\(days) day(s) each month"
+            if days == 1 {
+                return "1 day each month"
+            } else {
+                return "\(days) days each month"
+            }
         }
     }
-
-    private func daysString(from days: Set<String>) -> String {
-        return days.sorted().joined(separator: ", ")
-    }
-
+    
     private func daysString(from days: Set<Int>) -> String {
         return days.sorted().map { String($0) }.joined(separator: ", ")
     }
 }
 
 #Preview {
-    List {
+    VStack {
         HabitCardView(
-            habit: Habit.makeDefaultHabit(name: "Eat blueberry"),
+            habit: HabitsDataStore.eatSalmon,
             onTapMore: {}
         )
 
         HabitCardView(
-            habit: Habit.makeDefaultHabit(
-                name: "Swimming",
-                frequency: .fixedDaysInWeek([1, 3, 5]),
-                icon: "🏊‍♂️",
-                color: "#4ECDC4",
-                note: "Swimming improves cardiovascular health, builds muscle strength, reduces stress, enhances flexibility, and is low-impact, suitable for all ages."
-            ),
+            habit: HabitsDataStore.swimming,
+            onTapMore: {}
+        )
+        
+        HabitCardView(
+            habit: HabitsDataStore.sleep,
             onTapMore: {}
         )
     }
-    .listStyle(.plain)
 }

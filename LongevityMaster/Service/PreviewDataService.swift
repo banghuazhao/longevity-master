@@ -30,40 +30,7 @@ class PreviewDataService {
     }
 
     private func addMockData() {
-        let mockHabits = [
-            Habit(
-                name: "Morning Run",
-                category: .exercise,
-                frequency: .nDaysEachWeek(3),
-                antiAgingRating: 4,
-                icon: "🏃‍♂️",
-                color: "green",
-                note: "Stay active!",
-                completionDates: []
-            ),
-            Habit(
-                name: "Meditate",
-                category: .mentalHealth,
-                frequency: .fixedDaysInWeek([1, 3, 5]),
-                antiAgingRating: 3,
-                icon: "🧘",
-                color: "purple",
-                note: "Find peace daily",
-                completionDates: [Date().addingTimeInterval(-86400)]
-            ),
-            Habit(
-                name: "Healthy Breakfast",
-                category: .diet,
-                frequency: .nDaysEachMonth(20),
-                antiAgingRating: 2,
-                icon: "🥑",
-                color: "teal",
-                note: "Start the day right!",
-                completionDates: []
-            ),
-        ]
-
-        for habit in mockHabits {
+        for habit in HabitsDataStore.all {
             modelContext.insert(habit)
         }
     }

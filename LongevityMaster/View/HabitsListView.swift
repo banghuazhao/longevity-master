@@ -12,12 +12,13 @@ struct HabitsListView: View {
 
     var body: some View {
         NavigationSplitView {
-            List {
+            ScrollView {
                 ForEach(habits) { habit in
                     HabitCardView(
                         habit: habit,
                         onTapMore: {}
                     )
+                    .padding(.horizontal)
                 }
             }
         } detail: {

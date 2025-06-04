@@ -11,16 +11,16 @@ struct TodayView: View {
 
     @Query private var habits: [Habit]
 
-    private let currentDate = Calendar.current.date(from: DateComponents(year: 2025, month: 6, day: 3))!
+    @State var currentDate: Date = Date()
     private let calendar = Calendar.current
 
     private var todayHabits: [Habit] {
         habits.filter { habit in
             switch habit.frequency {
             case let .nDaysEachWeek(days):
-                return days >= 7 // Daily habits
+                return days >= 7
             case let .fixedDaysInWeek(days):
-                let weekday = calendar.component(.weekday, from: currentDate) // 2 = Tuesday
+                let weekday = calendar.component(.weekday, from: currentDate)
                 return days.contains(weekday)
             default:
                 return false
@@ -35,12 +35,14 @@ struct TodayView: View {
                     HStack {
                         Image(systemName: "calendar")
                             .font(.headline)
-                        Text("\(formattedDate())")
-                            .font(.headline)
-                            .foregroundColor(.primary)
+
+                        DatePicker("", selection: $currentDate, displayedComponents: .date)
+                            .labelsHidden()
+                            .datePickerStyle(.compact)
+                        
                         Spacer()
                     }
-                    
+
                     ForEach(HabitCategory.allCases, id: \.rawValue) { category in
                         let habits = todayHabits.filter { $0.category == category }
                         if !habits.isEmpty {
@@ -49,7 +51,7 @@ struct TodayView: View {
                                 Text(category.rawValue)
                                 Spacer()
                             }
-                            
+
                             LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: 12) {
                                 ForEach(habits) { habit in
                                     HabitIconButton(habit: habit)

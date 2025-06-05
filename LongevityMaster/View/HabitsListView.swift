@@ -3,12 +3,11 @@
 // Copyright Apps Bay Limited. All rights reserved.
 //
 
-import SwiftData
 import SwiftUI
+import SharingGRDB
 
 struct HabitsListView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var habits: [Habit]
+    @FetchAll private var habits: [Habit]
 
     var body: some View {
         NavigationSplitView {
@@ -28,6 +27,8 @@ struct HabitsListView: View {
 }
 
 #Preview {
+    let _ = prepareDependencies {
+        $0.defaultDatabase = try! appDatabase()
+    }
     HabitsListView()
-        .modelContainer(PreviewDataService.shared.modelContainer)
 }

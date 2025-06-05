@@ -3,11 +3,17 @@
 // Copyright Apps Bay Limited. All rights reserved.
 //
 
-import SwiftData
+import SharingGRDB
 import SwiftUI
 
 @main
 struct LongevityMasterApp: App {
+    init() {
+        prepareDependencies {
+            $0.defaultDatabase = try! appDatabase()
+        }
+    }
+
     var body: some Scene {
         WindowGroup {
             TabView {
@@ -22,6 +28,5 @@ struct LongevityMasterApp: App {
                     }
             }
         }
-        .modelContainer(DataService.shared.modelContainer)
     }
 }

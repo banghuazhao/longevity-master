@@ -6,16 +6,16 @@
 import SwiftUI
 
 struct HabitIconButton: View {
-    @Environment(\.modelContext) private var modelContext
     let habit: Habit
 
     private let calendar = Calendar.current
     private let currentDate = Date()
 
     private var isCompletedToday: Bool {
-        habit.completionDates.contains { date in
-            calendar.isDate(date, inSameDayAs: currentDate)
-        }
+//        habit.completionDates.contains { date in
+//            calendar.isDate(date, inSameDayAs: currentDate)
+//        }
+        true
     }
 
     var body: some View {
@@ -48,12 +48,7 @@ struct HabitIconButton: View {
     }
 
     private func toggleCompletion() {
-        if isCompletedToday {
-            habit.completionDates.removeAll { calendar.isDate($0, inSameDayAs: currentDate) }
-        } else {
-            habit.completionDates.append(currentDate)
-        }
-        try? modelContext.save()
+        
     }
 }
 

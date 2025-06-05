@@ -71,24 +71,25 @@ struct HabitCardView: View {
     }
 
     var frequencyDescription: String {
-        switch habit.frequency {
-        case let .fixedDaysInWeek(days):
-            return days.isEmpty ? "No days set" : "Every \(daysString(from: days))"
-        case let .nDaysEachWeek(days):
-            if days == 1 {
-                return "1 day each week"
-            } else {
-                return "\(days) days each week"
-            }
-        case let .fixedDaysInMonth(days):
-            return days.isEmpty ? "No days set" : "Every \(daysString(from: days)) of month"
-        case let .nDaysEachMonth(days):
-            if days == 1 {
-                return "1 day each month"
-            } else {
-                return "\(days) days each month"
-            }
-        }
+        return "1"
+//        switch habit.frequency {
+//        case let .fixedDaysInWeek(days):
+//            return days.isEmpty ? "No days set" : "Every \(daysString(from: days))"
+//        case let .nDaysEachWeek(days):
+//            if days == 1 {
+//                return "1 day each week"
+//            } else {
+//                return "\(days) days each week"
+//            }
+//        case let .fixedDaysInMonth(days):
+//            return days.isEmpty ? "No days set" : "Every \(daysString(from: days)) of month"
+//        case let .nDaysEachMonth(days):
+//            if days == 1 {
+//                return "1 day each month"
+//            } else {
+//                return "\(days) days each month"
+//            }
+//        }
     }
     
     private func daysString(from days: Set<Int>) -> String {

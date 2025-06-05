@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		996BA7BB2DF19E3A00A4B9FC /* SharingGRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		993A34352DEB1032002CEA39 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -42,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				996BA7BB2DF19E3A00A4B9FC /* SharingGRDB in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +105,7 @@
 			);
 			name = LongevityMaster;
 			packageProductDependencies = (
+				996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */,
 			);
 			productName = LongevityMaster;
 			productReference = 993A34222DEB1031002CEA39 /* LongevityMaster.app */;
@@ -177,6 +183,9 @@
 			);
 			mainGroup = 993A34192DEB1031002CEA39;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				996BA7B92DF19E3A00A4B9FC /* XCRemoteSwiftPackageReference "sharing-grdb" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 993A34232DEB1031002CEA39 /* Products */;
 			projectDirPath = "";
@@ -540,6 +549,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		996BA7B92DF19E3A00A4B9FC /* XCRemoteSwiftPackageReference "sharing-grdb" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/sharing-grdb";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 996BA7B92DF19E3A00A4B9FC /* XCRemoteSwiftPackageReference "sharing-grdb" */;
+			productName = SharingGRDB;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 993A341A2DEB1031002CEA39 /* Project object */;
 }

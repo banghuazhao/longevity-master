@@ -45,6 +45,7 @@ struct HabitsDataStore {
     static let all = [
         eatSalmon,
         swimming,
+        sleep,
         Habit(
             id: 4,
             name: "Eat kale",

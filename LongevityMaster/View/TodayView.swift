@@ -7,9 +7,7 @@ import SharingGRDB
 import SwiftUI
 
 struct TodayView: View {
-    @FetchAll private var habits: [Habit]
-
-    @State var currentDate: Date = Date()
+    @State var viewModel = TodayViewModel()
 
     var body: some View {
         NavigationStack {
@@ -19,7 +17,7 @@ struct TodayView: View {
                         Image(systemName: "calendar")
                             .font(.headline)
 
-                        DatePicker("", selection: $currentDate, displayedComponents: .date)
+                        DatePicker("", selection: $viewModel.selectedDate, displayedComponents: .date)
                             .labelsHidden()
                             .datePickerStyle(.compact)
 
@@ -27,7 +25,7 @@ struct TodayView: View {
                     }
 
                     ForEach(HabitCategory.allCases, id: \.rawValue) { category in
-                        let subHabits = habits.filter { $0.category == category }
+                        let subHabits = viewModel.habits.filter { $0.category == category }
                         if !subHabits.isEmpty {
                             HStack {
                                 Spacer()
@@ -58,12 +56,6 @@ struct TodayView: View {
                 }
             }
         }
-    }
-
-    private func formattedDate() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, yyyy"
-        return formatter.string(from: currentDate)
     }
 }
 

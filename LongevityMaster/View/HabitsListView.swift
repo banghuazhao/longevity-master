@@ -7,12 +7,12 @@ import SwiftUI
 import SharingGRDB
 
 struct HabitsListView: View {
-    @FetchAll private var habits: [Habit]
+    @State var viewModel = HabitsListViewModel()
 
     var body: some View {
         NavigationSplitView {
             ScrollView {
-                ForEach(habits) { habit in
+                ForEach(viewModel.habits) { habit in
                     HabitCardView(
                         habit: habit,
                         onTapMore: {}

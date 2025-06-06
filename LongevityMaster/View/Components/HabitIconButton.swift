@@ -3,19 +3,25 @@
 // Copyright Apps Bay Limited. All rights reserved.
 //
 
+import SharingGRDB
 import SwiftUI
 
 struct HabitIconButton: View {
+    @Dependency(\.defaultDatabase) var dataBase
+
     let habit: Habit
+
+    @FetchAll
+    var checkInDates: [CheckInDate]
 
     private let calendar = Calendar.current
     private let currentDate = Date()
 
     private var isCompletedToday: Bool {
-//        habit.completionDates.contains { date in
-//            calendar.isDate(date, inSameDayAs: currentDate)
-//        }
-        true
+        checkInDates.contains { checkInDate in
+            calendar.isDate(checkInDate.date, inSameDayAs: currentDate)
+                && checkInDate.habitID == habit.id
+        }
     }
 
     var body: some View {
@@ -48,11 +54,36 @@ struct HabitIconButton: View {
     }
 
     private func toggleCompletion() {
-        
+        if isCompletedToday {
+            withErrorReporting {
+                try dataBase.write { db in
+                    let todayCheckIns = checkInDates.filter { checkInDate in
+                        calendar.isDate(checkInDate.date, inSameDayAs: currentDate)
+                        && checkInDate.habitID == habit.id
+                    }
+                    let ids = todayCheckIns.map(\.id)
+                    try CheckInDate
+                        .where { $0.id.in(ids) }
+                        .delete()
+                        .execute(db)
+                }
+            }
+        } else {
+            withErrorReporting {
+                try dataBase.write { db in
+                    let checkInDate = CheckInDate.Draft(date: Date(), habitID: habit.id)
+                    try CheckInDate.upsert(checkInDate)
+                        .execute(db)
+                }
+            }
+        }
     }
 }
 
 #Preview {
+    let _ = prepareDependencies {
+        $0.defaultDatabase = try! appDatabase()
+    }
     LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: 12) {
         HabitIconButton(
             habit: HabitsDataStore.eatSalmon
@@ -62,10 +93,6 @@ struct HabitIconButton: View {
             habit: HabitsDataStore.swimming
         )
 
-        HabitIconButton(
-            habit: HabitsDataStore.sleep
-        )
-        
         HabitIconButton(
             habit: HabitsDataStore.sleep
         )

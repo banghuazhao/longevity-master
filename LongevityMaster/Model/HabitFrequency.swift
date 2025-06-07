@@ -3,7 +3,6 @@
 // Copyright Apps Bay Limited. All rights reserved.
 //
 
-
 import SharingGRDB
 
 enum HabitFrequency: Int, QueryBindable {
@@ -11,14 +10,14 @@ enum HabitFrequency: Int, QueryBindable {
     case nDaysEachWeek
     case fixedDaysInMonth
     case nDaysEachMonth
-    
+
     static var allCases: [HabitFrequency] = [
         .fixedDaysInWeek,
         .nDaysEachWeek,
         .fixedDaysInMonth,
-        .nDaysEachMonth
+        .nDaysEachMonth,
     ]
-    
+
     var title: String {
         switch self {
         case .fixedDaysInWeek: return "Fixed Days in a Week"
@@ -27,14 +26,14 @@ enum HabitFrequency: Int, QueryBindable {
         case .nDaysEachMonth: return "N Days Each Month"
         }
     }
-    
+
     var maxDays: Int {
         switch self {
         case .fixedDaysInWeek, .nDaysEachWeek: return 7
         case .fixedDaysInMonth, .nDaysEachMonth: return 28
         }
     }
-    
+
     /// Serializes the frequency type and its associated value into a string.
 //    var rawValue: String {
 //        switch self {
@@ -48,7 +47,7 @@ enum HabitFrequency: Int, QueryBindable {
 //            return "nDaysEachMonth,\(days)"
 //        }
 //    }
-    
+
     /// Initializes a frequency type from a raw string value.
     ///
     /// - Parameter rawValue: A string in the format "type,details" (e.g., "fixedDaysInWeek,1,3,5").
@@ -58,7 +57,7 @@ enum HabitFrequency: Int, QueryBindable {
 //        guard components.count == 2 else { return nil }
 //        let type = String(components[0])
 //        let details = String(components[1])
-//        
+//
 //        switch type {
 //        case "fixedDaysInWeek":
 //            let days = Set(details.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })

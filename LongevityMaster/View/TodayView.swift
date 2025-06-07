@@ -35,7 +35,12 @@ struct TodayView: View {
 
                             LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: 12) {
                                 ForEach(subHabits) { habit in
-                                    HabitIconButton(habit: habit)
+                                    HabitItemButton(
+                                        habit: habit,
+                                        isCompleted: viewModel.isHabitCompleted(habit)
+                                    ) {
+                                        viewModel.onTapHabitItem(habit)
+                                    }
                                 }
                             }
                             .padding(.vertical, 8)

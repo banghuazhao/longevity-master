@@ -8,7 +8,7 @@ import SharingGRDB
 import Foundation
 
 @Table
-struct CheckInDate {
+struct CheckIn {
     let id: Int
     @Column(as: Date.self)
     var date: Date

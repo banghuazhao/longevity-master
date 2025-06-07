@@ -61,7 +61,7 @@ func appDatabase() throws -> any DatabaseWriter {
 
         try #sql(
             """
-            CREATE TABLE "checkInDates" ( 
+            CREATE TABLE "checkIns" ( 
              "id" INTEGER PRIMARY KEY AUTOINCREMENT, 
              "date" TEXT NOT NULL DEFAULT '', 
              "habitID" INTEGER NOT NULL DEFAULT 0 REFERENCES "habits"("id") ON DELETE CASCADE 

@@ -22,7 +22,7 @@ struct HabitCardView: View {
                 HStack {
                     Image(systemName: "calendar")
                         .font(.caption2)
-                    Text(frequencyDescription)
+                    Text(habit.frequencyDescription)
                         .font(.caption2)
                         .lineLimit(1)
                 }
@@ -56,44 +56,13 @@ struct HabitCardView: View {
         }
         .padding()
         .background(
-            (Color(hex: habit.color) ?? .gray)
+            Color(hex: habit.color)
         )
         .cornerRadius(10)
         .overlay(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(borderColor, lineWidth: 1)
+                .stroke(habit.borderColor, lineWidth: 1)
         )
-    }
-
-    var borderColor: Color {
-        let baseColor = Color(hex: habit.color) ?? .gray
-        return baseColor.blend(with: .black, amount: 0.2)
-    }
-
-    var frequencyDescription: String {
-        return "1"
-//        switch habit.frequency {
-//        case let .fixedDaysInWeek(days):
-//            return days.isEmpty ? "No days set" : "Every \(daysString(from: days))"
-//        case let .nDaysEachWeek(days):
-//            if days == 1 {
-//                return "1 day each week"
-//            } else {
-//                return "\(days) days each week"
-//            }
-//        case let .fixedDaysInMonth(days):
-//            return days.isEmpty ? "No days set" : "Every \(daysString(from: days)) of month"
-//        case let .nDaysEachMonth(days):
-//            if days == 1 {
-//                return "1 day each month"
-//            } else {
-//                return "\(days) days each month"
-//            }
-//        }
-    }
-    
-    private func daysString(from days: Set<Int>) -> String {
-        return days.sorted().map { String($0) }.joined(separator: ", ")
     }
 }
 

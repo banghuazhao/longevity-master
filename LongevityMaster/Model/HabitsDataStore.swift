@@ -14,7 +14,7 @@ struct HabitsDataStore {
         frequencyDetail: "3",
         antiAgingRating: 4,
         icon: "🐟",
-        color: "#2ECC71",
+        color: 0x2ECC71,
         note: "Consume a 4-6 oz portion of salmon for omega-3 fatty acids."
     )
     
@@ -26,7 +26,7 @@ struct HabitsDataStore {
         frequencyDetail: "1,3,5",
         antiAgingRating: 5,
         icon: "🏊‍♂️",
-        color: "#4ECDC4",
+        color: 0x4ECDC4,
         note: "Swimming improves cardiovascular health, builds muscle strength, reduces stress, enhances flexibility, and is low-impact, suitable for all ages."
     )
     
@@ -38,7 +38,7 @@ struct HabitsDataStore {
         frequencyDetail: "7",
         antiAgingRating: 5,
         icon: "😴",
-        color: "#34495E",
+        color: 0x34495E,
         note: "Maintain a consistent sleep schedule with 7-9 hours of rest."
     )
     
@@ -54,7 +54,7 @@ struct HabitsDataStore {
             frequencyDetail: "4",
             antiAgingRating: 4,
             icon: "🥬",
-            color: "#27AE60",
+            color: 0x27AE60,
             note: "Include kale in meals for antioxidants and vitamins."
         ),
         Habit(
@@ -65,7 +65,7 @@ struct HabitsDataStore {
             frequencyDetail: "5",
             antiAgingRating: 4,
             icon: "🍓",
-            color: "#E74C3C",
+            color: 0xE74C3C,
             note: "Eat a handful of blueberries or strawberries for antioxidants."
         ),
         Habit(
@@ -76,7 +76,7 @@ struct HabitsDataStore {
             frequencyDetail: "7",
             antiAgingRating: 2,
             icon: "☕",
-            color: "#219653",
+            color: 0x219653,
             note: "Drink 1-2 cups of green tea for polyphenols and hydration."
         ),
         Habit(
@@ -87,7 +87,7 @@ struct HabitsDataStore {
             frequencyDetail: "3",
             antiAgingRating: 5,
             icon: "🏋️",
-            color: "#3498DB",
+            color: 0x3498DB,
             note: "Perform 30-45 minutes of resistance exercises (e.g., weights or bodyweight)."
         ),
         Habit(
@@ -98,7 +98,7 @@ struct HabitsDataStore {
             frequencyDetail: "5",
             antiAgingRating: 5,
             icon: "🚶",
-            color: "#2980B9",
+            color: 0x2980B9,
             note: "Walk for 30 minutes at a moderate pace."
         ),
         Habit(
@@ -109,7 +109,7 @@ struct HabitsDataStore {
             frequencyDetail: "3",
             antiAgingRating: 4,
             icon: "🧘",
-            color: "#5DADE2",
+            color: 0x5DADE2,
             note: "Practice 20-30 minutes of yoga or stretching for flexibility."
         ),
         Habit(
@@ -120,7 +120,7 @@ struct HabitsDataStore {
             frequencyDetail: "7",
             antiAgingRating: 4,
             icon: "🧘‍♀️",
-            color: "#8E44AD",
+            color: 0x8E44AD,
             note: "Practice 10-15 minutes of mindfulness meditation."
         ),
         Habit(
@@ -131,7 +131,7 @@ struct HabitsDataStore {
             frequencyDetail: "3",
             antiAgingRating: 3,
             icon: "👥",
-            color: "#9B59B6",
+            color: 0x9B59B6,
             note: "Have a meaningful conversation with friends or family."
         ),
         Habit(
@@ -142,7 +142,7 @@ struct HabitsDataStore {
             frequencyDetail: "7",
             antiAgingRating: 3,
             icon: "📝",
-            color: "#A569BD",
+            color: 0xA569BD,
             note: "Write down 3 things you’re grateful for each day."
         ),
         Habit(
@@ -153,7 +153,7 @@ struct HabitsDataStore {
             frequencyDetail: "7",
             antiAgingRating: 4,
             icon: "🌙",
-            color: "#2C3E50",
+            color: 0x2C3E50,
             note: "Avoid screens and read or relax 30 minutes before bed."
         ),
         Habit(
@@ -164,7 +164,7 @@ struct HabitsDataStore {
             frequencyDetail: "3",
             antiAgingRating: 3,
             icon: "🛌",
-            color: "#566573",
+            color: 0x566573,
             note: "Nap for 20-30 minutes to boost energy."
         ),
         Habit(
@@ -175,7 +175,7 @@ struct HabitsDataStore {
             frequencyDetail: "7",
             antiAgingRating: 2,
             icon: "☀️",
-            color: "#F1C40F",
+            color: 0xF1C40F,
             note: "Spend 10-15 minutes in sunlight for vitamin D, with sunscreen if needed."
         ),
         Habit(
@@ -186,7 +186,7 @@ struct HabitsDataStore {
             frequencyDetail: "14",
             antiAgingRating: 1,
             icon: "🦷",
-            color: "#F4D03F",
+            color: 0xF4D03F,
             note: "Maintain oral hygiene to reduce inflammation-related diseases."
         ),
         Habit(
@@ -197,7 +197,7 @@ struct HabitsDataStore {
             frequencyDetail: "7",
             antiAgingRating: 1,
             icon: "🍷",
-            color: "#D4AC0D",
+            color: 0xD4AC0D,
             note: "Keep alcohol to 1 drink or less for women, 2 or less for men."
         )
     ]

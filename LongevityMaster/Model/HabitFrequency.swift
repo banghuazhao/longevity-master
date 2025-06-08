@@ -33,44 +33,4 @@ enum HabitFrequency: Int, QueryBindable {
         case .fixedDaysInMonth, .nDaysEachMonth: return 28
         }
     }
-
-    /// Serializes the frequency type and its associated value into a string.
-//    var rawValue: String {
-//        switch self {
-//        case .fixedDaysInWeek(let days):
-//            return "fixedDaysInWeek,\(days.sorted().map { String($0) }.joined(separator: ","))"
-//        case .nDaysEachWeek(let days):
-//            return "nDaysEachWeek,\(days)"
-//        case .fixedDaysInMonth(let days):
-//            return "fixedDaysInMonth,\(days.sorted().map { String($0) }.joined(separator: ","))"
-//        case .nDaysEachMonth(let days):
-//            return "nDaysEachMonth,\(days)"
-//        }
-//    }
-
-    /// Initializes a frequency type from a raw string value.
-    ///
-    /// - Parameter rawValue: A string in the format "type,details" (e.g., "fixedDaysInWeek,1,3,5").
-    /// - Returns: A `HabitFrequency` instance if the raw value is valid, otherwise `nil`.
-//    init?(rawValue: String) {
-//        let components = rawValue.split(separator: ",", maxSplits: 1)
-//        guard components.count == 2 else { return nil }
-//        let type = String(components[0])
-//        let details = String(components[1])
-//
-//        switch type {
-//        case "fixedDaysInWeek":
-//            let days = Set(details.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
-//            self = .fixedDaysInWeek(days.filter { $0 >= 1 && $0 <= 7 })
-//        case "nDaysEachWeek":
-//            self = .nDaysEachWeek(Int(details) ?? 1)
-//        case "fixedDaysInMonth":
-//            let days = Set(details.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
-//            self = .fixedDaysInMonth(days.filter { $0 >= 1 && $0 <= 28 })
-//        case "nDaysEachMonth":
-//            self = .nDaysEachMonth(Int(details) ?? 1)
-//        default:
-//            return nil
-//        }
-//    }
 }

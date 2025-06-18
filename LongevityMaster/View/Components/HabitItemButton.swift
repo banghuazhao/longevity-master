@@ -7,8 +7,7 @@ import SharingGRDB
 import SwiftUI
 
 struct HabitItemButton: View {
-    let habit: Habit
-    let isCompleted: Bool
+    let todayHabit: TodayHabit
     let onTap: () -> Void
 
     var body: some View {
@@ -19,22 +18,22 @@ struct HabitItemButton: View {
                 ZStack {
                     Circle()
                         .stroke(
-                            isCompleted ?
-                                habit.borderColor :
+                            todayHabit.isCompleted ?
+                                todayHabit.habit.borderColor :
                                 Color.gray.opacity(0.5),
                             style: StrokeStyle(lineWidth: 1, dash: [5, 5])
                         )
                         .background(
                             Circle()
-                                .fill(isCompleted ? Color(hex: habit.color) : Color.clear)
+                                .fill(todayHabit.isCompleted ? Color(hex: todayHabit.habit.color) : Color.clear)
                         )
                         .frame(width: 60, height: 60)
 
-                    Text(habit.icon)
+                    Text(todayHabit.habit.icon)
                         .font(.system(size: 32))
-                        .foregroundColor(isCompleted ? .white : Color(hex: habit.color))
+                        .foregroundColor(todayHabit.isCompleted ? .white : Color(hex: todayHabit.habit.color))
                 }
-                Text(habit.name)
+                Text(todayHabit.habit.name)
                     .font(.subheadline)
                     .bold()
                     .minimumScaleFactor(0.4)
@@ -49,18 +48,24 @@ struct HabitItemButton: View {
 #Preview {
     LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: 12) {
         HabitItemButton(
-            habit: HabitsDataStore.eatSalmon,
-            isCompleted: true
+            todayHabit: TodayHabit(
+                habit: HabitsDataStore.eatSalmon,
+                isCompleted: true
+            )
         ) {}
 
         HabitItemButton(
-            habit: HabitsDataStore.swimming,
-            isCompleted: false
+            todayHabit: TodayHabit(
+                habit: HabitsDataStore.swimming,
+                isCompleted: false
+            )
         ) {}
 
         HabitItemButton(
-            habit: HabitsDataStore.sleep,
-            isCompleted: true
+            todayHabit: TodayHabit(
+                habit: HabitsDataStore.sleep,
+                isCompleted: true
+            )
         ) {}
     }
     .padding()

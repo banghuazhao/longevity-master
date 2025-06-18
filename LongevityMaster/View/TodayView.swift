@@ -25,7 +25,7 @@ struct TodayView: View {
                     }
 
                     ForEach(HabitCategory.allCases, id: \.rawValue) { category in
-                        let subHabits = viewModel.habits.filter { $0.category == category }
+                        let subHabits = viewModel.todayHabits.filter { $0.habit.category == category }
                         if !subHabits.isEmpty {
                             HStack {
                                 Spacer()
@@ -34,12 +34,13 @@ struct TodayView: View {
                             }
 
                             LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: 12) {
-                                ForEach(subHabits) { habit in
+                                ForEach(subHabits, id: \.habit.id) { todayHabit in
                                     HabitItemButton(
-                                        habit: habit,
-                                        isCompleted: viewModel.isHabitCompleted(habit)
+                                        todayHabit: todayHabit
                                     ) {
-                                        viewModel.onTapHabitItem(habit)
+                                        Task {
+                                            await viewModel.onTapHabitItem(todayHabit)
+                                        }
                                     }
                                 }
                             }
@@ -58,6 +59,11 @@ struct TodayView: View {
                     }) {
                         Image(systemName: "plus")
                     }
+                }
+            }
+            .onChange(of: viewModel.selectedDate) { _, _ in
+                Task {
+                    await viewModel.onChangeOfSelectedDate()
                 }
             }
         }

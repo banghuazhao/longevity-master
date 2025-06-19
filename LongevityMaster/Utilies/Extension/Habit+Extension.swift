@@ -36,6 +36,40 @@ extension Habit {
             }
         }
     }
+    
+    var daysOfWeek: [Int] {
+        guard case .fixedDaysInWeek = frequency else {
+            return []
+        }
+        return frequencyDetail.components(separatedBy: ",")
+            .compactMap {
+                Int($0.replacingOccurrences(of: " ", with: ""))
+            }
+    }
+    
+    var daysOfMonth: [Int] {
+        guard case .fixedDaysInMonth = frequency else {
+            return []
+        }
+        return frequencyDetail.components(separatedBy: ",")
+            .compactMap {
+                Int($0.replacingOccurrences(of: " ", with: ""))
+            }
+    }
+    
+    var nDaysPerWeek: Int {
+        guard case .nDaysEachWeek = frequency else {
+            return 0
+        }
+        return Int(frequencyDetail.replacingOccurrences(of: " ", with: "")) ?? 0
+    }
+    
+    var nDaysPerMonth: Int {
+        guard case .nDaysEachMonth = frequency else {
+            return 0
+        }
+        return Int(frequencyDetail.replacingOccurrences(of: " ", with: "")) ?? 0
+    }
 
     private func daysString(from daysSet: Set<Int>) -> String {
         return daysSet.sorted().map { String($0) }.joined(separator: ", ")

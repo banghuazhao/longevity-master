@@ -16,4 +16,28 @@ extension Date {
             .addingTimeInterval(-0.001)
         return endOfDay
     }
+
+    func startOfWeek(for calendar: Calendar) -> Date {
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
+        return calendar.date(from: components)!
+    }
+
+    func endOfWeek(for calendar: Calendar) -> Date {
+        var components = DateComponents()
+        components.weekOfYear = 1
+        components.nanosecond = -1
+        return calendar.date(byAdding: components, to: startOfWeek(for: calendar))!
+    }
+
+    func startOfMonth(for calendar: Calendar) -> Date {
+        let components = calendar.dateComponents([.year, .month], from: self)
+        return calendar.date(from: components)!
+    }
+
+    func endOfMonth(for calendar: Calendar) -> Date {
+        var components = DateComponents()
+        components.month = 1
+        components.nanosecond = -1
+        return calendar.date(byAdding: components, to: startOfMonth(for: calendar))!
+    }
 }

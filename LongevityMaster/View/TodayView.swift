@@ -66,6 +66,9 @@ struct TodayView: View {
                     await viewModel.onChangeOfSelectedDate()
                 }
             }
+            .task {
+                await viewModel.updateQuery()
+            }
         }
     }
 }

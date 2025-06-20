@@ -12,8 +12,15 @@ import SwiftUI
 @MainActor
 class TodayViewModel {
     var todayHabits: [TodayHabit] = []
-    
     var selectedDate: Date = Date()
+
+    @ObservationIgnored
+    @FetchAll(Habit.all)
+    var habits
+
+    @ObservationIgnored
+    @FetchAll(CheckIn.all)
+    var checkIns
 
     @ObservationIgnored
     @Dependency(\.defaultDatabase) var dataBase
@@ -21,69 +28,101 @@ class TodayViewModel {
     @ObservationIgnored
     @Dependency(\.calendar) var calendar
 
-    func updateQuery() async {
-        let allTodayHabits = FetchAll(
-            Habit
-                .group(by: \.id)
-                .leftJoin(CheckIn.all) {
-                    $0.id.eq($1.habitID) &&
-                        $1.date.between(
-                            selectedDate.startOfDay(for: calendar),
-                            and: selectedDate.endOfDay(for: calendar)
-                        )
-                }
-                .select {
-                    TodayHabit.Columns(
-                        habit: $0,
-                        isCompleted: $1.count() > 0
-                    )
-                },
-            animation: .default
-        )
-        let allCheckIns = FetchAll(CheckIn.all, animation: .default)
+    func updateTodayHabits() async {
         withAnimation {
-            todayHabits = allTodayHabits.wrappedValue.filter { todayHabit in
-                let habit = todayHabit.habit
+            todayHabits = habits.compactMap { habit in
+                let checkInsForHabit = checkIns.filter { $0.habitID == habit.id }
+                let startOfDay = selectedDate.startOfDay(for: calendar)
+                let endOfDay = selectedDate.endOfDay(for: calendar)
+                let checkInsToday = checkInsForHabit.filter { checkIn in
+                    checkIn.date >= startOfDay &&
+                        checkIn.date <= endOfDay
+                }
+                let isCompletedToday = checkInsToday.count > 0
                 switch habit.frequency {
                 case .fixedDaysInWeek:
                     // Day of the week (1 = Sunday, 2 = Monday, ..., 7 = Saturday)
                     let dayOfWeek = calendar.component(.weekday, from: selectedDate)
-                    return habit.daysOfWeek.contains(dayOfWeek)
+                    if habit.daysOfWeek.contains(dayOfWeek) {
+                        let streak = calculateStreakForFixedDays(habit: habit, days: habit.daysOfWeek, unit: .weekday)
+                        let completionDetail = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : ""
+                        return TodayHabit(
+                            habit: habit,
+                            isCompleted: isCompletedToday,
+                            completionDetail: completionDetail
+                        )
+                    } else {
+                        return nil
+                    }
                 case .fixedDaysInMonth:
                     // Get the day of the month (1–31)
                     let dayOfMonth = calendar.component(.day, from: selectedDate)
-                    return habit.daysOfMonth.contains(dayOfMonth)
+                    if habit.daysOfMonth.contains(dayOfMonth) {
+                        let streak = calculateStreakForFixedDays(habit: habit, days: habit.daysOfMonth, unit: .day)
+                        let completionDetail = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : ""
+                        return TodayHabit(
+                            habit: habit,
+                            isCompleted: isCompletedToday,
+                            completionDetail: completionDetail
+                        )
+                    } else {
+                        return nil
+                    }
                 case .nDaysEachWeek:
                     let startOfWeek = selectedDate.startOfWeek(for: calendar)
                     let endOfWeek = selectedDate.endOfWeek(for: calendar)
-                    let checkInsThisWeek = allCheckIns.wrappedValue.filter { checkIn in
-                        checkIn.habitID == habit.id &&
+                    let checkInsThisWeek = checkInsForHabit.filter { checkIn in
                         checkIn.date >= startOfWeek &&
-                        checkIn.date <= endOfWeek
+                            checkIn.date <= endOfWeek
                     }
-                    return habit.nDaysPerWeek > checkInsThisWeek.count || todayHabit.isCompleted
+                    if habit.nDaysPerWeek > checkInsThisWeek.count || isCompletedToday {
+                        let checkInsThisWeekUntilToday = checkInsForHabit.filter { checkIn in
+                            checkIn.date >= startOfWeek &&
+                                checkIn.date <= endOfDay
+                        }
+                        let completionDetail = isCompletedToday ? "\(checkInsThisWeekUntilToday.count)/\(habit.nDaysPerWeek) this week" : ""
+                        return TodayHabit(
+                            habit: habit,
+                            isCompleted: isCompletedToday,
+                            completionDetail: completionDetail
+                        )
+                    } else {
+                        return nil
+                    }
                 case .nDaysEachMonth:
                     let startOfMonth = selectedDate.startOfMonth(for: calendar)
                     let endOfMonth = selectedDate.endOfMonth(for: calendar)
-                    let checkInsThisMonth = allCheckIns.wrappedValue.filter { checkIn in
-                        checkIn.habitID == habit.id &&
+                    let checkInsThisMonth = checkInsForHabit.filter { checkIn in
                         checkIn.date >= startOfMonth &&
-                        checkIn.date <= endOfMonth
+                            checkIn.date <= endOfMonth
                     }
-                    return habit.nDaysPerMonth > checkInsThisMonth.count || todayHabit.isCompleted
+                    if habit.nDaysPerMonth > checkInsThisMonth.count || isCompletedToday {
+                        let checkInsThisMonthUntilToday = checkInsForHabit.filter { checkIn in
+                            checkIn.date >= startOfMonth &&
+                                checkIn.date <= endOfDay
+                        }
+                        let completionDetail = "\(checkInsThisMonthUntilToday.count)/\(habit.nDaysPerMonth) this month"
+                        return TodayHabit(
+                            habit: habit,
+                            isCompleted: isCompletedToday,
+                            completionDetail: completionDetail
+                        )
+                    } else {
+                        return nil
+                    }
                 }
             }
         }
     }
 
     func onChangeOfSelectedDate() async {
-        await updateQuery()
+        await updateTodayHabits()
     }
 
     func onTapHabitItem(_ todayHabit: TodayHabit) async {
         if todayHabit.isCompleted {
-            withErrorReporting {
-                try dataBase.write { db in
+            await withErrorReporting {
+                try await dataBase.write { [selectedDate, calendar] db in
                     try CheckIn
                         .where { $0.habitID.eq(todayHabit.habit.id) }
                         .where {
@@ -97,14 +136,50 @@ class TodayViewModel {
                 }
             }
         } else {
-            withErrorReporting {
-                try dataBase.write { db in
+            await withErrorReporting {
+                try await dataBase.write { [selectedDate] db in
                     let checkIn = CheckIn.Draft(date: selectedDate, habitID: todayHabit.habit.id)
                     try CheckIn.upsert(checkIn)
                         .execute(db)
                 }
             }
         }
-        await updateQuery()
+        await updateTodayHabits()
+    }
+
+    // MARK: - Private
+
+    private func calculateStreakForFixedDays(habit: Habit, days: [Int], unit: Calendar.Component) -> Int {
+        var streak = 0
+        var currentDate = selectedDate
+        let sortedCheckIns = checkIns.filter { $0.habitID == habit.id }
+            .sorted { $0.date < $1.date }
+
+        while true {
+            let currentValue = calendar.component(unit, from: currentDate)
+            if !days.contains(currentValue) {
+                currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate)!
+                continue
+            }
+
+            let startOfDay = currentDate.startOfDay(for: calendar)
+            let endOfDay = currentDate.endOfDay(for: calendar)
+
+            let hasCheckIn = sortedCheckIns.contains { checkIn in
+                checkIn.date >= startOfDay && checkIn.date <= endOfDay
+            }
+
+            if !hasCheckIn {
+                break
+            }
+
+            streak += 1
+            guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else {
+                break
+            }
+            currentDate = previousDate
+        }
+
+        return streak
     }
 }

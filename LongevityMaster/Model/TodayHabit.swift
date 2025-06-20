@@ -4,10 +4,8 @@
 //
   
 
-import SharingGRDB
-
-@Selection
 struct TodayHabit {
     let habit: Habit
     let isCompleted: Bool
+    let completionDetail: String
 }

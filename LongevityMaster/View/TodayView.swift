@@ -67,7 +67,7 @@ struct TodayView: View {
                 }
             }
             .task {
-                await viewModel.updateQuery()
+                await viewModel.updateTodayHabits()
             }
         }
     }

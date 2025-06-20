@@ -33,11 +33,19 @@ struct HabitItemButton: View {
                         .font(.system(size: 32))
                         .foregroundColor(todayHabit.isCompleted ? .white : Color(hex: todayHabit.habit.color))
                 }
-                Text(todayHabit.habit.name)
-                    .font(.subheadline)
-                    .bold()
-                    .minimumScaleFactor(0.4)
-                    .lineLimit(2)
+                VStack(alignment: .leading) {
+                    Text(todayHabit.habit.name)
+                        .font(.subheadline)
+                        .bold()
+                        .minimumScaleFactor(0.4)
+                        .lineLimit(2)
+                    if !todayHabit.completionDetail.isEmpty {
+                        Text(todayHabit.completionDetail)
+                            .font(.body)
+                            .minimumScaleFactor(0.4)
+                            .lineLimit(1)
+                    }
+                }
                 Spacer()
             }
         }
@@ -50,21 +58,24 @@ struct HabitItemButton: View {
         HabitItemButton(
             todayHabit: TodayHabit(
                 habit: HabitsDataStore.eatSalmon,
-                isCompleted: true
+                isCompleted: true,
+                completionDetail: "🔥 4d streak"
             )
         ) {}
 
         HabitItemButton(
             todayHabit: TodayHabit(
                 habit: HabitsDataStore.swimming,
-                isCompleted: false
+                isCompleted: false,
+                completionDetail: ""
             )
         ) {}
 
         HabitItemButton(
             todayHabit: TodayHabit(
                 habit: HabitsDataStore.sleep,
-                isCompleted: true
+                isCompleted: true,
+                completionDetail: ""
             )
         ) {}
     }

@@ -18,6 +18,7 @@ struct Habit: Identifiable {
     var color: Int = 0xFFFFFF
     var note: String = ""
 }
+extension Habit.Draft: Identifiable {}
 
 enum HabitCategory: Int, Codable, QueryBindable {
     case diet

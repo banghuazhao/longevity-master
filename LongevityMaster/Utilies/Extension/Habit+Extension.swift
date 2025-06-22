@@ -13,8 +13,7 @@ extension Habit {
     var frequencyDescription: String {
         switch frequency {
         case .fixedDaysInWeek:
-            let daysSet = Set(frequencyDetail.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
-            return daysSet.isEmpty ? "No days set" : "Every \(daysString(from: daysSet))"
+            return daysOfWeek.isEmpty ? "No days set" : "Every \(daysOfWeek)"
         case .nDaysEachWeek:
             let days = Int(frequencyDetail)
             guard let days else { return "No days set" }
@@ -24,8 +23,7 @@ extension Habit {
                 return "\(days) days each week"
             }
         case .fixedDaysInMonth:
-            let daysSet = Set(frequencyDetail.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
-            return daysSet.isEmpty ? "No days set" : "Every \(daysString(from: daysSet)) of month"
+            return daysOfMonth.isEmpty ? "No days set" : "Every \(daysOfMonth) of month"
         case .nDaysEachMonth:
             let days = Int(frequencyDetail)
             guard let days else { return "No days set" }
@@ -36,42 +34,66 @@ extension Habit {
             }
         }
     }
-    
-    var daysOfWeek: [Int] {
+
+    var daysOfWeek: Set<Int> {
         guard case .fixedDaysInWeek = frequency else {
             return []
         }
-        return frequencyDetail.components(separatedBy: ",")
-            .compactMap {
-                Int($0.replacingOccurrences(of: " ", with: ""))
-            }
+        return Set(frequencyDetail.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
     }
-    
-    var daysOfMonth: [Int] {
+
+    var daysOfMonth: Set<Int> {
         guard case .fixedDaysInMonth = frequency else {
             return []
         }
-        return frequencyDetail.components(separatedBy: ",")
-            .compactMap {
-                Int($0.replacingOccurrences(of: " ", with: ""))
-            }
+        return Set(frequencyDetail.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
     }
-    
+
     var nDaysPerWeek: Int {
         guard case .nDaysEachWeek = frequency else {
             return 0
         }
         return Int(frequencyDetail.replacingOccurrences(of: " ", with: "")) ?? 0
     }
-    
+
     var nDaysPerMonth: Int {
         guard case .nDaysEachMonth = frequency else {
             return 0
         }
         return Int(frequencyDetail.replacingOccurrences(of: " ", with: "")) ?? 0
     }
+}
 
-    private func daysString(from daysSet: Set<Int>) -> String {
-        return daysSet.sorted().map { String($0) }.joined(separator: ", ")
+extension Habit.Draft {
+    var borderColor: Color {
+        Color(hex: color).blend(with: .black, amount: 0.2)
+    }
+    
+    var daysOfWeek: Set<Int> {
+        guard case .fixedDaysInWeek = frequency else {
+            return []
+        }
+        return Set(frequencyDetail.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
+    }
+
+    var daysOfMonth: Set<Int> {
+        guard case .fixedDaysInMonth = frequency else {
+            return []
+        }
+        return Set(frequencyDetail.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
+    }
+
+    var nDaysPerWeek: Int {
+        guard case .nDaysEachWeek = frequency else {
+            return 1
+        }
+        return Int(frequencyDetail.replacingOccurrences(of: " ", with: "")) ?? 1
+    }
+
+    var nDaysPerMonth: Int {
+        guard case .nDaysEachMonth = frequency else {
+            return 1
+        }
+        return Int(frequencyDetail.replacingOccurrences(of: " ", with: "")) ?? 1
     }
 }

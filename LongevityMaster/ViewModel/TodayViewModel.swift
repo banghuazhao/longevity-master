@@ -149,7 +149,7 @@ class TodayViewModel {
 
     // MARK: - Private
 
-    private func calculateStreakForFixedDays(habit: Habit, days: [Int], unit: Calendar.Component) -> Int {
+    private func calculateStreakForFixedDays(habit: Habit, days: Set<Int>, unit: Calendar.Component) -> Int {
         var streak = 0
         var currentDate = selectedDate
         let sortedCheckIns = checkIns.filter { $0.habitID == habit.id }

@@ -8,7 +8,7 @@ import SharingGRDB
 
 @Observable
 @MainActor
-class HabitFormViewModel {
+class HabitFormViewModel: HashableObject {
     var habit: Habit.Draft
 
     init(habit: Habit.Draft) {

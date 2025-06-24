@@ -7,12 +7,19 @@ import Foundation
 import Observation
 import SharingGRDB
 import SwiftUI
+import SwiftUINavigation
 
 @Observable
 @MainActor
 class TodayViewModel {
     var todayHabits: [TodayHabit] = []
     var selectedDate: Date = Date()
+    
+    @CasePathable
+    enum Destination {
+        case createHabit(HabitFormViewModel)
+    }
+    var destination: Destination?
 
     @ObservationIgnored
     @FetchAll(Habit.all)
@@ -145,6 +152,10 @@ class TodayViewModel {
             }
         }
         await updateTodayHabits()
+    }
+    
+    func onTapAddHabit() {
+        destination = .createHabit(HabitFormViewModel(habit: Habit.Draft()))
     }
 
     // MARK: - Private

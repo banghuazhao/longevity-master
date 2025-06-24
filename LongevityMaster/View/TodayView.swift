@@ -5,6 +5,7 @@
 
 import SharingGRDB
 import SwiftUI
+import SwiftUINavigation
 
 struct TodayView: View {
     @State var viewModel = TodayViewModel()
@@ -50,17 +51,11 @@ struct TodayView: View {
                 }
                 .padding()
             }
+            .sheet(item: $viewModel.destination.createHabit, id: \.self) { habitFormViewModel in
+                HabitFormView(viewModel: habitFormViewModel)
+            }
             .navigationTitle("Today")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        // Action to add new habit
-                    }) {
-                        Image(systemName: "plus")
-                    }
-                }
-            }
             .onChange(of: viewModel.selectedDate) { _, _ in
                 Task {
                     await viewModel.onChangeOfSelectedDate()
@@ -68,6 +63,15 @@ struct TodayView: View {
             }
             .task {
                 await viewModel.updateTodayHabits()
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        viewModel.onTapAddHabit()
+                    }) {
+                        Image(systemName: "plus")
+                    }
+                }
             }
         }
     }

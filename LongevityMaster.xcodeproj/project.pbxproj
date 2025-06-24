@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		996BA7BB2DF19E3A00A4B9FC /* SharingGRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */; };
+		996BA8C32E0A71CA00A4B9FC /* SwiftUINavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 996BA8C22E0A71CA00A4B9FC /* SwiftUINavigation */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				996BA8C32E0A71CA00A4B9FC /* SwiftUINavigation in Frameworks */,
 				996BA7BB2DF19E3A00A4B9FC /* SharingGRDB in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -106,6 +108,7 @@
 			name = LongevityMaster;
 			packageProductDependencies = (
 				996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */,
+				996BA8C22E0A71CA00A4B9FC /* SwiftUINavigation */,
 			);
 			productName = LongevityMaster;
 			productReference = 993A34222DEB1031002CEA39 /* LongevityMaster.app */;
@@ -185,6 +188,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				996BA7B92DF19E3A00A4B9FC /* XCRemoteSwiftPackageReference "sharing-grdb" */,
+				996BA8C12E0A71CA00A4B9FC /* XCRemoteSwiftPackageReference "swift-navigation" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 993A34232DEB1031002CEA39 /* Products */;
@@ -559,6 +563,14 @@
 				minimumVersion = 0.4.1;
 			};
 		};
+		996BA8C12E0A71CA00A4B9FC /* XCRemoteSwiftPackageReference "swift-navigation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-navigation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -566,6 +578,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 996BA7B92DF19E3A00A4B9FC /* XCRemoteSwiftPackageReference "sharing-grdb" */;
 			productName = SharingGRDB;
+		};
+		996BA8C22E0A71CA00A4B9FC /* SwiftUINavigation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 996BA8C12E0A71CA00A4B9FC /* XCRemoteSwiftPackageReference "swift-navigation" */;
+			productName = SwiftUINavigation;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

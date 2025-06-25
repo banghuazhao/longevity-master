@@ -7,5 +7,13 @@
 struct TodayHabit {
     let habit: Habit
     let isCompleted: Bool
-    let completionDetail: String
+    let streakDescription: String?
+    let frequencyDescription: String?
+    
+    init(habit: Habit, isCompleted: Bool, streakDescription: String? = nil , frequencyDescription: String? = nil) {
+        self.habit = habit
+        self.isCompleted = isCompleted
+        self.streakDescription = streakDescription
+        self.frequencyDescription = frequencyDescription
+    }
 }

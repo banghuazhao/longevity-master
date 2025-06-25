@@ -34,9 +34,9 @@ struct TodayView: View {
                                 Spacer()
                             }
 
-                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: 12) {
+                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 12) {
                                 ForEach(subHabits, id: \.habit.id) { todayHabit in
-                                    HabitItemButton(
+                                    HabitItemView(
                                         todayHabit: todayHabit
                                     ) {
                                         Task {

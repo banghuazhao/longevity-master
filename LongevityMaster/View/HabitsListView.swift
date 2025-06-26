@@ -10,7 +10,7 @@ struct HabitsListView: View {
     @State var viewModel = HabitsListViewModel()
 
     var body: some View {
-        NavigationSplitView {
+        NavigationStack {
             ScrollView {
                 ForEach(viewModel.habits) { habit in
                     HabitCardView(
@@ -20,8 +20,8 @@ struct HabitsListView: View {
                     .padding(.horizontal)
                 }
             }
-        } detail: {
-            Text("Select an item")
+            .navigationTitle("Habits")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

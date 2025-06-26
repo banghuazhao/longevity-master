@@ -52,7 +52,7 @@ class TodayViewModel {
                     // Day of the week (1 = Sunday, 2 = Monday, ..., 7 = Saturday)
                     let dayOfWeek = calendar.component(.weekday, from: selectedDate)
                     if habit.daysOfWeek.contains(dayOfWeek) {
-                        let streak = calculateStreakForFixedDays(habit: habit, days: habit.daysOfWeek, unit: .weekday)
+                        let streak = calculateStreakForFixedDays(habit: habit, days: habit.daysOfWeek, unit: .weekday, checkIns: checkInsForHabit)
                         let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
                         return TodayHabit(
                             habit: habit,
@@ -66,7 +66,7 @@ class TodayViewModel {
                     // Get the day of the month (1–31)
                     let dayOfMonth = calendar.component(.day, from: selectedDate)
                     if habit.daysOfMonth.contains(dayOfMonth) {
-                        let streak = calculateStreakForFixedDays(habit: habit, days: habit.daysOfMonth, unit: .day)
+                        let streak = calculateStreakForFixedDays(habit: habit, days: habit.daysOfMonth, unit: .day, checkIns: checkInsForHabit)
                         let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
                         return TodayHabit(
                             habit: habit,
@@ -84,7 +84,7 @@ class TodayViewModel {
                             checkIn.date <= endOfWeek
                     }
                     if habit.nDaysPerWeek > checkInsThisWeek.count || isCompletedToday {
-                        let streak = calculateStreakForNDaysPerWeek(habit: habit)
+                        let streak = calculateStreakForNDaysPerPeriod(habit: habit, checkIns: checkInsForHabit)
                         let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
                         let checkInsThisWeekUntilToday = checkInsForHabit.filter { checkIn in
                             checkIn.date >= startOfWeek &&
@@ -108,7 +108,7 @@ class TodayViewModel {
                             checkIn.date <= endOfMonth
                     }
                     if habit.nDaysPerMonth > checkInsThisMonth.count || isCompletedToday {
-                        let streak = calculateStreakForNDaysPerMonth(habit: habit)
+                        let streak = calculateStreakForNDaysPerPeriod(habit: habit, checkIns: checkInsForHabit)
                         let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
                         let checkInsThisMonthUntilToday = checkInsForHabit.filter { checkIn in
                             checkIn.date >= startOfMonth &&
@@ -134,8 +134,8 @@ class TodayViewModel {
     }
 
     func onTapHabitItem(_ todayHabit: TodayHabit) async {
-        if todayHabit.isCompleted {
-            await withErrorReporting {
+        await withErrorReporting {
+            if todayHabit.isCompleted {
                 try await dataBase.write { [selectedDate, calendar] db in
                     try CheckIn
                         .where { $0.habitID.eq(todayHabit.habit.id) }
@@ -148,17 +148,16 @@ class TodayViewModel {
                         .delete()
                         .execute(db)
                 }
-            }
-        } else {
-            await withErrorReporting {
+            } else {
                 try await dataBase.write { [selectedDate] db in
                     let checkIn = CheckIn.Draft(date: selectedDate, habitID: todayHabit.habit.id)
                     try CheckIn.upsert(checkIn)
                         .execute(db)
                 }
             }
+            try await $checkIns.load()
+            await updateTodayHabits()
         }
-        await updateTodayHabits()
     }
 
     func onTapAddHabit() {
@@ -167,11 +166,10 @@ class TodayViewModel {
 
     // MARK: - Private
 
-    private func calculateStreakForFixedDays(habit: Habit, days: Set<Int>, unit: Calendar.Component) -> Int {
+    private func calculateStreakForFixedDays(habit: Habit, days: Set<Int>, unit: Calendar.Component, checkIns: [CheckIn]) -> Int {
         var streak = 0
         var currentDate = selectedDate
-        let sortedCheckIns = checkIns.filter { $0.habitID == habit.id }
-            .sorted { $0.date < $1.date }
+        let sortedCheckIns = checkIns.sorted { $0.date < $1.date }
 
         while true {
             let currentValue = calendar.component(unit, from: currentDate)
@@ -200,60 +198,35 @@ class TodayViewModel {
 
         return streak
     }
-    
-    private func calculateStreakForNDaysPerWeek(habit: Habit) -> Int {
+
+    private func calculateStreakForNDaysPerPeriod(habit: Habit, checkIns: [CheckIn]) -> Int {
         var streak = 0
-        var currentWeekStart = selectedDate.startOfWeek(for: calendar)
-        var weekEnd = selectedDate.endOfDay(for: calendar)
+        let isPerWeek = habit.frequency == .nDaysEachWeek
+        var currentPeriodStart = isPerWeek ? selectedDate.startOfWeek(for: calendar) : selectedDate.startOfMonth(for: calendar)
+        var periodEnd = selectedDate.endOfDay(for: calendar)
         let sortedCheckIns = checkIns.filter { $0.habitID == habit.id }
             .sorted { $0.date < $1.date }
+        let targetDays = isPerWeek ? habit.nDaysPerWeek : habit.nDaysPerMonth
+        let calendarComponent: Calendar.Component = isPerWeek ? .weekOfYear : .month
+        let endOfPeriod: (Date, Calendar) -> Date = isPerWeek ? { $0.endOfWeek(for: $1) } : { $0.endOfMonth(for: $1) }
 
         while true {
-            let checkInsInWeek = sortedCheckIns.filter { checkIn in
-                checkIn.date >= currentWeekStart && checkIn.date <= weekEnd
+            let checkInsInPeriod = sortedCheckIns.filter { checkIn in
+                checkIn.date >= currentPeriodStart && checkIn.date <= periodEnd
             }
-            let uniqueDays = Set(checkInsInWeek.map { calendar.component(.day, from: $0.date) })
-            
-            if uniqueDays.count < habit.nDaysPerWeek {
+            let uniqueDays = Set(checkInsInPeriod.map { calendar.component(.day, from: $0.date) })
+
+            if uniqueDays.count < targetDays {
                 streak += uniqueDays.count
                 break
             }
 
             streak += uniqueDays.count
-            guard let previousWeekStart = calendar.date(byAdding: .weekOfYear, value: -1, to: currentWeekStart) else {
+            guard let previousPeriodStart = calendar.date(byAdding: calendarComponent, value: -1, to: currentPeriodStart) else {
                 break
             }
-            currentWeekStart = previousWeekStart
-            weekEnd = currentWeekStart.endOfWeek(for: calendar)
-        }
-
-        return streak
-    }
-    
-    private func calculateStreakForNDaysPerMonth(habit: Habit) -> Int {
-        var streak = 0
-        var currentMonthStart = selectedDate.startOfMonth(for: calendar)
-        var monthEnd = selectedDate.endOfDay(for: calendar)
-        let sortedCheckIns = checkIns.filter { $0.habitID == habit.id }
-            .sorted { $0.date < $1.date }
-
-        while true {
-            let checkInsInMonth = sortedCheckIns.filter { checkIn in
-                checkIn.date >= currentMonthStart && checkIn.date <= monthEnd
-            }
-            let uniqueDays = Set(checkInsInMonth.map { calendar.component(.day, from: $0.date) })
-            
-            if uniqueDays.count < habit.nDaysPerMonth {
-                streak += uniqueDays.count
-                break
-            }
-
-            streak += uniqueDays.count
-            guard let previousMonthStart = calendar.date(byAdding: .month, value: -1, to: currentMonthStart) else {
-                break
-            }
-            currentMonthStart = previousMonthStart
-            monthEnd = currentMonthStart.endOfMonth(for: calendar)
+            currentPeriodStart = previousPeriodStart
+            periodEnd = endOfPeriod(currentPeriodStart, calendar)
         }
 
         return streak

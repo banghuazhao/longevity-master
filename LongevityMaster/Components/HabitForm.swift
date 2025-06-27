@@ -3,8 +3,104 @@
 // Copyright Apps Bay Limited. All rights reserved.
 //
 
-import SwiftUI
 import Dependencies
+import SharingGRDB
+import SwiftNavigation
+import SwiftUI
+
+@Observable
+@MainActor
+class HabitFormViewModel: HashableObject {
+    var habit: Habit.Draft
+
+    var todayHabit: TodayHabit {
+        let frequencyDescription: String? = switch habit.frequency {
+        case .nDaysEachWeek: "1/\(habit.nDaysPerWeek) Weekly"
+        case .nDaysEachMonth: "1/\(habit.nDaysPerMonth) Monthly"
+        default: nil
+        }
+        return TodayHabit(
+            habit: Habit(
+                id: 0,
+                name: habit.name,
+                category: habit.category,
+                frequency: habit.frequency,
+                frequencyDetail: habit.frequencyDetail,
+                antiAgingRating: habit.antiAgingRating,
+                icon: habit.icon,
+                color: habit.color,
+                note: habit.note
+            ),
+            isCompleted: true,
+            streakDescription: "🔥 1d streak",
+            frequencyDescription: frequencyDescription
+        )
+    }
+
+    @CasePathable
+    enum Route: Equatable {
+        case editHabitIcon
+    }
+
+    var route: Route?
+
+    init(habit: Habit.Draft) {
+        self.habit = habit
+    }
+
+    func toggleWeekDay(_ weekDay: WeekDays) {
+        guard habit.frequency == .fixedDaysInWeek else { return }
+        var daysOfWeek = habit.daysOfWeek
+        if hasSelectedWeekDay(weekDay) {
+            daysOfWeek.remove(weekDay.rawValue)
+        } else {
+            daysOfWeek.insert(weekDay.rawValue)
+        }
+        habit.frequencyDetail = daysOfWeek.sorted().map(String.init).joined(separator: ",")
+    }
+
+    func toggleMonthDay(_ monthDay: Int) {
+        guard habit.frequency == .fixedDaysInMonth else { return }
+        var daysOfMonth = habit.daysOfMonth
+        if hasSelectedMonthDay(monthDay) {
+            daysOfMonth.remove(monthDay)
+        } else {
+            daysOfMonth.insert(monthDay)
+        }
+        habit.frequencyDetail = daysOfMonth.sorted().map(String.init).joined(separator: ",")
+    }
+
+    func hasSelectedWeekDay(_ weekDay: WeekDays) -> Bool {
+        guard habit.frequency == .fixedDaysInWeek else { return false }
+        return habit.daysOfWeek.contains(weekDay.rawValue)
+    }
+
+    func hasSelectedMonthDay(_ monthDay: Int) -> Bool {
+        guard habit.frequency == .fixedDaysInMonth else { return false }
+        return habit.daysOfMonth.contains(monthDay)
+    }
+
+    func onSelectNDays(_ nDays: Int) {
+        habit.frequencyDetail = "\(nDays)"
+    }
+
+    func onChangeOfHabitFrequency() {
+        switch habit.frequency {
+        case .fixedDaysInWeek:
+            habit.frequencyDetail = "1,2,3,4,5,6,7"
+        case .fixedDaysInMonth:
+            habit.frequencyDetail = "1"
+        case .nDaysEachWeek:
+            habit.frequencyDetail = "1"
+        case .nDaysEachMonth:
+            habit.frequencyDetail = "1"
+        }
+    }
+
+    func onTapTodayHabit() {
+        route = .editHabitIcon
+    }
+}
 
 enum WeekDays: Int, CaseIterable {
     case mon = 2
@@ -14,7 +110,7 @@ enum WeekDays: Int, CaseIterable {
     case fri = 6
     case sat = 7
     case sun = 1
-    
+
     var title: String {
         switch self {
         case .mon:
@@ -37,13 +133,24 @@ enum WeekDays: Int, CaseIterable {
 
 struct HabitFormView: View {
     @State var viewModel: HabitFormViewModel
-    
+
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
+                    HabitItemView(todayHabit: viewModel.todayHabit) {
+                        viewModel.onTapTodayHabit()
+                    }
+                    .sheet(isPresented: Binding($viewModel.route.editHabitIcon)) {
+                        HabitIconEditView(
+                            habit: $viewModel.habit
+                        )
+                        .presentationDetents([.fraction(0.8), .large])
+                        .presentationDragIndicator(.visible)
+                    }
+                   
                     HStack {
                         Image(systemName: "list.bullet.clipboard.fill")
                         TextField("New habit name", text: $viewModel.habit.name)
@@ -52,9 +159,9 @@ struct HabitFormView: View {
                                 .cornerRadius(8)
                         }
                     }
-                    
+
                     HStack(spacing: 10) {
-                        HStack{
+                        HStack {
                             Image(systemName: "folder.fill.badge.person.crop")
                             Text("Category")
                                 .fontWeight(.semibold)
@@ -66,12 +173,11 @@ struct HabitFormView: View {
                                     .tag(habitCategory.rawValue)
                             }
                         }
-
                     }
-                    
+
                     VStack(alignment: .leading, spacing: 10) {
-                        HStack{
-                            HStack{
+                        HStack {
+                            HStack {
                                 Image(systemName: "clock.fill")
                                 Text("Frequency")
                                     .fontWeight(.semibold)
@@ -84,7 +190,7 @@ struct HabitFormView: View {
                                 }
                             }
                         }
-                        
+
                         switch viewModel.habit.frequency {
                         case .fixedDaysInWeek:
                             LazyVGrid(
@@ -111,7 +217,7 @@ struct HabitFormView: View {
                             LazyVGrid(
                                 columns: Array(repeating: GridItem(.flexible()), count: 7)
                             ) {
-                                ForEach(1...28, id: \.self) { monthDay in
+                                ForEach(1 ... 28, id: \.self) { monthDay in
                                     Button(action: { viewModel.toggleMonthDay(monthDay) }) {
                                         VStack(spacing: 8) {
                                             Text("\(monthDay)")
@@ -123,7 +229,7 @@ struct HabitFormView: View {
                                     }
                                     .background(
                                         viewModel.hasSelectedMonthDay(monthDay) ?
-                                        Color.green.opacity(0.1) :
+                                            Color.green.opacity(0.1) :
                                             Color.gray.opacity(0.1)
                                     )
                                     .cornerRadius(8)
@@ -136,7 +242,7 @@ struct HabitFormView: View {
                                     get: { viewModel.habit.nDaysPerWeek },
                                     set: { viewModel.onSelectNDays($0) }
                                 )) {
-                                    ForEach(1...7, id: \.self) { nDays in
+                                    ForEach(1 ... 7, id: \.self) { nDays in
                                         if nDays == 1 {
                                             Text("\(nDays) day")
                                                 .tag(nDays)
@@ -168,7 +274,7 @@ struct HabitFormView: View {
                                     get: { viewModel.habit.nDaysPerMonth },
                                     set: { viewModel.onSelectNDays($0) }
                                 )) {
-                                    ForEach(1...28, id: \.self) { nDays in
+                                    ForEach(1 ... 28, id: \.self) { nDays in
                                         if nDays == 1 {
                                             Text("\(nDays) day")
                                                 .tag(nDays)
@@ -195,32 +301,6 @@ struct HabitFormView: View {
                             }
                         }
                     }
-                    
-                    HStack{
-                        HStack{
-                            Image(systemName: "clock.fill")
-                            Text("Habit Icon")
-                                .fontWeight(.semibold)
-                        }
-                        Spacer()
-                    }
-                    
-                    ZStack {
-                        Circle()
-                            .stroke(
-                                viewModel.habit.borderColor,
-                                style: StrokeStyle(lineWidth: 1, dash: [5, 5])
-                            )
-                            .background(
-                                Circle()
-                                    .fill(Color(hex: viewModel.habit.color))
-                            )
-                            .frame(width: 60, height: 60)
-                        
-                        Text(viewModel.habit.icon)
-                            .font(.system(size: 32))
-                            .foregroundColor(Color(hex: viewModel.habit.color))
-                    }
                 }
                 .padding()
             }
@@ -234,7 +314,6 @@ struct HabitFormView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Done") {
-                        
                     }
                 }
             }
@@ -249,12 +328,12 @@ struct HabitFormView: View {
     let _ = prepareDependencies {
         $0.defaultDatabase = try! appDatabase()
     }
-    
+
     HabitFormView(
         viewModel: HabitFormViewModel(
             habit: Habit.Draft(
                 Habit(
-                    id: 1,
+                    id: 0,
                     frequency: .nDaysEachWeek
                 )
             )

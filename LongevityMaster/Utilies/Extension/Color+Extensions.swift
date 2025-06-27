@@ -31,4 +31,29 @@ extension Color {
             blue: Double(b1 * (1 - amount) + b2 * amount)
         )
     }
+    
+    var hexIntWithAlpha: Int {
+        // Convert SwiftUI Color to UIColor
+        let uiColor = UIColor(self)
+        
+        // Ensure the color is in RGB color space with alpha
+        guard let components = uiColor.cgColor.components, uiColor.cgColor.numberOfComponents >= 4 else {
+            return 0xFFFFFFFF
+        }
+        
+        // Extract RGBA components
+        let red = components[0]
+        let green = components[1]
+        let blue = components[2]
+        let alpha = components[3]
+        
+        // Convert to 0-255 range
+        let r = Int(red * 255.0)
+        let g = Int(green * 255.0)
+        let b = Int(blue * 255.0)
+        let a = Int(alpha * 255.0)
+        
+        // Combine into a single hex integer (0xRRGGBBAA)
+        return (r << 24) | (g << 16) | (b << 8) | a
+    }
 }

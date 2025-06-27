@@ -15,7 +15,7 @@ struct Habit: Identifiable {
     var frequencyDetail: String = "1,2,3,4,5,6,7"
     var antiAgingRating: Int = 3
     var icon: String = "🥑"
-    var color: Int = 0xFFFFFF
+    var color: Int = 0x2ECC71CC
     var note: String = ""
 }
 extension Habit.Draft: Identifiable {}
@@ -36,6 +36,16 @@ enum HabitCategory: Int, Codable, QueryBindable {
         case .sleep: return "😴 Sleep"
         case .preventiveHealth: return "🩺 Preventive Health"
         case .mentalHealth: return "🧘 Mental Health"
+        }
+    }
+    
+    var briefTitle: String {
+        switch self {
+        case .diet: return "Diet"
+        case .exercise: return "Exercise"
+        case .sleep: return "Sleep"
+        case .preventiveHealth: return "Health"
+        case .mentalHealth: return "Mental"
         }
     }
 }

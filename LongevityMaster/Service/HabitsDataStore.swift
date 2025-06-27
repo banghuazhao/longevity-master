@@ -54,7 +54,7 @@ struct HabitsDataStore {
             frequencyDetail: "4",
             antiAgingRating: 4,
             icon: "🥬",
-            color: 0x27AE60,
+            color: 0x27AE60CC,
             note: "Include kale in meals for antioxidants and vitamins."
         ),
         Habit(
@@ -65,7 +65,7 @@ struct HabitsDataStore {
             frequencyDetail: "5",
             antiAgingRating: 4,
             icon: "🍓",
-            color: 0xE74C3C,
+            color: 0xE74C3CCC,
             note: "Eat a handful of blueberries or strawberries for antioxidants."
         ),
         Habit(
@@ -76,7 +76,7 @@ struct HabitsDataStore {
             frequencyDetail: "7",
             antiAgingRating: 2,
             icon: "☕",
-            color: 0x219653,
+            color: 0x219653CC,
             note: "Drink 1-2 cups of green tea for polyphenols and hydration."
         ),
         Habit(
@@ -87,7 +87,7 @@ struct HabitsDataStore {
             frequencyDetail: "3",
             antiAgingRating: 5,
             icon: "🏋️",
-            color: 0x3498DB,
+            color: 0x3498DBCC,
             note: "Perform 30-45 minutes of resistance exercises (e.g., weights or bodyweight)."
         ),
         Habit(
@@ -98,7 +98,7 @@ struct HabitsDataStore {
             frequencyDetail: "5",
             antiAgingRating: 5,
             icon: "🚶",
-            color: 0x2980B9,
+            color: 0x2980B9CC,
             note: "Walk for 30 minutes at a moderate pace."
         ),
         Habit(
@@ -109,7 +109,7 @@ struct HabitsDataStore {
             frequencyDetail: "10",
             antiAgingRating: 4,
             icon: "🧘",
-            color: 0x5DADE2,
+            color: 0x5DADE2CC,
             note: "Practice 20-30 minutes of yoga or stretching for flexibility."
         ),
         Habit(
@@ -120,7 +120,7 @@ struct HabitsDataStore {
             frequencyDetail: "7",
             antiAgingRating: 4,
             icon: "🧘‍♀️",
-            color: 0x8E44AD,
+            color: 0x8E44ADCC,
             note: "Practice 10-15 minutes of mindfulness meditation."
         ),
         Habit(
@@ -131,7 +131,7 @@ struct HabitsDataStore {
             frequencyDetail: "5",
             antiAgingRating: 3,
             icon: "👥",
-            color: 0x9B59B6,
+            color: 0x9B59B6CC,
             note: "Have a meaningful conversation with friends or family."
         ),
         Habit(
@@ -142,7 +142,7 @@ struct HabitsDataStore {
             frequencyDetail: "7",
             antiAgingRating: 3,
             icon: "📝",
-            color: 0xA569BD,
+            color: 0xA569BDCC,
             note: "Write down 3 things you’re grateful for each day."
         ),
         Habit(
@@ -153,7 +153,7 @@ struct HabitsDataStore {
             frequencyDetail: "7",
             antiAgingRating: 4,
             icon: "🌙",
-            color: 0x2C3E50,
+            color: 0x2C3E50CC,
             note: "Avoid screens and read or relax 30 minutes before bed."
         ),
         Habit(
@@ -164,7 +164,7 @@ struct HabitsDataStore {
             frequencyDetail: "1,2, 3,4,5",
             antiAgingRating: 3,
             icon: "🛌",
-            color: 0x566573,
+            color: 0x566573CC,
             note: "Nap for 20-30 minutes to boost energy."
         ),
         Habit(
@@ -175,7 +175,7 @@ struct HabitsDataStore {
             frequencyDetail: "1,7,14,21,28",
             antiAgingRating: 2,
             icon: "☀️",
-            color: 0xF1C40F,
+            color: 0xF1C40FCC,
             note: "Spend 10-15 minutes in sunlight for vitamin D, with sunscreen if needed."
         ),
         Habit(
@@ -186,7 +186,7 @@ struct HabitsDataStore {
             frequencyDetail: "14",
             antiAgingRating: 1,
             icon: "🦷",
-            color: 0xF4D03F,
+            color: 0xF4D03FCC,
             note: "Maintain oral hygiene to reduce inflammation-related diseases."
         ),
         Habit(
@@ -197,7 +197,7 @@ struct HabitsDataStore {
             frequencyDetail: "7",
             antiAgingRating: 1,
             icon: "🍷",
-            color: 0xD4AC0D,
+            color: 0xD4AC0DCC,
             note: "Keep alcohol to 1 drink or less for women, 2 or less for men."
         )
     ]

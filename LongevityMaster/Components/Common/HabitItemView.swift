@@ -85,7 +85,7 @@ struct HabitItemView: View {
                 habit: HabitsDataStore.swimming,
                 isCompleted: false,
                 streakDescription: nil,
-                frequencyDescription: "1/3 weekly"
+                frequencyDescription: "1/3 this week"
             )
         ) {}
 

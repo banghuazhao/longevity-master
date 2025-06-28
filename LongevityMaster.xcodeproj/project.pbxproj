@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		996BA7BB2DF19E3A00A4B9FC /* SharingGRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */; };
 		996BA8C32E0A71CA00A4B9FC /* SwiftUINavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 996BA8C22E0A71CA00A4B9FC /* SwiftUINavigation */; };
+		99774EEA2E1007C20099920F /* EasyToast in Frameworks */ = {isa = PBXBuildFile; productRef = 99774EE92E1007C20099920F /* EasyToast */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99774EEA2E1007C20099920F /* EasyToast in Frameworks */,
 				996BA8C32E0A71CA00A4B9FC /* SwiftUINavigation in Frameworks */,
 				996BA7BB2DF19E3A00A4B9FC /* SharingGRDB in Frameworks */,
 			);
@@ -109,6 +111,7 @@
 			packageProductDependencies = (
 				996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */,
 				996BA8C22E0A71CA00A4B9FC /* SwiftUINavigation */,
+				99774EE92E1007C20099920F /* EasyToast */,
 			);
 			productName = LongevityMaster;
 			productReference = 993A34222DEB1031002CEA39 /* LongevityMaster.app */;
@@ -189,6 +192,7 @@
 			packageReferences = (
 				996BA7B92DF19E3A00A4B9FC /* XCRemoteSwiftPackageReference "sharing-grdb" */,
 				996BA8C12E0A71CA00A4B9FC /* XCRemoteSwiftPackageReference "swift-navigation" */,
+				99774EE82E1007C20099920F /* XCRemoteSwiftPackageReference "EasyToast" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 993A34232DEB1031002CEA39 /* Products */;
@@ -571,6 +575,14 @@
 				minimumVersion = 2.3.1;
 			};
 		};
+		99774EE82E1007C20099920F /* XCRemoteSwiftPackageReference "EasyToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/banghuazhao/EasyToast";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -583,6 +595,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 996BA8C12E0A71CA00A4B9FC /* XCRemoteSwiftPackageReference "swift-navigation" */;
 			productName = SwiftUINavigation;
+		};
+		99774EE92E1007C20099920F /* EasyToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 99774EE82E1007C20099920F /* XCRemoteSwiftPackageReference "EasyToast" */;
+			productName = EasyToast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

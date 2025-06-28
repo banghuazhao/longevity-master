@@ -1,5 +1,5 @@
 {
-  "originHash" : "c45954d21a88ebac8ef4a056ede89a1c59a6304301f836d33aeef1f589a3af4b",
+  "originHash" : "0ab59e85b4cff18acf8b4933032038fd34fb5da552f5c1713b467765e53cfaf2",
   "pins" : [
     {
       "identity" : "combine-schedulers",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "5928286acce13def418ec36d05a001a9641086f2",
         "version" : "1.0.3"
+      }
+    },
+    {
+      "identity" : "easytoast",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/banghuazhao/EasyToast",
+      "state" : {
+        "revision" : "182e2c03f453e31e8fbff241a0e3372b5d378db1",
+        "version" : "0.4.0"
       }
     },
     {

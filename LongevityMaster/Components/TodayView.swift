@@ -58,7 +58,7 @@ struct TodayView: View {
             .navigationBarTitleDisplayMode(.inline)
             .onChange(of: viewModel.selectedDate) { _, _ in
                 Task {
-                    await viewModel.onChangeOfSelectedDate()
+                    await viewModel.updateTodayHabits()
                 }
             }
             .task {

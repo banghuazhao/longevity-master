@@ -8,6 +8,7 @@ import Observation
 import SharingGRDB
 import SwiftUI
 import SwiftUINavigation
+import Combine
 
 @Observable
 @MainActor
@@ -35,6 +36,20 @@ class TodayViewModel {
 
     @ObservationIgnored
     @Dependency(\.calendar) var calendar
+    
+    private var cancelable = Set<AnyCancellable>()
+
+    init() {
+        $habits
+            .publisher
+            .dropFirst()
+            .sink { _ in
+                Task {
+                    await self.updateTodayHabits()
+                }
+            }
+            .store(in: &cancelable)
+    }
 
     func updateTodayHabits() async {
         withAnimation {
@@ -90,7 +105,7 @@ class TodayViewModel {
                             checkIn.date >= startOfWeek &&
                                 checkIn.date <= endOfDay
                         }
-                        let frequencyDescription = isCompletedToday ? "\(checkInsThisWeekUntilToday.count)/\(habit.nDaysPerWeek) this week" : nil
+                        let frequencyDescription = "\(checkInsThisWeekUntilToday.count)/\(habit.nDaysPerWeek) this week"
                         return TodayHabit(
                             habit: habit,
                             isCompleted: isCompletedToday,
@@ -114,7 +129,7 @@ class TodayViewModel {
                             checkIn.date >= startOfMonth &&
                                 checkIn.date <= endOfDay
                         }
-                        let frequencyDescription = isCompletedToday ? "\(checkInsThisMonthUntilToday.count)/\(habit.nDaysPerMonth) this month" : nil
+                        let frequencyDescription = "\(checkInsThisMonthUntilToday.count)/\(habit.nDaysPerMonth) this month"
                         return TodayHabit(
                             habit: habit,
                             isCompleted: isCompletedToday,
@@ -127,10 +142,6 @@ class TodayViewModel {
                 }
             }
         }
-    }
-
-    func onChangeOfSelectedDate() async {
-        await updateTodayHabits()
     }
 
     func onTapHabitItem(_ todayHabit: TodayHabit) async {

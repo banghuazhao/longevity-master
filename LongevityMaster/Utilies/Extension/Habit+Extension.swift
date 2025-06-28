@@ -62,13 +62,40 @@ extension Habit {
         }
         return Int(frequencyDetail.replacingOccurrences(of: " ", with: "")) ?? 0
     }
+
+    func toTodayHabit(
+        id: Int = 0,
+        isCompleted: Bool = true,
+        streakDescription: String? = nil,
+        frequencyDescription: String? = nil
+    ) -> TodayHabit {
+        TodayHabit(
+            habit: self,
+            isCompleted: isCompleted,
+            streakDescription: streakDescription,
+            frequencyDescription: frequencyDescription
+        )
+    }
+
+    var newHabitDraft: Habit.Draft {
+        Habit.Draft(
+            name: name,
+            category: category,
+            frequency: frequency,
+            frequencyDetail: frequencyDetail,
+            antiAgingRating: antiAgingRating,
+            icon: icon,
+            color: color,
+            note: note
+        )
+    }
 }
 
 extension Habit.Draft {
     var borderColor: Color {
         Color(hex: color).blend(with: .black, amount: 0.2)
     }
-    
+
     var daysOfWeek: Set<Int> {
         guard case .fixedDaysInWeek = frequency else {
             return []
@@ -95,5 +122,29 @@ extension Habit.Draft {
             return 1
         }
         return Int(frequencyDetail.replacingOccurrences(of: " ", with: "")) ?? 1
+    }
+
+    func toTodayHabit(
+        id: Int = 0,
+        isCompleted: Bool = true,
+        streakDescription: String? = nil,
+        frequencyDescription: String? = nil
+    ) -> TodayHabit {
+        TodayHabit(
+            habit: Habit(
+                id: id,
+                name: name,
+                category: category,
+                frequency: frequency,
+                frequencyDetail: frequencyDetail,
+                antiAgingRating: antiAgingRating,
+                icon: icon,
+                color: color,
+                note: note
+            ),
+            isCompleted: isCompleted,
+            streakDescription: streakDescription,
+            frequencyDescription: frequencyDescription
+        )
     }
 }

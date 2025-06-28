@@ -7,6 +7,7 @@ import Dependencies
 import SharingGRDB
 import SwiftNavigation
 import SwiftUI
+import EasyToast
 
 @Observable
 @MainActor
@@ -15,23 +16,11 @@ class HabitFormViewModel: HashableObject {
 
     var todayHabit: TodayHabit {
         let frequencyDescription: String? = switch habit.frequency {
-        case .nDaysEachWeek: "1/\(habit.nDaysPerWeek) Weekly"
-        case .nDaysEachMonth: "1/\(habit.nDaysPerMonth) Monthly"
+        case .nDaysEachWeek: "1/\(habit.nDaysPerWeek) this week"
+        case .nDaysEachMonth: "1/\(habit.nDaysPerMonth) this month"
         default: nil
         }
-        return TodayHabit(
-            habit: Habit(
-                id: 0,
-                name: habit.name,
-                category: habit.category,
-                frequency: habit.frequency,
-                frequencyDetail: habit.frequencyDetail,
-                antiAgingRating: habit.antiAgingRating,
-                icon: habit.icon,
-                color: habit.color,
-                note: habit.note
-            ),
-            isCompleted: true,
+        return habit.toTodayHabit(
             streakDescription: "🔥 1d streak",
             frequencyDescription: frequencyDescription
         )
@@ -40,9 +29,14 @@ class HabitFormViewModel: HashableObject {
     @CasePathable
     enum Route: Equatable {
         case editHabitIcon
+        case habitsGallery
     }
-
     var route: Route?
+    
+    @ObservationIgnored
+    @Dependency(\.defaultDatabase) var database
+    
+    var showTitleEmptyToast = false
 
     init(habit: Habit.Draft) {
         self.habit = habit
@@ -100,6 +94,24 @@ class HabitFormViewModel: HashableObject {
     func onTapTodayHabit() {
         route = .editHabitIcon
     }
+
+    func onTapSaveHabit() {
+        guard !habit.name.isEmpty else {
+            showTitleEmptyToast = true
+            return
+        }
+        withErrorReporting {
+            try database.write { db in
+                try Habit
+                    .upsert(habit)
+                    .execute(db)
+            }
+        }
+    }
+    
+    func onTapGallery() {
+        route = .habitsGallery
+    }
 }
 
 enum WeekDays: Int, CaseIterable {
@@ -151,13 +163,22 @@ struct HabitFormView: View {
                         .presentationDetents([.fraction(0.8), .large])
                         .presentationDragIndicator(.visible)
                     }
-                   
+
                     HStack {
                         Image(systemName: "list.bullet.clipboard.fill")
                         TextField("New habit name", text: $viewModel.habit.name)
-                        Button(action: {}) {
+                        Button {
+                            viewModel.onTapGallery()
+                        } label: {
                             Text("Gallery")
                                 .cornerRadius(8)
+                        }
+                        .sheet(isPresented: Binding($viewModel.route.habitsGallery)) {
+                            HabitsGalleryView(
+                                habit: $viewModel.habit
+                            )
+                            .presentationDetents([.fraction(0.8), .large])
+                            .presentationDragIndicator(.visible)
                         }
                     }
 
@@ -314,13 +335,16 @@ struct HabitFormView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") {
+                    Button("Save") {
+                        viewModel.onTapSaveHabit()
+                        dismiss()
                     }
                 }
             }
             .onChange(of: viewModel.habit.frequency) { _, _ in
                 viewModel.onChangeOfHabitFrequency()
             }
+            .easyToast(isPresented: $viewModel.showTitleEmptyToast, message: "Habit name is empty")
         }
     }
 }

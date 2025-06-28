@@ -18,10 +18,21 @@ struct TodayView: View {
                         Image(systemName: "calendar")
                             .font(.headline)
 
-                        DatePicker("", selection: $viewModel.selectedDate, displayedComponents: .date)
-                            .labelsHidden()
-                            .datePickerStyle(.compact)
-
+                        DatePicker(
+                            "",
+                            selection: Binding(
+                                get: { viewModel.selectedDate },
+                                set: { newDate in
+                                    withAnimation {
+                                        viewModel.selectedDate = newDate
+                                    }
+                                }
+                            ),
+                            displayedComponents: .date
+                        )
+                        .labelsHidden()
+                        .datePickerStyle(.compact)
+                        
                         Spacer()
                     }
 
@@ -39,9 +50,7 @@ struct TodayView: View {
                                     HabitItemView(
                                         todayHabit: todayHabit
                                     ) {
-                                        Task {
-                                            await viewModel.onTapHabitItem(todayHabit)
-                                        }
+                                        viewModel.onTapHabitItem(todayHabit)
                                     }
                                 }
                             }
@@ -56,14 +65,6 @@ struct TodayView: View {
             }
             .navigationTitle("Today")
             .navigationBarTitleDisplayMode(.inline)
-            .onChange(of: viewModel.selectedDate) { _, _ in
-                Task {
-                    await viewModel.updateTodayHabits()
-                }
-            }
-            .task {
-                await viewModel.updateTodayHabits()
-            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {

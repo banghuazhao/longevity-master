@@ -4,15 +4,16 @@
 //
 
 import Dependencies
+import EasyToast
 import SharingGRDB
 import SwiftNavigation
 import SwiftUI
-import EasyToast
 
 @Observable
 @MainActor
 class HabitFormViewModel: HashableObject {
     var habit: Habit.Draft
+    let didSaveHabit: () -> Void
 
     var todayHabit: TodayHabit {
         let frequencyDescription: String? = switch habit.frequency {
@@ -31,15 +32,17 @@ class HabitFormViewModel: HashableObject {
         case editHabitIcon
         case habitsGallery
     }
+
     var route: Route?
-    
+
     @ObservationIgnored
     @Dependency(\.defaultDatabase) var database
-    
+
     var showTitleEmptyToast = false
 
-    init(habit: Habit.Draft) {
+    init(habit: Habit.Draft, didSaveHabit: @escaping () -> Void) {
         self.habit = habit
+        self.didSaveHabit = didSaveHabit
     }
 
     func toggleWeekDay(_ weekDay: WeekDays) {
@@ -107,8 +110,9 @@ class HabitFormViewModel: HashableObject {
                     .execute(db)
             }
         }
+        didSaveHabit()
     }
-    
+
     func onTapGallery() {
         route = .habitsGallery
     }
@@ -337,7 +341,6 @@ struct HabitFormView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save") {
                         viewModel.onTapSaveHabit()
-                        dismiss()
                     }
                 }
             }
@@ -361,7 +364,8 @@ struct HabitFormView: View {
                     id: 0,
                     frequency: .nDaysEachWeek
                 )
-            )
+            ),
+            didSaveHabit: {}
         )
     )
 }

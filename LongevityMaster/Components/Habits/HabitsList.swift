@@ -5,6 +5,14 @@
 
 import SwiftUI
 import SharingGRDB
+import Observation
+
+@Observable
+@MainActor
+class HabitsListViewModel {
+    @ObservationIgnored
+    @FetchAll var habits: [Habit]
+}
 
 struct HabitsListView: View {
     @State var viewModel = HabitsListViewModel()

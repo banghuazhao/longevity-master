@@ -37,6 +37,7 @@ extension Constants {
         static let novelsHubAppID = "1528820845"
         static let nasaLoverID = "1595232677"
         static let mechanicalEngineeringToolkitID = "1601099443"
+        static let longevityMasterID = "6747810020"
     }
 }
 

@@ -13,7 +13,6 @@ import SwiftUI
 @MainActor
 class HabitFormViewModel: HashableObject {
     var habit: Habit.Draft
-    let didSaveHabit: () -> Void
 
     var todayHabit: TodayHabit {
         let frequencyDescription: String? = switch habit.frequency {
@@ -39,10 +38,11 @@ class HabitFormViewModel: HashableObject {
     @Dependency(\.defaultDatabase) var database
 
     var showTitleEmptyToast = false
+    let isEdit: Bool
 
-    init(habit: Habit.Draft, didSaveHabit: @escaping () -> Void) {
+    init(habit: Habit.Draft) {
         self.habit = habit
-        self.didSaveHabit = didSaveHabit
+        isEdit = habit.id != nil
     }
 
     func toggleWeekDay(_ weekDay: WeekDays) {
@@ -98,10 +98,10 @@ class HabitFormViewModel: HashableObject {
         route = .editHabitIcon
     }
 
-    func onTapSaveHabit() {
+    func onTapSaveHabit() -> Bool {
         guard !habit.name.isEmpty else {
             showTitleEmptyToast = true
-            return
+            return false
         }
         withErrorReporting {
             try database.write { db in
@@ -110,7 +110,7 @@ class HabitFormViewModel: HashableObject {
                     .execute(db)
             }
         }
-        didSaveHabit()
+        return true
     }
 
     func onTapGallery() {
@@ -330,7 +330,11 @@ struct HabitFormView: View {
                 }
                 .padding()
             }
-            .navigationTitle("New Habit")
+            .navigationTitle(
+                viewModel.isEdit
+                ? "Edit Habit"
+                : "New Habit"
+            )
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -339,8 +343,10 @@ struct HabitFormView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Save") {
-                        viewModel.onTapSaveHabit()
+                    Button(viewModel.isEdit ? "Update" : "Save") {
+                        if viewModel.onTapSaveHabit() {
+                            dismiss()
+                        }
                     }
                 }
             }
@@ -364,8 +370,7 @@ struct HabitFormView: View {
                     id: 0,
                     frequency: .nDaysEachWeek
                 )
-            ),
-            didSaveHabit: {}
+            )
         )
     )
 }

@@ -7,7 +7,8 @@ import SwiftUI
 
 struct HabitCardView: View {
     let habit: Habit
-    let onTapMore: () -> Void
+    let onEdit: () -> Void
+    let onDelete: () -> Void
 
     var body: some View {
         HStack {
@@ -48,7 +49,17 @@ struct HabitCardView: View {
 
             Spacer()
 
-            Button(action: onTapMore) {
+            Menu {
+                Button(action: onEdit) {
+                    Label("Edit", systemImage: "pencil")
+                }
+                
+                Divider()
+                
+                Button(role: .destructive, action: onDelete) {
+                    Label("Delete", systemImage: "trash")
+                }
+            } label: {
                 Image(systemName: "ellipsis")
                     .foregroundColor(.gray)
                     .imageScale(.large)
@@ -70,17 +81,20 @@ struct HabitCardView: View {
     VStack {
         HabitCardView(
             habit: HabitsDataStore.eatSalmon,
-            onTapMore: {}
+            onEdit: {},
+            onDelete: {}
         )
 
         HabitCardView(
             habit: HabitsDataStore.swimming,
-            onTapMore: {}
+            onEdit: {},
+            onDelete: {}
         )
         
         HabitCardView(
             habit: HabitsDataStore.sleep,
-            onTapMore: {}
+            onEdit: {},
+            onDelete: {}
         )
     }
 }

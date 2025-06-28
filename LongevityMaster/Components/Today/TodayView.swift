@@ -60,7 +60,7 @@ struct TodayView: View {
                 }
                 .padding()
             }
-            .sheet(item: $viewModel.destination.createHabit, id: \.self) { habitFormViewModel in
+            .sheet(item: $viewModel.route.createHabit, id: \.self) { habitFormViewModel in
                 HabitFormView(viewModel: habitFormViewModel)
             }
             .navigationTitle("Today")

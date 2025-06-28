@@ -20,11 +20,11 @@ class TodayViewModel {
     var selectedDate: Date = Date()
 
     @CasePathable
-    enum Destination {
+    enum Route {
         case createHabit(HabitFormViewModel)
     }
 
-    var destination: Destination?
+    var route: Route?
 
     @ObservationIgnored
     @FetchAll(Habit.all, animation: .default)
@@ -159,13 +159,10 @@ class TodayViewModel {
     }
 
     func onTapAddHabit() {
-        destination = .createHabit(
+        route = .createHabit(
             HabitFormViewModel(
                 habit: Habit.Draft()
-            ) { [weak self] in
-                guard let self else { return }
-                destination = nil
-            }
+            )
         )
     }
 

@@ -145,7 +145,8 @@ struct HabitFormView: View {
                     }
                     .sheet(isPresented: Binding($viewModel.route.editHabitIcon)) {
                         HabitIconEditView(
-                            habit: $viewModel.habit
+                            color: $viewModel.habit.color,
+                            icon: $viewModel.habit.icon
                         )
                         .presentationDetents([.fraction(0.8), .large])
                         .presentationDragIndicator(.visible)

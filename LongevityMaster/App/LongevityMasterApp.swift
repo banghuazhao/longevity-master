@@ -29,7 +29,7 @@ struct LongevityMasterApp: App {
                 
                 MeView()
                     .tabItem {
-                        Label("More", systemImage: "person.fill")
+                        Label("Me", systemImage: "person.fill")
                     }
             }
         }

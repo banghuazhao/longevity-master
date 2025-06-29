@@ -12,7 +12,7 @@ import SwiftUINavigation
 @MainActor
 class HabitsListViewModel {
     @ObservationIgnored
-    @FetchAll var habits: [Habit]
+    @FetchAll(animation: .default) var habits: [Habit]
     
     @ObservationIgnored
     @Dependency(\.defaultDatabase) var database

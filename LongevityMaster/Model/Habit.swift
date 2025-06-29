@@ -13,7 +13,7 @@ struct Habit: Identifiable {
     var category: HabitCategory = .diet
     var frequency: HabitFrequency = .fixedDaysInWeek
     var frequencyDetail: String = "1,2,3,4,5,6,7"
-    var antiAgingRating: Int = 3
+    var antiAgingRating: Int = 2
     var icon: String = "🥑"
     var color: Int = 0x2ECC71CC
     var note: String = ""

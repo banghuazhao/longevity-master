@@ -7,6 +7,16 @@
 
 A modern habit-tracking iOS app built with SwiftUI and GRDB, designed to help users build and maintain habits that promote long-term health and longevity. Longevity Master focuses on evidence-based habits that contribute to healthy aging and overall well-being.
 
+## 📱 Screenshots
+
+<div align="center">
+  <img src="screenshots/1.png" alt="Longevity Master Screenshot 1" width="250"/>
+  <img src="screenshots/2.png" alt="Longevity Master Screenshot 2" width="250"/>
+  <img src="screenshots/3.png" alt="Longevity Master Screenshot 3" width="250"/>
+</div>
+
+*The app features a clean, modern interface with habit cards, tracking views, and intuitive navigation designed to help users build lasting health habits.*
+
 ## ✨ Features
 
 ### 🎯 Core Functionality
@@ -112,10 +122,6 @@ The project uses several key dependencies managed through Swift Package Manager:
 - **GRDB**: Database layer
 - **SwiftUINavigation**: Navigation handling
 - **Observation**: Reactive programming
-
-## 📱 Screenshots
-
-*Screenshots coming soon - the app features a clean, modern interface with habit cards, tracking views, and intuitive navigation.*
 
 ## 🔧 Configuration
 

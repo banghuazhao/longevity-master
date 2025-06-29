@@ -327,6 +327,47 @@ struct HabitFormView: View {
                             }
                         }
                     }
+                    
+                    HStack {
+                        HStack {
+                            Image(systemName: "star.fill")
+                            Text("Anti-Aging Rating")
+                                .fontWeight(.semibold)
+                        }
+                        
+                        Spacer()
+                        
+                        HStack(spacing: 4) {
+                            ForEach(1...5, id: \.self) { starIndex in
+                                Button(action: {
+                                    viewModel.habit.antiAgingRating = starIndex
+                                }) {
+                                    Image(systemName: starIndex <= viewModel.habit.antiAgingRating ? "star.fill" : "star")
+                                        .foregroundColor(starIndex <= viewModel.habit.antiAgingRating ? .yellow : .gray)
+                                        .font(.title2)
+                                }
+                            }
+                        }
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Image(systemName: "text.quote")
+                            Text("Description")
+                                .fontWeight(.semibold)
+                        }
+                        
+                        TextEditor(text: $viewModel.habit.note)
+                            .frame(minHeight: 50)
+                            .padding(8)
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(8)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                            )
+                    }
+
                 }
                 .padding()
             }
@@ -335,6 +376,7 @@ struct HabitFormView: View {
                 ? "Edit Habit"
                 : "New Habit"
             )
+            .scrollDismissesKeyboard(.immediately)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

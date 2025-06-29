@@ -9,6 +9,8 @@ struct HabitCardView: View {
     let habit: Habit
     let onEdit: () -> Void
     let onDelete: () -> Void
+    let onToggleFavorite: () -> Void
+    let onToggleArchive: () -> Void
 
     var body: some View {
         HStack {
@@ -16,9 +18,24 @@ struct HabitCardView: View {
                 .font(.system(size: 32))
 
             VStack(alignment: .leading, spacing: 5) {
-                Text(habit.name)
-                    .font(.subheadline).bold()
-                    .lineLimit(1)
+                HStack {
+                    Text(habit.name)
+                        .font(.subheadline).bold()
+                        .lineLimit(1)
+                    
+                    if habit.isFavorite {
+                        Image(systemName: "heart.fill")
+                            .foregroundColor(.red)
+                            .font(.caption)
+                    }
+                    
+                    if habit.isArchived {
+                        Image(systemName: "archivebox.fill")
+                            .foregroundColor(.gray)
+                            .font(.caption)
+                    }
+                    Spacer()
+                }
 
                 HStack {
                     Image(systemName: "calendar")
@@ -49,9 +66,25 @@ struct HabitCardView: View {
 
             Spacer()
 
-            Menu {
+            Menu { 
                 Button(action: onEdit) {
                     Label("Edit", systemImage: "pencil")
+                }
+                
+                Divider()
+
+                Button(action: onToggleFavorite) {
+                    Label(
+                        habit.isFavorite ? "Remove from Favorites" : "Add to Favorites",
+                        systemImage: habit.isFavorite ? "heart.slash" : "heart"
+                    )
+                }
+                
+                Button(action: onToggleArchive) {
+                    Label(
+                        habit.isArchived ? "Unarchive" : "Archive",
+                        systemImage: habit.isArchived ? "archivebox" : "archivebox.fill"
+                    )
                 }
                 
                 Divider()
@@ -74,6 +107,7 @@ struct HabitCardView: View {
             RoundedRectangle(cornerRadius: 10)
                 .stroke(habit.borderColor, lineWidth: 1)
         )
+        .opacity(habit.isArchived ? 0.6 : 1.0)
     }
 }
 
@@ -82,19 +116,25 @@ struct HabitCardView: View {
         HabitCardView(
             habit: HabitsDataStore.eatSalmon,
             onEdit: {},
-            onDelete: {}
+            onDelete: {},
+            onToggleFavorite: {},
+            onToggleArchive: {}
         )
 
         HabitCardView(
             habit: HabitsDataStore.swimming,
             onEdit: {},
-            onDelete: {}
+            onDelete: {},
+            onToggleFavorite: {},
+            onToggleArchive: {}
         )
         
         HabitCardView(
             habit: HabitsDataStore.sleep,
             onEdit: {},
-            onDelete: {}
+            onDelete: {},
+            onToggleFavorite: {},
+            onToggleArchive: {}
         )
     }
 }

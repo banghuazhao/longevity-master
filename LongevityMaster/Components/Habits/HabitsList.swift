@@ -38,6 +38,30 @@ class HabitsListViewModel {
             )
         )
     }
+    
+    func toggleFavorite(_ habit: Habit) {
+        var updatedHabit = habit
+        updatedHabit.isFavorite = !habit.isFavorite
+        withErrorReporting {
+            try database.write { db in
+                try Habit
+                    .update(updatedHabit)
+                    .execute(db)
+            }
+        }
+    }
+    
+    func toggleArchive(_ habit: Habit) {
+        var updatedHabit = habit
+        updatedHabit.isArchived = !habit.isArchived
+        withErrorReporting {
+            try database.write { db in
+                try Habit
+                    .update(updatedHabit)
+                    .execute(db)
+            }
+        }
+    }
 }
 
 struct HabitsListView: View {
@@ -50,7 +74,9 @@ struct HabitsListView: View {
                     HabitCardView(
                         habit: habit,
                         onEdit: { viewModel.onTapEditHabit(habit) },
-                        onDelete: { viewModel.onTapDeleteHabit(habit) }
+                        onDelete: { viewModel.onTapDeleteHabit(habit) },
+                        onToggleFavorite: { viewModel.toggleFavorite(habit) },
+                        onToggleArchive: { viewModel.toggleArchive(habit) }
                     )
                     .padding(.horizontal)
                     .sheet(item: $viewModel.route.editHabit, id: \.self) { habitFormViewModel in

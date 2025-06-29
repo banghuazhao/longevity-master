@@ -17,6 +17,8 @@ struct Habit: Identifiable {
     var icon: String = "🥑"
     var color: Int = 0x2ECC71CC
     var note: String = ""
+    var isFavorite: Bool = false
+    var isArchived: Bool = false
 }
 extension Habit.Draft: Identifiable {}
 

@@ -53,7 +53,9 @@ func appDatabase() throws -> any DatabaseWriter {
              "antiAgingRating" INTEGER NOT NULL DEFAULT 0, 
              "icon" TEXT NOT NULL DEFAULT '', 
              "color" TEXT NOT NULL DEFAULT '', 
-             "note" TEXT NOT NULL DEFAULT '' 
+             "note" TEXT NOT NULL DEFAULT '', 
+             "isFavorite" INTEGER NOT NULL DEFAULT 0, 
+             "isArchived" INTEGER NOT NULL DEFAULT 0 
             ) STRICT 
             """
         )

@@ -367,6 +367,26 @@ struct HabitFormView: View {
                                     .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                             )
                     }
+                    
+                    HStack {
+                        HStack {
+                            Image(systemName: "heart")
+                            Text("Favorite")
+                                .fontWeight(.semibold)
+                        }
+                        Spacer()
+                        Toggle("", isOn: $viewModel.habit.isFavorite)
+                    }
+                    
+                    HStack {
+                        HStack {
+                            Image(systemName: "archivebox")
+                            Text("Archive")
+                                .fontWeight(.semibold)
+                        }
+                        Spacer()
+                        Toggle("", isOn: $viewModel.habit.isArchived)
+                    }
 
                 }
                 .padding()

@@ -43,7 +43,10 @@ class TodayViewModel {
     private var cancelable = Set<AnyCancellable>()
 
     private func updateTodayHabits() -> [TodayHabit] {
-        habits.compactMap { habit -> TodayHabit? in
+        habits
+        .filter { !$0.isArchived }
+        .sorted(by: { $0.isFavorite && !$1.isFavorite })
+        .compactMap { habit -> TodayHabit? in
             let checkInsForHabit = checkIns.filter { $0.habitID == habit.id }
             let startOfDay = selectedDate.startOfDay(for: calendar)
             let endOfDay = selectedDate.endOfDay(for: calendar)

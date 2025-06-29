@@ -53,13 +53,18 @@ struct HabitIconEditView: View {
                     }
                     .frame(maxWidth: 800)
 
-                    Picker("Category", selection: $category) {
-                        ForEach(HabitCategory.allCases, id: \.self) { category in
-                            Text(category.briefTitle).tag(category)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 12) {
+                            ForEach(HabitCategory.allCases, id: \.self) { habitCategory in
+                                CategoryFilterButton(
+                                    title: habitCategory.briefTitle,
+                                    isSelected: category == habitCategory,
+                                    action: { category = habitCategory }
+                                )
+                            }
                         }
+                        .padding(.horizontal)
                     }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .padding(.horizontal)
 
                     LazyVGrid(columns: [
                         GridItem(.adaptive(minimum: 50, maximum: 100)),

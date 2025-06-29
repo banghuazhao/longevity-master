@@ -43,11 +43,11 @@ enum HabitCategory: Int, Codable, QueryBindable {
     
     var briefTitle: String {
         switch self {
-        case .diet: return "Diet"
-        case .exercise: return "Exercise"
-        case .sleep: return "Sleep"
-        case .preventiveHealth: return "Health"
-        case .mentalHealth: return "Mental"
+        case .diet: return "🍎 Diet"
+        case .exercise: return "🏋️ Exercise"
+        case .sleep: return "😴 Sleep"
+        case .preventiveHealth: return "🩺 Health"
+        case .mentalHealth: return "🧘 Mental"
         }
     }
 }

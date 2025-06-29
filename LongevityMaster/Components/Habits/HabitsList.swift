@@ -17,9 +17,21 @@ class HabitsListViewModel {
     @ObservationIgnored
     @Dependency(\.defaultDatabase) var database
     
+    // Add selected category for filtering
+    var selectedCategory: HabitCategory? = nil
+    
+    // Computed property for filtered habits
+    var filteredHabits: [Habit] {
+        guard let selectedCategory = selectedCategory else {
+            return habits
+        }
+        return habits.filter { $0.category == selectedCategory }
+    }
+    
     @CasePathable
     enum Route {
         case editHabit(HabitFormViewModel)
+        case createHabit(HabitFormViewModel)
     }
     var route: Route?
     
@@ -62,6 +74,20 @@ class HabitsListViewModel {
             }
         }
     }
+    
+    func onTapCreateHabit() {
+        route = .createHabit(
+            HabitFormViewModel(
+                habit: Habit.Draft()
+            )
+        )
+    }
+    
+    func selectCategory(_ category: HabitCategory?) {
+        withAnimation {
+            selectedCategory = category
+        }
+    }
 }
 
 struct HabitsListView: View {
@@ -70,24 +96,60 @@ struct HabitsListView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                ForEach(viewModel.habits) { habit in
-                    HabitCardView(
-                        habit: habit,
-                        onEdit: { viewModel.onTapEditHabit(habit) },
-                        onDelete: { viewModel.onTapDeleteHabit(habit) },
-                        onToggleFavorite: { viewModel.toggleFavorite(habit) },
-                        onToggleArchive: { viewModel.toggleArchive(habit) }
-                    )
-                    .padding(.horizontal)
-                    .sheet(item: $viewModel.route.editHabit, id: \.self) { habitFormViewModel in
-                        HabitFormView(
-                            viewModel: habitFormViewModel
+                VStack(spacing: 16) {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 12) {
+                            // All categories option
+                            CategoryFilterButton(
+                                title: "All",
+                                isSelected: viewModel.selectedCategory == nil,
+                                action: { viewModel.selectCategory(nil) }
+                            )
+                            
+                            // Individual category options
+                            ForEach(HabitCategory.allCases, id: \.self) { category in
+                                CategoryFilterButton(
+                                    title: category.briefTitle,
+                                    isSelected: viewModel.selectedCategory == category,
+                                    action: { viewModel.selectCategory(category) }
+                                )
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    
+                    // Habits List
+                    ForEach(viewModel.filteredHabits) { habit in
+                        HabitCardView(
+                            habit: habit,
+                            onEdit: { viewModel.onTapEditHabit(habit) },
+                            onDelete: { viewModel.onTapDeleteHabit(habit) },
+                            onToggleFavorite: { viewModel.toggleFavorite(habit) },
+                            onToggleArchive: { viewModel.toggleArchive(habit) }
                         )
+                        .padding(.horizontal)
+                        .sheet(item: $viewModel.route.editHabit, id: \.self) { habitFormViewModel in
+                            HabitFormView(
+                                viewModel: habitFormViewModel
+                            )
+                        }
                     }
                 }
             }
             .navigationTitle("Habits")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        viewModel.onTapCreateHabit()
+                    }) {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
+            .sheet(item: $viewModel.route.createHabit, id: \.self) { habitFormViewModel in
+                HabitFormView(viewModel: habitFormViewModel)
+            }
         }
     }
 }

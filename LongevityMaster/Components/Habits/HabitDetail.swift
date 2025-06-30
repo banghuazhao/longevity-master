@@ -30,6 +30,7 @@ class HabitDetailViewModel {
     @CasePathable
     enum Route {
         case editHabit(HabitFormViewModel)
+        case deleteAlert
     }
     var route: Route?
 
@@ -142,6 +143,18 @@ class HabitDetailViewModel {
             }
         )
     }
+    
+    func onTapDeleteHabit() {
+        route = .deleteAlert
+    }
+    
+    func deleteHabit() {
+        withErrorReporting {
+            try database.write { db in
+                try Habit.delete(habit).execute(db)
+            }
+        }
+    }
 
     // For yearly view: get all check-ins for a year, grouped by month and day
     func yearlyCheckIns(for year: Int) -> [Int: Set<Int>] {
@@ -165,7 +178,9 @@ class HabitDetailViewModel {
 
 struct HabitDetailView: View {
     @State var viewModel: HabitDetailViewModel
-
+    
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
@@ -267,6 +282,12 @@ struct HabitDetailView: View {
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button {
+                    viewModel.onTapDeleteHabit()
+                } label: {
+                    Image(systemName: "trash")
+                }
+                
+                Button {
                     viewModel.onTapEditHabit()
                 } label: {
                     Image(systemName: "pencil")
@@ -277,6 +298,18 @@ struct HabitDetailView: View {
             HabitFormView(
                 viewModel: habitFormViewModel
             )
+        }
+        .alert(
+            "Delete ‘\(viewModel.habit.truncatedName)’?",
+            isPresented: Binding($viewModel.route.deleteAlert)
+        ) {
+            Button("Delete", role: .destructive) {
+                viewModel.deleteHabit()
+                dismiss()
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This will permanently delete the habit ‘\(viewModel.habit.truncatedName)’ and all its check-in history. This action cannot be undone. Are you sure you want to proceed?")
         }
     }
 }

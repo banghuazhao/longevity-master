@@ -11,6 +11,7 @@ struct HabitCardView: View {
     let onDelete: () -> Void
     let onToggleFavorite: () -> Void
     let onToggleArchive: () -> Void
+    @State private var showDeleteAlert = false
 
     var body: some View {
         HStack {
@@ -22,13 +23,13 @@ struct HabitCardView: View {
                     Text(habit.name)
                         .font(.subheadline).bold()
                         .lineLimit(1)
-                    
+
                     if habit.isFavorite {
                         Image(systemName: "heart.fill")
                             .foregroundColor(.red)
                             .font(.caption)
                     }
-                    
+
                     if habit.isArchived {
                         Image(systemName: "archivebox.fill")
                             .foregroundColor(.gray)
@@ -66,11 +67,11 @@ struct HabitCardView: View {
 
             Spacer()
 
-            Menu { 
+            Menu {
                 Button(action: onEdit) {
                     Label("Edit", systemImage: "pencil")
                 }
-                
+
                 Divider()
 
                 Button(action: onToggleFavorite) {
@@ -79,23 +80,26 @@ struct HabitCardView: View {
                         systemImage: habit.isFavorite ? "heart.slash" : "heart"
                     )
                 }
-                
+
                 Button(action: onToggleArchive) {
                     Label(
                         habit.isArchived ? "Unarchive" : "Archive",
                         systemImage: habit.isArchived ? "archivebox" : "archivebox.fill"
                     )
                 }
-                
+
                 Divider()
-                
-                Button(role: .destructive, action: onDelete) {
+
+                Button(role: .destructive, action: {
+                    showDeleteAlert.toggle()
+                }) {
                     Label("Delete", systemImage: "trash")
                 }
             } label: {
                 Image(systemName: "ellipsis")
-                    .foregroundColor(.gray)
+                    .foregroundColor(.primary)
                     .imageScale(.large)
+                    .padding()
             }
         }
         .padding()
@@ -108,6 +112,18 @@ struct HabitCardView: View {
                 .stroke(habit.borderColor, lineWidth: 1)
         )
         .opacity(habit.isArchived ? 0.6 : 1.0)
+        .alert(
+            "Delete ‘\(habit.truncatedName)’?",
+            isPresented: $showDeleteAlert,
+            actions: {
+                Button("Delete", role: .destructive) {
+                    onDelete()
+                }
+                Button("Cancel", role: .cancel) {}
+            }, message: {
+                Text("This will permanently delete the habit ‘\(habit.truncatedName)’ and all its check-in history. This action cannot be undone. Are you sure you want to proceed?")
+            }
+        )
     }
 }
 
@@ -128,7 +144,7 @@ struct HabitCardView: View {
             onToggleFavorite: {},
             onToggleArchive: {}
         )
-        
+
         HabitCardView(
             habit: HabitsDataStore.sleep,
             onEdit: {},

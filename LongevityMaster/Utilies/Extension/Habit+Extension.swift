@@ -6,6 +6,10 @@
 import SwiftUI
 
 extension Habit {
+    var truncatedName: String {
+        name.count > 20 ? name.prefix(20) + "…" : name
+    }
+    
     var borderColor: Color {
         Color(hex: color).blend(with: .black, amount: 0.2)
     }
@@ -13,7 +17,7 @@ extension Habit {
     var frequencyDescription: String {
         switch frequency {
         case .fixedDaysInWeek:
-            return daysOfWeek.isEmpty ? "No days set" : "Every \(daysOfWeek)"
+            return daysOfWeek.isEmpty ? "No days set" : "Every \(daysOfWeekString) of week"
         case .nDaysEachWeek:
             let days = Int(frequencyDetail)
             guard let days else { return "No days set" }
@@ -23,7 +27,7 @@ extension Habit {
                 return "\(days) days each week"
             }
         case .fixedDaysInMonth:
-            return daysOfMonth.isEmpty ? "No days set" : "Every \(daysOfMonth) of month"
+            return daysOfMonth.isEmpty ? "No days set" : "Every \(daysOfMonthString) of month"
         case .nDaysEachMonth:
             let days = Int(frequencyDetail)
             guard let days else { return "No days set" }
@@ -41,12 +45,20 @@ extension Habit {
         }
         return Set(frequencyDetail.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
     }
+    
+    var daysOfWeekString: String {
+        daysOfWeek.map { "\($0)" }.sorted().joined(separator: ", ")
+    }
 
     var daysOfMonth: Set<Int> {
         guard case .fixedDaysInMonth = frequency else {
             return []
         }
         return Set(frequencyDetail.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
+    }
+    
+    var daysOfMonthString: String {
+        daysOfMonth.map { "\($0)" }.sorted().joined(separator: ", ")
     }
 
     var nDaysPerWeek: Int {

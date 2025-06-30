@@ -36,7 +36,7 @@ class HabitsListViewModel {
     }
     var route: Route?
     
-    func onTapDeleteHabit(_ habit: Habit) {
+    func confirmDeleteHabit(_ habit: Habit) {
         withErrorReporting {
             try database.write { db in
                 try Habit.delete(habit).execute(db)
@@ -128,7 +128,7 @@ struct HabitsListView: View {
                         HabitCardView(
                             habit: habit,
                             onEdit: { viewModel.onTapEditHabit(habit) },
-                            onDelete: { viewModel.onTapDeleteHabit(habit) },
+                            onDelete: { viewModel.confirmDeleteHabit(habit) },
                             onToggleFavorite: { viewModel.toggleFavorite(habit) },
                             onToggleArchive: { viewModel.toggleArchive(habit) }
                         )

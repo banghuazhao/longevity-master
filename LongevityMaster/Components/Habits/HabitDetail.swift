@@ -34,6 +34,9 @@ class HabitDetailViewModel {
     }
     var route: Route?
 
+    var showFavoriteInfo: Bool = false
+    var showArchivedInfo: Bool = false
+
     init(habit: Habit) {
         self.habit = habit
     }
@@ -43,7 +46,10 @@ class HabitDetailViewModel {
     }
 
     var todayHabit: TodayHabit {
-        habit.toTodayHabit(isCompleted: true)
+        habit.toTodayHabit(
+            isCompleted: true,
+            streakDescription: habit.frequencyDescription
+        )
     }
 
     var monthTitle: String {
@@ -183,14 +189,10 @@ struct HabitDetailView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 10) {
+            VStack(spacing: 12) {
                 HabitItemView(todayHabit: viewModel.todayHabit, onTap: {})
                     .padding(.top, 8)
-                
-                Text(viewModel.habit.frequencyDescription)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .padding(.bottom, 8)
+                    .opacity(viewModel.habit.isArchived ? 0.6 : 1.0)
                 
                 // Segmented control for calendar mode
                 Picker("Mode", selection: $viewModel.calendarMode) {
@@ -199,11 +201,10 @@ struct HabitDetailView: View {
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                .padding(.horizontal)
                 
                 if viewModel.calendarMode == .monthly {
                     // Calendar
-                    VStack(spacing: 8) {
+                    VStack(spacing: 12) {
                         HStack {
                             Button(action: { viewModel.previousMonth() }) {
                                 Text("< Previous")
@@ -218,12 +219,12 @@ struct HabitDetailView: View {
                                     .font(.subheadline)
                             }
                         }
-                        .padding(.horizontal)
+
                         // Weekday headers
                         HStack {
                             ForEach(viewModel.weekdaySymbols, id: \.self) { symbol in
                                 Text(symbol)
-                                    .font(.caption2)
+                                    .font(.caption)
                                     .frame(maxWidth: .infinity)
                                     .foregroundColor(.secondary)
                             }
@@ -246,11 +247,8 @@ struct HabitDetailView: View {
                             }
                         }
                     }
-                    .padding(.horizontal)
-                    .padding(.bottom)
                 } else {
-                    
-                    VStack(spacing: 8) {
+                    VStack(spacing: 12) {
                         HStack {
                             Button(action: { viewModel.previousYear() }) {
                                 Text("< Previous")
@@ -265,19 +263,24 @@ struct HabitDetailView: View {
                                     .font(.subheadline)
                             }
                         }
-                        .padding(.horizontal)
+                        
                         // Yearly grid
                         YearlyCalendarGrid(
                             year: viewModel.selectedYear,
                             checkInsByMonth: viewModel.yearlyCheckIns(for: viewModel.selectedYear),
                             calendar: viewModel.calendar
                         )
-                        .padding(.horizontal)
-                        .padding(.bottom)
                     }
                 }
-                Spacer()
+               
+                // Favorite toggle with info dropdown
+                FavoriteToggleWithInfo(isOn: $viewModel.habit.isFavorite)
+                
+                // Archived toggle with info dropdown
+                ArchivedToggleWithInfo(isOn: $viewModel.habit.isArchived)
             }
+            .padding(.horizontal)
+            .padding(.bottom)
         }
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
@@ -300,7 +303,7 @@ struct HabitDetailView: View {
             )
         }
         .alert(
-            "Delete ‘\(viewModel.habit.truncatedName)’?",
+            "Delete '\(viewModel.habit.truncatedName)'?",
             isPresented: Binding($viewModel.route.deleteAlert)
         ) {
             Button("Delete", role: .destructive) {
@@ -309,7 +312,7 @@ struct HabitDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("This will permanently delete the habit ‘\(viewModel.habit.truncatedName)’ and all its check-in history. This action cannot be undone. Are you sure you want to proceed?")
+            Text("This will permanently delete the habit '\(viewModel.habit.truncatedName)' and all its check-in history. This action cannot be undone. Are you sure you want to proceed?")
         }
     }
 }
@@ -379,6 +382,72 @@ struct YearlyCalendarGrid: View {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter.shortMonthSymbols[month - 1]
+    }
+}
+
+private struct FavoriteToggleWithInfo: View {
+    @Binding var isOn: Bool
+    @State private var showInfo = false
+    var body: some View {
+        ZStack(alignment: .topLeading) {
+            Toggle(isOn: $isOn) {
+                HStack {
+                    Label("Favorite", systemImage: isOn ? "heart.fill" : "heart")
+                    Button(action: { withAnimation { showInfo.toggle() } }) {
+                        Image(systemName: "info.circle")
+                    }
+                    .foregroundStyle(Color.secondary)
+                    .buttonStyle(.plain)
+                }
+            }
+            .toggleStyle(SwitchToggleStyle())
+            if showInfo {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Once favorited, the habit will be ordered first in today's habits list.")
+                        .font(.caption)
+                        .foregroundColor(.primary)
+                        .padding(8)
+                        .background(RoundedRectangle(cornerRadius: 8).fill(Color(.systemBackground)).shadow(radius: 2))
+                }
+                .padding(.top, 36)
+                .padding(.leading, 24)
+                .zIndex(1)
+                .onTapGesture { showInfo = false }
+            }
+        }
+    }
+}
+
+private struct ArchivedToggleWithInfo: View {
+    @Binding var isOn: Bool
+    @State private var showInfo = false
+    var body: some View {
+        ZStack(alignment: .topLeading) {
+            Toggle(isOn: $isOn) {
+                HStack {
+                    Label("Archived", systemImage: isOn ? "archivebox.fill" : "archivebox")
+                    Button(action: { withAnimation { showInfo.toggle() } }) {
+                        Image(systemName: "info.circle")
+                    }
+                    .foregroundStyle(Color.secondary)
+                    .buttonStyle(.plain)
+                }
+            }
+            .toggleStyle(SwitchToggleStyle())
+            if showInfo {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Once archived, the habit will be hidden from today's habits list, but its check-ins will be kept.")
+                        .font(.caption)
+                        .foregroundColor(.primary)
+                        .padding(8)
+                        .background(RoundedRectangle(cornerRadius: 8).fill(Color(.systemBackground)).shadow(radius: 2))
+                }
+                .padding(.top, 36)
+                .padding(.leading, 24)
+                .zIndex(1)
+                .onTapGesture { showInfo = false }
+            }
+        }
     }
 }
 

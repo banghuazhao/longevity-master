@@ -15,3 +15,9 @@ struct CheckIn {
     var habitID: Habit.ID
 }
 
+@Selection
+struct CheckInHistory {
+    let checkIn: CheckIn
+    let habitName: String
+    let habitIcon: String
+}

@@ -4,19 +4,43 @@
 //
 //  Created by Lulin Yang on 2025/6/30.
 //
+
 import SwiftUI
+import SharingGRDB
+
+@MainActor
+@Observable
+class CheckinHistoryViewModel {
+    @ObservationIgnored
+    @FetchAll(
+        CheckIn
+            .order(by: \.date)
+            .leftJoin(Habit.all) {
+                $0.habitID.eq($1.id)
+            }
+            .select {
+                CheckInHistory.Columns(
+                    checkIn: $0,
+                    habitName: $1.name ?? "",
+                    habitIcon: $1.icon ?? ""
+                )
+            },
+        animation: .default
+    )
+    var checkinHistories
+}
 
 struct CheckinHistoryView: View {
     var body: some View {
         List {
-            ForEach(0..<5) { index in
+            ForEach(0 ..< 5) { _ in
                 HStack(spacing: 16) {
                     // Habit Icon
                     Image(systemName: "checkmark.circle.fill")
                         .resizable()
                         .frame(width: 30, height: 30)
                         .foregroundColor(.blue)
-                    
+
                     // Habit Info
                     VStack(alignment: .leading) {
                         Text("Habit Name Placeholder")
@@ -33,7 +57,7 @@ struct CheckinHistoryView: View {
                         // Edit action here
                     }) {
                         Image(systemName: "pencil")
-                        .foregroundColor(.gray)
+                            .foregroundColor(.gray)
                     }
 
                     // Delete Button

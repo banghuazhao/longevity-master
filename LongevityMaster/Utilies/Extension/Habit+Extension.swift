@@ -123,6 +123,22 @@ extension Habit.Draft {
         }
         return Int(frequencyDetail.replacingOccurrences(of: " ", with: "")) ?? 1
     }
+    
+    func toHabit(id: Int = 0) -> Habit {
+        Habit(
+            id: id,
+            name: name,
+            category: category,
+            frequency: frequency,
+            frequencyDetail: frequencyDetail,
+            antiAgingRating: antiAgingRating,
+            icon: icon,
+            color: color,
+            note: note,
+            isFavorite: isFavorite,
+            isArchived: isArchived
+        )
+    }
 
     func toTodayHabit(
         id: Int = 0,
@@ -131,17 +147,7 @@ extension Habit.Draft {
         frequencyDescription: String? = nil
     ) -> TodayHabit {
         TodayHabit(
-            habit: Habit(
-                id: id,
-                name: name,
-                category: category,
-                frequency: frequency,
-                frequencyDetail: frequencyDetail,
-                antiAgingRating: antiAgingRating,
-                icon: icon,
-                color: color,
-                note: note
-            ),
+            habit: toHabit(id: id),
             isCompleted: isCompleted,
             streakDescription: streakDescription,
             frequencyDescription: frequencyDescription

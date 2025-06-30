@@ -27,7 +27,16 @@ class TodayViewModel {
     var route: Route?
 
     @ObservationIgnored
-    @FetchAll(Habit.all, animation: .default)
+    @FetchAll(
+        Habit
+            .where {
+                !$0.isArchived
+            }
+            .order {
+                $0.isFavorite.desc()
+            }
+        , animation: .default
+    )
     var habits
 
     @ObservationIgnored
@@ -44,96 +53,94 @@ class TodayViewModel {
 
     private func updateTodayHabits() -> [TodayHabit] {
         habits
-        .filter { !$0.isArchived }
-        .sorted(by: { $0.isFavorite && !$1.isFavorite })
-        .compactMap { habit -> TodayHabit? in
-            let checkInsForHabit = checkIns.filter { $0.habitID == habit.id }
-            let startOfDay = selectedDate.startOfDay(for: calendar)
-            let endOfDay = selectedDate.endOfDay(for: calendar)
-            let checkInsToday = checkInsForHabit.filter { checkIn in
-                checkIn.date >= startOfDay &&
-                    checkIn.date <= endOfDay
-            }
-            let isCompletedToday = checkInsToday.count > 0
-            switch habit.frequency {
-            case .fixedDaysInWeek:
-                // Day of the week (1 = Sunday, 2 = Monday, ..., 7 = Saturday)
-                let dayOfWeek = calendar.component(.weekday, from: selectedDate)
-                if habit.daysOfWeek.contains(dayOfWeek) {
-                    let streak = calculateStreakForFixedDays(habit: habit, days: habit.daysOfWeek, unit: .weekday, checkIns: checkInsForHabit)
-                    let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
-                    return TodayHabit(
-                        habit: habit,
-                        isCompleted: isCompletedToday,
-                        streakDescription: streakDescription
-                    )
-                } else {
-                    return nil
+            .compactMap { habit -> TodayHabit? in
+                let checkInsForHabit = checkIns.filter { $0.habitID == habit.id }
+                let startOfDay = selectedDate.startOfDay(for: calendar)
+                let endOfDay = selectedDate.endOfDay(for: calendar)
+                let checkInsToday = checkInsForHabit.filter { checkIn in
+                    checkIn.date >= startOfDay &&
+                        checkIn.date <= endOfDay
                 }
-            case .fixedDaysInMonth:
-                // Get the day of the month (1–31)
-                let dayOfMonth = calendar.component(.day, from: selectedDate)
-                if habit.daysOfMonth.contains(dayOfMonth) {
-                    let streak = calculateStreakForFixedDays(habit: habit, days: habit.daysOfMonth, unit: .day, checkIns: checkInsForHabit)
-                    let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
-                    return TodayHabit(
-                        habit: habit,
-                        isCompleted: isCompletedToday,
-                        streakDescription: streakDescription
-                    )
-                } else {
-                    return nil
-                }
-            case .nDaysEachWeek:
-                let startOfWeek = selectedDate.startOfWeek(for: calendar)
-                let endOfWeek = selectedDate.endOfWeek(for: calendar)
-                let checkInsThisWeek = checkInsForHabit.filter { checkIn in
-                    checkIn.date >= startOfWeek &&
-                        checkIn.date <= endOfWeek
-                }
-                if habit.nDaysPerWeek > checkInsThisWeek.count || isCompletedToday {
-                    let streak = calculateStreakForNDaysPerPeriod(habit: habit, checkIns: checkInsForHabit)
-                    let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
-                    let checkInsThisWeekUntilToday = checkInsForHabit.filter { checkIn in
+                let isCompletedToday = checkInsToday.count > 0
+                switch habit.frequency {
+                case .fixedDaysInWeek:
+                    // Day of the week (1 = Sunday, 2 = Monday, ..., 7 = Saturday)
+                    let dayOfWeek = calendar.component(.weekday, from: selectedDate)
+                    if habit.daysOfWeek.contains(dayOfWeek) {
+                        let streak = calculateStreakForFixedDays(habit: habit, days: habit.daysOfWeek, unit: .weekday, checkIns: checkInsForHabit)
+                        let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
+                        return TodayHabit(
+                            habit: habit,
+                            isCompleted: isCompletedToday,
+                            streakDescription: streakDescription
+                        )
+                    } else {
+                        return nil
+                    }
+                case .fixedDaysInMonth:
+                    // Get the day of the month (1–31)
+                    let dayOfMonth = calendar.component(.day, from: selectedDate)
+                    if habit.daysOfMonth.contains(dayOfMonth) {
+                        let streak = calculateStreakForFixedDays(habit: habit, days: habit.daysOfMonth, unit: .day, checkIns: checkInsForHabit)
+                        let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
+                        return TodayHabit(
+                            habit: habit,
+                            isCompleted: isCompletedToday,
+                            streakDescription: streakDescription
+                        )
+                    } else {
+                        return nil
+                    }
+                case .nDaysEachWeek:
+                    let startOfWeek = selectedDate.startOfWeek(for: calendar)
+                    let endOfWeek = selectedDate.endOfWeek(for: calendar)
+                    let checkInsThisWeek = checkInsForHabit.filter { checkIn in
                         checkIn.date >= startOfWeek &&
-                            checkIn.date <= endOfDay
+                            checkIn.date <= endOfWeek
                     }
-                    let frequencyDescription = "\(checkInsThisWeekUntilToday.count)/\(habit.nDaysPerWeek) this week"
-                    return TodayHabit(
-                        habit: habit,
-                        isCompleted: isCompletedToday,
-                        streakDescription: streakDescription,
-                        frequencyDescription: frequencyDescription
-                    )
-                } else {
-                    return nil
-                }
-            case .nDaysEachMonth:
-                let startOfMonth = selectedDate.startOfMonth(for: calendar)
-                let endOfMonth = selectedDate.endOfMonth(for: calendar)
-                let checkInsThisMonth = checkInsForHabit.filter { checkIn in
-                    checkIn.date >= startOfMonth &&
-                        checkIn.date <= endOfMonth
-                }
-                if habit.nDaysPerMonth > checkInsThisMonth.count || isCompletedToday {
-                    let streak = calculateStreakForNDaysPerPeriod(habit: habit, checkIns: checkInsForHabit)
-                    let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
-                    let checkInsThisMonthUntilToday = checkInsForHabit.filter { checkIn in
+                    if habit.nDaysPerWeek > checkInsThisWeek.count || isCompletedToday {
+                        let streak = calculateStreakForNDaysPerPeriod(habit: habit, checkIns: checkInsForHabit)
+                        let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
+                        let checkInsThisWeekUntilToday = checkInsForHabit.filter { checkIn in
+                            checkIn.date >= startOfWeek &&
+                                checkIn.date <= endOfDay
+                        }
+                        let frequencyDescription = "\(checkInsThisWeekUntilToday.count)/\(habit.nDaysPerWeek) this week"
+                        return TodayHabit(
+                            habit: habit,
+                            isCompleted: isCompletedToday,
+                            streakDescription: streakDescription,
+                            frequencyDescription: frequencyDescription
+                        )
+                    } else {
+                        return nil
+                    }
+                case .nDaysEachMonth:
+                    let startOfMonth = selectedDate.startOfMonth(for: calendar)
+                    let endOfMonth = selectedDate.endOfMonth(for: calendar)
+                    let checkInsThisMonth = checkInsForHabit.filter { checkIn in
                         checkIn.date >= startOfMonth &&
-                            checkIn.date <= endOfDay
+                            checkIn.date <= endOfMonth
                     }
-                    let frequencyDescription = "\(checkInsThisMonthUntilToday.count)/\(habit.nDaysPerMonth) this month"
-                    return TodayHabit(
-                        habit: habit,
-                        isCompleted: isCompletedToday,
-                        streakDescription: streakDescription,
-                        frequencyDescription: frequencyDescription
-                    )
-                } else {
-                    return nil
+                    if habit.nDaysPerMonth > checkInsThisMonth.count || isCompletedToday {
+                        let streak = calculateStreakForNDaysPerPeriod(habit: habit, checkIns: checkInsForHabit)
+                        let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
+                        let checkInsThisMonthUntilToday = checkInsForHabit.filter { checkIn in
+                            checkIn.date >= startOfMonth &&
+                                checkIn.date <= endOfDay
+                        }
+                        let frequencyDescription = "\(checkInsThisMonthUntilToday.count)/\(habit.nDaysPerMonth) this month"
+                        return TodayHabit(
+                            habit: habit,
+                            isCompleted: isCompletedToday,
+                            streakDescription: streakDescription,
+                            frequencyDescription: frequencyDescription
+                        )
+                    } else {
+                        return nil
+                    }
                 }
             }
-        }
     }
 
     func onTapHabitItem(_ todayHabit: TodayHabit) {

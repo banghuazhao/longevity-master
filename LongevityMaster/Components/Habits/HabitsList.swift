@@ -32,6 +32,7 @@ class HabitsListViewModel {
     enum Route {
         case editHabit(HabitFormViewModel)
         case createHabit(HabitFormViewModel)
+        case habitDetail(HabitDetailViewModel)
     }
     var route: Route?
     
@@ -41,6 +42,10 @@ class HabitsListViewModel {
                 try Habit.delete(habit).execute(db)
             }
         }
+    }
+    
+    func onTapHabitItem(_ habit: Habit) {
+        route = .habitDetail(HabitDetailViewModel(habit: habit))
     }
     
     func onTapEditHabit(_ habit: Habit) {
@@ -133,6 +138,9 @@ struct HabitsListView: View {
                                 viewModel: habitFormViewModel
                             )
                         }
+                        .onTapGesture {
+                            viewModel.onTapHabitItem(habit)
+                        }
                     }
                 }
             }
@@ -149,6 +157,9 @@ struct HabitsListView: View {
             }
             .sheet(item: $viewModel.route.createHabit, id: \.self) { habitFormViewModel in
                 HabitFormView(viewModel: habitFormViewModel)
+            }
+            .navigationDestination(item: $viewModel.route.habitDetail) { habitDetailViewModel in
+                HabitDetailView(viewModel: habitDetailViewModel)
             }
         }
     }

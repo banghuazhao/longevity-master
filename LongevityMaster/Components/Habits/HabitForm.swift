@@ -39,9 +39,14 @@ class HabitFormViewModel: HashableObject {
 
     var showTitleEmptyToast = false
     let isEdit: Bool
+    let onSaveHabit: ((Habit.Draft) -> Void)?
 
-    init(habit: Habit.Draft) {
+    init(
+        habit: Habit.Draft,
+        onSaveHabit: ((Habit.Draft) -> Void)? = nil
+    ) {
         self.habit = habit
+        self.onSaveHabit = onSaveHabit
         isEdit = habit.id != nil
     }
 
@@ -110,6 +115,7 @@ class HabitFormViewModel: HashableObject {
                     .execute(db)
             }
         }
+        onSaveHabit?(habit)
         return true
     }
 

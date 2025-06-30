@@ -193,6 +193,11 @@ struct HabitDetailView: View {
                 HabitItemView(todayHabit: viewModel.todayHabit, onTap: {})
                     .padding(.top, 8)
                     .opacity(viewModel.habit.isArchived ? 0.6 : 1.0)
+
+                // Habit note/description section
+                if !viewModel.habit.note.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    NoteSection(note: viewModel.habit.note)
+                }
                 
                 // Segmented control for calendar mode
                 Picker("Mode", selection: $viewModel.calendarMode) {
@@ -448,6 +453,46 @@ private struct ArchivedToggleWithInfo: View {
                 .onTapGesture { showInfo = false }
             }
         }
+    }
+}
+
+private struct NoteSection: View {
+    let note: String
+    @State private var expanded = false
+    @State var showMore: Bool = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(note)
+                .font(.footnote)
+                .foregroundColor(.primary)
+                .lineLimit(expanded ? nil : 2)
+                
+            if note.count > 100  {
+                Button {
+                    withAnimation {
+                        expanded.toggle()
+                    }
+                } label: {
+                    Text(expanded ? "Show less" : "Show more")
+                        .font(.footnote)
+                        .foregroundColor(.accentColor)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.vertical ,8)
+        .padding(.horizontal ,12)
+        .background(Color.gray.opacity(0.08))
+        .cornerRadius(10)
+    }
+}
+
+
+private struct SizePreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
     }
 }
 

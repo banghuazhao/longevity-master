@@ -10,7 +10,7 @@ import SharingGRDB
 
 @MainActor
 @Observable
-class CheckinHistoryViewModel {
+class CheckInHistoryViewModel {
     @ObservationIgnored
     @FetchAll(
         CheckIn
@@ -28,50 +28,54 @@ class CheckinHistoryViewModel {
         animation: .default
     )
     var checkinHistories
+    
+    @ObservationIgnored
+    @Dependency(\.defaultDatabase) var database
+    
+    func onTapDeleteCheckin(_ checkin: CheckInHistory) {
+        withErrorReporting {
+            try database.write { db in
+                try CheckIn.delete(checkin.checkIn).execute(db)
+            }
+        }
+    }
 }
 
-struct CheckinHistoryView: View {
+struct CheckInHistoryView: View {
+    @State private var viewModel = CheckInHistoryViewModel()
+    
     var body: some View {
         List {
-            ForEach(0 ..< 5) { _ in
+            ForEach(viewModel.checkinHistories, id: \.checkIn.id) { checkinHistory in
                 HStack(spacing: 16) {
                     // Habit Icon
-                    Image(systemName: "checkmark.circle.fill")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(.blue)
+                    Text(checkinHistory.habitIcon)
+                        .font(.system(size: 32))
 
                     // Habit Info
                     VStack(alignment: .leading) {
-                        Text("Habit Name Placeholder")
+                        Text(checkinHistory.habitName)
                             .font(.headline)
-                        Text("Checked in at 9:00 AM")
+                        Text(checkinHistory.checkIn.date, style: .date)
                             .font(.subheadline)
                             .foregroundColor(.gray)
                     }
 
                     Spacer() // Push buttons to the right
 
-                    // Edit Button
-                    Button(action: {
-                        // Edit action here
-                    }) {
-                        Image(systemName: "pencil")
-                            .foregroundColor(.gray)
-                    }
-
                     // Delete Button
                     Button(action: {
-                        // Delete action here
+                        viewModel.onTapDeleteCheckin(checkinHistory)
                     }) {
                         Image(systemName: "trash")
                             .foregroundColor(.red)
                     }
+                    .buttonStyle(.borderless)
                 }
                 .padding(.vertical, 8)
             }
         }
-        .navigationTitle("Checkin History")
+        .navigationTitle("Check in History")
         .navigationBarTitleDisplayMode(.inline)
     }
 }

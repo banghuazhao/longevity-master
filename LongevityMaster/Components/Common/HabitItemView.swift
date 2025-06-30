@@ -30,7 +30,6 @@ struct HabitItemView: View {
                 HStack(spacing: 5) {
                     Text(todayHabit.habit.icon)
                         .font(.system(size: 32))
-                        .foregroundColor(todayHabit.isCompleted ? .white : Color(hex: todayHabit.habit.color))
                     
                     VStack(alignment: .leading) {
                         Text(todayHabit.habit.name + (todayHabit.habit.isFavorite ? " ❤️" : ""))

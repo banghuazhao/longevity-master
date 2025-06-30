@@ -93,7 +93,7 @@ private var moreFeatureView: some View {
 
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 20) {
             // Placeholder feature items
-            NavigationLink(destination: CheckinHistoryView()) {
+            NavigationLink(destination: CheckInHistoryView()) {
                     featureItem(icon: "clock", title: "Checkin History")
                 }
             NavigationLink(destination: RemindersView()) {

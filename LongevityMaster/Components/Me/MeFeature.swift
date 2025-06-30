@@ -10,9 +10,34 @@ struct MeView: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 20) {
-                    moreView
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack(spacing: 20) {
+                        moreFeatureView
+                        moreView
+                        Spacer(minLength: geometry.size.height / 4) // Push footer lower
+
+                        VStack(spacing: 4) {
+                            Text("Longevity Master  |  Healthy Habits for Long Life")
+                                .font(.footnote)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.gray)
+
+                            Button {
+                                if let url = URL(string: "https://apps.apple.com/app/id\(Constants.AppID.longevityMasterID)") {
+                                    openURL(url)
+                                }
+                            } label: {
+                                Text("v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")  Check for Updates")
+                                    .font(.footnote)
+                                    .foregroundColor(.gray)
+                                    .underline()
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.bottom, 50)
+                    }
+                    .frame(minHeight: geometry.size.height) // make VStack take full height
                 }
             }
             .navigationTitle("Longevity Master")
@@ -22,8 +47,12 @@ struct MeView: View {
 
     private var moreView: some View {
         
-        VStack(alignment: .leading) {
-            
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Others")
+                      .font(.subheadline)
+                      .fontWeight(.semibold)
+                      .foregroundColor(.secondary)
+
 
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 20) {
                 NavigationLink(destination: MoreAppsView()) {
@@ -52,9 +81,31 @@ struct MeView: View {
                 }
 
             }
-            .padding()
+            .padding(.horizontal)
         }
     }
+private var moreFeatureView: some View {
+    VStack(alignment: .leading, spacing: 16) {
+        Text("More Features")
+            .font(.subheadline)
+            .fontWeight(.semibold)
+            .foregroundColor(.secondary)
+
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 20) {
+            // Placeholder feature items
+            NavigationLink(destination: CheckinHistoryView()) {
+                    featureItem(icon: "clock", title: "Checkin History")
+                }
+            NavigationLink(destination: RemindersView()) {
+                featureItem(icon: "bell", title: "Reminders")
+            }
+            featureItem(icon: "wand.and.stars", title: "Feature 3")
+        }
+    }
+    .padding(.horizontal)
+}
+
+
 
 private func moreItem(icon: String, title: String) -> some View {
     VStack {
@@ -70,8 +121,28 @@ private func moreItem(icon: String, title: String) -> some View {
             .background(Color.white.opacity(0.7)) // Optional: Adds a semi-transparent white background
             .cornerRadius(4) // Optional: Rounds the background edges
     }
+    
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    
+}
+
+private func featureItem(icon: String, title: String) -> some View {
+    VStack {
+        Image(systemName: icon)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 30, height: 30)
+            .foregroundStyle(LinearGradient(gradient: Gradient(colors: [Color.purple, Color.blue]), startPoint: .top, endPoint: .bottom))
+        Text(title)
+            .font(.caption)
+            .foregroundColor(.black)
+            .padding(.horizontal, 4)
+            .background(Color.white.opacity(0.7))
+            .cornerRadius(4)
+    }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
 }
+
 
 #Preview {
     MeView()

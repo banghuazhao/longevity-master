@@ -175,7 +175,7 @@ struct HabitsDataStore {
             frequencyDetail: "1,7,14,21,28",
             antiAgingRating: 2,
             icon: "☀️",
-            color: 0xF1C40FCC,
+            color: 0xD9D9D999,
             note: "Spend 10-15 minutes in sunlight for vitamin D, with sunscreen if needed."
         ),
         Habit(

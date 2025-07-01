@@ -14,7 +14,7 @@ struct HabitsDataStore {
         frequencyDetail: "3",
         antiAgingRating: 4,
         icon: "🐟",
-        color: 0x2ECC71,
+        color: 0xB6E66B99,
         note: "Consume a 4-6 oz portion of salmon for omega-3 fatty acids."
     )
     
@@ -26,7 +26,7 @@ struct HabitsDataStore {
         frequencyDetail: "1,3,5",
         antiAgingRating: 5,
         icon: "🏊‍♂️",
-        color: 0x4ECDC4,
+        color: 0xFBC5A999,
         note: "Swimming improves cardiovascular health, builds muscle strength, reduces stress, enhances flexibility, and is low-impact, suitable for all ages."
     )
     
@@ -38,7 +38,7 @@ struct HabitsDataStore {
         frequencyDetail: "7",
         antiAgingRating: 5,
         icon: "😴",
-        color: 0x34495E,
+        color: 0xFF6B6B99,
         note: "Maintain a consistent sleep schedule with 7-9 hours of rest."
     )
     
@@ -54,7 +54,7 @@ struct HabitsDataStore {
             frequencyDetail: "4",
             antiAgingRating: 4,
             icon: "🥬",
-            color: 0x27AE60CC,
+            color: 0xD9D9D999,
             note: "Include kale in meals for antioxidants and vitamins."
         ),
         Habit(
@@ -65,7 +65,7 @@ struct HabitsDataStore {
             frequencyDetail: "5",
             antiAgingRating: 4,
             icon: "🍓",
-            color: 0xE74C3CCC,
+            color:  0xA084E899,
             note: "Eat a handful of blueberries or strawberries for antioxidants."
         ),
         Habit(
@@ -76,7 +76,7 @@ struct HabitsDataStore {
             frequencyDetail: "7",
             antiAgingRating: 2,
             icon: "☕",
-            color: 0x219653CC,
+            color: 0xE0FFFF99,
             note: "Drink 1-2 cups of green tea for polyphenols and hydration."
         ),
         Habit(
@@ -175,7 +175,7 @@ struct HabitsDataStore {
             frequencyDetail: "1,7,14,21,28",
             antiAgingRating: 2,
             icon: "☀️",
-            color: 0xF1C40FCC,
+            color: 0xD9D9D999,
             note: "Spend 10-15 minutes in sunlight for vitamin D, with sunscreen if needed."
         ),
         Habit(

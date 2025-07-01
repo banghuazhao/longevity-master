@@ -13,6 +13,9 @@ import SwiftUI
 @MainActor
 class HabitFormViewModel: HashableObject {
     var habit: Habit.Draft
+    
+    var draftReminders: [Reminder.Draft] = []
+    private var originalReminderIDs: Set<Int> = []
 
     var todayHabit: TodayHabit {
         let frequencyDescription: String? = switch habit.frequency {
@@ -30,12 +33,17 @@ class HabitFormViewModel: HashableObject {
     enum Route: Equatable {
         case editHabitIcon
         case habitsGallery
+        case addReminder(ReminderFormViewModel)
+        case editReminder(ReminderFormViewModel)
     }
 
     var route: Route?
 
     @ObservationIgnored
     @Dependency(\.defaultDatabase) var database
+    
+    @ObservationIgnored
+    @Dependency(\.notificationService) var notificationService
 
     var showTitleEmptyToast = false
     let isEdit: Bool
@@ -48,6 +56,19 @@ class HabitFormViewModel: HashableObject {
         self.habit = habit
         self.onSaveHabit = onSaveHabit
         isEdit = habit.id != nil
+        if let habitID = habit.id, isEdit {
+            if let reminders = try? appDatabase().read({ db in
+                try Reminder
+                    .where { $0.habitID.eq(habitID) }
+                    .fetchAll(db)
+            }) {
+                self.draftReminders = reminders.map { Reminder.Draft($0) }
+                self.originalReminderIDs = Set(reminders.map { $0.id })
+            }
+        } else {
+            self.draftReminders = []
+            self.originalReminderIDs = []
+        }
     }
 
     func toggleWeekDay(_ weekDay: WeekDays) {
@@ -103,16 +124,52 @@ class HabitFormViewModel: HashableObject {
         route = .editHabitIcon
     }
 
-    func onTapSaveHabit() -> Bool {
+    func onTapSaveHabit() async -> Bool {
         guard !habit.name.isEmpty else {
             showTitleEmptyToast = true
             return false
         }
-        withErrorReporting {
-            try database.write { db in
+        await withErrorReporting {
+            let updatedHabit = try await database.write { [habit] db in
                 try Habit
                     .upsert(habit)
-                    .execute(db)
+                    .returning { $0 }
+                    .fetchOne(db)
+            }
+            
+            guard let updatedHabit else { return }
+            
+            for var draftReminder in draftReminders {
+                draftReminder.habitID = updatedHabit.id
+                draftReminder.title = "\(updatedHabit.icon) \(updatedHabit.name)"
+                let reminder = try await database.write { [draftReminder] db in
+                    try Reminder
+                        .upsert(draftReminder)
+                        .returning { $0 }
+                        .fetchOne(db)
+                }
+                
+                if let reminder {
+                    await notificationService.scheduleReminder(reminder)
+                }
+            }
+            
+            let currentIDs = Set(draftReminders.compactMap { $0.id })
+            let toDelete = originalReminderIDs.subtracting(currentIDs)
+            for id in toDelete {
+                let reminderToDelete = try await database.read { db in
+                    try Reminder
+                        .where { $0.id.eq(id) }
+                        .fetchOne(db)
+                }
+                if let reminderToDelete {
+                    try await database.write { db in
+                        try Reminder
+                            .delete(reminderToDelete)
+                            .execute(db)
+                    }
+                    notificationService.removeReminder(reminderToDelete)
+                }
             }
         }
         onSaveHabit?(habit)
@@ -121,6 +178,47 @@ class HabitFormViewModel: HashableObject {
 
     func onTapGallery() {
         route = .habitsGallery
+    }
+    
+    func onTapAddReminder() {
+        route = .addReminder(
+            ReminderFormViewModel(
+                reminder: Reminder.Draft(),
+                onSave: { [weak self] draft in
+                    guard let self else { return }
+                    draftReminders.append(draft)
+                    route = nil
+                }
+            )
+        )
+    }
+    
+    func onTapEditReminder(_ reminder: Reminder.Draft) {
+        route = .editReminder(
+            ReminderFormViewModel(
+                reminder: reminder,
+                onSave: { [weak self] updatedDraft in
+                    guard let self else { return }
+                    if let idx = draftReminders.firstIndex(where: { $0.id == updatedDraft.id }) {
+                        draftReminders[idx] = updatedDraft
+                    }
+                    route = nil
+                },
+                onDelete: { [weak self] reminder in
+                    guard let self else { return }
+                    if let idx = draftReminders.firstIndex(where: { $0.id == reminder.id }) {
+                        draftReminders.remove(at: idx)
+                    }
+                    route = nil
+                }
+            )
+        )
+    }
+    
+    func onTapDeleteReminder(_ reminder: Reminder.Draft) {
+        if let idx = draftReminders.firstIndex(where: { $0.id == reminder.id }) {
+            draftReminders.remove(at: idx)
+        }
     }
 }
 
@@ -373,8 +471,48 @@ struct HabitFormView: View {
                                     .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                             )
                     }
+                    
+                    // Reminders Section
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack {
+                            Image(systemName: "bell.fill")
+                            Text("Reminders")
+                                .fontWeight(.semibold)
+                            Spacer()
+                            Button("Add Reminder") {
+                                viewModel.onTapAddReminder()
+                            }
+                            .font(.subheadline)
+                            .foregroundColor(.blue)
+                        }
+                        
+                        if viewModel.draftReminders.isEmpty {
+                            Text("No reminders set for this habit")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.gray.opacity(0.1))
+                                .cornerRadius(8)
+                        } else {
+                            VStack(spacing: 8) {
+                                ForEach(viewModel.draftReminders, id: \ .id) { draft in
+                                    ReminderDraftRow(
+                                        reminder: draft,
+                                        onDelete: {
+                                            viewModel.onTapDeleteReminder(draft)
+                                        }
+                                    )
+                                    .onTapGesture {
+                                        viewModel.onTapEditReminder(draft)
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 .padding()
+                .padding(.bottom, 40)
             }
             .navigationTitle(
                 viewModel.isEdit
@@ -391,8 +529,10 @@ struct HabitFormView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(viewModel.isEdit ? "Update" : "Save") {
-                        if viewModel.onTapSaveHabit() {
-                            dismiss()
+                        Task {
+                            if await viewModel.onTapSaveHabit() {
+                                dismiss()
+                            }
                         }
                     }
                 }
@@ -401,6 +541,22 @@ struct HabitFormView: View {
                 viewModel.onChangeOfHabitFrequency()
             }
             .easyToast(isPresented: $viewModel.showTitleEmptyToast, message: "Habit name is empty")
+            .sheet(isPresented: Binding($viewModel.route.addReminder)) {
+                if case .addReminder(let formViewModel) = viewModel.route {
+                    ReminderFormView(viewModel: formViewModel) 
+                        .presentationDetents([.medium])
+                        .presentationDragIndicator(.visible)
+                        .presentationBackgroundInteraction(.enabled)
+                }
+            }
+            .sheet(isPresented: Binding($viewModel.route.editReminder)) {
+                if case .editReminder(let formViewModel) = viewModel.route {
+                    ReminderFormView(viewModel: formViewModel)
+                        .presentationDetents([.medium])
+                        .presentationDragIndicator(.visible)
+                        .presentationBackgroundInteraction(.enabled)
+                }
+            }
         }
     }
 }

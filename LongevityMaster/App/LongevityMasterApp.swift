@@ -8,6 +8,8 @@ import SwiftUI
 
 @main
 struct LongevityMasterApp: App {
+    @State private var hasRequestedPermissions = false
+    
     init() {
         prepareDependencies {
             $0.defaultDatabase = try! appDatabase()
@@ -32,6 +34,15 @@ struct LongevityMasterApp: App {
                         Label("Me", systemImage: "person.fill")
                     }
             }
+            .task {
+                await requestNotificationPermissions()
+            }
         }
+    }
+    
+    private func requestNotificationPermissions() async {
+        @Dependency(\.notificationService) var notificationService
+        await notificationService.requestPermission()
+        await notificationService.printAllNotifications()
     }
 }

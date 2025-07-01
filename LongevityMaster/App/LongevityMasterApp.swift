@@ -8,6 +8,7 @@ import SwiftUI
 
 @main
 struct LongevityMasterApp: App {
+    @AppStorage("darkModeEnabled") private var darkModeEnabled: Bool = false
     @State private var hasRequestedPermissions = false
     
     init() {
@@ -34,6 +35,7 @@ struct LongevityMasterApp: App {
                         Label("Me", systemImage: "person.fill")
                     }
             }
+            .preferredColorScheme(darkModeEnabled ? .dark : .light)
             .task {
                 await requestNotificationPermissions()
             }

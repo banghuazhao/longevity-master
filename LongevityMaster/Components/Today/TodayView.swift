@@ -8,6 +8,7 @@ import SwiftUI
 import SwiftUINavigation
 
 struct TodayView: View {
+    @AppStorage("startWeekOnMonday") private var startWeekOnMonday: Bool = true
     @State var viewModel = TodayViewModel()
 
     var body: some View {
@@ -74,6 +75,9 @@ struct TodayView: View {
                     }
                 }
             }
+        }
+        .onChange(of: startWeekOnMonday) { _, _ in
+            viewModel = TodayViewModel()
         }
     }
 }

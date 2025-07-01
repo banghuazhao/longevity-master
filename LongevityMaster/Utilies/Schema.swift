@@ -71,6 +71,20 @@ func appDatabase() throws -> any DatabaseWriter {
             """
         )
         .execute(db)
+        
+        try #sql(
+            """
+            CREATE TABLE "reminders" (
+             "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+             "title" TEXT NOT NULL DEFAULT '',
+             "body" TEXT NOT NULL DEFAULT '',
+             "time" TEXT NOT NULL DEFAULT '',
+             "habitID" INTEGER REFERENCES "habits"("id") ON DELETE CASCADE,
+             "notificationID" TEXT NOT NULL DEFAULT ''
+            ) STRICT
+            """
+        )
+        .execute(db)
     }
     #if DEBUG
         migrator.registerMigration("Seed database") { db in
@@ -81,6 +95,13 @@ func appDatabase() throws -> any DatabaseWriter {
             }
         }
     #endif
+    
+    migrator.registerMigration("Add default daily reminder") { db in
+        let defaultTime = Calendar.current.date(from: DateComponents(hour: 9, minute: 0)) ?? Date()
+        var defaultReminder = Reminder.Draft()
+        defaultReminder.time = defaultTime
+        try Reminder.upsert(defaultReminder).execute(db)
+    }
 
     try migrator.migrate(database)
 

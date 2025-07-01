@@ -7,39 +7,41 @@ import SwiftUINavigation
 @MainActor
 class HabitDetailViewModel {
     var habit: Habit
-    
+
     @ObservationIgnored
-    @FetchAll(CheckIn.all, animation: .default) var allCheckIns: [CheckIn]
+    @FetchAll(CheckIn.all, animation: .default) var allCheckIns
+
+    @ObservationIgnored
+    @FetchAll(Reminder.all, animation: .default) var allReminders
 
     @ObservationIgnored
     @Dependency(\.defaultDatabase) var database
 
     @ObservationIgnored
     @Dependency(\.calendar) var calendar
+    
+    @ObservationIgnored
+    @Dependency(\.notificationService) var notificationService
 
     var selectedMonth: Date = Date()
     var selectedYear: Int = Calendar.current.component(.year, from: Date())
-    
+
     enum CalendarMode: String, CaseIterable, Identifiable {
         case monthly = "Monthly"
         case yearly = "Yearly"
         var id: String { rawValue }
     }
+
     var calendarMode: CalendarMode = .monthly
 
     @CasePathable
     enum Route {
         case editHabit(HabitFormViewModel)
         case deleteAlert
+        case editReminder(ReminderFormViewModel)
     }
+
     var route: Route?
-
-    var showFavoriteInfo: Bool = false
-    var showArchivedInfo: Bool = false
-
-    init(habit: Habit) {
-        self.habit = habit
-    }
 
     var checkIns: [CheckIn] {
         allCheckIns.filter { $0.habitID == habit.id }
@@ -50,6 +52,17 @@ class HabitDetailViewModel {
             isCompleted: true,
             streakDescription: habit.frequencyDescription
         )
+    }
+
+    var reminders: [Reminder.Draft] {
+        allReminders.filter { $0.habitID == habit.id }.map(Reminder.Draft.init)
+    }
+
+    var showFavoriteInfo: Bool = false
+    var showArchivedInfo: Bool = false
+
+    init(habit: Habit) {
+        self.habit = habit
     }
 
     var monthTitle: String {
@@ -118,10 +131,9 @@ class HabitDetailViewModel {
         if let checkIn = checkIns.first(
             where: {
                 $0.date >= startOfDay &&
-                $0.date <= endOfDay &&
-                $0.habitID == habit.id
-            })
-        {
+                    $0.date <= endOfDay &&
+                    $0.habitID == habit.id
+            }) {
             // Remove check-in
             withErrorReporting {
                 try database.write { db in
@@ -140,7 +152,7 @@ class HabitDetailViewModel {
         print("Toggle check-in called")
         Haptics.vibrateIfEnabled()
     }
-    
+
     func onTapEditHabit() {
         route = .editHabit(
             HabitFormViewModel(
@@ -151,11 +163,11 @@ class HabitDetailViewModel {
             }
         )
     }
-    
+
     func onTapDeleteHabit() {
         route = .deleteAlert
     }
-    
+
     func deleteHabit() {
         withErrorReporting {
             try database.write { db in
@@ -176,19 +188,73 @@ class HabitDetailViewModel {
         }
         return result
     }
+
     func previousYear() {
         selectedYear -= 1
     }
+
     func nextYear() {
         selectedYear += 1
+    }
+
+    func onTapEditReminder(_ reminder: Reminder.Draft) {
+        route = .editReminder(
+            ReminderFormViewModel(
+                reminder: reminder,
+                onSave: { [weak self] reminderDraft in
+                    guard let self else { return }
+                    onUpdateReminder(reminderDraft)
+                    route = nil
+                },
+                onDelete: { [weak self] reminderDraft in
+                    guard let self else { return }
+                    onDeleteReminder(reminderDraft)
+                    route = nil
+                }
+            )
+        )
+    }
+
+    func onTapDeleteReminder(_ reminder: Reminder.Draft) {
+        onDeleteReminder(reminder)
+    }
+    
+    private func onUpdateReminder(_ reminder: Reminder.Draft) {
+        Task {
+            await withErrorReporting {
+                let updatedReminder = try await database.write { db in
+                    try Reminder.upsert(reminder).returning(\.self).fetchOne(db)
+                }
+                if let updatedReminder {
+                    await notificationService.scheduleReminder(updatedReminder)
+                }
+            }
+        }
+    }
+    
+    private func onDeleteReminder(_ reminder: Reminder.Draft) {
+        Task {
+            await withErrorReporting {
+                guard let reminderID = reminder.id else { return }
+                let reminderToDelete = try await database.read { db in
+                    try Reminder.find(reminderID).fetchOne(db)
+                }
+                if let reminderToDelete {
+                    notificationService.removeReminder(reminderToDelete)
+                    try await database.write { db in
+                        try Reminder.delete(reminderToDelete).execute(db)
+                    }
+                }
+            }
+        }
     }
 }
 
 struct HabitDetailView: View {
     @State var viewModel: HabitDetailViewModel
-    
+
     @Environment(\.dismiss) var dismiss
-    
+
     var body: some View {
         ScrollView {
             VStack(spacing: 12) {
@@ -200,7 +266,7 @@ struct HabitDetailView: View {
                 if !viewModel.habit.note.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     NoteSection(note: viewModel.habit.note)
                 }
-                
+
                 // Segmented control for calendar mode
                 Picker("Mode", selection: $viewModel.calendarMode) {
                     ForEach(HabitDetailViewModel.CalendarMode.allCases) { mode in
@@ -208,7 +274,7 @@ struct HabitDetailView: View {
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                
+
                 if viewModel.calendarMode == .monthly {
                     // Calendar
                     VStack(spacing: 12) {
@@ -236,7 +302,7 @@ struct HabitDetailView: View {
                                     .foregroundColor(.secondary)
                             }
                         }
-                        
+
                         // Calendar grid
                         LazyVGrid(
                             columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 8
@@ -270,7 +336,7 @@ struct HabitDetailView: View {
                                     .font(.subheadline)
                             }
                         }
-                        
+
                         // Yearly grid
                         YearlyCalendarGrid(
                             year: viewModel.selectedYear,
@@ -279,12 +345,36 @@ struct HabitDetailView: View {
                         )
                     }
                 }
-               
+
                 // Favorite toggle with info dropdown
                 FavoriteToggleWithInfo(isOn: $viewModel.habit.isFavorite)
-                
+
                 // Archived toggle with info dropdown
                 ArchivedToggleWithInfo(isOn: $viewModel.habit.isArchived)
+
+                // Reminders Section
+
+                if !viewModel.reminders.isEmpty {
+                    HStack {
+                        Image(systemName: "bell.fill")
+                        Text("Reminders")
+                            .fontWeight(.semibold)
+                        Spacer()
+                    }
+                    VStack(spacing: 8) {
+                        ForEach(viewModel.reminders, id: \.id) { reminder in
+                            ReminderDraftRow(
+                                reminder: reminder,
+                                onDelete: {
+                                    viewModel.onTapDeleteReminder(reminder)
+                                }
+                            )
+                            .onTapGesture {
+                                viewModel.onTapEditReminder(reminder)
+                            }
+                        }
+                    }
+                }
             }
             .padding(.horizontal)
             .padding(.bottom)
@@ -296,7 +386,7 @@ struct HabitDetailView: View {
                 } label: {
                     Image(systemName: "trash")
                 }
-                
+
                 Button {
                     viewModel.onTapEditHabit()
                 } label: {
@@ -338,7 +428,7 @@ struct CalendarDayCell: View {
                         .fill(isChecked ? Color.accentColor : Color.clear)
                         .stroke(Color.black, lineWidth: isToday ? 2 : 0)
                         .frame(width: 32, height: 32)
-                    
+
                     Text("\(Calendar.current.component(.day, from: day))")
                         .font(.body)
                         .foregroundColor(isCurrentMonth ? (isChecked ? .white : .primary) : .gray)
@@ -357,20 +447,20 @@ struct YearlyCalendarGrid: View {
     let year: Int
     let checkInsByMonth: [Int: Set<Int>]
     let calendar: Calendar
-    
+
     var body: some View {
         LazyVGrid(
             columns: [GridItem(.fixed(30))] + Array(repeating: GridItem(.flexible(minimum: 8, maximum: 20), spacing: 2), count: 31),
             spacing: 10
         ) {
-            ForEach(1...12, id: \ .self) { month in
+            ForEach(1 ... 12, id: \ .self) { month in
                 Text(shortMonthName(for: month))
                     .font(.caption)
                     .frame(width: 30, alignment: .trailing)
                     .lineLimit(1)
                     .minimumScaleFactor(0.4)
-                
-                ForEach(1...31, id: \ .self) { day in
+
+                ForEach(1 ... 31, id: \ .self) { day in
                     if day <= daysCount(for: month) {
                         Circle()
                             .fill(checkInsByMonth[month]?.contains(day) == true ? Color.accentColor : Color(.systemGray5))
@@ -381,10 +471,12 @@ struct YearlyCalendarGrid: View {
             }
         }
     }
+
     func daysCount(for month: Int) -> Int {
         let comps = DateComponents(year: year, month: month)
         return calendar.range(of: .day, in: .month, for: calendar.date(from: comps)!)?.count ?? 30
     }
+
     func shortMonthName(for month: Int) -> String {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
@@ -469,8 +561,8 @@ private struct NoteSection: View {
                 .font(.footnote)
                 .foregroundColor(.primary)
                 .lineLimit(expanded ? nil : 2)
-                
-            if note.count > 100  {
+
+            if note.count > 100 {
                 Button {
                     withAnimation {
                         expanded.toggle()
@@ -483,13 +575,12 @@ private struct NoteSection: View {
                 .buttonStyle(.plain)
             }
         }
-        .padding(.vertical ,8)
-        .padding(.horizontal ,12)
+        .padding(.vertical, 8)
+        .padding(.horizontal, 12)
         .background(Color.gray.opacity(0.08))
         .cornerRadius(10)
     }
 }
-
 
 private struct SizePreferenceKey: PreferenceKey {
     static var defaultValue: CGFloat = 0

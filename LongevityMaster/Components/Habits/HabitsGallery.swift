@@ -29,6 +29,7 @@ struct HabitsGalleryView: View {
                             HabitItemView(
                                 todayHabit: habitNew.toTodayHabit(),
                                 onTap: {
+                                    Haptics.vibrateIfEnabled()
                                     habit = habitNew.newHabitDraft
                                 }
                             )

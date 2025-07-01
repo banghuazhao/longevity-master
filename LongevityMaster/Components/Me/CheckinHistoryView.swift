@@ -45,37 +45,52 @@ struct CheckInHistoryView: View {
     @State private var viewModel = CheckInHistoryViewModel()
     
     var body: some View {
-        List {
-            ForEach(viewModel.checkinHistories, id: \.checkIn.id) { checkinHistory in
-                HStack(spacing: 16) {
-                    // Habit Icon
-                    Text(checkinHistory.habitIcon)
-                        .font(.system(size: 32))
-
-                    // Habit Info
-                    VStack(alignment: .leading) {
-                        Text(checkinHistory.habitName)
-                            .font(.headline)
-                        Text(checkinHistory.checkIn.date, style: .date)
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                    }
-
-                    Spacer() // Push buttons to the right
-
-                    // Delete Button
-                    Button(action: {
-                        viewModel.onTapDeleteCheckin(checkinHistory)
-                    }) {
-                        Image(systemName: "trash")
-                            .foregroundColor(.red)
-                    }
-                    .buttonStyle(.borderless)
+        Group {
+            if viewModel.checkinHistories.isEmpty {
+                VStack(spacing: 12) {
+                    Image(systemName: "clock.arrow.circlepath")
+                        .font(.system(size: 48))
+                        .foregroundColor(.gray)
+                    Text("Start checking in to track your habits!")
+                        .font(.body)
+                        .foregroundColor(.gray)
                 }
-                .padding(.vertical, 8)
+                .padding(.top, 80)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                List {
+                    ForEach(viewModel.checkinHistories, id: \.checkIn.id) { checkinHistory in
+                        HStack(spacing: 16) {
+                            // Habit Icon
+                            Text(checkinHistory.habitIcon)
+                                .font(.system(size: 32))
+
+                            // Habit Info
+                            VStack(alignment: .leading) {
+                                Text(checkinHistory.habitName)
+                                    .font(.headline)
+                                Text(checkinHistory.checkIn.date, style: .date)
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+
+                            Spacer()
+
+                            // Delete Button
+                            Button(action: {
+                                viewModel.onTapDeleteCheckin(checkinHistory)
+                            }) {
+                                Image(systemName: "trash")
+                                    .foregroundColor(.red)
+                            }
+                            .buttonStyle(.borderless)
+                        }
+                        .padding(.vertical, 8)
+                    }
+                }
             }
         }
-        .navigationTitle("Check in History")
+        .navigationTitle("Check-in History")
         .navigationBarTitleDisplayMode(.inline)
     }
 }

@@ -99,7 +99,9 @@ private var moreFeatureView: some View {
             NavigationLink(destination: RemindersView()) {
                 featureItem(icon: "bell", title: "Reminders")
             }
-            featureItem(icon: "wand.and.stars", title: "Feature 3")
+            NavigationLink(destination: SettingView()) {
+                featureItem(icon: "wand.and.stars", title: "Settings")
+            }
         }
     }
     .padding(.horizontal)

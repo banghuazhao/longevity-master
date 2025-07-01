@@ -144,6 +144,8 @@ class TodayViewModel {
     }
 
     func onTapHabitItem(_ todayHabit: TodayHabit) {
+        Haptics.vibrateIfEnabled()
+        SoundPlayer.playCheckinSound()
         withErrorReporting {
             if todayHabit.isCompleted {
                 try dataBase.write { [selectedDate, calendar] db in

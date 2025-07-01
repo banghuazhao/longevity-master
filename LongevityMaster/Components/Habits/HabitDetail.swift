@@ -137,6 +137,8 @@ class HabitDetailViewModel {
                 }
             }
         }
+        print("Toggle check-in called")
+        Haptics.vibrateIfEnabled()
     }
     
     func onTapEditHabit() {

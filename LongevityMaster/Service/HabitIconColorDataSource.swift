@@ -7,34 +7,35 @@ import Foundation
 
 struct HabitIconColorDataSource {
     static let colors: [Int] = [
-        0x2ECC71CC, // Green - Eat Salmon with 80% opacity
-        0x4ECDC4CC, // Teal - Swimming with 80% opacity
-        0x34495ECC, // Blue-Gray - Sleep with 80% opacity
-        0xE74C3CCC, // Red - Eat Berries with 80% opacity
-        0x219653CC, // Green - Drink Green Tea with 80% opacity
-        0x3498DBCC, // Blue - Strength Training with 80% opacity
-        0x2980B9CC, // Blue - Brisk Walking with 80% opacity
-        0x5DADE2CC, // Blue - Yoga or Stretching with 80% opacity
-        0x8E44ADCC, // Purple - Meditate with 80% opacity
-        0x9B59B6CC, // Purple - Connect Socially with 80% opacity
-        0x2C3E50CC, // Dark Blue - Bedtime Routine with 80% opacity
-        0x566573CC, // Gray - Short Nap with 80% opacity
-        0xF1C40FCC, // Yellow - Sun Exposure with 80% opacity
-        0xD4AC0DCC, // Yellow - Limit Alcohol with 80% opacity
-        0xF5E8C7CC, // Light Peach with 80% opacity
-        0xE6E6FACC, // Lavender with 80% opacity
-        0xD1E0FFCC, // Light Slate Blue with 80% opacity
-        0xFFE4B5CC, // Peach Puff with 80% opacity
-        0xE0FFFFCC, // Light Cyan with 80% opacity
-        0xF0E68CCC, // Light Khaki with 80% opacity
-        0xFFB6C1CC, // Light Pink with 80% opacity
-        0xADD8E6CC, // Light Blue with 80% opacity
-        0xF0FFF0CC, // Honeydew with 80% opacity
-        0xFAEBD7CC, // Antique White with 80% opacity
-        0xD8BFD8CC, // Thistle with 80% opacity
-        0xF0F8FFCC, // Alice Blue with 80% opacity
-        0xFFE4E1CC, // Misty Rose with 80% opacity
+        0xFF6B6B99, // Vibrant Red
+        0xFF9F4099, // Bright Coral
+        0xFFA77299, // Warm Peach
+        0xFFD18C99, // Soft Orange
+        0xFFEFC8CC, // Warm Yellow
+        0xB6E66B99, // Lime Green
+        0x6BD67E99, // Fresh Green
+        0x4DD0AE99, // Teal Mint
+        0x1AB3C199, // Ocean Blue
+        0x5DADE299, // Blue Gray
+        0x5499C799, // Sky Blue
+        0x7289DA99, // Indigo Blue
+        0xA084E899, // Soft Violet
+        0xC084F599, // Lavender Purple
+        0xE084C699, // Orchid Pink
+        0xF39CC399, // Blush Rose
+        0xFBC5A999, // Light Apricot
+        0xF9E79F99, // Pale Yellow
+        0xA8DADC99, // Calm Cyan
+        0xE6D2D599, // Pale Pink
+        0xD3CCE399, // Cool Lavender
+        0xBFD8B899, // Minty Gray
+        0xCCDDEE99, // Light Slate Blue
+        0xD9D9D999, // Neutral Soft Gray
+        0xFFE4E199, // Misty Rose
+        0xFFF5E199, // Light Cream
+        0xE0FFFF99, // Ice Blue
     ]
+
 
     static func getColor(at index: Int) -> Int? {
         guard index >= 0 && index < colors.count else { return nil }

@@ -12,6 +12,7 @@ struct HabitItemView: View {
 
     var body: some View {
         Button(action: {
+            Haptics.vibrateIfEnabled()
             onTap()
         }) {
             ZStack {

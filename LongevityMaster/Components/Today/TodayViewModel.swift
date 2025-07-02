@@ -48,11 +48,16 @@ class TodayViewModel {
     
     @ObservationIgnored
     @Dependency(\.achievementService) var achievementService
-
+    
+    @ObservationIgnored
+    @Shared(.appStorage("startWeekOnMonday")) private var startWeekOnMonday: Bool = true
+    
+    @ObservationIgnored
+    @Dependency(\.soundPlayer) private var soundPlayer
+    
     var userCalendar: Calendar {
         var cal = Calendar.current
-        let startMonday = UserDefaults.standard.bool(forKey: "startWeekOnMonday")
-        cal.firstWeekday = startMonday ? 2 : 1 // 2 = Monday, 1 = Sunday
+        cal.firstWeekday = startWeekOnMonday ? 2 : 1 // 2 = Monday, 1 = Sunday
         return cal
     }
 
@@ -152,7 +157,6 @@ class TodayViewModel {
 
     func onTapHabitItem(_ todayHabit: TodayHabit) {
         Haptics.vibrateIfEnabled()
-        SoundPlayer.playCheckinSound()
         withErrorReporting {
             if todayHabit.isCompleted {
                 try dataBase.write { [selectedDate, userCalendar] db in
@@ -167,6 +171,9 @@ class TodayViewModel {
                         .delete()
                         .execute(db)
                 }
+                Task {
+                    await soundPlayer.playCancelCheckinSound()
+                }
             } else {
                 try dataBase.write { [selectedDate] db in
                     let checkIn = CheckIn.Draft(date: selectedDate, habitID: todayHabit.habit.id)
@@ -178,6 +185,9 @@ class TodayViewModel {
                             await achievementService.checkAchievementsAndShow(for: savedCheckIn)
                         }
                     }
+                }
+                Task {
+                    await soundPlayer.playCheckinSound()
                 }
             }
         }

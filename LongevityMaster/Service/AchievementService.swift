@@ -21,10 +21,12 @@ class AchievementService {
     @ObservationIgnored
     @FetchAll(Habit.all, animation: .default) var allHabits
     
+    @ObservationIgnored
+    @Shared(.appStorage("startWeekOnMonday")) private var startWeekOnMonday: Bool = true
+
     var userCalendar: Calendar {
         var cal = Calendar.current
-        let startMonday = UserDefaults.standard.bool(forKey: "startWeekOnMonday")
-        cal.firstWeekday = startMonday ? 2 : 1 // 2 = Monday, 1 = Sunday
+        cal.firstWeekday = startWeekOnMonday ? 2 : 1 // 2 = Monday, 1 = Sunday
         return cal
     }
     

@@ -31,6 +31,7 @@ struct TodayView: View {
                             ),
                             displayedComponents: .date
                         )
+                        .environment(\.calendar, viewModel.userCalendar)
                         .labelsHidden()
                         .datePickerStyle(.compact)
                         

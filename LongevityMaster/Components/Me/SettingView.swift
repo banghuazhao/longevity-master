@@ -19,8 +19,8 @@ struct SettingView: View {
                 HStack {
                     Spacer()
                     Picker("Week Start", selection: $startWeekOnMonday) {
-                        Text("Mon").tag(true)
-                        Text("Sun").tag(false)
+                        Text("Monday").tag(true)
+                        Text("Sunday").tag(false)
                     }
                     .pickerStyle(.segmented)
                     .frame(width: 200)
@@ -40,6 +40,6 @@ struct SettingView: View {
             }
         }
         .navigationTitle("Settings")
-        .preferredColorScheme(darkModeEnabled ? .dark : .light) // 
+        .preferredColorScheme(darkModeEnabled ? .dark : .light) //
     }
 }

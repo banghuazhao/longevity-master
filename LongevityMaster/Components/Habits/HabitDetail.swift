@@ -26,6 +26,12 @@ class HabitDetailViewModel {
     @ObservationIgnored
     @Dependency(\.achievementService) var achievementService
 
+    @ObservationIgnored
+    @Shared(.appStorage("startWeekOnMonday")) private var startWeekOnMonday: Bool = true
+    
+    @ObservationIgnored
+    @Dependency(\.soundPlayer) var soundPlayer
+
     var selectedMonth: Date = Date()
     var selectedYear: Int = Calendar.current.component(.year, from: Date())
 
@@ -48,8 +54,7 @@ class HabitDetailViewModel {
 
     var userCalendar: Calendar {
         var cal = Calendar.current
-        let startMonday = UserDefaults.standard.bool(forKey: "startWeekOnMonday")
-        cal.firstWeekday = startMonday ? 2 : 1 // 2 = Monday, 1 = Sunday
+        cal.firstWeekday = startWeekOnMonday ? 2 : 1 // 2 = Monday, 1 = Sunday
         return cal
     }
 
@@ -89,6 +94,9 @@ class HabitDetailViewModel {
     }
 
     var calendarDays: [Date?] {
+        let now = Date()
+        let currentHour = userCalendar.component(.hour, from: now)
+        let currentMinute = userCalendar.component(.minute, from: now)
         let startOfMonth = selectedMonth.startOfMonth(for: userCalendar)
         let range = userCalendar.range(of: .day, in: .month, for: startOfMonth)!
         let numDays = range.count
@@ -96,8 +104,9 @@ class HabitDetailViewModel {
         let firstWeekdayIdx = (firstWeekday - userCalendar.firstWeekday + 7) % 7
         var days: [Date?] = Array(repeating: nil, count: firstWeekdayIdx)
         for day in 1 ... numDays {
-            if let date = userCalendar.date(bySetting: .day, value: day, of: startOfMonth) {
-                days.append(date)
+            if let date = userCalendar.date(bySetting: .day, value: day, of: startOfMonth),
+               let dateWithTime = userCalendar.date(bySettingHour: currentHour, minute: currentMinute, second: 0, of: date) {
+                days.append(dateWithTime)
             }
         }
         // Fill to complete the last week
@@ -150,6 +159,9 @@ class HabitDetailViewModel {
                     try CheckIn.delete(checkIn).execute(db)
                 }
             }
+            Task {
+                await soundPlayer.playCancelCheckinSound()
+            }
         } else {
             // Add check-in
             withErrorReporting {
@@ -163,6 +175,9 @@ class HabitDetailViewModel {
                             await achievementService.checkAchievementsAndShow(for: savedCheckIn)
                         }
                     }
+                }
+                Task {
+                    await soundPlayer.playCheckinSound()
                 }
             }
         }

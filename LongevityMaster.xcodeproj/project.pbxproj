@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41FFF2722E14E9FC004ACA97 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 41FFF2712E14E9FC004ACA97 /* GoogleMobileAds */; };
 		996BA7BB2DF19E3A00A4B9FC /* SharingGRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */; };
 		996BA8C32E0A71CA00A4B9FC /* SwiftUINavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 996BA8C22E0A71CA00A4B9FC /* SwiftUINavigation */; };
 		99774EEA2E1007C20099920F /* EasyToast in Frameworks */ = {isa = PBXBuildFile; productRef = 99774EE92E1007C20099920F /* EasyToast */; };
@@ -40,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41FFF2722E14E9FC004ACA97 /* GoogleMobileAds in Frameworks */,
 				99774EEA2E1007C20099920F /* EasyToast in Frameworks */,
 				996BA8C32E0A71CA00A4B9FC /* SwiftUINavigation in Frameworks */,
 				996BA7BB2DF19E3A00A4B9FC /* SharingGRDB in Frameworks */,
@@ -96,6 +98,7 @@
 				996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */,
 				996BA8C22E0A71CA00A4B9FC /* SwiftUINavigation */,
 				99774EE92E1007C20099920F /* EasyToast */,
+				41FFF2712E14E9FC004ACA97 /* GoogleMobileAds */,
 			);
 			productName = LongevityMaster;
 			productReference = 993A34222DEB1031002CEA39 /* LongevityMaster.app */;
@@ -153,6 +156,7 @@
 				996BA7B92DF19E3A00A4B9FC /* XCRemoteSwiftPackageReference "sharing-grdb" */,
 				996BA8C12E0A71CA00A4B9FC /* XCRemoteSwiftPackageReference "swift-navigation" */,
 				99774EE82E1007C20099920F /* XCRemoteSwiftPackageReference "EasyToast" */,
+				41FFF2142E14E225004ACA97 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 993A34232DEB1031002CEA39 /* Products */;
@@ -338,6 +342,7 @@
 				DEVELOPMENT_TEAM = F694X76A5X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "LongevityMaster/LongevityMaster-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -367,6 +372,7 @@
 				DEVELOPMENT_TEAM = F694X76A5X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "LongevityMaster/LongevityMaster-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -456,6 +462,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		41FFF2142E14E225004ACA97 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.6.0;
+			};
+		};
 		996BA7B92DF19E3A00A4B9FC /* XCRemoteSwiftPackageReference "sharing-grdb" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/sharing-grdb";
@@ -483,6 +497,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		41FFF2712E14E9FC004ACA97 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 41FFF2142E14E225004ACA97 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
 		996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 996BA7B92DF19E3A00A4B9FC /* XCRemoteSwiftPackageReference "sharing-grdb" */;

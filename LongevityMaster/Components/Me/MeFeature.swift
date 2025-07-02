@@ -100,7 +100,7 @@ private var moreFeatureView: some View {
                 featureItem(icon: "bell", title: "Reminders")
             }
             NavigationLink(destination: SettingView()) {
-                featureItem(icon: "wand.and.stars", title: "Settings")
+                featureItem(icon: "gear", title: "Settings")
             }
         }
     }

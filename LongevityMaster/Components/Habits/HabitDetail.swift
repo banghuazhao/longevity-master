@@ -7,9 +7,9 @@ import SwiftUINavigation
 @MainActor
 class HabitDetailViewModel {
     var habit: Habit
-
+    
     @ObservationIgnored
-    @FetchAll(CheckIn.all, animation: .default) var allCheckIns
+    @FetchAll(CheckIn.all, animation: .default) var allCheckIns: [CheckIn]
 
     @ObservationIgnored
     @FetchAll(Reminder.all, animation: .default) var allReminders
@@ -43,6 +43,13 @@ class HabitDetailViewModel {
 
     var route: Route?
 
+    var userCalendar: Calendar {
+        var cal = Calendar.current
+        let startMonday = UserDefaults.standard.bool(forKey: "startWeekOnMonday")
+        cal.firstWeekday = startMonday ? 2 : 1 // 2 = Monday, 1 = Sunday
+        return cal
+    }
+
     var checkIns: [CheckIn] {
         allCheckIns.filter { $0.habitID == habit.id }
     }
@@ -72,21 +79,21 @@ class HabitDetailViewModel {
     }
 
     var weekdaySymbols: [String] {
-        let symbols = calendar.shortWeekdaySymbols
+        let symbols = userCalendar.shortWeekdaySymbols
         // Start from Monday
-        let idx = calendar.firstWeekday - 1
+        let idx = userCalendar.firstWeekday - 1
         return Array(symbols[idx...] + symbols[..<idx])
     }
 
     var calendarDays: [Date?] {
-        let startOfMonth = selectedMonth.startOfMonth(for: calendar)
-        let range = calendar.range(of: .day, in: .month, for: startOfMonth)!
+        let startOfMonth = selectedMonth.startOfMonth(for: userCalendar)
+        let range = userCalendar.range(of: .day, in: .month, for: startOfMonth)!
         let numDays = range.count
-        let firstWeekday = calendar.component(.weekday, from: startOfMonth)
-        let firstWeekdayIdx = (firstWeekday - calendar.firstWeekday + 7) % 7
+        let firstWeekday = userCalendar.component(.weekday, from: startOfMonth)
+        let firstWeekdayIdx = (firstWeekday - userCalendar.firstWeekday + 7) % 7
         var days: [Date?] = Array(repeating: nil, count: firstWeekdayIdx)
         for day in 1 ... numDays {
-            if let date = calendar.date(bySetting: .day, value: day, of: startOfMonth) {
+            if let date = userCalendar.date(bySetting: .day, value: day, of: startOfMonth) {
                 days.append(date)
             }
         }
@@ -99,35 +106,35 @@ class HabitDetailViewModel {
 
     func isToday(day: Date?) -> Bool {
         guard let day = day else { return false }
-        return calendar.isDateInToday(day)
+        return userCalendar.isDateInToday(day)
     }
 
     func isChecked(day: Date?) -> Bool {
         guard let day = day else { return false }
-        return checkIns.contains { calendar.isDate($0.date, inSameDayAs: day) }
+        return checkIns.contains { userCalendar.isDate($0.date, inSameDayAs: day) }
     }
 
     func isCurrentMonth(day: Date?) -> Bool {
         guard let day = day else { return false }
-        return calendar.isDate(day, equalTo: selectedMonth, toGranularity: .month)
+        return userCalendar.isDate(day, equalTo: selectedMonth, toGranularity: .month)
     }
 
     func previousMonth() {
-        if let prev = calendar.date(byAdding: .month, value: -1, to: selectedMonth) {
+        if let prev = userCalendar.date(byAdding: .month, value: -1, to: selectedMonth) {
             selectedMonth = prev
         }
     }
 
     func nextMonth() {
-        if let next = calendar.date(byAdding: .month, value: 1, to: selectedMonth) {
+        if let next = userCalendar.date(byAdding: .month, value: 1, to: selectedMonth) {
             selectedMonth = next
         }
     }
 
     func toggleCheckIn(for day: Date?) {
         guard let day = day, isCurrentMonth(day: day) else { return }
-        let startOfDay = day.startOfDay(for: calendar)
-        let endOfDay = day.endOfDay(for: calendar)
+        let startOfDay = day.startOfDay(for: userCalendar)
+        let endOfDay = day.endOfDay(for: userCalendar)
         if let checkIn = checkIns.first(
             where: {
                 $0.date >= startOfDay &&
@@ -181,7 +188,7 @@ class HabitDetailViewModel {
         // [month: Set<day>]
         var result: [Int: Set<Int>] = [:]
         for checkIn in checkIns {
-            let comps = calendar.dateComponents([.year, .month, .day], from: checkIn.date)
+            let comps = userCalendar.dateComponents([.year, .month, .day], from: checkIn.date)
             if comps.year == year, let month = comps.month, let day = comps.day {
                 result[month, default: []].insert(day)
             }
@@ -341,7 +348,7 @@ struct HabitDetailView: View {
                         YearlyCalendarGrid(
                             year: viewModel.selectedYear,
                             checkInsByMonth: viewModel.yearlyCheckIns(for: viewModel.selectedYear),
-                            calendar: viewModel.calendar
+                            calendar: viewModel.userCalendar
                         )
                     }
                 }

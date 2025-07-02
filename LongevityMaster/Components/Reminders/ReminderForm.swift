@@ -12,27 +12,20 @@ import SharingGRDB
 class ReminderFormViewModel: HashableObject {
     var reminder: Reminder.Draft
     let onSave: ((Reminder.Draft) -> Void)?
-    let onDelete: ((Reminder.Draft) -> Void)?
 
     let isEdit: Bool
     
     init(
         reminder: Reminder.Draft,
-        onSave: ((Reminder.Draft) -> Void)? = nil,
-        onDelete: ((Reminder.Draft) -> Void)? = nil
+        onSave: ((Reminder.Draft) -> Void)? = nil
     ) {
         self.reminder = reminder
         self.onSave = onSave
-        self.onDelete = onDelete
         self.isEdit = reminder.id != nil
     }
     
     func onTapSaveReminder()  {
         onSave?(reminder)
-    }
-    
-    func onDeleteReminder() {
-        onDelete?(reminder)
     }
 }
 
@@ -57,15 +50,8 @@ struct ReminderFormView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
-                        if viewModel.isEdit {
-                            Button("Delete") {
-                                viewModel.onDeleteReminder()
-                                dismiss()
-                            }
-                        } else {
-                            Button("Cancel") {
-                                dismiss()
-                            }
+                        Button("Cancel") {
+                            dismiss()
                         }
                     }
                     ToolbarItem(placement: .topBarTrailing) {

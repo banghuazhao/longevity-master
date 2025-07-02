@@ -17,6 +17,9 @@ class HabitsListViewModel {
     @ObservationIgnored
     @Dependency(\.defaultDatabase) var database
     
+    @ObservationIgnored
+    @Dependency(\.notificationService) var notificationService
+    
     // Add selected category for filtering
     var selectedCategory: HabitCategory? = nil
     
@@ -38,7 +41,8 @@ class HabitsListViewModel {
     
     func confirmDeleteHabit(_ habit: Habit) {
         withErrorReporting {
-            try database.write { db in
+            notificationService.removeRemindersForHabit(habit.id)
+            try  database.write { db in
                 try Habit.delete(habit).execute(db)
             }
         }

@@ -177,6 +177,7 @@ class HabitDetailViewModel {
 
     func deleteHabit() {
         withErrorReporting {
+            notificationService.removeRemindersForHabit(habit.id)
             try database.write { db in
                 try Habit.delete(habit).execute(db)
             }
@@ -211,11 +212,6 @@ class HabitDetailViewModel {
                 onSave: { [weak self] reminderDraft in
                     guard let self else { return }
                     onUpdateReminder(reminderDraft)
-                    route = nil
-                },
-                onDelete: { [weak self] reminderDraft in
-                    guard let self else { return }
-                    onDeleteReminder(reminderDraft)
                     route = nil
                 }
             )
@@ -370,8 +366,9 @@ struct HabitDetailView: View {
                     }
                     VStack(spacing: 8) {
                         ForEach(viewModel.reminders, id: \.id) { reminder in
-                            ReminderDraftRow(
-                                reminder: reminder,
+                            ReminderRow(
+                                time: reminder.time,
+                                title: "Every Day",
                                 onDelete: {
                                     viewModel.onTapDeleteReminder(reminder)
                                 }

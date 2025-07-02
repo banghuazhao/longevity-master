@@ -55,11 +55,6 @@ class RemindersViewModel: HashableObject {
                     guard let self else { return }
                     onUpdateReminder(reminderDraft)
                     route = nil
-                },
-                onDelete: { [weak self] reminderDraft in
-                    guard let self else { return }
-                    onDeleteReminder(reminderDraft)
-                    route = nil
                 }
             )
         )
@@ -176,7 +171,8 @@ struct RemindersView: View {
                 } else {
                     ForEach(viewModel.reminders, id: \.id) { reminder in
                         ReminderRow(
-                            reminder: reminder,
+                            time: reminder.time,
+                            title: reminder.title,
                             onDelete: {
                                 viewModel.onTapDeleteReminder(reminder)
                             }

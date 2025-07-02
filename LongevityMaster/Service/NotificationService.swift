@@ -6,6 +6,7 @@
 import Dependencies
 import Foundation
 import UserNotifications
+import SharingGRDB
 
 @Observable
 class NotificationService {
@@ -70,6 +71,23 @@ class NotificationService {
     func removeReminder(_ reminder: Reminder) {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [reminder.notificationID])
         print("Removed notification for reminder: \(reminder.id)")
+    }
+    
+    func removeRemindersForHabit(_ habitID: Int) {
+        withErrorReporting {
+            @Dependency(\.defaultDatabase) var database
+            let reminders = try database.read { db in
+                try Reminder
+                    .where { $0.habitID.eq(habitID) }
+                    .fetchAll(db)
+            }
+            
+            for reminder in reminders {
+                removeReminder(reminder)
+            }
+            
+            print("Removed notifications for \(reminders.count) reminders associated with habit ID: \(habitID)")
+        }
     }
 
     func removeAllReminders() {

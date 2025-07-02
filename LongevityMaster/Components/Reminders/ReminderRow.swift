@@ -6,33 +6,30 @@
 import SwiftUI
 
 struct ReminderRow: View {
-    let reminder: Reminder
+    let time: Date
+    let title: String
     let onDelete: () -> Void
-
+    
     @State private var showingDeleteAlert = false
-
+    
     var body: some View {
         HStack {
-            VStack {
-                HStack {
-                    Image(systemName: "alarm")
-                        .foregroundColor(.gray)
-                        .font(.subheadline)
-                    Text(reminder.time, format: .dateTime.hour().minute())
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                }
-                Text("Every day")
+            HStack {
+                Image(systemName: "alarm")
+                    .foregroundColor(.gray)
                     .font(.subheadline)
+                Text(time, format: .dateTime.hour().minute())
+                    .font(.subheadline)
+                    .fontWeight(.medium)
             }
-
+            
+            
             Divider()
                 .frame(maxHeight: 20)
-
-            Text(reminder.title)
+           
+            Text(title)
                 .font(.body)
-                .lineLimit(2)
-
+            
             Spacer()
             HStack(spacing: 4) {
                 Button(action: {
@@ -53,24 +50,16 @@ struct ReminderRow: View {
 #Preview {
     VStack(spacing: 12) {
         ReminderRow(
-            reminder: Reminder(
-                id: 0,
-                title: "Drink Water",
-                time: Date()
-
-            ),
+            time: Date(),
+            title: "Drink Water",
             onDelete: {}
         )
-
+        
         ReminderRow(
-            reminder: Reminder(
-                id: 1,
-                title: "Exercise",
-                time: Date()
-
-            ),
+            time: Date(),
+            title: "Drink Water",
             onDelete: {}
         )
     }
     .padding()
-}
+} 

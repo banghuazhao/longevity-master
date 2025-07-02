@@ -203,13 +203,6 @@ class HabitFormViewModel: HashableObject {
                         draftReminders[idx] = updatedDraft
                     }
                     route = nil
-                },
-                onDelete: { [weak self] reminder in
-                    guard let self else { return }
-                    if let idx = draftReminders.firstIndex(where: { $0.id == reminder.id }) {
-                        draftReminders.remove(at: idx)
-                    }
-                    route = nil
                 }
             )
         )
@@ -497,8 +490,9 @@ struct HabitFormView: View {
                         } else {
                             VStack(spacing: 8) {
                                 ForEach(viewModel.draftReminders, id: \ .id) { draft in
-                                    ReminderDraftRow(
-                                        reminder: draft,
+                                    ReminderRow(
+                                        time: draft.time,
+                                        title: "Every Day",
                                         onDelete: {
                                             viewModel.onTapDeleteReminder(draft)
                                         }

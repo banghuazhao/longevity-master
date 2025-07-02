@@ -10,19 +10,20 @@ struct MeView: View {
     
     var body: some View {
         NavigationStack {
-            GeometryReader { geometry in
+            VStack {
                 ScrollView {
                     VStack(spacing: 20) {
                         moreFeatureView
                         moreView
-                        Spacer(minLength: geometry.size.height / 4) // Push footer lower
-
+                        
+                        Spacer().frame(height: 10)
+                        
                         VStack(spacing: 4) {
                             Text("Longevity Master  |  Healthy Habits for Long Life")
                                 .font(.footnote)
                                 .fontWeight(.semibold)
                                 .foregroundColor(.gray)
-
+                            
                             Button {
                                 if let url = URL(string: "https://apps.apple.com/app/id\(Constants.AppID.longevityMasterID)") {
                                     openURL(url)
@@ -36,11 +37,13 @@ struct MeView: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.bottom, 50)
+                        
                     }
-                    .frame(minHeight: geometry.size.height) // make VStack take full height
                 }
+                BannerView()
+                    .frame(height: 60)
             }
-            .navigationTitle("Longevity Master")
+            .navigationTitle("Me")
             .navigationBarTitleDisplayMode(.inline)
         }
     }

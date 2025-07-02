@@ -5,14 +5,18 @@
 
 import SharingGRDB
 import SwiftUI
+import GoogleMobileAds
 
 @main
 struct LongevityMasterApp: App {
     @AppStorage("darkModeEnabled") private var darkModeEnabled: Bool = false
-    @State private var hasRequestedPermissions = false
     @Dependency(\.achievementService) private var achievementService
+    @StateObject private var openAd = OpenAd()
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var didShowOpenAd = false
     
     init() {
+        MobileAds.shared.start(completionHandler: nil)
         prepareDependencies {
             $0.defaultDatabase = try! appDatabase()
         }
@@ -36,6 +40,15 @@ struct LongevityMasterApp: App {
                 .task {
                     await requestNotificationPermissions()
                 }
+                .onChange(of: scenePhase) { _, newPhase in
+                    print("scenePhase: \(newPhase)")
+                    if newPhase == .active {
+                        openAd.tryToPresentAd()
+                        openAd.appHasEnterBackgroundBefore = false
+                    } else if newPhase == .background {
+                        openAd.appHasEnterBackgroundBefore = true
+                    }
+                }
         }
     }
     
@@ -54,6 +67,9 @@ struct LongevityMasterApp: App {
             MeView()
                 .tabItem {
                     Label("Me", systemImage: "person.fill")
+                }
+                .onAppear {
+                    AdManager.requestATTPermission(with: 1)
                 }
         }
     }

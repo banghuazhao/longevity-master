@@ -14,6 +14,7 @@ class NotificationService {
 
     private init() {}
 
+    @discardableResult
     func requestPermission() async -> Bool {
         do {
             return try await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound])
@@ -106,6 +107,30 @@ class NotificationService {
             title: "Daily Check-in",
             time: defaultTime
         )
+    }
+
+    // MARK: - Permission Status
+    
+    enum NotificationAuthorizationStatus {
+        case notDetermined, denied, authorized, provisional, ephemeral
+    }
+    
+    func getAuthorizationStatus() async -> NotificationAuthorizationStatus {
+        let settings = await UNUserNotificationCenter.current().notificationSettings()
+        switch settings.authorizationStatus {
+        case .notDetermined:
+            return .notDetermined
+        case .denied:
+            return .denied
+        case .authorized:
+            return .authorized
+        case .provisional:
+            return .provisional
+        case .ephemeral:
+            return .ephemeral
+        @unknown default:
+            return .notDetermined
+        }
     }
 }
 

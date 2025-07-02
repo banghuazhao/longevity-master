@@ -22,6 +22,8 @@ class RemindersViewModel: HashableObject {
     @ObservationIgnored
     @Dependency(\.notificationService) var notificationService
     
+    var notificationStatus: NotificationService.NotificationAuthorizationStatus = .notDetermined
+    
     @CasePathable
     enum Route: Equatable {
         case addReminder(ReminderFormViewModel)
@@ -104,6 +106,17 @@ class RemindersViewModel: HashableObject {
         
         await notificationService.scheduleReminder(defaultReminder)
     }
+    
+    func checkNotificationPermission() async {
+        notificationStatus = await notificationService.getAuthorizationStatus()
+    }
+    
+    func openSettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
+    }
 }
 
 struct RemindersView: View {
@@ -123,6 +136,24 @@ struct RemindersView: View {
                 }
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 10).stroke(Color.yellow))
+
+                // Permission warning and button
+                if viewModel.notificationStatus == .denied {
+                    VStack(spacing: 10) {
+                        Text("Notifications are disabled. Please enable them in Settings to receive reminders.")
+                            .font(.subheadline)
+                            .foregroundColor(.red)
+                            .multilineTextAlignment(.center)
+                        Button("Go to Settings") {
+                            viewModel.openSettings()
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 10)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                    }
+                }
 
                 // 2. Add Reminder Button
                 Button(action: {
@@ -195,6 +226,11 @@ struct RemindersView: View {
         }
         .navigationTitle("Reminders")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            Task {
+                await viewModel.checkNotificationPermission()
+            }
+        }
         .sheet(isPresented: Binding($viewModel.route.addReminder)) {
             if case .addReminder(let formViewModel) = viewModel.route {
                 ReminderFormView(viewModel: formViewModel)

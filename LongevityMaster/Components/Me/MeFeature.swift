@@ -99,6 +99,9 @@ private var moreFeatureView: some View {
             NavigationLink(destination: RemindersView()) {
                 featureItem(icon: "bell", title: "Reminders")
             }
+            NavigationLink(destination: AchievementsView()) {
+                featureItem(icon: "trophy", title: "Achievements")
+            }
             NavigationLink(destination: SettingView()) {
                 featureItem(icon: "gear", title: "Settings")
             }

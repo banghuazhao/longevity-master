@@ -22,6 +22,9 @@ class HabitDetailViewModel {
     
     @ObservationIgnored
     @Dependency(\.notificationService) var notificationService
+    
+    @ObservationIgnored
+    @Dependency(\.achievementService) var achievementService
 
     var selectedMonth: Date = Date()
     var selectedYear: Int = Calendar.current.component(.year, from: Date())
@@ -132,7 +135,7 @@ class HabitDetailViewModel {
     }
 
     func toggleCheckIn(for day: Date?) {
-        guard let day = day, isCurrentMonth(day: day) else { return }
+        guard let day, isCurrentMonth(day: day) else { return }
         let startOfDay = day.startOfDay(for: userCalendar)
         let endOfDay = day.endOfDay(for: userCalendar)
         if let checkIn = checkIns.first(
@@ -152,7 +155,14 @@ class HabitDetailViewModel {
             withErrorReporting {
                 try database.write { db in
                     let draft = CheckIn.Draft(date: day, habitID: habit.id)
-                    try CheckIn.upsert(draft).execute(db)
+                    let savedCheckIn = try CheckIn.upsert(draft).returning(\.self).fetchOne(db)
+                    
+                    // Check for achievements after adding check-in
+                    if let savedCheckIn {
+                        Task {
+                            await achievementService.checkAchievementsAndShow(for: savedCheckIn)
+                        }
+                    }
                 }
             }
         }
@@ -321,6 +331,8 @@ struct HabitDetailView: View {
                                     viewModel.toggleCheckIn(for: day)
                                 }
                             }
+                            .opacity(viewModel.habit.isArchived ? 0.6 : 1.0)
+                            .disabled(viewModel.habit.isArchived)
                         }
                     }
                 } else {
@@ -346,6 +358,8 @@ struct HabitDetailView: View {
                             checkInsByMonth: viewModel.yearlyCheckIns(for: viewModel.selectedYear),
                             calendar: viewModel.userCalendar
                         )
+                        .opacity(viewModel.habit.isArchived ? 0.6 : 1.0)
+                        .disabled(viewModel.habit.isArchived)
                     }
                 }
 

@@ -85,6 +85,23 @@ func appDatabase() throws -> any DatabaseWriter {
             """
         )
         .execute(db)
+        
+        try #sql(
+            """
+            CREATE TABLE "achievements" (
+             "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+             "title" TEXT NOT NULL DEFAULT '',
+             "description" TEXT NOT NULL DEFAULT '',
+             "icon" TEXT NOT NULL DEFAULT '',
+             "type" INTEGER NOT NULL DEFAULT 0,
+             "criteria" TEXT NOT NULL DEFAULT '',
+             "isUnlocked" INTEGER NOT NULL DEFAULT 0,
+             "unlockedDate" TEXT,
+             "habitID" INTEGER REFERENCES "habits"("id") ON DELETE CASCADE
+            ) STRICT
+            """
+        )
+        .execute(db)
     }
     #if DEBUG
         migrator.registerMigration("Seed database") { db in
@@ -101,6 +118,13 @@ func appDatabase() throws -> any DatabaseWriter {
         var defaultReminder = Reminder.Draft()
         defaultReminder.time = defaultTime
         try Reminder.upsert(defaultReminder).execute(db)
+    }
+    
+    migrator.registerMigration("Add achievements") { db in
+        // Insert all achievement definitions
+        for achievementDraft in AchievementDefinitions.all {
+            try Achievement.upsert(achievementDraft).execute(db)
+        }
     }
 
     try migrator.migrate(database)

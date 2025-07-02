@@ -45,6 +45,9 @@ class TodayViewModel {
 
     @ObservationIgnored
     @Dependency(\.defaultDatabase) var dataBase
+    
+    @ObservationIgnored
+    @Dependency(\.achievementService) var achievementService
 
     var userCalendar: Calendar {
         var cal = Calendar.current
@@ -167,8 +170,14 @@ class TodayViewModel {
             } else {
                 try dataBase.write { [selectedDate] db in
                     let checkIn = CheckIn.Draft(date: selectedDate, habitID: todayHabit.habit.id)
-                    try CheckIn.upsert(checkIn)
-                        .execute(db)
+                    let savedCheckIn = try CheckIn.upsert(checkIn).returning(\.self).fetchOne(db)
+                    
+                    // Check for achievements after adding check-in
+                    if let savedCheckIn {
+                        Task {
+                            await achievementService.checkAchievementsAndShow(for: savedCheckIn)
+                        }
+                    }
                 }
             }
         }

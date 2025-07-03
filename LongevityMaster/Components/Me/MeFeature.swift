@@ -42,6 +42,7 @@ struct MeView: View {
                                 .sheet(isPresented: $showEmojiPicker) {
                                     EmojiPickerView(selectedEmoji: $userAvatar, title: "Choose your avatar")
                                     .presentationDetents([.medium])
+                                    .presentationDragIndicator(.visible)
                                 }
                                 VStack(alignment: .leading, spacing: 4) {
                                     TextField("Your Name", text: $userName)

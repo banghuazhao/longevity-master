@@ -3,6 +3,7 @@ import SwiftUI
 struct EmojiPickerView: View {
     @Binding var selectedEmoji: String
     var title: String? = nil
+    var categoryOrder: [Category] = Category.allCases
     
     enum Category: String, CaseIterable, Identifiable {
         case smileys = "Smileys"
@@ -40,7 +41,7 @@ struct EmojiPickerView: View {
                     .font(.headline)
             }
             Picker("Category", selection: $selectedCategory) {
-                ForEach(Category.allCases) { category in
+                ForEach(categoryOrder) { category in
                     Text(category.rawValue).tag(category)
                 }
             }
@@ -66,5 +67,8 @@ struct EmojiPickerView: View {
             }
         }
         .padding()
+        .onAppear {
+            selectedCategory = categoryOrder.first ?? .smileys
+        }
     }
 } 

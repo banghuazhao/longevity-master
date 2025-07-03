@@ -10,6 +10,7 @@ struct HabitIconEditView: View {
     @Binding var color: Int
     @Binding var icon: String
     @State private var category: HabitCategory = .diet
+    @State private var showEmojiPicker: Bool = false
 
     func onSelectColor(_ newColor: Int) {
         color = newColor
@@ -69,6 +70,14 @@ struct HabitIconEditView: View {
                     LazyVGrid(columns: [
                         GridItem(.adaptive(minimum: 50, maximum: 100)),
                     ], spacing: 10) {
+                        Button(action: { showEmojiPicker.toggle() }) {
+                            Text(icon)
+                                .font(.system(size: 32))
+                                .frame(width: 44, height: 44)
+                                .background(Color.gray.opacity(0.1))
+                                .clipShape(Circle())
+                        }
+                        
                         ForEach(
                             HabitIconDataSource.getIcons(for: category)
                             , id: \.self
@@ -102,6 +111,21 @@ struct HabitIconEditView: View {
                     Spacer()
                 }
             }
+        }
+        .sheet(isPresented: $showEmojiPicker) {
+            EmojiPickerView(
+                selectedEmoji: $icon,
+                title: "Choose Habit Icon",
+                categoryOrder: [
+                    EmojiPickerView.Category.food,
+                    EmojiPickerView.Category.activities,
+                    EmojiPickerView.Category.objects,
+                    EmojiPickerView.Category.animals,
+                    EmojiPickerView.Category.smileys
+                ]
+            )
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.visible)
         }
     }
 }

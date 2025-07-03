@@ -47,6 +47,8 @@ struct DarkTheme: AppTheme {
 class ThemeManager: ObservableObject {
     @Published var current: AppTheme = DefaultTheme()
     @Shared(.appStorage("darkModeEnabled")) private var darkModeEnabled: Bool = false
+        
+    static let shared = ThemeManager()
     
     init() {
         current = darkModeEnabled ? DarkTheme() : DefaultTheme()
@@ -61,7 +63,7 @@ class ThemeManager: ObservableObject {
 
 // MARK: - DependencyKey for ThemeManager
 private enum ThemeManagerKey: DependencyKey {
-    static let liveValue = ThemeManager()
+    static let liveValue = ThemeManager.shared
 }
 
 extension DependencyValues {
@@ -91,6 +93,7 @@ struct AppSpacing {
 }
 
 struct AppCornerRadius {
+    static let info: CGFloat = 12
     static let card: CGFloat = 16
     static let button: CGFloat = 12
     static let avatar: CGFloat = 25
@@ -110,21 +113,22 @@ struct ShadowStyle {
 
 // MARK: - Reusable Modifiers
 extension View {
-    func appCardStyle(theme: AppTheme) -> some View {
+    func appCardStyle(theme: AppTheme = ThemeManager.shared.current) -> some View {
         self
+            .padding(AppSpacing.medium)
             .background(theme.card)
             .cornerRadius(AppCornerRadius.card)
             .shadow(color: AppShadow.card.color, radius: AppShadow.card.radius, x: AppShadow.card.x, y: AppShadow.card.y)
     }
     
-    func appSectionHeader(theme: AppTheme) -> some View {
+    func appSectionHeader(theme: AppTheme = ThemeManager.shared.current) -> some View {
         self
             .font(AppFont.headline)
             .foregroundColor(theme.textPrimary)
             .padding(.vertical, AppSpacing.small)
     }
     
-    func appButtonStyle(theme: AppTheme, filled: Bool = true) -> some View {
+    func appButtonStyle(theme: AppTheme = ThemeManager.shared.current, filled: Bool = true) -> some View {
         self
             .font(AppFont.headline)
             .padding(.vertical, AppSpacing.small)
@@ -133,4 +137,17 @@ extension View {
             .foregroundColor(filled ? .white : theme.primaryColor)
             .cornerRadius(AppCornerRadius.button)
     }
-} 
+    
+    func appBackground(theme: AppTheme = ThemeManager.shared.current) -> some View {
+        self
+            .background(theme.background)
+    }
+    
+    func appInfoSection(theme: AppTheme = ThemeManager.shared.current) -> some View {
+        self
+            .padding(.vertical, AppSpacing.small)
+            .padding(.horizontal, AppSpacing.medium)
+            .background(theme.secondaryGray.opacity(0.1))
+            .cornerRadius(AppCornerRadius.info)
+    }
+}

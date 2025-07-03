@@ -2,6 +2,7 @@ import Observation
 import SharingGRDB
 import SwiftUI
 import SwiftUINavigation
+import Dependencies
 
 @Observable
 @MainActor
@@ -286,12 +287,13 @@ class HabitDetailViewModel {
 
 struct HabitDetailView: View {
     @State var viewModel: HabitDetailViewModel
-
+    @Dependency(\.themeManager) var themeManager
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 12) {
+            VStack(spacing: AppSpacing.medium) {
+                // Main habit card
                 HabitItemView(todayHabit: viewModel.todayHabit, onTap: {})
                     .padding(.top, 8)
                     .opacity(viewModel.habit.isArchived ? 0.6 : 1.0)
@@ -310,114 +312,49 @@ struct HabitDetailView: View {
                 .pickerStyle(SegmentedPickerStyle())
 
                 if viewModel.calendarMode == .monthly {
-                    // Calendar
-                    VStack(spacing: 12) {
-                        HStack {
-                            Button(action: { viewModel.previousMonth() }) {
-                                Text("< Previous")
-                                    .font(.subheadline)
-                            }
-                            Spacer()
-                            Text(viewModel.monthTitle)
-                                .font(.headline)
-                            Spacer()
-                            Button(action: { viewModel.nextMonth() }) {
-                                Text("Next >")
-                                    .font(.subheadline)
-                            }
-                        }
-
-                        // Weekday headers
-                        HStack {
-                            ForEach(viewModel.weekdaySymbols, id: \.self) { symbol in
-                                Text(symbol)
-                                    .font(.caption)
-                                    .frame(maxWidth: .infinity)
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-
-                        // Calendar grid
-                        LazyVGrid(
-                            columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 8
-                        ) {
-                            ForEach(viewModel.calendarDays, id: \.self) { day in
-                                CalendarDayCell(
-                                    day: day,
-                                    isToday: viewModel.isToday(day: day),
-                                    isChecked: viewModel.isChecked(day: day),
-                                    isCurrentMonth: viewModel.isCurrentMonth(day: day)
-                                )
-                                .onTapGesture {
-                                    viewModel.toggleCheckIn(for: day)
-                                }
-                            }
-                            .opacity(viewModel.habit.isArchived ? 0.6 : 1.0)
-                            .disabled(viewModel.habit.isArchived)
-                        }
-                    }
+                    monthlyCalendarGrid
                 } else {
-                    VStack(spacing: 12) {
-                        HStack {
-                            Button(action: { viewModel.previousYear() }) {
-                                Text("< Previous")
-                                    .font(.subheadline)
-                            }
-                            Spacer()
-                            Text("\(viewModel.selectedYear)")
-                                .font(.headline)
-                            Spacer()
-                            Button(action: { viewModel.nextYear() }) {
-                                Text("Next >")
-                                    .font(.subheadline)
-                            }
-                        }
-
-                        // Yearly grid
-                        YearlyCalendarGrid(
-                            year: viewModel.selectedYear,
-                            checkInsByMonth: viewModel.yearlyCheckIns(for: viewModel.selectedYear),
-                            calendar: viewModel.userCalendar
-                        )
-                        .opacity(viewModel.habit.isArchived ? 0.6 : 1.0)
-                        .disabled(viewModel.habit.isArchived)
-                    }
+                    yearlyCalendarGrid
                 }
 
-                // Favorite toggle with info dropdown
-                FavoriteToggleWithInfo(isOn: $viewModel.habit.isFavorite)
-
-                // Archived toggle with info dropdown
-                ArchivedToggleWithInfo(isOn: $viewModel.habit.isArchived)
+                VStack(spacing: AppSpacing.medium) {
+                    FavoriteToggleWithInfo(isOn: $viewModel.habit.isFavorite)
+                    Divider()
+                    ArchivedToggleWithInfo(isOn: $viewModel.habit.isArchived)
+                }
+                .appCardStyle(theme: themeManager.current)
 
                 // Reminders Section
-
                 if !viewModel.reminders.isEmpty {
-                    HStack {
-                        Image(systemName: "bell.fill")
-                        Text("Reminders")
-                            .fontWeight(.semibold)
-                        Spacer()
-                    }
-                    VStack(spacing: 8) {
-                        ForEach(viewModel.reminders, id: \.id) { reminder in
-                            ReminderRow(
-                                time: reminder.time,
-                                title: "Every Day",
-                                onDelete: {
-                                    viewModel.onTapDeleteReminder(reminder)
+                    VStack(alignment: .leading, spacing: AppSpacing.small) {
+                        HStack {
+                            Image(systemName: "bell.fill")
+                                .foregroundColor(themeManager.current.primaryColor)
+                            Text("Reminders")
+                                .fontWeight(.semibold)
+                            Spacer()
+                        }
+                        VStack(spacing: AppSpacing.small) {
+                            ForEach(viewModel.reminders, id: \.id) { reminder in
+                                ReminderRow(
+                                    time: reminder.time,
+                                    title: "Every Day",
+                                    onDelete: {
+                                        viewModel.onTapDeleteReminder(reminder)
+                                    }
+                                )
+                                .onTapGesture {
+                                    viewModel.onTapEditReminder(reminder)
                                 }
-                            )
-                            .onTapGesture {
-                                viewModel.onTapEditReminder(reminder)
                             }
                         }
                     }
+                    .appCardStyle(theme: themeManager.current)
                 }
             }
-            .padding(.horizontal)
-            .padding(.bottom)
+            .padding(AppSpacing.medium)
         }
+        .background(themeManager.current.background.ignoresSafeArea())
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button {
@@ -451,6 +388,88 @@ struct HabitDetailView: View {
             Text("This will permanently delete the habit '\(viewModel.habit.truncatedName)' and all its check-in history. This action cannot be undone. Are you sure you want to proceed?")
         }
     }
+    
+    private var monthlyCalendarGrid: some View {
+        VStack(spacing: AppSpacing.medium) {
+            HStack {
+                Button(action: { viewModel.previousMonth() }) {
+                    Text("< Previous")
+                        .font(.subheadline)
+                }
+                .tint(themeManager.current.primaryColor)
+                Spacer()
+                Text(viewModel.monthTitle)
+                    .font(.headline)
+                Spacer()
+                Button(action: { viewModel.nextMonth() }) {
+                    Text("Next >")
+                        .font(.subheadline)
+                }
+                .tint(themeManager.current.primaryColor)
+            }
+
+            // Weekday headers
+            HStack {
+                ForEach(viewModel.weekdaySymbols, id: \.self) { symbol in
+                    Text(symbol)
+                        .font(.caption)
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(themeManager.current.textSecondary)
+                }
+            }
+
+            // Calendar grid
+            LazyVGrid(
+                columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 8
+            ) {
+                ForEach(viewModel.calendarDays, id: \.self) { day in
+                    CalendarDayCell(
+                        day: day,
+                        isToday: viewModel.isToday(day: day),
+                        isChecked: viewModel.isChecked(day: day),
+                        isCurrentMonth: viewModel.isCurrentMonth(day: day),
+                        theme: themeManager.current
+                    )
+                    .onTapGesture {
+                        viewModel.toggleCheckIn(for: day)
+                    }
+                }
+                .opacity(viewModel.habit.isArchived ? 0.6 : 1.0)
+                .disabled(viewModel.habit.isArchived)
+            }
+        }
+        .appCardStyle(theme: themeManager.current)
+    }
+    
+    private var yearlyCalendarGrid: some View {
+        VStack(spacing: AppSpacing.medium) {
+            HStack {
+                Button(action: { viewModel.previousYear() }) {
+                    Text("< Previous")
+                        .font(.subheadline)
+                }
+                .tint(themeManager.current.primaryColor)
+                Spacer()
+                Text("\(viewModel.selectedYear)")
+                    .font(.headline)
+                Spacer()
+                Button(action: { viewModel.nextYear() }) {
+                    Text("Next >")
+                        .font(.subheadline)
+                }
+                .tint(themeManager.current.primaryColor)
+            }
+            YearlyCalendarGrid(
+                year: viewModel.selectedYear,
+                checkInsByMonth: viewModel.yearlyCheckIns(for: viewModel.selectedYear),
+                calendar: viewModel.userCalendar,
+                theme: themeManager.current
+            )
+            .opacity(viewModel.habit.isArchived ? 0.6 : 1.0)
+            .disabled(viewModel.habit.isArchived)
+        }
+        .appCardStyle(theme: themeManager.current)
+    }
 }
 
 struct CalendarDayCell: View {
@@ -458,19 +477,23 @@ struct CalendarDayCell: View {
     let isToday: Bool
     let isChecked: Bool
     let isCurrentMonth: Bool
+    let theme: AppTheme
 
     var body: some View {
         Group {
             if let day {
                 ZStack {
                     Circle()
-                        .fill(isChecked ? Color.accentColor : Color.clear)
-                        .stroke(Color.black, lineWidth: isToday ? 2 : 0)
+                        .fill(isChecked ? theme.primaryColor : Color.clear)
+                        .overlay(
+                            Circle()
+                                .stroke(theme.primaryColor, lineWidth: isToday ? 2 : 0)
+                        )
                         .frame(width: 32, height: 32)
 
                     Text("\(Calendar.current.component(.day, from: day))")
                         .font(.body)
-                        .foregroundColor(isCurrentMonth ? (isChecked ? .white : .primary) : .gray)
+                        .foregroundColor(isCurrentMonth ? (isChecked ? .white : theme.textPrimary) : theme.textSecondary)
                 }
                 .frame(maxWidth: .infinity, minHeight: 36)
             } else {
@@ -486,6 +509,7 @@ struct YearlyCalendarGrid: View {
     let year: Int
     let checkInsByMonth: [Int: Set<Int>]
     let calendar: Calendar
+    let theme: AppTheme
 
     var body: some View {
         LazyVGrid(
@@ -502,7 +526,7 @@ struct YearlyCalendarGrid: View {
                 ForEach(1 ... 31, id: \ .self) { day in
                     if day <= daysCount(for: month) {
                         Circle()
-                            .fill(checkInsByMonth[month]?.contains(day) == true ? Color.accentColor : Color(.systemGray5))
+                            .fill(checkInsByMonth[month]?.contains(day) == true ? theme.primaryColor : theme.secondaryGray.opacity(0.15))
                     } else {
                         Color.clear
                     }
@@ -524,17 +548,18 @@ struct YearlyCalendarGrid: View {
 }
 
 private struct FavoriteToggleWithInfo: View {
+    @Dependency(\.themeManager) var themeManager
     @Binding var isOn: Bool
     @State private var showInfo = false
     var body: some View {
-        ZStack(alignment: .topLeading) {
+        VStack(alignment: .leading) {
             Toggle(isOn: $isOn) {
                 HStack {
                     Label("Favorite", systemImage: isOn ? "heart.fill" : "heart")
                     Button(action: { withAnimation { showInfo.toggle() } }) {
                         Image(systemName: "info.circle")
                     }
-                    .foregroundStyle(Color.secondary)
+                    .foregroundStyle(themeManager.current.secondaryGray)
                     .buttonStyle(.plain)
                 }
             }
@@ -543,13 +568,9 @@ private struct FavoriteToggleWithInfo: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Once favorited, the habit will be ordered first in today's habits list.")
                         .font(.caption)
-                        .foregroundColor(.primary)
-                        .padding(8)
-                        .background(RoundedRectangle(cornerRadius: 8).fill(Color(.systemBackground)).shadow(radius: 2))
+                        .foregroundColor(themeManager.current.textPrimary)
+                        .appInfoSection()
                 }
-                .padding(.top, 36)
-                .padding(.leading, 24)
-                .zIndex(1)
                 .onTapGesture { showInfo = false }
             }
         }
@@ -557,17 +578,18 @@ private struct FavoriteToggleWithInfo: View {
 }
 
 private struct ArchivedToggleWithInfo: View {
+    @Dependency(\.themeManager) var themeManager
     @Binding var isOn: Bool
     @State private var showInfo = false
     var body: some View {
-        ZStack(alignment: .topLeading) {
+        VStack(alignment: .leading) {
             Toggle(isOn: $isOn) {
                 HStack {
                     Label("Archived", systemImage: isOn ? "archivebox.fill" : "archivebox")
                     Button(action: { withAnimation { showInfo.toggle() } }) {
                         Image(systemName: "info.circle")
                     }
-                    .foregroundStyle(Color.secondary)
+                    .foregroundStyle(themeManager.current.secondaryGray)
                     .buttonStyle(.plain)
                 }
             }
@@ -576,13 +598,9 @@ private struct ArchivedToggleWithInfo: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Once archived, the habit will be hidden from today's habits list, but its check-ins will be kept.")
                         .font(.caption)
-                        .foregroundColor(.primary)
-                        .padding(8)
-                        .background(RoundedRectangle(cornerRadius: 8).fill(Color(.systemBackground)).shadow(radius: 2))
+                        .foregroundColor(themeManager.current.textPrimary)
+                        .appInfoSection()
                 }
-                .padding(.top, 36)
-                .padding(.leading, 24)
-                .zIndex(1)
                 .onTapGesture { showInfo = false }
             }
         }
@@ -590,6 +608,7 @@ private struct ArchivedToggleWithInfo: View {
 }
 
 private struct NoteSection: View {
+    @Dependency(\.themeManager) var themeManager
     let note: String
     @State private var expanded = false
     @State var showMore: Bool = false
@@ -598,7 +617,7 @@ private struct NoteSection: View {
         VStack(alignment: .leading, spacing: 4) {
             Text(note)
                 .font(.footnote)
-                .foregroundColor(.primary)
+                .foregroundColor(themeManager.current.textPrimary)
                 .lineLimit(expanded ? nil : 2)
 
             if note.count > 100 {
@@ -609,22 +628,12 @@ private struct NoteSection: View {
                 } label: {
                     Text(expanded ? "Show less" : "Show more")
                         .font(.footnote)
-                        .foregroundColor(.accentColor)
+                        .foregroundColor(themeManager.current.primaryColor)
                 }
                 .buttonStyle(.plain)
             }
         }
-        .padding(.vertical, 8)
-        .padding(.horizontal, 12)
-        .background(Color.gray.opacity(0.08))
-        .cornerRadius(10)
-    }
-}
-
-private struct SizePreferenceKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
+        .appInfoSection()
     }
 }
 

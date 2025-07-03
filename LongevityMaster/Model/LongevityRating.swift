@@ -35,8 +35,8 @@ enum LongevityRating: String, CaseIterable {
         case .b: return .blue
         case .aMinus: return .purple
         case .a: return .purple
-        case .s: return .red
-        case .ss: return .red
+        case .s: return .yellow
+        case .ss: return .yellow
         case .sss: return .red
         }
     }

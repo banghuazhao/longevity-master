@@ -21,6 +21,7 @@ struct ScoreDetailView: View {
                 }
                 .padding()
             }
+            .appBackground()
             .navigationTitle(viewModel.category.rawValue)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -69,12 +70,7 @@ struct ScoreDetailView: View {
                     .scaleEffect(x: 1, y: 2, anchor: .center)
             }
         }
-        .padding(20)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.systemBackground))
-                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-        )
+        .appCardStyle()
     }
     
     private var progressSection: some View {
@@ -84,13 +80,9 @@ struct ScoreDetailView: View {
                 .fontWeight(.semibold)
             
             Text(viewModel.category.calculationExplanation)
-                .font(.body)
+                .font(.callout)
                 .foregroundColor(.secondary)
-                .padding(16)
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color(.systemGray6))
-                )
+                .appInfoSection()
         }
     }
     
@@ -122,16 +114,12 @@ struct ScoreDetailView: View {
                             .font(.system(size: 16))
                         
                         Text(tip)
-                            .font(.body)
-                            .foregroundColor(.secondary)
+                            .font(.callout)
+                            .foregroundColor(ThemeManager.shared.current.textSecondary)
                         
                         Spacer()
                     }
-                    .padding(12)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(Color(.systemGray6))
-                    )
+                    .appInfoSection()
                 }
             }
         }

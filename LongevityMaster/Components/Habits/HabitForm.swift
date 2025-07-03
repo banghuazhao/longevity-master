@@ -252,7 +252,7 @@ struct HabitFormView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: AppSpacing.large) {
+                VStack(spacing: AppSpacing.medium) {
                     HabitItemView(todayHabit: viewModel.todayHabit) {
                         viewModel.onTapTodayHabit()
                     }
@@ -265,275 +265,271 @@ struct HabitFormView: View {
                         .presentationDragIndicator(.visible)
                     }
 
-                    sectionCard {
-                        VStack(alignment: .leading, spacing: AppSpacing.smallMedium) {
-                            HStack(spacing: AppSpacing.small) {
-                                Image(systemName: "list.bullet.clipboard.fill")
-                                    .foregroundColor(themeManager.current.primaryColor)
-                                TextField("New habit name", text: $viewModel.habit.name)
-                                    .font(AppFont.headline)
-                                    .foregroundColor(themeManager.current.textPrimary)
-                                Button {
-                                    viewModel.onTapGallery()
-                                } label: {
-                                    Text("Gallery")
-                                        .appButtonStyle(theme: themeManager.current, filled: false)
-                                }
-                                .sheet(isPresented: Binding($viewModel.route.habitsGallery)) {
-                                    HabitsGalleryView(
-                                        habit: $viewModel.habit
-                                    )
-                                    .presentationDetents([.fraction(0.8), .large])
-                                    .presentationDragIndicator(.visible)
+                    VStack(alignment: .leading, spacing: AppSpacing.smallMedium) {
+                        HStack(spacing: AppSpacing.small) {
+                            Image(systemName: "list.bullet.clipboard.fill")
+                                .foregroundColor(themeManager.current.primaryColor)
+                            TextField("New habit name", text: $viewModel.habit.name)
+                                .font(AppFont.headline)
+                                .foregroundColor(themeManager.current.textPrimary)
+                            Button {
+                                viewModel.onTapGallery()
+                            } label: {
+                                Text("Gallery")
+                                    .appButtonStyle(theme: themeManager.current, filled: false)
+                            }
+                            .sheet(isPresented: Binding($viewModel.route.habitsGallery)) {
+                                HabitsGalleryView(
+                                    habit: $viewModel.habit
+                                )
+                                .presentationDetents([.fraction(0.8), .large])
+                                .presentationDragIndicator(.visible)
+                            }
+                        }
+                        Divider()
+                        HStack(spacing: AppSpacing.small) {
+                            Image(systemName: "folder.fill.badge.person.crop")
+                                .foregroundColor(themeManager.current.primaryColor)
+                            Text("Category")
+                                .fontWeight(.semibold)
+                                .foregroundColor(themeManager.current.textPrimary)
+                            Spacer()
+                            Picker("Category", selection: $viewModel.habit.category) {
+                                ForEach(HabitCategory.allCases, id: \ .self) { habitCategory in
+                                    Text(habitCategory.title)
+                                        .tag(habitCategory.rawValue)
                                 }
                             }
-                            Divider()
-                            HStack(spacing: AppSpacing.small) {
-                                Image(systemName: "folder.fill.badge.person.crop")
-                                    .foregroundColor(themeManager.current.primaryColor)
-                                Text("Category")
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(themeManager.current.textPrimary)
-                                Spacer()
-                                Picker("Category", selection: $viewModel.habit.category) {
-                                    ForEach(HabitCategory.allCases, id: \ .self) { habitCategory in
-                                        Text(habitCategory.title)
-                                            .tag(habitCategory.rawValue)
-                                    }
-                                }
-                                .pickerStyle(.menu)
-                            }
-                            Divider()
-                            HStack {
-                                Image(systemName: "star.fill")
-                                    .foregroundColor(themeManager.current.primaryColor)
-                                Text("Anti-Aging Rating")
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(themeManager.current.textPrimary)
-                                Spacer()
-                                HStack(spacing: 2) {
-                                    ForEach(1...5, id: \ .self) { starIndex in
-                                        Button(action: {
-                                            viewModel.habit.antiAgingRating = starIndex
-                                        }) {
-                                            Image(systemName: starIndex <= viewModel.habit.antiAgingRating ? "star.fill" : "star")
-                                                .foregroundColor(starIndex <= viewModel.habit.antiAgingRating ? .yellow : themeManager.current.secondaryGray)
-                                                .font(.title3)
-                                        }
+                            .pickerStyle(.menu)
+                        }
+                        Divider()
+                        HStack {
+                            Image(systemName: "star.fill")
+                                .foregroundColor(themeManager.current.primaryColor)
+                            Text("Anti-Aging Rating")
+                                .fontWeight(.semibold)
+                                .foregroundColor(themeManager.current.textPrimary)
+                            Spacer()
+                            HStack(spacing: 2) {
+                                ForEach(1...5, id: \ .self) { starIndex in
+                                    Button(action: {
+                                        viewModel.habit.antiAgingRating = starIndex
+                                    }) {
+                                        Image(systemName: starIndex <= viewModel.habit.antiAgingRating ? "star.fill" : "star")
+                                            .foregroundColor(starIndex <= viewModel.habit.antiAgingRating ? .yellow : themeManager.current.secondaryGray)
+                                            .font(.title3)
                                     }
                                 }
                             }
                         }
                     }
+                    .appCardStyle(theme: themeManager.current)
 
-                    sectionCard {
-                        VStack(alignment: .leading, spacing: AppSpacing.small) {
+                    VStack(alignment: .leading, spacing: AppSpacing.small) {
+                        HStack {
+                            Image(systemName: "clock.fill")
+                                .foregroundColor(themeManager.current.primaryColor)
+                            Text("Frequency")
+                                .fontWeight(.semibold)
+                                .foregroundColor(themeManager.current.textPrimary)
+                            Spacer()
+                            Picker("Frequency", selection: $viewModel.habit.frequency) {
+                                ForEach(HabitFrequency.allCases, id: \ .self) { habitFrequency in
+                                    Text(habitFrequency.title)
+                                        .tag(habitFrequency.rawValue)
+                                }
+                            }
+                            .tint(themeManager.current.primaryColor)
+                        }
+                        switch viewModel.habit.frequency {
+                        case .fixedDaysInWeek:
+                            LazyVGrid(
+                                columns: Array(repeating: GridItem(.flexible()), count: 7)
+                            ) {
+                                ForEach(WeekDays.allCases, id: \ .self) { weekDay in
+                                    Button(action: { viewModel.toggleWeekDay(weekDay) }) {
+                                        VStack(spacing: 8) {
+                                            Text(weekDay.title)
+                                                .font(.subheadline)
+                                                .lineLimit(1)
+                                                .minimumScaleFactor(0.5)
+                                            if viewModel.hasSelectedWeekDay(weekDay) {
+                                                Image(systemName: "checkmark.circle.fill")
+                                                    .foregroundColor(themeManager.current.primaryColor)
+                                            }
+                                        }
+                                        .padding(8)
+                                    }
+                                    .tint(themeManager.current.primaryColor)
+                                    .background(
+                                        viewModel.hasSelectedWeekDay(weekDay)
+                                        ? themeManager.current.primaryColor.opacity(0.12)
+                                        : themeManager.current.background
+                                    )
+                                    .cornerRadius(AppCornerRadius.button)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: AppCornerRadius.button)
+                                            .stroke(viewModel.hasSelectedWeekDay(weekDay) ? themeManager.current.primaryColor : themeManager.current.secondaryGray.opacity(0.2), lineWidth: 1)
+                                    )
+                                }
+                            }
+                        case .fixedDaysInMonth:
+                            LazyVGrid(
+                                columns: Array(repeating: GridItem(.flexible()), count: 7)
+                            ) {
+                                ForEach(1 ... 28, id: \ .self) { monthDay in
+                                    Button(action: { viewModel.toggleMonthDay(monthDay) }) {
+                                        VStack(spacing: 8) {
+                                            Text("\(monthDay)")
+                                                .font(.subheadline)
+                                                .lineLimit(1)
+                                                .minimumScaleFactor(0.5)
+                                        }
+                                        .padding(8)
+                                    }
+                                    .tint(themeManager.current.primaryColor)
+                                    .background(
+                                        viewModel.hasSelectedMonthDay(monthDay)
+                                        ? themeManager.current.primaryColor.opacity(0.12)
+                                        : themeManager.current.background
+                                    )
+                                    .cornerRadius(AppCornerRadius.button)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: AppCornerRadius.button)
+                                            .stroke(viewModel.hasSelectedMonthDay(monthDay) ? themeManager.current.primaryColor : themeManager.current.secondaryGray.opacity(0.2), lineWidth: 1)
+                                    )
+                                }
+                            }
+                        case .nDaysEachWeek:
                             HStack {
-                                Image(systemName: "clock.fill")
-                                    .foregroundColor(themeManager.current.primaryColor)
-                                Text("Frequency")
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(themeManager.current.textPrimary)
                                 Spacer()
-                                Picker("Frequency", selection: $viewModel.habit.frequency) {
-                                    ForEach(HabitFrequency.allCases, id: \ .self) { habitFrequency in
-                                        Text(habitFrequency.title)
-                                            .tag(habitFrequency.rawValue)
+                                Picker("", selection: Binding(
+                                    get: { viewModel.habit.nDaysPerWeek },
+                                    set: { viewModel.onSelectNDays($0) }
+                                )) {
+                                    ForEach(1 ... 7, id: \ .self) { nDays in
+                                        if nDays == 1 {
+                                            Text("\(nDays) day")
+                                                .tag(nDays)
+                                        } else {
+                                            Text("\(nDays) days")
+                                                .tag(nDays)
+                                        }
                                     }
                                 }
                                 .tint(themeManager.current.primaryColor)
                             }
-                            switch viewModel.habit.frequency {
-                            case .fixedDaysInWeek:
-                                LazyVGrid(
-                                    columns: Array(repeating: GridItem(.flexible()), count: 7)
-                                ) {
-                                    ForEach(WeekDays.allCases, id: \ .self) { weekDay in
-                                        Button(action: { viewModel.toggleWeekDay(weekDay) }) {
-                                            VStack(spacing: 8) {
-                                                Text(weekDay.title)
-                                                    .font(.subheadline)
-                                                    .lineLimit(1)
-                                                    .minimumScaleFactor(0.5)
-                                                if viewModel.hasSelectedWeekDay(weekDay) {
-                                                    Image(systemName: "checkmark.circle.fill")
-                                                        .foregroundColor(themeManager.current.primaryColor)
-                                                }
-                                            }
-                                            .padding(8)
-                                        }
-                                        .tint(themeManager.current.primaryColor)
-                                        .background(
-                                            viewModel.hasSelectedWeekDay(weekDay)
-                                            ? themeManager.current.primaryColor.opacity(0.12)
-                                            : themeManager.current.background
-                                        )
-                                        .cornerRadius(AppCornerRadius.button)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: AppCornerRadius.button)
-                                                .stroke(viewModel.hasSelectedWeekDay(weekDay) ? themeManager.current.primaryColor : themeManager.current.secondaryGray.opacity(0.2), lineWidth: 1)
-                                        )
-                                    }
-                                }
-                            case .fixedDaysInMonth:
-                                LazyVGrid(
-                                    columns: Array(repeating: GridItem(.flexible()), count: 7)
-                                ) {
-                                    ForEach(1 ... 28, id: \ .self) { monthDay in
-                                        Button(action: { viewModel.toggleMonthDay(monthDay) }) {
-                                            VStack(spacing: 8) {
-                                                Text("\(monthDay)")
-                                                    .font(.subheadline)
-                                                    .lineLimit(1)
-                                                    .minimumScaleFactor(0.5)
-                                            }
-                                            .padding(8)
-                                        }
-                                        .tint(themeManager.current.primaryColor)
-                                        .background(
-                                            viewModel.hasSelectedMonthDay(monthDay)
-                                            ? themeManager.current.primaryColor.opacity(0.12)
-                                            : themeManager.current.background
-                                        )
-                                        .cornerRadius(AppCornerRadius.button)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: AppCornerRadius.button)
-                                                .stroke(viewModel.hasSelectedMonthDay(monthDay) ? themeManager.current.primaryColor : themeManager.current.secondaryGray.opacity(0.2), lineWidth: 1)
-                                        )
-                                    }
-                                }
-                            case .nDaysEachWeek:
-                                HStack {
-                                    Spacer()
-                                    Picker("", selection: Binding(
-                                        get: { viewModel.habit.nDaysPerWeek },
-                                        set: { viewModel.onSelectNDays($0) }
-                                    )) {
-                                        ForEach(1 ... 7, id: \ .self) { nDays in
-                                            if nDays == 1 {
-                                                Text("\(nDays) day")
-                                                    .tag(nDays)
-                                            } else {
-                                                Text("\(nDays) days")
-                                                    .tag(nDays)
-                                            }
-                                        }
-                                    }
-                                    .tint(themeManager.current.primaryColor)
-                                }
-                                HStack {
-                                    Image(systemName: "info.circle.fill")
+                            HStack {
+                                Image(systemName: "info.circle.fill")
+                                    .foregroundColor(themeManager.current.secondaryGray)
+                                    .font(.caption)
+                                if viewModel.habit.nDaysPerWeek == 1 {
+                                    Text("After being completed on \(viewModel.habit.nDaysPerWeek) day, the habit will not show up again this week.")
                                         .foregroundColor(themeManager.current.secondaryGray)
                                         .font(.caption)
-                                    if viewModel.habit.nDaysPerWeek == 1 {
-                                        Text("After being completed on \(viewModel.habit.nDaysPerWeek) day, the habit will not show up again this week.")
-                                            .foregroundColor(themeManager.current.secondaryGray)
-                                            .font(.caption)
-                                    } else {
-                                        Text("After being completed on \(viewModel.habit.nDaysPerWeek) days, the habit will not show up again this week.")
-                                            .foregroundColor(themeManager.current.secondaryGray)
-                                            .font(.caption)
-                                    }
-                                }
-                            case .nDaysEachMonth:
-                                HStack {
-                                    Spacer()
-                                    Picker("", selection: Binding(
-                                        get: { viewModel.habit.nDaysPerMonth },
-                                        set: { viewModel.onSelectNDays($0) }
-                                    )) {
-                                        ForEach(1 ... 28, id: \ .self) { nDays in
-                                            if nDays == 1 {
-                                                Text("\(nDays) day")
-                                                    .tag(nDays)
-                                            } else {
-                                                Text("\(nDays) days")
-                                                    .tag(nDays)
-                                            }
-                                        }
-                                    }
-                                    .tint(themeManager.current.primaryColor)
-                                }
-                                HStack {
-                                    Image(systemName: "info.circle.fill")
+                                } else {
+                                    Text("After being completed on \(viewModel.habit.nDaysPerWeek) days, the habit will not show up again this week.")
                                         .foregroundColor(themeManager.current.secondaryGray)
                                         .font(.caption)
-                                    if viewModel.habit.nDaysPerMonth == 1 {
-                                        Text("After being completed on \(viewModel.habit.nDaysPerMonth) day, the habit will not show up again this month.")
-                                            .foregroundColor(themeManager.current.secondaryGray)
-                                            .font(.caption)
-                                    } else {
-                                        Text("After being completed on \(viewModel.habit.nDaysPerMonth) days, the habit will not show up again this month.")
-                                            .foregroundColor(themeManager.current.secondaryGray)
-                                            .font(.caption)
+                                }
+                            }
+                        case .nDaysEachMonth:
+                            HStack {
+                                Spacer()
+                                Picker("", selection: Binding(
+                                    get: { viewModel.habit.nDaysPerMonth },
+                                    set: { viewModel.onSelectNDays($0) }
+                                )) {
+                                    ForEach(1 ... 28, id: \ .self) { nDays in
+                                        if nDays == 1 {
+                                            Text("\(nDays) day")
+                                                .tag(nDays)
+                                        } else {
+                                            Text("\(nDays) days")
+                                                .tag(nDays)
+                                        }
                                     }
+                                }
+                                .tint(themeManager.current.primaryColor)
+                            }
+                            HStack {
+                                Image(systemName: "info.circle.fill")
+                                    .foregroundColor(themeManager.current.secondaryGray)
+                                    .font(.caption)
+                                if viewModel.habit.nDaysPerMonth == 1 {
+                                    Text("After being completed on \(viewModel.habit.nDaysPerMonth) day, the habit will not show up again this month.")
+                                        .foregroundColor(themeManager.current.secondaryGray)
+                                        .font(.caption)
+                                } else {
+                                    Text("After being completed on \(viewModel.habit.nDaysPerMonth) days, the habit will not show up again this month.")
+                                        .foregroundColor(themeManager.current.secondaryGray)
+                                        .font(.caption)
                                 }
                             }
                         }
                     }
+                    .appCardStyle(theme: themeManager.current)
                     
-                    sectionCard {
-                        VStack(alignment: .leading, spacing: AppSpacing.small) {
-                            HStack {
-                                Image(systemName: "text.quote")
-                                    .foregroundColor(themeManager.current.primaryColor)
-                                Text("Description")
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(themeManager.current.textPrimary)
+                    VStack(alignment: .leading, spacing: AppSpacing.small) {
+                        HStack {
+                            Image(systemName: "text.quote")
+                                .foregroundColor(themeManager.current.primaryColor)
+                            Text("Description")
+                                .fontWeight(.semibold)
+                                .foregroundColor(themeManager.current.textPrimary)
+                        }
+                        TextEditor(text: $viewModel.habit.note)
+                            .frame(minHeight: 50)
+                            .padding(8)
+                            .background(themeManager.current.background)
+                            .cornerRadius(AppCornerRadius.button)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: AppCornerRadius.button)
+                                    .stroke(themeManager.current.secondaryGray.opacity(0.3), lineWidth: 1)
+                            )
+                    }
+                    .appCardStyle(theme: themeManager.current)
+                    
+                    VStack(alignment: .leading, spacing: AppSpacing.small) {
+                        HStack {
+                            Image(systemName: "bell.fill")
+                                .foregroundColor(themeManager.current.primaryColor)
+                            Text("Reminders")
+                                .fontWeight(.semibold)
+                                .foregroundColor(themeManager.current.textPrimary)
+                            Spacer()
+                            Button("Add Reminder") {
+                                viewModel.onTapAddReminder()
                             }
-                            TextEditor(text: $viewModel.habit.note)
-                                .frame(minHeight: 50)
-                                .padding(8)
+                            .font(AppFont.subheadline)
+                            .foregroundColor(themeManager.current.primaryColor)
+                        }
+                        if viewModel.draftReminders.isEmpty {
+                            Text("No reminders set for this habit")
+                                .font(AppFont.subheadline)
+                                .foregroundColor(themeManager.current.textSecondary)
+                                .padding()
+                                .frame(maxWidth: .infinity)
                                 .background(themeManager.current.background)
                                 .cornerRadius(AppCornerRadius.button)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: AppCornerRadius.button)
-                                        .stroke(themeManager.current.secondaryGray.opacity(0.3), lineWidth: 1)
-                                )
-                        }
-                    }
-                    
-                    sectionCard {
-                        VStack(alignment: .leading, spacing: AppSpacing.small) {
-                            HStack {
-                                Image(systemName: "bell.fill")
-                                    .foregroundColor(themeManager.current.primaryColor)
-                                Text("Reminders")
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(themeManager.current.textPrimary)
-                                Spacer()
-                                Button("Add Reminder") {
-                                    viewModel.onTapAddReminder()
-                                }
-                                .font(AppFont.subheadline)
-                                .foregroundColor(themeManager.current.primaryColor)
-                            }
-                            if viewModel.draftReminders.isEmpty {
-                                Text("No reminders set for this habit")
-                                    .font(AppFont.subheadline)
-                                    .foregroundColor(themeManager.current.textSecondary)
-                                    .padding()
-                                    .frame(maxWidth: .infinity)
-                                    .background(themeManager.current.background)
-                                    .cornerRadius(AppCornerRadius.button)
-                            } else {
-                                VStack(spacing: AppSpacing.small) {
-                                    ForEach(viewModel.draftReminders, id: \ .id) { draft in
-                                        ReminderRow(
-                                            time: draft.time,
-                                            title: "Every Day",
-                                            onDelete: {
-                                                viewModel.onTapDeleteReminder(draft)
-                                            }
-                                        )
-                                        .onTapGesture {
-                                            viewModel.onTapEditReminder(draft)
+                        } else {
+                            VStack(spacing: AppSpacing.small) {
+                                ForEach(viewModel.draftReminders, id: \ .id) { draft in
+                                    ReminderRow(
+                                        time: draft.time,
+                                        title: "Every Day",
+                                        onDelete: {
+                                            viewModel.onTapDeleteReminder(draft)
                                         }
+                                    )
+                                    .onTapGesture {
+                                        viewModel.onTapEditReminder(draft)
                                     }
                                 }
                             }
                         }
                     }
+                    .appCardStyle(theme: themeManager.current)
                 }
                 .padding()
                 .padding(.bottom, 40)
@@ -583,16 +579,6 @@ struct HabitFormView: View {
                 }
             }
         }
-    }
-
-    private func sectionCard<Content: View>(@ViewBuilder content: () -> Content) -> some View {
-        VStack(alignment: .leading, spacing: AppSpacing.small) {
-            content()
-        }
-        .padding()
-        .background(themeManager.current.card)
-        .cornerRadius(AppCornerRadius.card)
-        .shadow(color: AppShadow.card.color, radius: AppShadow.card.radius, x: AppShadow.card.x, y: AppShadow.card.y)
     }
 }
 

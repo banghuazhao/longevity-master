@@ -57,10 +57,13 @@ struct MeView: View {
                                 Spacer()
                             }
                             // Stats Section
-                            HStack(spacing: AppSpacing.large) {
+                            HStack(spacing: AppSpacing.small) {
                                 statView(title: "Habits", value: "\(allHabits.filter { !$0.isArchived }.count)/\(allHabits.count)")
+                                Divider()
                                 statView(title: "Check-ins", value: "\(allCheckIns.count)")
+                                Divider()
                                 statView(title: "Reminders", value: "\(allReminders.count)")
+                                Divider()
                                 statView(title: "Achievements", value: "\(allAchievements.filter { $0.isUnlocked }.count)/\(allAchievements.count)")
                             }
                             .padding(.top, AppSpacing.small)
@@ -76,7 +79,6 @@ struct MeView: View {
                                 }
                             }
                         }
-                        .padding()
                         .appCardStyle(theme: themeManager.current)
                         .padding(.horizontal)
                         moreFeatureView
@@ -122,9 +124,13 @@ struct MeView: View {
                 .font(AppFont.subheadline)
                 .fontWeight(.bold)
                 .foregroundColor(themeManager.current.primaryColor)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
             Text(title)
                 .font(AppFont.caption)
                 .foregroundColor(themeManager.current.textSecondary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
         }
     }
 

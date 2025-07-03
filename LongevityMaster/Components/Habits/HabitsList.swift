@@ -156,6 +156,7 @@ struct HabitsListView: View {
                         viewModel.onTapCreateHabit()
                     }) {
                         Image(systemName: "plus")
+                            .appCircularButtonStyle()
                     }
                 }
             }

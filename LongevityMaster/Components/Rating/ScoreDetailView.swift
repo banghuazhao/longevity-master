@@ -26,7 +26,12 @@ struct ScoreDetailView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") { dismiss() }
+                    Button{
+                        dismiss()
+                    } label: {
+                       Text("Done")
+                           .appRectButtonStyle()
+                   }
                 }
             }
             .task {

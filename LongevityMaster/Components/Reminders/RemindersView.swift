@@ -152,11 +152,7 @@ struct RemindersView: View {
                         Button("Go to Settings") {
                             viewModel.openSettings()
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 10)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+                        .appButtonStyle()
                     }
                 }
 

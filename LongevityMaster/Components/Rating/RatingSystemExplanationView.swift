@@ -31,8 +31,11 @@ struct RatingSystemExplanationView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button {
                         dismiss()
+                    } label: {
+                        Text("Done")
+                            .appRectButtonStyle()
                     }
                 }
             }

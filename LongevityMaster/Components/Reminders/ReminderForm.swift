@@ -50,14 +50,20 @@ struct ReminderFormView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
-                        Button("Cancel") {
+                        Button {
                             dismiss()
+                        } label: {
+                            Text("Cancel")
+                                .appRectButtonStyle()
                         }
                     }
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button(viewModel.isEdit ? "Update" : "Save") {
+                        Button {
                             viewModel.onTapSaveReminder()
                             dismiss()
+                        } label: {
+                            Text(viewModel.isEdit ? "Update" : "Save")
+                                .appRectButtonStyle()
                         }
                     }
                 }

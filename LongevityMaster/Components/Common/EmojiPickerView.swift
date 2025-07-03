@@ -1,9 +1,12 @@
 import SwiftUI
+import Dependencies
 
 struct EmojiPickerView: View {
     @Binding var selectedEmoji: String
     var title: String? = nil
     var categoryOrder: [Category] = Category.allCases
+    
+    @Dependency(\.themeManager) var themeManager
     
     enum Category: String, CaseIterable, Identifiable {
         case smileys = "Smileys"
@@ -57,7 +60,7 @@ struct EmojiPickerView: View {
                             Text(emoji)
                                 .font(.system(size: 32))
                                 .frame(width: 44, height: 44)
-                                .background(selectedEmoji == emoji ? Color.blue.opacity(0.2) : Color.clear)
+                                .background(selectedEmoji == emoji ? themeManager.current.primaryColor.opacity(0.2) : Color.clear)
                                 .clipShape(Circle())
                         }
                         .buttonStyle(PlainButtonStyle())

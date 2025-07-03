@@ -4,8 +4,10 @@
 //
 
 import SwiftUI
+import Dependencies
 
 struct CategoryFilterButton: View {
+    @Dependency(\.themeManager) var themeManager
     let title: String
     let isSelected: Bool
     let action: () -> Void
@@ -18,9 +20,9 @@ struct CategoryFilterButton: View {
                 .padding(.vertical, 8)
                 .background(
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(isSelected ? Color.accentColor : Color.gray.opacity(0.1))
+                        .fill(isSelected ? themeManager.current.primaryColor : themeManager.current.secondaryGray.opacity(0.1))
                 )
-                .foregroundColor(isSelected ? .white : .primary)
+                .foregroundColor(isSelected ? .white : themeManager.current.textPrimary)
         }
         .buttonStyle(PlainButtonStyle())
     }

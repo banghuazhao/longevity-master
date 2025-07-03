@@ -544,17 +544,23 @@ struct HabitFormView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Dismiss") {
+                    Button {
                         dismiss()
+                    } label: {
+                        Text("Dismiss")
+                            .appRectButtonStyle()
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(viewModel.isEdit ? "Update" : "Save") {
+                    Button {
                         Task {
                             if await viewModel.onTapSaveHabit() {
                                 dismiss()
                             }
                         }
+                    } label: {
+                        Text(viewModel.isEdit ? "Update" : "Save")
+                            .appRectButtonStyle()
                     }
                 }
             }

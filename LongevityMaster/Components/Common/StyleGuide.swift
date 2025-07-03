@@ -138,6 +138,27 @@ extension View {
             .cornerRadius(AppCornerRadius.button)
     }
     
+    func appCircularButtonStyle(theme: AppTheme = ThemeManager.shared.current) -> some View {
+        self
+            .font(AppFont.headline)
+            .frame(width: 38, height: 38)
+            .background(theme.primaryColor.opacity(0.1))
+            .foregroundColor(theme.primaryColor)
+            .clipShape(Circle())
+    }
+    
+    func appRectButtonStyle(theme: AppTheme = ThemeManager.shared.current) -> some View {
+        self
+            .font(AppFont.headline)
+            .frame(height: 38)
+            .padding(.horizontal, AppSpacing.medium)
+            .background(theme.primaryColor.opacity(0.1))
+            .foregroundColor(theme.primaryColor)
+            .clipShape(
+                RoundedRectangle(cornerRadius: 18)
+            )
+    }
+    
     func appBackground(theme: AppTheme = ThemeManager.shared.current) -> some View {
         self
             .background(theme.background)

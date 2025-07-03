@@ -64,6 +64,11 @@ struct LongevityMasterApp: App {
                     Label("Habits", systemImage: "list.bullet")
                 }
             
+            RatingView()
+                .tabItem {
+                    Label("Rating", systemImage: "star.fill")
+                }
+            
             MeView()
                 .tabItem {
                     Label("Me", systemImage: "person.fill")

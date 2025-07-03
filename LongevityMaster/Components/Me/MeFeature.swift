@@ -4,15 +4,64 @@
 //
 
 import SwiftUI
+import Dependencies
 
 struct MeView: View {
     @Environment(\.openURL) private var openURL
+    @Dependency(\.purchaseManager) var purchaseManager
+    @State private var showPurchaseSheet = false
     
     var body: some View {
         NavigationStack {
             VStack {
                 ScrollView {
                     VStack(spacing: 20) {
+                        // Me Section
+                        VStack(alignment: .leading, spacing: 16) {
+                            HStack(spacing: 16) {
+                                Image(systemName: "person.crop.circle.fill")
+                                    .resizable()
+                                    .frame(width: 60, height: 60)
+                                    .foregroundColor(.blue)
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("John Doe")
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                    Text("john.doe@email.com")
+                                        .font(.subheadline)
+                                        .foregroundColor(.blue)
+                                }
+                                Spacer()
+                            }
+                            if !purchaseManager.isRemoveAdsPurchased {
+                                Button(action: {
+                                    showPurchaseSheet = true
+                                }) {
+                                    Text("Upgrade to Premium")
+                                        .font(.subheadline)
+                                        .fontWeight(.semibold)
+                                        .padding(.vertical, 6)
+                                        .padding(.horizontal, 16)
+                                        .background(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [Color.orange, Color.yellow]),
+                                                startPoint: .top,
+                                                endPoint: .bottom
+                                            )
+                                        )
+                                        .foregroundColor(.black)
+                                        .cornerRadius(8)
+                                        .frame(minWidth: 0, maxWidth: 180, alignment: .leading)
+                                }
+                                .sheet(isPresented: $showPurchaseSheet) {
+                                    PurchaseSheet()
+                                }
+                            }
+                        }
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(16)
+                        .padding(.horizontal)
                         moreFeatureView
                         moreView
                         

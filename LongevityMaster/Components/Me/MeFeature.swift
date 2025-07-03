@@ -5,11 +5,23 @@
 
 import SwiftUI
 import Dependencies
+import SharingGRDB
 
 struct MeView: View {
     @Environment(\.openURL) private var openURL
     @Dependency(\.purchaseManager) var purchaseManager
+    @ObservationIgnored
+    @FetchAll(Habit.all, animation: .default) var allHabits
+    @ObservationIgnored
+    @FetchAll(CheckIn.all, animation: .default) var allCheckIns
+    @ObservationIgnored
+    @FetchAll(Reminder.all, animation: .default) var allReminders
+    @ObservationIgnored
+    @FetchAll(Achievement.all, animation: .default) var allAchievements
+    @AppStorage("userName") private var userName: String = "Your Name"
+    @AppStorage("userAvatar") private var userAvatar: String = "🙂"
     @State private var showPurchaseSheet = false
+    @State private var showEmojiPicker = false
     
     var body: some View {
         NavigationStack {
@@ -19,20 +31,65 @@ struct MeView: View {
                         // Me Section
                         VStack(alignment: .leading, spacing: 16) {
                             HStack(spacing: 16) {
-                                Image(systemName: "person.crop.circle.fill")
-                                    .resizable()
-                                    .frame(width: 60, height: 60)
-                                    .foregroundColor(.blue)
+                                Button(action: { showEmojiPicker = true }) {
+                                    Text(userAvatar)
+                                        .font(.system(size: 40))
+                                        .frame(width: 50, height: 50)
+                                        .background(Color(.systemGray5))
+                                        .clipShape(Circle())
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                                .sheet(isPresented: $showEmojiPicker) {
+                                    EmojiPickerView(selectedEmoji: $userAvatar, title: "Choose your avatar")
+                                    .presentationDetents([.medium])
+                                }
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("John Doe")
+                                    TextField("Your Name", text: $userName)
                                         .font(.title2)
                                         .fontWeight(.bold)
-                                    Text("john.doe@email.com")
-                                        .font(.subheadline)
-                                        .foregroundColor(.blue)
+                                        .padding(8)
+                                        .background(Color(.systemGray6))
+                                        .cornerRadius(8)
+                                        .lineLimit(1)
                                 }
                                 Spacer()
                             }
+                            // Stats Section
+                            HStack(spacing: 24) {
+                                VStack {
+                                    Text("\(allHabits.filter { !$0.isArchived }.count)/\(allHabits.count)")
+                                        .font(.subheadline)
+                                        .fontWeight(.bold)
+                                    Text("Habits")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                                VStack {
+                                    Text("\(allCheckIns.count)")
+                                        .font(.subheadline)
+                                        .fontWeight(.bold)
+                                    Text("Check-ins")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                                VStack {
+                                    Text("\(allReminders.count)")
+                                        .font(.subheadline)
+                                        .fontWeight(.bold)
+                                    Text("Reminders")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                                VStack {
+                                    Text("\(allAchievements.filter { $0.isUnlocked }.count)/\(allAchievements.count)")
+                                        .font(.subheadline)
+                                        .fontWeight(.bold)
+                                    Text("Achievements")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            .padding(.top, 8)
                             if !purchaseManager.isRemoveAdsPurchased {
                                 Button(action: {
                                     showPurchaseSheet = true
@@ -92,6 +149,7 @@ struct MeView: View {
                 BannerView()
                     .frame(height: 60)
             }
+            .scrollDismissesKeyboard(.immediately)
             .navigationTitle("Me")
             .navigationBarTitleDisplayMode(.inline)
         }

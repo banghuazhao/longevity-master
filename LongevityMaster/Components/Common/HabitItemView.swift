@@ -73,7 +73,7 @@ struct HabitItemView: View {
     ) {
         HabitItemView(
             todayHabit: TodayHabit(
-                habit: HabitsDataStore.eatSalmon,
+                habit: HabitsDataStore.eatSalmon.toMock,
                 isCompleted: true,
                 streakDescription: "🔥 4d streak",
                 frequencyDescription: "1/3 weekly"
@@ -82,7 +82,7 @@ struct HabitItemView: View {
 
         HabitItemView(
             todayHabit: TodayHabit(
-                habit: HabitsDataStore.swimming,
+                habit: HabitsDataStore.swimming.toMock,
                 isCompleted: false,
                 streakDescription: nil,
                 frequencyDescription: "1/3 this week"
@@ -91,7 +91,7 @@ struct HabitItemView: View {
 
         HabitItemView(
             todayHabit: TodayHabit(
-                habit: HabitsDataStore.sleep,
+                habit: HabitsDataStore.sleep.toMock,
                 isCompleted: true,
                 streakDescription: "🔥 4d streak",
                 frequencyDescription: nil

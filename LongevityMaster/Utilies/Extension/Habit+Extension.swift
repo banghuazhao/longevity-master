@@ -76,7 +76,6 @@ extension Habit {
     }
 
     func toTodayHabit(
-        id: Int = 0,
         isCompleted: Bool = true,
         streakDescription: String? = nil,
         frequencyDescription: String? = nil
@@ -91,14 +90,7 @@ extension Habit {
 
     var newHabitDraft: Habit.Draft {
         Habit.Draft(
-            name: name,
-            category: category,
-            frequency: frequency,
-            frequencyDetail: frequencyDetail,
-            antiAgingRating: antiAgingRating,
-            icon: icon,
-            color: color,
-            note: note
+            self
         )
     }
 }
@@ -136,9 +128,9 @@ extension Habit.Draft {
         return Int(frequencyDetail.replacingOccurrences(of: " ", with: "")) ?? 1
     }
     
-    func toHabit(id: Int = 0) -> Habit {
+    var toMock: Habit {
         Habit(
-            id: id,
+            id: 0,
             name: name,
             category: category,
             frequency: frequency,
@@ -151,15 +143,15 @@ extension Habit.Draft {
             isArchived: isArchived
         )
     }
+    
 
-    func toTodayHabit(
-        id: Int = 0,
+    func toMockTodayHabit(
         isCompleted: Bool = true,
         streakDescription: String? = nil,
         frequencyDescription: String? = nil
     ) -> TodayHabit {
         TodayHabit(
-            habit: toHabit(id: id),
+            habit: toMock,
             isCompleted: isCompleted,
             streakDescription: streakDescription,
             frequencyDescription: frequencyDescription

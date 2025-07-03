@@ -166,11 +166,11 @@ struct BannerView: UIViewControllerRepresentable {
 
         // MARK: - BannerViewDelegate methods
 
-        func bannerViewDidReceiveAd(_ bannerView: BannerView) {
+        private func bannerViewDidReceiveAd(_ bannerView: BannerView) {
             print("DID RECEIVE Banner AD")
         }
 
-        func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: Error) {
+        private func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: Error) {
             print("DID NOT RECEIVE Banner AD: \(error.localizedDescription)")
         }
     }

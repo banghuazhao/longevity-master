@@ -167,7 +167,10 @@ class HabitDetailViewModel {
             withErrorReporting {
                 try database.write { db in
                     let draft = CheckIn.Draft(date: day, habitID: habit.id)
-                    let savedCheckIn = try CheckIn.upsert(draft).returning(\.self).fetchOne(db)
+                    let savedCheckIn = try CheckIn
+                        .upsert { draft }
+                        .returning(\.self)
+                        .fetchOne(db)
                     
                     // Check for achievements after adding check-in
                     if let savedCheckIn {
@@ -191,7 +194,7 @@ class HabitDetailViewModel {
                 habit: Habit.Draft(habit)
             ) { [weak self] updatedHabit in
                 guard let self else { return }
-                habit = updatedHabit.toHabit(id: habit.id)
+                habit = updatedHabit
             }
         )
     }
@@ -251,7 +254,10 @@ class HabitDetailViewModel {
         Task {
             await withErrorReporting {
                 let updatedReminder = try await database.write { db in
-                    try Reminder.upsert(reminder).returning(\.self).fetchOne(db)
+                    try Reminder
+                        .upsert { reminder }
+                        .returning(\.self)
+                        .fetchOne(db)
                 }
                 if let updatedReminder {
                     await notificationService.scheduleReminder(updatedReminder)
@@ -629,7 +635,7 @@ private struct SizePreferenceKey: PreferenceKey {
     NavigationStack {
         HabitDetailView(
             viewModel: HabitDetailViewModel(
-                habit: HabitsDataStore.eatSalmon
+                habit: HabitsDataStore.eatSalmon.toMock
             )
         )
     }

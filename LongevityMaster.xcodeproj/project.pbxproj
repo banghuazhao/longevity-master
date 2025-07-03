@@ -28,9 +28,22 @@
 		993A34342DEB1032002CEA39 /* LongevityMasterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LongevityMasterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		99B6CAA32E166897001CC1CB /* Exceptions for "LongevityMaster" folder in "LongevityMaster" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"LongevityMaster-Info.plist",
+			);
+			target = 993A34212DEB1031002CEA39 /* LongevityMaster */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		993A34242DEB1031002CEA39 /* LongevityMaster */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				99B6CAA32E166897001CC1CB /* Exceptions for "LongevityMaster" folder in "LongevityMaster" target */,
+			);
 			path = LongevityMaster;
 			sourceTree = "<group>";
 		};

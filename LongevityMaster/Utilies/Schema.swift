@@ -106,9 +106,7 @@ func appDatabase() throws -> any DatabaseWriter {
     #if DEBUG
         migrator.registerMigration("Seed database") { db in
             try db.seed {
-                for habit in HabitsDataStore.all {
-                    habit
-                }
+                HabitsDataStore.all
             }
         }
     #endif
@@ -117,14 +115,16 @@ func appDatabase() throws -> any DatabaseWriter {
         let defaultTime = Calendar.current.date(from: DateComponents(hour: 9, minute: 0)) ?? Date()
         var defaultReminder = Reminder.Draft()
         defaultReminder.time = defaultTime
-        try Reminder.upsert(defaultReminder).execute(db)
+        let reminder = try Reminder.upsert { defaultReminder }.returning(\.self).fetchOne(db)
+        if let reminder {
+            Task {
+                await NotificationService.shared.scheduleReminder(reminder)
+            }
+        }
     }
     
     migrator.registerMigration("Add achievements") { db in
-        // Insert all achievement definitions
-        for achievementDraft in AchievementDefinitions.all {
-            try Achievement.upsert(achievementDraft).execute(db)
-        }
+        try Achievement.upsert { AchievementDefinitions.all }.execute(db)
     }
 
     try migrator.migrate(database)

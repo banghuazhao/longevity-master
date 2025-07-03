@@ -177,7 +177,7 @@ class TodayViewModel {
             } else {
                 try dataBase.write { [selectedDate] db in
                     let checkIn = CheckIn.Draft(date: selectedDate, habitID: todayHabit.habit.id)
-                    let savedCheckIn = try CheckIn.upsert(checkIn).returning(\.self).fetchOne(db)
+                    let savedCheckIn = try CheckIn.upsert { checkIn }.returning(\.self).fetchOne(db)
                     
                     // Check for achievements after adding check-in
                     if let savedCheckIn {

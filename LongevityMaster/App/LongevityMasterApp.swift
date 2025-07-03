@@ -58,6 +58,9 @@ struct LongevityMasterApp: App {
                 .tabItem {
                     Label("Today", systemImage: "calendar")
                 }
+                .onAppear {
+                    AdManager.requestATTPermission(with: 1)
+                }
 
             HabitsListView()
                 .tabItem {

@@ -130,7 +130,7 @@ struct HabitCardView: View {
 #Preview {
     VStack {
         HabitCardView(
-            habit: HabitsDataStore.eatSalmon,
+            habit: HabitsDataStore.eatSalmon.toMock,
             onEdit: {},
             onDelete: {},
             onToggleFavorite: {},
@@ -138,7 +138,7 @@ struct HabitCardView: View {
         )
 
         HabitCardView(
-            habit: HabitsDataStore.swimming,
+            habit: HabitsDataStore.swimming.toMock,
             onEdit: {},
             onDelete: {},
             onToggleFavorite: {},
@@ -146,7 +146,7 @@ struct HabitCardView: View {
         )
 
         HabitCardView(
-            habit: HabitsDataStore.sleep,
+            habit: HabitsDataStore.sleep.toMock,
             onEdit: {},
             onDelete: {},
             onToggleFavorite: {},

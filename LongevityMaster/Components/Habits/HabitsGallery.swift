@@ -27,10 +27,10 @@ struct HabitsGalleryView: View {
                             HabitsDataStore.all.filter { $0.category == category }
                         ) { habitNew in
                             HabitItemView(
-                                todayHabit: habitNew.toTodayHabit(),
+                                todayHabit: habitNew.toMockTodayHabit(),
                                 onTap: {
                                     Haptics.vibrateIfEnabled()
-                                    habit = habitNew.newHabitDraft
+                                    habit = habitNew
                                 }
                             )
                         }

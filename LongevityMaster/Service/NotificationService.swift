@@ -100,13 +100,9 @@ class NotificationService {
         return await UNUserNotificationCenter.current().pendingNotificationRequests()
     }
 
-    func createDefaultDailyReminder() -> Reminder {
+    func createDefaultDailyReminder() -> Reminder.Draft {
         let defaultTime = Calendar.current.date(from: DateComponents(hour: 9, minute: 0)) ?? Date()
-        return Reminder(
-            id: 0,
-            title: "Daily Check-in",
-            time: defaultTime
-        )
+        return Reminder.Draft(time: defaultTime)
     }
 
     // MARK: - Permission Status

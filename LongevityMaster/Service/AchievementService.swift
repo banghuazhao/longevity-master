@@ -54,7 +54,7 @@ class AchievementService {
                 if existingCount == 0 {
                     // Insert all achievement definitions
                     for achievementDraft in AchievementDefinitions.all {
-                        try Achievement.upsert(achievementDraft).execute(db)
+                        try Achievement.upsert { achievementDraft }.execute(db)
                     }
                 }
             }

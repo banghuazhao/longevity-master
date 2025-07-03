@@ -67,7 +67,10 @@ class RemindersViewModel: HashableObject {
         Task {
             await withErrorReporting {
                 let updatedReminder = try await database.write { db in
-                    try Reminder.upsert(reminder).returning(\.self).fetchOne(db)
+                    try Reminder
+                        .upsert { reminder }
+                        .returning(\.self)
+                        .fetchOne(db)
                 }
                 if let updatedReminder {
                     await notificationService.scheduleReminder(updatedReminder)
@@ -95,16 +98,18 @@ class RemindersViewModel: HashableObject {
     }
     
     func createDefaultDailyReminder() async {
-        let defaultReminder = notificationService.createDefaultDailyReminder()
-        
-        withErrorReporting {
-            let draft = Reminder.Draft(defaultReminder)
-            try database.write { db in
-                try Reminder.upsert(draft).execute(db)
+        await withErrorReporting {
+            let defaultReminder = notificationService.createDefaultDailyReminder()
+            let reminder = try await database.write { db in
+                try Reminder
+                    .upsert { defaultReminder }
+                    .returning(\.self)
+                    .fetchOne(db)
+            }
+            if let reminder {
+                await notificationService.scheduleReminder(reminder)
             }
         }
-        
-        await notificationService.scheduleReminder(defaultReminder)
     }
     
     func checkNotificationPermission() async {

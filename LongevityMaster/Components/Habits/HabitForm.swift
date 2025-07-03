@@ -23,7 +23,7 @@ class HabitFormViewModel: HashableObject {
         case .nDaysEachMonth: "1/\(habit.nDaysPerMonth) this month"
         default: nil
         }
-        return habit.toTodayHabit(
+        return habit.toMockTodayHabit(
             streakDescription: "🔥 1d streak",
             frequencyDescription: frequencyDescription
         )
@@ -47,11 +47,11 @@ class HabitFormViewModel: HashableObject {
 
     var showTitleEmptyToast = false
     let isEdit: Bool
-    let onSaveHabit: ((Habit.Draft) -> Void)?
+    let onSaveHabit: ((Habit) -> Void)?
 
     init(
         habit: Habit.Draft,
-        onSaveHabit: ((Habit.Draft) -> Void)? = nil
+        onSaveHabit: ((Habit) -> Void)? = nil
     ) {
         self.habit = habit
         self.onSaveHabit = onSaveHabit
@@ -132,7 +132,7 @@ class HabitFormViewModel: HashableObject {
         await withErrorReporting {
             let updatedHabit = try await database.write { [habit] db in
                 try Habit
-                    .upsert(habit)
+                    .upsert { habit }
                     .returning { $0 }
                     .fetchOne(db)
             }
@@ -144,7 +144,7 @@ class HabitFormViewModel: HashableObject {
                 draftReminder.title = "\(updatedHabit.icon) \(updatedHabit.name)"
                 let reminder = try await database.write { [draftReminder] db in
                     try Reminder
-                        .upsert(draftReminder)
+                        .upsert { draftReminder }
                         .returning { $0 }
                         .fetchOne(db)
                 }
@@ -171,8 +171,8 @@ class HabitFormViewModel: HashableObject {
                     notificationService.removeReminder(reminderToDelete)
                 }
             }
+            onSaveHabit?(updatedHabit)
         }
-        onSaveHabit?(habit)
         return true
     }
 

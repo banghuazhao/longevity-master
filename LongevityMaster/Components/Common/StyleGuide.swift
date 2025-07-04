@@ -138,12 +138,14 @@ extension View {
             .cornerRadius(AppCornerRadius.button)
     }
     
-    func appCircularButtonStyle(theme: AppTheme = ThemeManager.shared.current) -> some View {
+    func appCircularButtonStyle(theme: AppTheme = ThemeManager.shared.current, overrideColor: Color? = nil) -> some View {
         self
             .font(AppFont.headline)
             .frame(width: 38, height: 38)
-            .background(theme.primaryColor.opacity(0.1))
-            .foregroundColor(theme.primaryColor)
+            .background(
+                overrideColor?.opacity(0.1) ?? theme.primaryColor.opacity(0.1)
+            )
+            .foregroundColor(overrideColor ?? theme.primaryColor)
             .clipShape(Circle())
     }
     

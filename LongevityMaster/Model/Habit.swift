@@ -50,6 +50,16 @@ enum HabitCategory: Int, Codable, QueryBindable {
         case .mentalHealth: return "🧘 Mental"
         }
     }
+    
+    var icon: String {
+        switch self {
+        case .diet: return "🥑"
+        case .exercise: return "🏋️"
+        case .sleep: return "😴"
+        case .preventiveHealth: return "🩺"
+        case .mentalHealth: return "🧘"
+        }
+    }
 }
 
 enum HabitFrequency: Int, QueryBindable {

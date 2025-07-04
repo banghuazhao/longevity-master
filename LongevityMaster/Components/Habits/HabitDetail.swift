@@ -361,7 +361,7 @@ struct HabitDetailView: View {
                     viewModel.onTapDeleteHabit()
                 } label: {
                     Image(systemName: "trash")
-                        .appCircularButtonStyle()
+                        .appCircularButtonStyle(overrideColor: .red)
                 }
 
                 Button {

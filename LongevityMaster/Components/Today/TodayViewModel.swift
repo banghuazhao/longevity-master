@@ -22,10 +22,11 @@ class TodayViewModel {
     @CasePathable
     enum Route {
         case createHabit(HabitFormViewModel)
+        case showDeleteAlert(Habit)
     }
 
     var route: Route?
-    
+
     var isEditing: Bool = false
 
     @ObservationIgnored
@@ -47,16 +48,21 @@ class TodayViewModel {
 
     @ObservationIgnored
     @Dependency(\.defaultDatabase) var dataBase
-    
+
     @ObservationIgnored
     @Dependency(\.achievementService) var achievementService
-    
+
     @ObservationIgnored
     @Shared(.appStorage("startWeekOnMonday")) private var startWeekOnMonday: Bool = true
-    
+
     @ObservationIgnored
     @Dependency(\.soundPlayer) private var soundPlayer
+    @ObservationIgnored
+    @Dependency(\.notificationService) private var notificationService
+    @ObservationIgnored
+    @Dependency(\.defaultDatabase) private var database
     
+
     var userCalendar: Calendar {
         var cal = Calendar.current
         cal.firstWeekday = startWeekOnMonday ? 2 : 1 // 2 = Monday, 1 = Sunday
@@ -180,7 +186,7 @@ class TodayViewModel {
                 try dataBase.write { [selectedDate] db in
                     let checkIn = CheckIn.Draft(date: selectedDate, habitID: todayHabit.habit.id)
                     let savedCheckIn = try CheckIn.upsert { checkIn }.returning(\.self).fetchOne(db)
-                    
+
                     // Check for achievements after adding check-in
                     if let savedCheckIn {
                         Task {
@@ -195,27 +201,50 @@ class TodayViewModel {
         }
     }
 
-    func onTapAddHabit() {
+    func onTapAddHabit(category: HabitCategory? = nil) {
+        let icon = if let category {
+            category.icon
+        } else {
+            "🥑"
+        }
         route = .createHabit(
             HabitFormViewModel(
-                habit: Habit.Draft()
+                habit: Habit.Draft(
+                    category: category ?? .diet,
+                    icon: icon
+                )
             ) { [weak self] _ in
                 guard let self else { return }
                 route = nil
             }
         )
     }
-    
+
     var hasCompletedToday: Bool {
         todayHabits.allSatisfy { $0.isCompleted }
     }
-    
+
     var todayCompletionText: String {
         return "\(todayHabits.filter(\.isCompleted).count) / \(todayHabits.count)"
     }
-    
+
     func onTapEdit() {
-        isEditing = false
+        withAnimation {
+            isEditing.toggle()
+        }
+    }
+    
+    func showDeleteAlert(_ habit: Habit) {
+        route = .showDeleteAlert(habit)
+    }
+    
+    func confirmDeleteHabit(_ habit: Habit) {
+        withErrorReporting {
+            notificationService.removeRemindersForHabit(habit.id)
+            try  database.write { db in
+                try Habit.delete(habit).execute(db)
+            }
+        }
     }
 
     // MARK: - Private

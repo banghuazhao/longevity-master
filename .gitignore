@@ -85,3 +85,5 @@ fastlane/*.env
 iOSInjectionProject/
 
 .env
+
+LongevityMaster/Config/Release.xcconfig

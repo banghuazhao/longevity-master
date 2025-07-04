@@ -140,10 +140,18 @@ class HabitsListViewModel {
         }
     }
     
-    func onTapCreateHabit() {
+    func onTapCreateHabit(category: HabitCategory? = nil) {
+        let icon = if let category {
+            category.icon
+        } else {
+            "🥑"
+        }
         route = .createHabit(
             HabitFormViewModel(
-                habit: Habit.Draft()
+                habit: Habit.Draft(
+                    category: category ?? .diet,
+                    icon: icon
+                )
             ) { [weak self] _ in
                 guard let self else { return }
                 route = nil
@@ -198,23 +206,33 @@ struct HabitsListView: View {
                         .padding(.horizontal)
                     }
                     
-                    // Habits List
-                    ForEach(viewModel.filteredHabits) { habit in
-                        HabitCardView(
-                            habit: habit,
-                            onEdit: { viewModel.onTapEditHabit(habit) },
-                            onDelete: { viewModel.confirmDeleteHabit(habit) },
-                            onToggleFavorite: { viewModel.toggleFavorite(habit) },
-                            onToggleArchive: { viewModel.toggleArchive(habit) }
-                        )
-                        .padding(.horizontal)
-                        .sheet(item: $viewModel.route.editHabit, id: \.self) { habitFormViewModel in
-                            HabitFormView(
-                                viewModel: habitFormViewModel
-                            )
+                    if viewModel.filteredHabits.isEmpty {
+                        EmptyStateView(
+                            icon: "📝",
+                            title: "No Habits Yet",
+                            subtitle: "Start building healthy habits by creating your first one. Small steps lead to big changes!",
+                            buttonTitle: "Add Habit"
+                        ) {
+                            viewModel.onTapCreateHabit(category: viewModel.selectedCategory)
                         }
-                        .onTapGesture {
-                            viewModel.onTapHabitItem(habit)
+                    } else {
+                        ForEach(viewModel.filteredHabits) { habit in
+                            HabitCardView(
+                                habit: habit,
+                                onEdit: { viewModel.onTapEditHabit(habit) },
+                                onDelete: { viewModel.confirmDeleteHabit(habit) },
+                                onToggleFavorite: { viewModel.toggleFavorite(habit) },
+                                onToggleArchive: { viewModel.toggleArchive(habit) }
+                            )
+                            .padding(.horizontal)
+                            .sheet(item: $viewModel.route.editHabit, id: \.self) { habitFormViewModel in
+                                HabitFormView(
+                                    viewModel: habitFormViewModel
+                                )
+                            }
+                            .onTapGesture {
+                                viewModel.onTapHabitItem(habit)
+                            }
                         }
                     }
                 }

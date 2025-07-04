@@ -287,6 +287,74 @@ struct AchievementDefinitions {
             isUnlocked: false,
             unlockedDate: nil,
             habitID: nil
+        ),
+        
+        // Additional streak achievements
+        Achievement.Draft(
+            title: "Century Streak",
+            description: "Maintain a 100-day streak",
+            icon: "🔥",
+            type: .streak,
+            criteria: AchievementCriteria(targetValue: 100),
+            isUnlocked: false,
+            unlockedDate: nil,
+            habitID: nil
+        ),
+        
+        // Additional total check-ins
+        Achievement.Draft(
+            title: "Habit Legend",
+            description: "Complete 500 total check-ins",
+            icon: "✅",
+            type: .totalCheckIns,
+            criteria: AchievementCriteria(targetValue: 500),
+            isUnlocked: false,
+            unlockedDate: nil,
+            habitID: nil
+        ),
+        Achievement.Draft(
+            title: "Habit Grandmaster",
+            description: "Complete 1000 total check-ins",
+            icon: "✅",
+            type: .totalCheckIns,
+            criteria: AchievementCriteria(targetValue: 1000),
+            isUnlocked: false,
+            unlockedDate: nil,
+            habitID: nil
+        ),
+        
+        // Additional consistency achievements
+        Achievement.Draft(
+            title: "Super Consistent",
+            description: "Complete habits 10 days in a row",
+            icon: "📈",
+            type: .consistency,
+            criteria: AchievementCriteria(targetValue: 10),
+            isUnlocked: false,
+            unlockedDate: nil,
+            habitID: nil
+        ),
+        Achievement.Draft(
+            title: "Ultra Consistent",
+            description: "Complete habits 20 days in a row",
+            icon: "📈",
+            type: .consistency,
+            criteria: AchievementCriteria(targetValue: 20),
+            isUnlocked: false,
+            unlockedDate: nil,
+            habitID: nil
+        ),
+        
+        // Additional variety achievements
+        Achievement.Draft(
+            title: "Category Explorer",
+            description: "Complete habits from all 5 categories",
+            icon: "🌈",
+            type: .variety,
+            criteria: AchievementCriteria(targetValue: 5),
+            isUnlocked: false,
+            unlockedDate: nil,
+            habitID: nil
         )
     ]
 } 

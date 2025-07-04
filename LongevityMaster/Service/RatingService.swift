@@ -73,7 +73,7 @@ class RatingService {
             .filter { $0.isUnlocked }
         
         // Score based on number of unlocked achievements
-        // 10 points per achievement, max 180 points (18 achievements)
+        // 10 points per achievement
         return min(achievements.count * 10, ScoreCategory.achievements.maxScore)
     }
     

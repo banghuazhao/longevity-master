@@ -169,6 +169,8 @@ struct AchievementsView: View {
     @State private var viewModel = AchievementsViewModel()
     @State private var selectedTab = 0
     
+    @Dependency(\.themeManager) var themeManager
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -241,6 +243,8 @@ struct AchievementsView: View {
                     .padding(.horizontal)
                 }
             }
+            .appBackground()
+            .tint(themeManager.current.primaryColor)
             .navigationTitle("Achievements")
             .navigationBarTitleDisplayMode(.inline)
         }

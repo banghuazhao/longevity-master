@@ -87,7 +87,7 @@ enum ScoreCategory: String, CaseIterable {
         switch self {
         case .activeHabits: return 300
         case .antiAgingRating: return 300
-        case .achievements: return 180
+        case .achievements: return AchievementDefinitions.all.count * 10
         case .totalCheckIns: return 200
         case .longestStreak: return 250
         }

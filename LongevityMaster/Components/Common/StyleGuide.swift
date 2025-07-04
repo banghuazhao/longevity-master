@@ -16,7 +16,78 @@ protocol AppTheme {
     var textSecondary: Color { get }
 }
 
-// MARK: - Default Theme
+// MARK: - Theme Colors
+enum ThemeColor: String, CaseIterable {
+    case `default` = "Default"
+    case blue = "Blue"
+    case green = "Green"
+    case purple = "Purple"
+    
+    var primaryColor: Color {
+        switch self {
+        case .default:
+            return Color(red: 1.0, green: 0.47, blue: 0.18) // #FF772F - Orange
+        case .blue:
+            return Color(red: 0.0, green: 0.48, blue: 1.0) // #007AFF - Blue
+        case .green:
+            return Color(red: 0.20, green: 0.78, blue: 0.35) // #34C759 - Green
+        case .purple:
+            return Color(red: 0.58, green: 0.35, blue: 0.95) // #AF5CF7 - Purple
+        }
+    }
+    
+    var accentColor: Color {
+        switch self {
+        case .default:
+            return Color(red: 1.0, green: 0.58, blue: 0.0) // #FF9500
+        case .blue:
+            return Color(red: 0.0, green: 0.64, blue: 1.0) // #00A3FF
+        case .green:
+            return Color(red: 0.30, green: 0.85, blue: 0.45) // #4CD964
+        case .purple:
+            return Color(red: 0.68, green: 0.45, blue: 1.0) // #AD5CFF
+        }
+    }
+}
+
+// MARK: - Base Theme
+struct BaseTheme: AppTheme {
+    let primaryColor: Color
+    let secondaryGray = Color(red: 0.56, green: 0.56, blue: 0.58) // #8E8E93
+    let background = Color(red: 0.95, green: 0.95, blue: 0.97) // #F2F2F7
+    let card = Color.white
+    let accent: Color
+    let success = Color(red: 0.20, green: 0.78, blue: 0.35) // #34C759
+    let warning = Color(red: 1.0, green: 0.80, blue: 0.0) // #FFCC00
+    let error = Color(red: 1.0, green: 0.23, blue: 0.19) // #FF3B30
+    let textPrimary = Color(red: 0.11, green: 0.11, blue: 0.12) // #1C1C1E
+    let textSecondary = Color(red: 0.56, green: 0.56, blue: 0.58) // #8E8E93
+    
+    init(themeColor: ThemeColor) {
+        self.primaryColor = themeColor.primaryColor
+        self.accent = themeColor.accentColor
+    }
+}
+
+struct DarkBaseTheme: AppTheme {
+    let primaryColor: Color
+    let secondaryGray = Color(red: 0.56, green: 0.56, blue: 0.58)
+    let background = Color(red: 0.10, green: 0.10, blue: 0.12) // #1A1A1F
+    let card = Color(red: 0.16, green: 0.16, blue: 0.18) // #29292E
+    let accent: Color
+    let success = Color(red: 0.20, green: 0.78, blue: 0.35)
+    let warning = Color(red: 1.0, green: 0.80, blue: 0.0)
+    let error = Color(red: 1.0, green: 0.23, blue: 0.19)
+    let textPrimary = Color.white
+    let textSecondary = Color(red: 0.7, green: 0.7, blue: 0.75)
+    
+    init(themeColor: ThemeColor) {
+        self.primaryColor = themeColor.primaryColor
+        self.accent = themeColor.accentColor
+    }
+}
+
+// MARK: - Legacy Theme Support (for backward compatibility)
 struct DefaultTheme: AppTheme {
     let primaryColor = Color(red: 1.0, green: 0.47, blue: 0.18) // #FF772F
     let secondaryGray = Color(red: 0.56, green: 0.56, blue: 0.58) // #8E8E93
@@ -44,20 +115,41 @@ struct DarkTheme: AppTheme {
 }
 
 // MARK: - Theme Manager
+@Observable
 class ThemeManager: ObservableObject {
-    @Published var current: AppTheme = DefaultTheme()
+    var current: AppTheme = DefaultTheme()
+    @ObservationIgnored
     @Shared(.appStorage("darkModeEnabled")) private var darkModeEnabled: Bool = false
+    @ObservationIgnored
+    @Shared(.appStorage("selectedThemeColor")) private var selectedThemeColor: String = ThemeColor.default.rawValue
         
     static let shared = ThemeManager()
     
+    var currentThemeColor: String {
+        return selectedThemeColor
+    }
+    
     init() {
-        current = darkModeEnabled ? DarkTheme() : DefaultTheme()
+        updateCurrentTheme()
     }
 
     func updateTheme(darkMode: Bool) {
         withAnimation {
-            self.current = darkMode ? DarkTheme() : DefaultTheme()
+            updateCurrentTheme()
         }
+    }
+    
+    func updateThemeColor(_ themeColorName: String) {
+        $selectedThemeColor.withLock{
+            $0 = themeColorName
+        }
+        let themeColor = ThemeColor(rawValue: themeColorName) ?? .default
+        current = darkModeEnabled ? DarkBaseTheme(themeColor: themeColor) : BaseTheme(themeColor: themeColor)
+    }
+    
+    private func updateCurrentTheme() {
+        let themeColor = ThemeColor(rawValue: selectedThemeColor) ?? .default
+        current = darkModeEnabled ? DarkBaseTheme(themeColor: themeColor) : BaseTheme(themeColor: themeColor)
     }
 }
 

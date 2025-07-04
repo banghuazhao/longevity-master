@@ -35,7 +35,6 @@ struct PurchaseSheet: View {
                                 .aspectRatio(contentMode: .fit)
                         )
                     }
-                    .background(Color.white.opacity(0.7))
                     .clipShape(RoundedRectangle(cornerRadius: 18))
                     .frame(width: 90, height: 90)
                     

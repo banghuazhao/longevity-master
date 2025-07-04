@@ -182,6 +182,9 @@ struct MeView: View {
                 NavigationLink(destination: AchievementsView()) {
                     featureItem(icon: "trophy", title: "Achievements")
                 }
+                NavigationLink(destination: ThemeColorView()) {
+                    featureItem(icon: "paintbrush.fill", title: "Theme Color")
+                }
             }
         }
         .padding(.horizontal)

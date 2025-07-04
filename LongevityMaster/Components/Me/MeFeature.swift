@@ -170,6 +170,9 @@ struct MeView: View {
             Text("More Features")
                 .appSectionHeader(theme: themeManager.current)
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: AppSpacing.large) {
+                NavigationLink(destination: SettingView()) {
+                    featureItem(icon: "gear", title: "Settings")
+                }
                 NavigationLink(destination: CheckInHistoryView()) {
                     featureItem(icon: "clock", title: "Checkin History")
                 }
@@ -178,9 +181,6 @@ struct MeView: View {
                 }
                 NavigationLink(destination: AchievementsView()) {
                     featureItem(icon: "trophy", title: "Achievements")
-                }
-                NavigationLink(destination: SettingView()) {
-                    featureItem(icon: "gear", title: "Settings")
                 }
             }
         }

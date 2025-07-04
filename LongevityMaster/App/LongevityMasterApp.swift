@@ -12,6 +12,7 @@ struct LongevityMasterApp: App {
     @AppStorage("darkModeEnabled") private var darkModeEnabled: Bool = false
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @Dependency(\.achievementService) private var achievementService
+    @Dependency(\.themeManager) private var themeManager
     @StateObject private var openAd = OpenAd()
     @Environment(\.scenePhase) private var scenePhase
     @State private var didShowOpenAd = false
@@ -56,32 +57,37 @@ struct LongevityMasterApp: App {
     var tabView: some View {
         ZStack {
             TabView {
-                TodayView()
-                    .tabItem {
-                        Label("Today", systemImage: "calendar")
-                    }
-                    .onAppear {
-                        AdManager.requestATTPermission(with: 1)
-                    }
+                Tab {
+                    TodayView()
+                        .onAppear {
+                            AdManager.requestATTPermission(with: 1)
+                        }
+                } label: {
+                    Label("Today", systemImage: "calendar")
+                }
                 
-                HabitsListView()
-                    .tabItem {
-                        Label("Habits", systemImage: "list.bullet")
-                    }
+                Tab {
+                    HabitsListView()
+                } label: {
+                    Label("Habits", systemImage: "list.bullet")
+                }
                 
-                RatingView()
-                    .tabItem {
-                        Label("Rating", systemImage: "star.fill")
-                    }
+                Tab {
+                    RatingView()
+                } label: {
+                    Label("Rating", systemImage: "star.fill")
+                }
                 
-                MeView()
-                    .tabItem {
-                        Label("Me", systemImage: "person.fill")
-                    }
-                    .onAppear {
-                        AdManager.requestATTPermission(with: 1)
-                    }
+                Tab {
+                    MeView()
+                        .onAppear {
+                            AdManager.requestATTPermission(with: 1)
+                        }
+                } label: {
+                    Label("Me", systemImage: "person.fill")
+                }
             }
+            .tint(themeManager.current.primaryColor)
 
             // Onboarding overlay
             Color.clear

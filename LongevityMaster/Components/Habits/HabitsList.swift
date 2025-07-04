@@ -237,6 +237,7 @@ struct HabitsListView: View {
                     }
                 }
             }
+            .appBackground()
             .navigationTitle("Habits")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

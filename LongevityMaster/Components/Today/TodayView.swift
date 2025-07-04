@@ -132,6 +132,7 @@ struct TodayView: View {
             .sheet(item: $viewModel.route.createHabit, id: \.self) { habitFormViewModel in
                 HabitFormView(viewModel: habitFormViewModel)
             }
+            .appBackground()
             .navigationTitle("Today")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

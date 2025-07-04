@@ -23,12 +23,65 @@ class HabitsListViewModel {
     // Add selected category for filtering
     var selectedCategory: HabitCategory? = nil
     
-    // Computed property for filtered habits
-    var filteredHabits: [Habit] {
-        guard let selectedCategory = selectedCategory else {
-            return habits
+    // Add sort and filter properties
+    enum SortOption: String, CaseIterable {
+        case `default` = "Default"
+        case name = "Name"
+        case antiAgingRating = "Anti-Aging Rating"
+        
+        var displayName: String {
+            return self.rawValue
         }
-        return habits.filter { $0.category == selectedCategory }
+    }
+    
+    enum FilterOption: String, CaseIterable {
+        case all = "All"
+        case favorites = "Favorites"
+        case active = "Active"
+        case archived = "Archived"
+        
+        var displayName: String {
+            return self.rawValue
+        }
+    }
+    
+    @ObservationIgnored
+    @Shared(.appStorage("selectedSortOption")) var selectedSortOption: SortOption = .default
+    @ObservationIgnored
+    @Shared(.appStorage("selectedFilterOption")) var selectedFilterOption: FilterOption = .all
+    
+    // Computed property for filtered and sorted habits
+    var filteredHabits: [Habit] {
+        var filtered = habits
+        
+        // Apply category filter
+        if let selectedCategory = selectedCategory {
+            filtered = filtered.filter { $0.category == selectedCategory }
+        }
+        
+        // Apply additional filters
+        switch selectedFilterOption {
+        case .all:
+            break // No additional filtering
+        case .favorites:
+            filtered = filtered.filter { $0.isFavorite }
+        case .archived:
+            filtered = filtered.filter { $0.isArchived }
+        case .active:
+            filtered = filtered.filter { !$0.isArchived }
+        }
+        
+        // Apply sorting
+        switch selectedSortOption {
+        case .default:
+            break
+        case .name:
+            filtered.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        case .antiAgingRating:
+            filtered.sort { $0.antiAgingRating > $1.antiAgingRating }
+        }
+        
+        return filtered
     }
     
     @CasePathable
@@ -103,6 +156,18 @@ class HabitsListViewModel {
             selectedCategory = category
         }
     }
+    
+    func selectSortOption(_ option: SortOption) {
+        withAnimation {
+            $selectedSortOption.withLock { $0 = option }
+        }
+    }
+    
+    func selectFilterOption(_ option: FilterOption) {
+        withAnimation {
+            $selectedFilterOption.withLock { $0 = option }
+        }
+    }
 }
 
 struct HabitsListView: View {
@@ -157,6 +222,58 @@ struct HabitsListView: View {
             .navigationTitle("Habits")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Menu {
+                        // Sort Section
+                        Section("Sort By") {
+                            ForEach(HabitsListViewModel.SortOption.allCases, id: \.self) { option in
+                                Button(action: {
+                                    viewModel.selectSortOption(option)
+                                }) {
+                                    HStack {
+                                        Text(option.displayName)
+                                        if viewModel.selectedSortOption == option {
+                                            Spacer()
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // Filter Section
+                        Section("Filter By") {
+                            ForEach(HabitsListViewModel.FilterOption.allCases, id: \.self) { option in
+                                Button(action: {
+                                    viewModel.selectFilterOption(option)
+                                }) {
+                                    HStack {
+                                        Text(option.displayName)
+                                        if viewModel.selectedFilterOption == option {
+                                            Spacer()
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // Reset Option
+                        if viewModel.selectedFilterOption != .all || viewModel.selectedSortOption != .default {
+                            Divider()
+                            Button("Reset to Default") {
+                                viewModel.selectSortOption(.default)
+                                viewModel.selectFilterOption(.all)
+                            }
+                        }
+                    } label: {
+                        ZStack {
+                            Image(systemName: viewModel.selectedFilterOption != .all || viewModel.selectedSortOption != .default ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+                                .appCircularButtonStyle()
+                        }
+                    }
+                }
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         viewModel.onTapCreateHabit()

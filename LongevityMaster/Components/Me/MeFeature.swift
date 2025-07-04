@@ -71,9 +71,24 @@ struct MeView: View {
                                     Text("Upgrade to Premium")
                                         .appButtonStyle(theme: themeManager.current)
                                 }
-                                .sheet(isPresented: $showPurchaseSheet) {
-                                    PurchaseSheet()
+                            } else {
+                                HStack(spacing: 8) {
+                                    Image(systemName: "crown.fill")
+                                        .foregroundColor(.yellow)
+                                        .font(.title3)
+                                    Text("Welcome, Premium user!")
+                                        .font(.headline)
+                                        .foregroundColor(themeManager.current.primaryColor)
                                 }
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 16)
+                                .background(themeManager.current.card)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: AppCornerRadius.button)
+                                        .stroke(themeManager.current.primaryColor, lineWidth: 1.5)
+                                )
+                                .cornerRadius(AppCornerRadius.button)
+                                .shadow(color: AppShadow.card.color, radius: 4, x: 0, y: 2)
                             }
                         }
                         .padding()
@@ -106,8 +121,13 @@ struct MeView: View {
                         
                     }
                 }
-                BannerView()
-                    .frame(height: 60)
+                .sheet(isPresented: $showPurchaseSheet) {
+                    PurchaseSheet()
+                }
+                if !purchaseManager.isRemoveAdsPurchased {
+                    BannerView()
+                        .frame(height: 60)
+                }
             }
             .background(themeManager.current.background)
             .scrollDismissesKeyboard(.immediately)

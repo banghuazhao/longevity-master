@@ -4,6 +4,9 @@ import Dependencies
 struct PurchaseSheet: View {
     @Dependency(\.purchaseManager) var purchaseManager
     @Environment(\.dismiss) private var dismiss
+    @State private var isPurchasing = false
+    @State private var showSuccess = false
+    @State private var showSuccessModal = false
     
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -49,7 +52,7 @@ struct PurchaseSheet: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                     .padding(.bottom, 12)
-                Text("Unlock the full power of Longevity Master with these exclusive benefits:")
+                Text("Unlock the full power of Longevity Master with exclusive benefit:")
                     .font(.body)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.secondary)
@@ -61,11 +64,11 @@ struct PurchaseSheet: View {
                         Text("No Ads: ")
                             .fontWeight(.semibold) + Text("Enjoy a clean, ad-free habit tracking experience.")
                     }
-                    HStack(alignment: .top) {
-                        Text("• ").font(.title3).fontWeight(.bold)
-                        Text("Unlimited Habits: ")
-                            .fontWeight(.semibold) + Text("Create and track as many healthy habits as you want—no limits.")
-                    }
+                    //HStack(alignment: .top) {
+                    //    Text("• ").font(.title3).fontWeight(.bold)
+                    //    Text("Unlimited Habits: ")
+                    //        .fontWeight(.semibold) + Text("Create and track as many healthy habits as you want—no limits.")
+                    //}
                 }
                 .font(.body)
                 .padding(.horizontal)
@@ -74,23 +77,33 @@ struct PurchaseSheet: View {
                 if let product = purchaseManager.removeAdsProduct {
                     Button(action: {
                         Task {
+                            isPurchasing = true
                             await purchaseManager.purchaseRemoveAds()
                             if purchaseManager.isRemoveAdsPurchased {
-                                dismiss()
+                                showSuccess = true
+                                showSuccessModal = true
                             }
+                            isPurchasing = false
                         }
                     }) {
-                        Text("\(product.displayPrice) - Upgrade to Premium")
-                            .font(.headline)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(22)
+                        HStack {
+                            if isPurchasing {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .scaleEffect(0.8)
+                            }
+                            Text(showSuccess ? "Purchase Successful!" : "\(product.displayPrice) - Upgrade to Premium")
+                                .font(.subheadline)
+                        }
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 20)
+                        .background(showSuccess ? Color.green : Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(16)
                     }
                     .padding(.horizontal)
                     .padding(.bottom, 18)
-                    .disabled(purchaseManager.isRemoveAdsPurchased)
+                    .disabled(purchaseManager.isRemoveAdsPurchased || isPurchasing)
                 } else {
                     ProgressView()
                 }
@@ -118,8 +131,106 @@ struct PurchaseSheet: View {
                 Spacer()
             }
         }
+        .sheet(isPresented: $showSuccessModal, onDismiss: { showSuccess = false }) {
+            PremiumSuccessView(onContinue: {
+                showSuccessModal = false
+                showSuccess = false
+                dismiss()
+            })
+        }
         .task {
             await purchaseManager.loadProducts()
+        }
+    }
+}
+
+struct ConfettiDot: Identifiable {
+    let id = UUID()
+    let x: CGFloat
+    let y: CGFloat
+    let color: Color
+    let size: CGFloat
+}
+
+struct PremiumSuccessView: View {
+    var onContinue: () -> Void
+    @State private var animate = false
+    private let confetti: [ConfettiDot] = (0..<20).map { _ in
+        ConfettiDot(
+            x: CGFloat.random(in: 40...340),
+            y: CGFloat.random(in: 40...600),
+            color: [Color.yellow, Color.orange, Color.green, Color.blue, Color.pink, Color.purple].randomElement()!,
+            size: CGFloat.random(in: 8...16)
+        )
+    }
+
+    var body: some View {
+        ZStack {
+            Color.white.opacity(0.4).ignoresSafeArea()
+
+            // Confetti
+            ForEach(confetti) { dot in
+                Circle()
+                    .fill(dot.color)
+                    .frame(width: dot.size, height: dot.size)
+                    .position(x: dot.x, y: animate ? dot.y : dot.y - 80)
+                    .opacity(0.7)
+                    .animation(.easeOut(duration: 1.2), value: animate)
+            }
+
+            VStack(spacing: 28) {
+                ZStack {
+                    Circle()
+                        .fill(LinearGradient(gradient: Gradient(colors: [Color.yellow.opacity(0.5), Color.orange.opacity(0.2)]), startPoint: .top, endPoint: .bottom))
+                        .frame(width: 120, height: 120)
+                        .blur(radius: 8)
+                    Image(systemName: "crown.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                        .foregroundColor(.yellow)
+                        .shadow(color: .yellow, radius: 12)
+                }
+                Text("Congratulations!")
+                    .font(.system(size: 28, weight: .bold))
+                    .foregroundColor(.primary)
+                Text("💎 Thanks for being a Premium member!")
+                    .font(.title3)
+                    .foregroundColor(.secondary)
+                Divider()
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack {
+                        Image(systemName: "checkmark.seal.fill").foregroundColor(.green)
+                        Text("Ad-free experience")
+                    }
+                    HStack {
+                        Image(systemName: "star.fill").foregroundColor(.yellow)
+                        Text("Thank you for supporting Longevity Master!")
+                    }
+                }
+                .font(.body)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                Button(action: onContinue) {
+                    Text("Continue")
+                        .font(.headline)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 40)
+                        .background(
+                            LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing)
+                        )
+                        .foregroundColor(.white)
+                        .cornerRadius(16)
+                        .shadow(radius: 4)
+                }
+            }
+            .padding(36)
+            .background(
+                RoundedRectangle(cornerRadius: 28)
+                    .fill(LinearGradient(gradient: Gradient(colors: [Color.white, Color.yellow.opacity(0.1)]), startPoint: .top, endPoint: .bottom))
+            )
+            .shadow(radius: 24)
+            .padding(.horizontal, 24)
+            .onAppear { animate = true }
         }
     }
 }

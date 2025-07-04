@@ -1,36 +1,22 @@
 import Foundation
 import StoreKit
 import Dependencies
+import Sharing
 
 @Observable
-class PurchaseManager: NSObject {
-    var isRemoveAdsPurchased: Bool = false
-    var removeAdsProduct: Product?
+class PurchaseManager {
+    @ObservationIgnored
+    @Shared(.appStorage("isPremiumUserPurchased")) var isPremiumUserPurchased: Bool = false
+            
+    var premiumUserProduct: Product?
     private let productID = "premium_user"
     private var productsLoaded = false
-    private var updates: Task<Void, Never>?
-
-    override init() {
-        super.init()
-        // Check purchase status on initialization
-        Task { @MainActor in
-            await checkPurchased()
-        }
-        // Start observing transaction updates
-        updates = observeTransactionUpdates()
-        SKPaymentQueue.default().add(self)
-    }
-    
-    deinit {
-        self.updates?.cancel()
-        SKPaymentQueue.default().remove(self)
-    }
 
     func loadProducts() async {
         guard !productsLoaded else { return }
         do {
             let products = try await Product.products(for: [productID])
-            removeAdsProduct = products.first
+            premiumUserProduct = products.first
             productsLoaded = true
         } catch {
             print("Failed to load products: \(error)")
@@ -50,16 +36,16 @@ class PurchaseManager: NSObject {
             }
 
             if transaction.productID == productID && transaction.revocationDate == nil {
-                isRemoveAdsPurchased = true
+                $isPremiumUserPurchased.withLock { $0 = true }
                 return
             }
         }
-        isRemoveAdsPurchased = false
+        $isPremiumUserPurchased.withLock { $0 = false }
     }
 
     @MainActor
-    func purchaseRemoveAds() async {
-        guard let product = removeAdsProduct else { return }
+    func purchasePremiumUser() async -> Bool {
+        guard let product = premiumUserProduct else { return false }
         do {
             let result = try await product.purchase()
             switch result {
@@ -67,51 +53,33 @@ class PurchaseManager: NSObject {
                 // Successful purchase
                 await transaction.finish()
                 await updatePurchasedProducts()
+                return true
             case let .success(.unverified(_, error)):
                 // Successful purchase but transaction/receipt can't be verified
                 // Could be a jailbroken phone
                 print("Purchase verification failed: \(error)")
-                break
+                return false
             case .pending:
                 // Transaction waiting on SCA (Strong Customer Authentication) or
                 // approval from Ask to Buy
                 print("Purchase pending - waiting for approval")
-                break
+                return false
             case .userCancelled:
                 print("Purchase cancelled by user")
-                break
+                return false
             @unknown default:
                 print("Unknown purchase result")
-                break
+                return false
             }
         } catch {
             print("Purchase failed: \(error)")
+            return false
         }
     }
 
     @MainActor
     func restorePurchases() async {
         await checkPurchased()
-    }
-    
-    private func observeTransactionUpdates() -> Task<Void, Never> {
-        Task(priority: .background) { [unowned self] in
-            for await _ in Transaction.updates {
-                await self.updatePurchasedProducts()
-            }
-        }
-    }
-} 
-
-// MARK: - SKPaymentTransactionObserver
-extension PurchaseManager: SKPaymentTransactionObserver {
-    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        // Handle transaction updates if needed
-        // The main logic is handled by Transaction.updates in observeTransactionUpdates()
-    }
-
-    func paymentQueue(_ queue: SKPaymentQueue, shouldAddStorePayment payment: SKPayment, for product: SKProduct) -> Bool {
-        return true
     }
 }
 

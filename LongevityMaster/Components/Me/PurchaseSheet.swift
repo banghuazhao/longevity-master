@@ -74,36 +74,44 @@ struct PurchaseSheet: View {
                 .padding(.horizontal)
                 .padding(.bottom, 24)
                 // Purchase button
-                if let product = purchaseManager.removeAdsProduct {
-                    Button(action: {
-                        Task {
-                            isPurchasing = true
-                            await purchaseManager.purchaseRemoveAds()
-                            if purchaseManager.isRemoveAdsPurchased {
-                                showSuccess = true
-                                showSuccessModal = true
+                if let product = purchaseManager.premiumUserProduct {
+                    if purchaseManager.isPremiumUserPurchased {
+                        Text("You are now Premium user!")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                            .padding(.bottom, 12)
+                    } else {
+                        Button(action: {
+                            Task {
+                                isPurchasing = true
+                                if await purchaseManager.purchasePremiumUser() {
+                                    showSuccess = true
+                                    showSuccessModal = true
+                                }
+                                isPurchasing = false
                             }
-                            isPurchasing = false
-                        }
-                    }) {
-                        HStack {
-                            if isPurchasing {
-                                ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                    .scaleEffect(0.8)
+                        }) {
+                            HStack {
+                                if isPurchasing {
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                        .scaleEffect(0.8)
+                                }
+                                Text(showSuccess ? "Purchase Successful!" : "\(product.displayPrice) - Upgrade to Premium")
+                                    .font(.subheadline)
                             }
-                            Text(showSuccess ? "Purchase Successful!" : "\(product.displayPrice) - Upgrade to Premium")
-                                .font(.subheadline)
+                            .padding(.vertical, 12)
+                            .padding(.horizontal, 20)
+                            .background(showSuccess ? Color.green : Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(16)
                         }
-                        .padding(.vertical, 12)
-                        .padding(.horizontal, 20)
-                        .background(showSuccess ? Color.green : Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(16)
+                        .padding(.horizontal)
+                        .padding(.bottom, 18)
+                        .disabled(isPurchasing)
                     }
-                    .padding(.horizontal)
-                    .padding(.bottom, 18)
-                    .disabled(purchaseManager.isRemoveAdsPurchased || isPurchasing)
                 } else {
                     ProgressView()
                 }

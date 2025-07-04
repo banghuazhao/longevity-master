@@ -17,13 +17,13 @@ struct LongevityMasterApp: App {
     @State private var didShowOpenAd = false
     
     init() {
-        let tabBarAppearance = UITabBarAppearance()
-        tabBarAppearance.configureWithOpaqueBackground()
-        tabBarAppearance.backgroundColor = UIColor.systemBackground
-        UITabBar.appearance().standardAppearance = tabBarAppearance
-        if #available(iOS 15.0, *) {
-            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-        }
+//        let tabBarAppearance = UITabBarAppearance()
+//        tabBarAppearance.configureWithOpaqueBackground()
+//        tabBarAppearance.backgroundColor = UIColor.systemBackground
+//        UITabBar.appearance().standardAppearance = tabBarAppearance
+//        if #available(iOS 15.0, *) {
+//            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+//        }
         MobileAds.shared.start(completionHandler: nil)
         prepareDependencies {
             $0.defaultDatabase = try! appDatabase()
@@ -51,13 +51,16 @@ struct LongevityMasterApp: App {
                 .onChange(of: scenePhase) { _, newPhase in
                     print("scenePhase: \(newPhase)")
                     if newPhase == .active {
-                        if !purchaseManager.isRemoveAdsPurchased {
+                        if !purchaseManager.isPremiumUserPurchased {
                             openAd.tryToPresentAd()
                         }
                         openAd.appHasEnterBackgroundBefore = false
                     } else if newPhase == .background {
                         openAd.appHasEnterBackgroundBefore = true
                     }
+                }
+                .task {
+                    await purchaseManager.checkPurchased()
                 }
         }
     }

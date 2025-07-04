@@ -64,7 +64,7 @@ struct MeView: View {
                                 statView(title: "Achievements", value: "\(allAchievements.filter { $0.isUnlocked }.count)/\(allAchievements.count)")
                             }
                             .padding(.top, AppSpacing.small)
-                            if !purchaseManager.isRemoveAdsPurchased {
+                            if !purchaseManager.isPremiumUserPurchased {
                                 Button(action: {
                                     showPurchaseSheet = true
                                 }) {
@@ -121,13 +121,13 @@ struct MeView: View {
                         
                     }
                 }
-                .sheet(isPresented: $showPurchaseSheet) {
-                    PurchaseSheet()
-                }
-                if !purchaseManager.isRemoveAdsPurchased {
+                if !purchaseManager.isPremiumUserPurchased {
                     BannerView()
                         .frame(height: 60)
                 }
+            }
+            .sheet(isPresented: $showPurchaseSheet) {
+                PurchaseSheet()
             }
             .background(themeManager.current.background)
             .scrollDismissesKeyboard(.immediately)

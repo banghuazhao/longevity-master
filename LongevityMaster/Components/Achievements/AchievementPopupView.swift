@@ -66,6 +66,33 @@ struct AchievementPopupView: View {
                 }
                 .opacity(animationOpacity)
                 
+                // Share button
+                ShareLink(
+                    item: createAchievementShareText(achievement),
+                    subject: Text("Achievement Unlocked!"),
+                    message: Text("Check out this achievement I unlocked in LongevityMaster!")
+                ) {
+                    HStack {
+                        Image(systemName: "square.and.arrow.up")
+                        Text("Share Achievement")
+                    }
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color.green, Color.blue]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .cornerRadius(12)
+                }
+                .opacity(animationOpacity)
+                .padding(.horizontal)
+                
                 // Continue button
                 Button(action: dismissPopup) {
                     Text("Continue")
@@ -133,6 +160,26 @@ struct AchievementPopupView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             isPresented = false
         }
+    }
+    
+    private func createAchievementShareText(_ achievement: Achievement) -> String {
+        let appName = "LongevityMaster"
+        let appStoreURL = "https://apps.apple.com/app/id\(Constants.AppID.longevityMasterID)"
+        
+        var shareText = "🎉 Achievement Unlocked! 🎉\n\n"
+        shareText += "🏆 \(achievement.title)\n"
+        shareText += "📝 \(achievement.description)\n\n"
+        
+        if let unlockDate = achievement.unlockedDate {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            shareText += "📅 Unlocked on \(formatter.string(from: unlockDate))\n\n"
+        }
+        
+        shareText += "💪 Keep building healthy habits with \(appName)!\n"
+        shareText += "📱 Download: \(appStoreURL)"
+        
+        return shareText
     }
 }
 

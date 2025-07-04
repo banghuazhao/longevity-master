@@ -163,6 +163,26 @@ class AchievementsViewModel {
         
         return min(Double(totalCheckIns) / Double(targetCount), 1.0)
     }
+    
+    func createAchievementShareText(_ achievement: Achievement) -> String {
+        let appName = "LongevityMaster"
+        let appStoreURL = "https://apps.apple.com/app/id\(Constants.AppID.longevityMasterID)"
+        
+        var shareText = "🎉 Achievement Unlocked! 🎉\n\n"
+        shareText += "🏆 \(achievement.title)\n"
+        shareText += "📝 \(achievement.description)\n\n"
+        
+        if let unlockDate = achievement.unlockedDate {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            shareText += "📅 Unlocked on \(formatter.string(from: unlockDate))\n\n"
+        }
+        
+        shareText += "💪 Keep building healthy habits with \(appName)!\n"
+        shareText += "📱 Download: \(appStoreURL)"
+        
+        return shareText
+    }
 }
 
 struct AchievementsView: View {
@@ -236,7 +256,8 @@ struct AchievementsView: View {
                         ForEach(achievementsToShow) { achievement in
                             AchievementRowView(
                                 achievement: achievement,
-                                progress: viewModel.getProgress(for: achievement)
+                                progress: viewModel.getProgress(for: achievement),
+                                shareText: viewModel.createAchievementShareText(achievement)
                             )
                         }
                     }
@@ -267,6 +288,7 @@ struct AchievementsView: View {
 struct AchievementRowView: View {
     let achievement: Achievement
     let progress: Double
+    let shareText: String
     
     var body: some View {
         HStack(spacing: 16) {
@@ -303,9 +325,21 @@ struct AchievementRowView: View {
                     Spacer()
                     
                     if achievement.isUnlocked {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.green)
-                            .font(.title3)
+                        HStack(spacing: 8) {
+                            ShareLink(
+                                item: shareText,
+                                subject: Text("Achievement Unlocked!"),
+                                message: Text("Check out this achievement I unlocked in LongevityMaster!")
+                            ) {
+                                Image(systemName: "square.and.arrow.up")
+                                    .foregroundColor(.blue)
+                                    .font(.caption)
+                            }
+                            
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(.green)
+                                .font(.title3)
+                        }
                     }
                 }
                 

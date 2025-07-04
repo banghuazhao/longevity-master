@@ -727,9 +727,21 @@ struct HabitAchievementRowView: View {
             
             Spacer()
             
-            Image(systemName: "chevron.right")
-                .font(.caption)
-                .foregroundColor(themeManager.current.textSecondary)
+            HStack(spacing: 8) {
+                ShareLink(
+                    item: createAchievementShareText(achievement),
+                    subject: Text("Achievement Unlocked!"),
+                    message: Text("Check out this achievement I unlocked in LongevityMaster!")
+                ) {
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.caption)
+                        .foregroundColor(themeManager.current.primaryColor)
+                }
+                
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundColor(themeManager.current.textSecondary)
+            }
         }
         .padding(.vertical, 8)
         .padding(.horizontal, 12)
@@ -737,6 +749,26 @@ struct HabitAchievementRowView: View {
             RoundedRectangle(cornerRadius: 8)
                 .fill(themeManager.current.card)
         )
+    }
+    
+    func createAchievementShareText(_ achievement: Achievement) -> String {
+        let appName = "LongevityMaster"
+        let appStoreURL = "https://apps.apple.com/app/id\(Constants.AppID.longevityMasterID)"
+        
+        var shareText = "🎉 Achievement Unlocked! 🎉\n\n"
+        shareText += "🏆 \(achievement.title)\n"
+        shareText += "📝 \(achievement.description)\n\n"
+        
+        if let unlockDate = achievement.unlockedDate {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            shareText += "📅 Unlocked on \(formatter.string(from: unlockDate))\n\n"
+        }
+        
+        shareText += "💪 Keep building healthy habits with \(appName)!\n"
+        shareText += "📱 Download: \(appStoreURL)"
+        
+        return shareText
     }
 }
 

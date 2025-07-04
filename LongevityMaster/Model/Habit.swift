@@ -34,21 +34,21 @@ enum HabitCategory: Int, Codable, QueryBindable {
 
     var title: String {
         switch self {
-        case .diet: return "🍎 Diet"
-        case .exercise: return "🏋️ Exercise"
-        case .sleep: return "😴 Sleep"
-        case .preventiveHealth: return "🩺 Preventive Health"
-        case .mentalHealth: return "🧘 Mental Health"
+        case .diet: return String(localized: "🍎 Diet")
+        case .exercise: return String(localized: "🏋️ Exercise")
+        case .sleep: return String(localized: "😴 Sleep")
+        case .preventiveHealth: return String(localized: "🩺 Preventive Health")
+        case .mentalHealth: return String(localized: "🧘 Mental Health")
         }
     }
     
     var briefTitle: String {
         switch self {
-        case .diet: return "🍎 Diet"
-        case .exercise: return "🏋️ Exercise"
-        case .sleep: return "😴 Sleep"
-        case .preventiveHealth: return "🩺 Health"
-        case .mentalHealth: return "🧘 Mental"
+        case .diet: return String(localized: "🍎 Diet")
+        case .exercise: return String(localized: "🏋️ Exercise")
+        case .sleep: return String(localized: "😴 Sleep")
+        case .preventiveHealth: return String(localized: "🩺 Health")
+        case .mentalHealth: return String(localized: "🧘 Mental")
         }
     }
     
@@ -105,24 +105,24 @@ extension Habit {
     var frequencyDescription: String {
         switch frequency {
         case .fixedDaysInWeek:
-            return daysOfWeek.isEmpty ? "No days set" : "Every \(daysOfWeekString) of week"
+            return daysOfWeek.isEmpty ? "No days set" : String(localized: "Every \(daysOfWeekString) of week")
         case .nDaysEachWeek:
             let days = Int(frequencyDetail)
             guard let days else { return "No days set" }
             if days == 1 {
-                return "1 day each week"
+                return String(localized: "1 day each week")
             } else {
-                return "\(days) days each week"
+                return String(localized: "\(days) days each week")
             }
         case .fixedDaysInMonth:
-            return daysOfMonth.isEmpty ? "No days set" : "Every \(daysOfMonthString) of month"
+            return daysOfMonth.isEmpty ? "No days set" : String(localized: "Every \(daysOfMonthString) of month")
         case .nDaysEachMonth:
             let days = Int(frequencyDetail)
             guard let days else { return "No days set" }
             if days == 1 {
-                return "1 day each month"
+                return String(localized: "1 day each month")
             } else {
-                return "\(days) days each month"
+                return String(localized: "\(days) days each month")
             }
         }
     }

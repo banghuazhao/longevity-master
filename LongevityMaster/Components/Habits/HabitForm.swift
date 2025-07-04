@@ -19,12 +19,12 @@ class HabitFormViewModel: HashableObject {
 
     var todayHabit: TodayDraftHabit {
         let frequencyDescription: String? = switch habit.frequency {
-        case .nDaysEachWeek: "1/\(habit.nDaysPerWeek) this week"
-        case .nDaysEachMonth: "1/\(habit.nDaysPerMonth) this month"
+        case .nDaysEachWeek: String(localized: "1/\(habit.nDaysPerWeek) this week")
+        case .nDaysEachMonth: String(localized: "1/\(habit.nDaysPerMonth) this month")
         default: nil
         }
         return habit.toTodayDraftHabit(
-            streakDescription: "🔥 1d streak",
+            streakDescription: String(localized: "🔥 1d streak"),
             frequencyDescription: frequencyDescription
         )
     }

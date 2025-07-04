@@ -19,7 +19,7 @@ struct MeView: View {
     @FetchAll(Reminder.all, animation: .default) var allReminders
     @ObservationIgnored
     @FetchAll(Achievement.all, animation: .default) var allAchievements
-    @AppStorage("userName") private var userName: String = "Your Name"
+    @AppStorage("userName") private var userName: String = String(localized: "Your Name")
     @AppStorage("userAvatar") private var userAvatar: String = "😀"
     @State private var showPurchaseSheet = false
     @State private var showEmojiPicker = false
@@ -58,13 +58,13 @@ struct MeView: View {
                             }
                             // Stats Section
                             HStack(spacing: AppSpacing.small) {
-                                statView(title: "Habits", value: "\(allHabits.filter { !$0.isArchived }.count)/\(allHabits.count)")
+                                statView(title: String(localized: "Habits"), value: "\(allHabits.filter { !$0.isArchived }.count)/\(allHabits.count)")
                                 Divider()
-                                statView(title: "Check-ins", value: "\(allCheckIns.count)")
+                                statView(title: String(localized: "Check-ins"), value: "\(allCheckIns.count)")
                                 Divider()
-                                statView(title: "Reminders", value: "\(allReminders.count)")
+                                statView(title: String(localized: "Reminders"), value: "\(allReminders.count)")
                                 Divider()
-                                statView(title: "Achievements", value: "\(allAchievements.filter { $0.isUnlocked }.count)/\(allAchievements.count)")
+                                statView(title: String(localized: "Achievements"), value: "\(allAchievements.filter { $0.isUnlocked }.count)/\(allAchievements.count)")
                             }
                             .padding(.top, AppSpacing.small)
                             if !purchaseManager.isPremiumUserPurchased {
@@ -160,24 +160,24 @@ struct MeView: View {
                 .appSectionHeader(theme: themeManager.current)
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: AppSpacing.large) {
                 NavigationLink(destination: MoreAppsView()) {
-                    moreItem(icon: "storefront", title: "More Apps")
+                    moreItem(icon: "storefront", title: String(localized: "More Apps"))
                 }
                 if let url = URL(string: "https://itunes.apple.com/app/id\(Constants.AppID.longevityMasterID)?action=write-review") {
                     Button {
                         openURL(url)
                     } label: {
-                        moreItem(icon: "star.fill", title: "Rate Us")
+                        moreItem(icon: "star.fill", title: String(localized: "Rate Us"))
                     }
                 }
                 Button {
                     let email = SupportEmail()
                     email.send(openURL: openURL)
                 } label: {
-                    moreItem(icon: "envelope.fill", title: "Feedback")
+                    moreItem(icon: "envelope.fill", title: String(localized: "Feedback"))
                 }
                 if let appURL = URL(string: "https://itunes.apple.com/app/id\(Constants.AppID.longevityMasterID)") {
                     ShareLink(item: appURL) {
-                        moreItem(icon: "square.and.arrow.up", title: "Share App")
+                        moreItem(icon: "square.and.arrow.up", title: String(localized: "Share App"))
                     }
                 }
             }
@@ -191,19 +191,19 @@ struct MeView: View {
                 .appSectionHeader(theme: themeManager.current)
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: AppSpacing.large) {
                 NavigationLink(destination: SettingView()) {
-                    featureItem(icon: "gear", title: "Settings")
+                    featureItem(icon: "gear", title: String(localized: "Settings"))
                 }
                 NavigationLink(destination: CheckInHistoryView()) {
-                    featureItem(icon: "clock", title: "Checkin History")
+                    featureItem(icon: "clock", title: String(localized: "Checkin History"))
                 }
                 NavigationLink(destination: RemindersView()) {
-                    featureItem(icon: "bell", title: "Reminders")
+                    featureItem(icon: "bell", title: String(localized: "Reminders"))
                 }
                 NavigationLink(destination: AchievementsView()) {
-                    featureItem(icon: "trophy", title: "Achievements")
+                    featureItem(icon: "trophy", title: String(localized: "Achievements"))
                 }
                 NavigationLink(destination: ThemeColorView()) {
-                    featureItem(icon: "paintbrush.fill", title: "Theme Color")
+                    featureItem(icon: "paintbrush.fill", title: String(localized: "Theme Color"))
                 }
             }
         }

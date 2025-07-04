@@ -88,7 +88,7 @@ class TodayViewModel {
                     let dayOfWeek = userCalendar.component(.weekday, from: selectedDate)
                     if habit.daysOfWeek.contains(dayOfWeek) {
                         let streak = calculateStreakForFixedDays(habit: habit, days: habit.daysOfWeek, unit: .weekday, checkIns: checkInsForHabit)
-                        let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
+                        let streakDescription = streak > 0 && isCompletedToday ? String(localized: "🔥 \(streak)d streak") : nil
                         return TodayHabit(
                             habit: habit,
                             isCompleted: isCompletedToday,
@@ -102,7 +102,7 @@ class TodayViewModel {
                     let dayOfMonth = userCalendar.component(.day, from: selectedDate)
                     if habit.daysOfMonth.contains(dayOfMonth) {
                         let streak = calculateStreakForFixedDays(habit: habit, days: habit.daysOfMonth, unit: .day, checkIns: checkInsForHabit)
-                        let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
+                        let streakDescription = streak > 0 && isCompletedToday ? String(localized: "🔥 \(streak)d streak") : nil
                         return TodayHabit(
                             habit: habit,
                             isCompleted: isCompletedToday,
@@ -120,12 +120,12 @@ class TodayViewModel {
                     }
                     if habit.nDaysPerWeek > checkInsThisWeek.count || isCompletedToday {
                         let streak = calculateStreakForNDaysPerPeriod(habit: habit, checkIns: checkInsForHabit)
-                        let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
+                        let streakDescription = streak > 0 && isCompletedToday ? String(localized: "🔥 \(streak)d streak") : nil
                         let checkInsThisWeekUntilToday = checkInsForHabit.filter { checkIn in
                             checkIn.date >= startOfWeek &&
                                 checkIn.date <= endOfDay
                         }
-                        let frequencyDescription = "\(checkInsThisWeekUntilToday.count)/\(habit.nDaysPerWeek) this week"
+                        let frequencyDescription = String(localized: "\(checkInsThisWeekUntilToday.count)/\(habit.nDaysPerWeek) this week")
                         return TodayHabit(
                             habit: habit,
                             isCompleted: isCompletedToday,
@@ -144,12 +144,12 @@ class TodayViewModel {
                     }
                     if habit.nDaysPerMonth > checkInsThisMonth.count || isCompletedToday {
                         let streak = calculateStreakForNDaysPerPeriod(habit: habit, checkIns: checkInsForHabit)
-                        let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
+                        let streakDescription = streak > 0 && isCompletedToday ? String(localized: "🔥 \(streak)d streak") : nil
                         let checkInsThisMonthUntilToday = checkInsForHabit.filter { checkIn in
                             checkIn.date >= startOfMonth &&
                                 checkIn.date <= endOfDay
                         }
-                        let frequencyDescription = "\(checkInsThisMonthUntilToday.count)/\(habit.nDaysPerMonth) this month"
+                        let frequencyDescription = String(localized: "\(checkInsThisMonthUntilToday.count)/\(habit.nDaysPerMonth) this month")
                         return TodayHabit(
                             habit: habit,
                             isCompleted: isCompletedToday,

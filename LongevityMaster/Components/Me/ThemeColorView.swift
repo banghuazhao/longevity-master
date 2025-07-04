@@ -88,17 +88,7 @@ struct ThemeColorView: View {
             .background(themeManager.current.background.ignoresSafeArea())
             .navigationTitle("Theme Color")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden()
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Text(String(localized: "Done"))
-                            .appRectButtonStyle()
-                    }
-                }
-            }
+//            .navigationBarBackButtonHidden()
         }
     }
 }
@@ -122,7 +112,7 @@ struct ThemeColorCard: View {
                 ZStack {
                     Circle()
                         .fill(themeOption.color)
-                        .frame(width: 80, height: 80)
+                        .frame(width: 50, height: 50)
                         .shadow(color: themeOption.color.opacity(0.3), radius: 8, x: 0, y: 4)
                     
                     Image(systemName: themeOption.icon)

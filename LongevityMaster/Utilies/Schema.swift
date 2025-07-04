@@ -104,11 +104,11 @@ func appDatabase() throws -> any DatabaseWriter {
         .execute(db)
     }
     #if DEBUG
-        migrator.registerMigration("Seed database") { db in
-            try db.seed {
-                HabitsDataStore.all
-            }
-        }
+//        migrator.registerMigration("Seed database") { db in
+//            try db.seed {
+//                HabitsDataStore.all
+//            }
+//        }
     #endif
     
     migrator.registerMigration("Add default daily reminder") { db in

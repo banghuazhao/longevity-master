@@ -20,7 +20,7 @@ struct MeView: View {
     @ObservationIgnored
     @FetchAll(Achievement.all, animation: .default) var allAchievements
     @AppStorage("userName") private var userName: String = "Your Name"
-    @AppStorage("userAvatar") private var userAvatar: String = "🙂"
+    @AppStorage("userAvatar") private var userAvatar: String = "😀"
     @State private var showPurchaseSheet = false
     @State private var showEmojiPicker = false
     

@@ -10,6 +10,7 @@ import GoogleMobileAds
 @main
 struct LongevityMasterApp: App {
     @AppStorage("darkModeEnabled") private var darkModeEnabled: Bool = false
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @Dependency(\.achievementService) private var achievementService
     @StateObject private var openAd = OpenAd()
     @Environment(\.scenePhase) private var scenePhase
@@ -53,31 +54,39 @@ struct LongevityMasterApp: App {
     }
     
     var tabView: some View {
-        TabView {
-            TodayView()
-                .tabItem {
-                    Label("Today", systemImage: "calendar")
-                }
-                .onAppear {
-                    AdManager.requestATTPermission(with: 1)
-                }
+        ZStack {
+            TabView {
+                TodayView()
+                    .tabItem {
+                        Label("Today", systemImage: "calendar")
+                    }
+                    .onAppear {
+                        AdManager.requestATTPermission(with: 1)
+                    }
+                
+                HabitsListView()
+                    .tabItem {
+                        Label("Habits", systemImage: "list.bullet")
+                    }
+                
+                RatingView()
+                    .tabItem {
+                        Label("Rating", systemImage: "star.fill")
+                    }
+                
+                MeView()
+                    .tabItem {
+                        Label("Me", systemImage: "person.fill")
+                    }
+                    .onAppear {
+                        AdManager.requestATTPermission(with: 1)
+                    }
+            }
 
-            HabitsListView()
-                .tabItem {
-                    Label("Habits", systemImage: "list.bullet")
-                }
-            
-            RatingView()
-                .tabItem {
-                    Label("Rating", systemImage: "star.fill")
-                }
-            
-            MeView()
-                .tabItem {
-                    Label("Me", systemImage: "person.fill")
-                }
-                .onAppear {
-                    AdManager.requestATTPermission(with: 1)
+            // Onboarding overlay
+            Color.clear
+                .fullScreenCover(isPresented: .constant(!hasCompletedOnboarding)) {
+                    OnboardingView()
                 }
         }
     }

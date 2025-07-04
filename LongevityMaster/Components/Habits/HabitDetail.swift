@@ -16,6 +16,9 @@ class HabitDetailViewModel {
     @FetchAll(Reminder.all, animation: .default) var allReminders
 
     @ObservationIgnored
+    @FetchAll(Achievement.all, animation: .default) var allAchievements
+
+    @ObservationIgnored
     @Dependency(\.defaultDatabase) var database
 
     @ObservationIgnored
@@ -49,6 +52,7 @@ class HabitDetailViewModel {
         case editHabit(HabitFormViewModel)
         case deleteAlert
         case editReminder(ReminderFormViewModel)
+        case showAchievement(Achievement)
     }
 
     var route: Route?
@@ -72,6 +76,12 @@ class HabitDetailViewModel {
 
     var reminders: [Reminder.Draft] {
         allReminders.filter { $0.habitID == habit.id }.map(Reminder.Draft.init)
+    }
+
+    var habitAchievements: [Achievement] {
+        allAchievements.filter { achievement in
+            achievement.habitID == habit.id
+        }.sorted { $0.unlockedDate ?? Date() > $1.unlockedDate ?? Date() }
     }
 
     var showFavoriteInfo: Bool = false
@@ -283,6 +293,10 @@ class HabitDetailViewModel {
             }
         }
     }
+    
+    func onTapAchievement(_ achievement: Achievement) {
+        route = .showAchievement(achievement)
+    }
 }
 
 struct HabitDetailView: View {
@@ -351,6 +365,28 @@ struct HabitDetailView: View {
                     }
                     .appCardStyle(theme: themeManager.current)
                 }
+
+                // Achievements Section
+                if !viewModel.habitAchievements.isEmpty {
+                    VStack(alignment: .leading, spacing: AppSpacing.small) {
+                        HStack {
+                            Image(systemName: "trophy.fill")
+                                .foregroundColor(themeManager.current.primaryColor)
+                            Text("Achievements")
+                                .fontWeight(.semibold)
+                            Spacer()
+                        }
+                        VStack(spacing: AppSpacing.small) {
+                            ForEach(viewModel.habitAchievements, id: \.id) { achievement in
+                                HabitAchievementRowView(achievement: achievement)
+                                    .onTapGesture {
+                                        viewModel.onTapAchievement(achievement)
+                                    }
+                            }
+                        }
+                    }
+                    .appCardStyle(theme: themeManager.current)
+                }
             }
             .padding(AppSpacing.medium)
         }
@@ -375,6 +411,15 @@ struct HabitDetailView: View {
         .sheet(item: $viewModel.route.editHabit, id: \.self) { habitFormViewModel in
             HabitFormView(
                 viewModel: habitFormViewModel
+            )
+        }
+        .sheet(item: $viewModel.route.showAchievement) { achievement in
+            AchievementPopupView(
+                achievement: achievement,
+                isPresented: Binding(
+                    get: { viewModel.route.showAchievement != nil },
+                    set: { if !$0 { viewModel.route = nil } }
+                )
             )
         }
         .alert(
@@ -636,6 +681,62 @@ private struct NoteSection: View {
             }
         }
         .appInfoSection()
+    }
+}
+
+struct HabitAchievementRowView: View {
+    let achievement: Achievement
+    @Dependency(\.themeManager) var themeManager
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            // Achievement icon
+            ZStack {
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color.yellow, Color.orange]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 40, height: 40)
+                
+                Text(achievement.icon)
+                    .font(.title3)
+            }
+            
+            // Achievement details
+            VStack(alignment: .leading, spacing: 2) {
+                Text(achievement.title)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(themeManager.current.textPrimary)
+                
+                Text(achievement.description)
+                    .font(.caption)
+                    .foregroundColor(themeManager.current.textSecondary)
+                    .lineLimit(2)
+                
+                if let unlockDate = achievement.unlockedDate {
+                    Text("Unlocked \(unlockDate.formatted(date: .abbreviated, time: .omitted))")
+                        .font(.caption2)
+                        .foregroundColor(.green)
+                }
+            }
+            
+            Spacer()
+            
+            Image(systemName: "chevron.right")
+                .font(.caption)
+                .foregroundColor(themeManager.current.textSecondary)
+        }
+        .padding(.vertical, 8)
+        .padding(.horizontal, 12)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(themeManager.current.card)
+        )
     }
 }
 

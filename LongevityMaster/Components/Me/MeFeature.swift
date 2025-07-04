@@ -67,16 +67,31 @@ struct MeView: View {
                                 statView(title: "Achievements", value: "\(allAchievements.filter { $0.isUnlocked }.count)/\(allAchievements.count)")
                             }
                             .padding(.top, AppSpacing.small)
-                            if !purchaseManager.isRemoveAdsPurchased {
+                            if !purchaseManager.isPremiumUserPurchased {
                                 Button(action: {
                                     showPurchaseSheet = true
                                 }) {
                                     Text("Upgrade to Premium")
                                         .appButtonStyle(theme: themeManager.current)
                                 }
-                                .sheet(isPresented: $showPurchaseSheet) {
-                                    PurchaseSheet()
+                            } else {
+                                HStack(spacing: 8) {
+                                    Image(systemName: "crown.fill")
+                                        .foregroundColor(.yellow)
+                                        .font(.title3)
+                                    Text("Welcome, Premium user!")
+                                        .font(.headline)
+                                        .foregroundColor(themeManager.current.primaryColor)
                                 }
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 16)
+                                .background(themeManager.current.card)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: AppCornerRadius.button)
+                                        .stroke(themeManager.current.primaryColor, lineWidth: 1.5)
+                                )
+                                .cornerRadius(AppCornerRadius.button)
+                                .shadow(color: AppShadow.card.color, radius: 4, x: 0, y: 2)
                             }
                         }
                         .appCardStyle(theme: themeManager.current)
@@ -108,8 +123,13 @@ struct MeView: View {
                         
                     }
                 }
-                BannerView()
-                    .frame(height: 60)
+                if !purchaseManager.isPremiumUserPurchased {
+                    BannerView()
+                        .frame(height: 60)
+                }
+            }
+            .sheet(isPresented: $showPurchaseSheet) {
+                PurchaseSheet()
             }
             .background(themeManager.current.background)
             .scrollDismissesKeyboard(.immediately)

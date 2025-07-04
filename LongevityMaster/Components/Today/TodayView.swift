@@ -38,7 +38,7 @@ struct TodayView: View {
                         .tint(ThemeManager.shared.current.primaryColor)
                         
                         if viewModel.hasCompletedToday {
-                            Text("✅")
+                            Text(String(localized: "✅"))
                                 .font(AppFont.subheadline)
                         } else {
                             Text(viewModel.todayCompletionText)
@@ -91,7 +91,7 @@ struct TodayView: View {
                                             .alert(
                                                 item: $viewModel.route.showDeleteAlert,
                                                 title: { habit in
-                                                    Text("Delete ‘\(habit.truncatedName)’?")
+                                                    Text(String(localized: "Delete ‘\(habit.truncatedName)’?"))
                                                 },
                                                 actions: { habit in
                                                     Button("Delete", role: .destructive) {
@@ -100,7 +100,7 @@ struct TodayView: View {
                                                     Button("Cancel", role: .cancel) {}
                                                 },
                                                 message: { habit in
-                                                    Text("This will permanently delete the habit ‘\(habit.truncatedName)’ and all its check-in history. This action cannot be undone. Are you sure you want to proceed?")
+                                                    Text(String(localized: "This will permanently delete the habit ‘\(habit.truncatedName)’ and all its check-in history. This action cannot be undone. Are you sure you want to proceed?"))
                                                 }
                                             )
                                         }

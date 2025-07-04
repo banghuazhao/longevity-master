@@ -29,7 +29,7 @@ struct ScoreDetailView: View {
                     Button{
                         dismiss()
                     } label: {
-                       Text("Done")
+                       Text(String(localized: "Done"))
                            .appRectButtonStyle()
                    }
                 }
@@ -52,7 +52,7 @@ struct ScoreDetailView: View {
                         .font(.title2)
                         .fontWeight(.bold)
                     
-                    Text("Score: \(viewModel.currentScore)/\(viewModel.category.maxScore)")
+                    Text(String(localized: "Score: \(viewModel.currentScore)/\(viewModel.category.maxScore)"))
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
@@ -61,7 +61,7 @@ struct ScoreDetailView: View {
             
             VStack(spacing: 8) {
                 HStack {
-                    Text("Progress")
+                    Text(String(localized: "Progress"))
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     Spacer()
@@ -80,7 +80,7 @@ struct ScoreDetailView: View {
     
     private var progressSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("How It's Calculated")
+            Text(String(localized: "How It's Calculated"))
                 .font(.headline)
                 .fontWeight(.semibold)
             
@@ -93,7 +93,7 @@ struct ScoreDetailView: View {
     
     private var statisticsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Your Statistics")
+            Text(String(localized: "Your Statistics"))
                 .font(.headline)
                 .fontWeight(.semibold)
             
@@ -107,7 +107,7 @@ struct ScoreDetailView: View {
     
     private var tipsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Tips to Improve")
+            Text(String(localized: "Tips to Improve"))
                 .font(.headline)
                 .fontWeight(.semibold)
             

@@ -71,7 +71,7 @@ struct MeView: View {
                                 Button(action: {
                                     showPurchaseSheet = true
                                 }) {
-                                    Text("Upgrade to Premium")
+                                    Text(String(localized: "Upgrade to Premium"))
                                         .appButtonStyle(theme: themeManager.current)
                                 }
                             } else {
@@ -79,7 +79,7 @@ struct MeView: View {
                                     Image(systemName: "crown.fill")
                                         .foregroundColor(.yellow)
                                         .font(.title3)
-                                    Text("Welcome, Premium user!")
+                                    Text(String(localized: "Welcome, Premium user!"))
                                         .font(.headline)
                                         .foregroundColor(themeManager.current.primaryColor)
                                 }
@@ -102,7 +102,7 @@ struct MeView: View {
                         Spacer().frame(height: 10)
                         
                         VStack(spacing: 4) {
-                            Text("Longevity Master  |  Healthy Habits for Long Life")
+                            Text(String(localized: "Longevity Master  |  Healthy Habits for Long Life"))
                                 .font(AppFont.footnote)
                                 .fontWeight(.semibold)
                                 .foregroundColor(themeManager.current.textSecondary)
@@ -156,7 +156,7 @@ struct MeView: View {
 
     private var othersView: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text("Others")
+            Text(String(localized: "Others"))
                 .appSectionHeader(theme: themeManager.current)
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: AppSpacing.large) {
                 NavigationLink(destination: MoreAppsView()) {
@@ -187,7 +187,7 @@ struct MeView: View {
 
     private var moreFeatureView: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text("More Features")
+            Text(String(localized: "More Features"))
                 .appSectionHeader(theme: themeManager.current)
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: AppSpacing.large) {
                 NavigationLink(destination: SettingView()) {
@@ -220,6 +220,8 @@ struct MeView: View {
             Text(title)
                 .font(AppFont.caption)
                 .foregroundColor(themeManager.current.textPrimary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
         }
         .frame(maxWidth: .infinity)
         .padding(AppSpacing.small)
@@ -238,6 +240,8 @@ struct MeView: View {
             Text(title)
                 .font(AppFont.caption)
                 .foregroundColor(themeManager.current.textPrimary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
         }
         .frame(maxWidth: .infinity)
         .padding(AppSpacing.small)

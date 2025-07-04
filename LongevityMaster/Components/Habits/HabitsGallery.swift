@@ -34,7 +34,7 @@ struct HabitsGalleryView: View {
                         HabitDraftItemView(
                             todayHabit: habitNew.toTodayDraftHabit(),
                             onTap: {
-                                Haptics.vibrateIfEnabled()
+                                Haptics.shared.vibrateIfEnabled()
                                 habit = habitNew
                             }
                         )

@@ -25,12 +25,12 @@ struct ThemeColorView: View {
                 VStack(spacing: AppSpacing.large) {
                     // Header
                     VStack(spacing: AppSpacing.medium) {
-                        Text("Choose Theme Color")
+                        Text(String(localized: "Choose Theme Color"))
                             .font(AppFont.title)
                             .fontWeight(.bold)
                             .foregroundColor(themeManager.current.textPrimary)
                         
-                        Text("Select your preferred primary color for the app")
+                        Text(String(localized: "Select your preferred primary color for the app"))
                             .font(AppFont.body)
                             .foregroundColor(themeManager.current.textSecondary)
                             .multilineTextAlignment(.center)
@@ -53,13 +53,13 @@ struct ThemeColorView: View {
                     
                     // Preview Section
                     VStack(alignment: .leading, spacing: AppSpacing.medium) {
-                        Text("Preview")
+                        Text(String(localized: "Preview"))
                             .appSectionHeader(theme: themeManager.current)
                         
                         VStack(spacing: AppSpacing.medium) {
                             // Sample button
                             Button(action: {}) {
-                                Text("Sample Button")
+                                Text(String(localized: "Sample Button"))
                                     .appButtonStyle(theme: themeManager.current)
                             }
                             
@@ -68,12 +68,12 @@ struct ThemeColorView: View {
                                 HStack {
                                     Image(systemName: "star.fill")
                                         .foregroundColor(themeManager.current.primaryColor)
-                                    Text("Sample Card")
+                                    Text(String(localized: "Sample Card"))
                                         .font(AppFont.headline)
                                         .foregroundColor(themeManager.current.textPrimary)
                                     Spacer()
                                 }
-                                Text("This is how your selected theme color will look throughout the app.")
+                                Text(String(localized: "This is how your selected theme color will look throughout the app."))
                                     .font(AppFont.body)
                                     .foregroundColor(themeManager.current.textSecondary)
                             }
@@ -94,7 +94,7 @@ struct ThemeColorView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Text("Done")
+                        Text(String(localized: "Done"))
                             .appRectButtonStyle()
                     }
                 }

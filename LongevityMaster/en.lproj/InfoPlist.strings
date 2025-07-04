@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  LongevityMaster
+
+  Created by Banghua Zhao on 04/07/2025.
+  
+*/
+
+"CFBundleDisplayName" = "Longevity Master";
+"NSUserTrackingUsageDescription" = "This identifier will be used to deliver personalized ads to you.";

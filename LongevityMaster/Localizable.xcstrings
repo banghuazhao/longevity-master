@@ -1,0 +1,1846 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : ""
+          }
+        }
+      }
+    },
+    "%@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@"
+          }
+        }
+      }
+    },
+    "%@ - %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ - %2$@"
+          }
+        }
+      }
+    },
+    "%@ - Upgrade to Premium" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ - 升级到高级版"
+          }
+        }
+      }
+    },
+    "%lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%lld"
+          }
+        }
+      }
+    },
+    "%lld day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%lld 天"
+          }
+        }
+      }
+    },
+    "%lld days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%lld 天"
+          }
+        }
+      }
+    },
+    "%lld of %lld unlocked" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld unlocked"
+          }
+        }
+      }
+    },
+    "%lld points" : {
+
+    },
+    "%lld points needed" : {
+
+    },
+    "%lld/%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld/%2$lld"
+          }
+        }
+      }
+    },
+    "%lld/1200" : {
+
+    },
+    "%lld%%" : {
+
+    },
+    "• " : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "• "
+          }
+        }
+      }
+    },
+    "< Previous" : {
+
+    },
+    "✅" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "✅"
+          }
+        }
+      }
+    },
+    "🎉 Achievement Unlocked! 🎉" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "🎉 成就解锁！🎉"
+          }
+        }
+      }
+    },
+    "💎 Thanks for being a Premium member!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "💎 感谢您成为高级会员！"
+          }
+        }
+      }
+    },
+    "10–15 minutes of sunlight for vitamin D." : {
+
+    },
+    "Achievement Unlocked!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "成就解锁！"
+          }
+        }
+      }
+    },
+    "Achievements" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "成就"
+          }
+        }
+      }
+    },
+    "Ad-free experience" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "无广告体验"
+          }
+        }
+      }
+    },
+    "Add a Reminder" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "添加提醒"
+          }
+        }
+      }
+    },
+    "Add Reminder" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "添加提醒"
+          }
+        }
+      }
+    },
+    "Add to Favorites" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "添加到收藏"
+          }
+        }
+      }
+    },
+    "After being completed on %lld day, the habit will not show up again this month." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "在 %lld 天完成后，该习惯本月将不再显示。"
+          }
+        }
+      }
+    },
+    "After being completed on %lld day, the habit will not show up again this week." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "在 %lld 天完成后，该习惯本周将不再显示。"
+          }
+        }
+      }
+    },
+    "After being completed on %lld days, the habit will not show up again this month." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "在 %lld 天完成后，该习惯本月将不再显示。"
+          }
+        }
+      }
+    },
+    "After being completed on %lld days, the habit will not show up again this week." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "在 %lld 天完成后，该习惯本周将不再显示。"
+          }
+        }
+      }
+    },
+    "All" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "全部"
+          }
+        }
+      }
+    },
+    "All Cities" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "所有城市"
+          }
+        }
+      }
+    },
+    "Anti-Aging Rating" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "抗衰老评分"
+          }
+        }
+      }
+    },
+    "Archive" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "存档"
+          }
+        }
+      }
+    },
+    "Archived" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "已存档"
+          }
+        }
+      }
+    },
+    "At most 64 notifications allowed. Currently %lld set." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "最多允许 64 个通知。目前已设置 %lld 个。"
+          }
+        }
+      }
+    },
+    "Avoid caffeine after 2 PM" : {
+
+    },
+    "BMI Diary" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "BMI 日记"
+          }
+        }
+      }
+    },
+    "Boost daily movement and heart health." : {
+
+    },
+    "Brisk walking" : {
+
+    },
+    "Brush & floss teeth" : {
+
+    },
+    "Budget, Expense & Bill Planner" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "预算、费用和账单规划"
+          }
+        }
+      }
+    },
+    "Build healthy habits that promote longevity and well-being. Let's start by selecting some habits that interest you." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "养成促进长寿和健康的习惯。让我们从选择一些您感兴趣的习惯开始。"
+          }
+        }
+      }
+    },
+    "Build muscle and improve bone density." : {
+
+    },
+    "CalmCanvas" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "CalmCanvas"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "取消"
+          }
+        }
+      }
+    },
+    "Category" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "类别"
+          }
+        }
+      }
+    },
+    "Check out more Apps made by us" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "查看我们开发的更多应用"
+          }
+        }
+      }
+    },
+    "Check out this achievement I unlocked in LongevityMaster!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "看看我在 LongevityMaster 中解锁的成就！"
+          }
+        }
+      }
+    },
+    "Check-in History" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "签到历史"
+          }
+        }
+      }
+    },
+    "Checkin Sound" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "签到音效"
+          }
+        }
+      }
+    },
+    "Choose Theme Color" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "选择主题颜色"
+          }
+        }
+      }
+    },
+    "Choose Your Habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "选择您的习惯"
+          }
+        }
+      }
+    },
+    "ClassicReads" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "ClassicReads"
+          }
+        }
+      }
+    },
+    "Congratulations!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "恭喜！"
+          }
+        }
+      }
+    },
+    "Connect socially" : {
+
+    },
+    "Consume a 4-6 oz portion of salmon for omega-3 fatty acids." : {
+
+    },
+    "Consume a 4–6 oz portion of salmon for omega-3 fatty acids." : {
+
+    },
+    "Contact Support" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "联系支持"
+          }
+        }
+      }
+    },
+    "Continue" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "继续"
+          }
+        }
+      }
+    },
+    "Create Daily Reminder" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "创建每日提醒"
+          }
+        }
+      }
+    },
+    "Dark Mode" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "暗黑模式"
+          }
+        }
+      }
+    },
+    "Delete" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "删除"
+          }
+        }
+      }
+    },
+    "Delete ' %@ '?" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "删除 ' %@ '？"
+          }
+        }
+      }
+    },
+    "Delete '%@'?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "删除 '%@'？"
+          }
+        }
+      }
+    },
+    "Delete ‘%@’?" : {
+
+    },
+    "Description" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "描述"
+          }
+        }
+      }
+    },
+    "Digital detox" : {
+
+    },
+    "Dismiss" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "关闭"
+          }
+        }
+      }
+    },
+    "Do a morning stretch routine" : {
+
+    },
+    "Done" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "完成"
+          }
+        }
+      }
+    },
+    "Drink 1–2 cups of green tea for polyphenols and hydration." : {
+
+    },
+    "Drink at least 8 cups of water per day to stay hydrated." : {
+
+    },
+    "Drink green tea" : {
+
+    },
+    "Eat a handful of blueberries or strawberries for antioxidants." : {
+
+    },
+    "Eat a small handful of nuts for healthy fats and protein." : {
+
+    },
+    "Eat berries" : {
+
+    },
+    "Eat kale" : {
+
+    },
+    "Eat nuts" : {
+
+    },
+    "Eat salmon" : {
+
+    },
+    "Edit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "编辑"
+          }
+        }
+      }
+    },
+    "Edit Habit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "编辑习惯"
+          }
+        }
+      }
+    },
+    "Edit Reminder" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "编辑提醒"
+          }
+        }
+      }
+    },
+    "Engage in meaningful conversation with loved ones." : {
+
+    },
+    "Enjoy a clean, ad-free habit tracking experience." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "享受无广告的习惯跟踪体验。"
+          }
+        }
+      }
+    },
+    "Falling Block Puzzle" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Falling Block Puzzle"
+          }
+        }
+      }
+    },
+    "Favorite" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "收藏"
+          }
+        }
+      }
+    },
+    "Filter By" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "按条件筛选"
+          }
+        }
+      }
+    },
+    "Fitness, Weight Loss & Health" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "健身、减重与健康"
+          }
+        }
+      }
+    },
+    "Fitness, Weight Loss &Health" : {
+
+    },
+    "Follow bedtime routine" : {
+
+    },
+    "Frequency" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "频率"
+          }
+        }
+      }
+    },
+    "Gallery" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "习惯库"
+          }
+        }
+      }
+    },
+    "Get Started" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "开始使用"
+          }
+        }
+      }
+    },
+    "Get sun exposure" : {
+
+    },
+    "Go to Settings" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "前往设置"
+          }
+        }
+      }
+    },
+    "Got it!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "明白！"
+          }
+        }
+      }
+    },
+    "Habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "习惯"
+          }
+        }
+      }
+    },
+    "How %@ Score is Calculated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ 分数如何计算"
+          }
+        }
+      }
+    },
+    "How It's Calculated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "计算方式"
+          }
+        }
+      }
+    },
+    "Improve flexibility and reduce stress." : {
+
+    },
+    "Improves cardiovascular health and reduces stress." : {
+
+    },
+    "Include kale in meals for antioxidants and vitamins." : {
+
+    },
+    "Locked" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "已锁定"
+          }
+        }
+      }
+    },
+    "Longevity Master  |  Healthy Habits for Long Life" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "长寿大师 | 健康长寿的习惯"
+          }
+        }
+      }
+    },
+    "Longevity Rating" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "长寿评分"
+          }
+        }
+      }
+    },
+    "Longevity Rating System" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "长寿评分系统"
+          }
+        }
+      }
+    },
+    "Maintain a consistent schedule with enough rest." : {
+
+    },
+    "Maintain a consistent sleep schedule with 7-9 hours of rest." : {
+
+    },
+    "Maintain good posture to reduce back and neck strain." : {
+
+    },
+    "Math Solver & Calculator App" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "数学解题与计算器应用"
+          }
+        }
+      }
+    },
+    "Max" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "最大"
+          }
+        }
+      }
+    },
+    "Me" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "我"
+          }
+        }
+      }
+    },
+    "Meditate" : {
+
+    },
+    "Meditation, Relaxing" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "冥想、放松"
+          }
+        }
+      }
+    },
+    "Meditation,Relaxing" : {
+
+    },
+    "Minesweeper App" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "扫雷应用"
+          }
+        }
+      }
+    },
+    "Minesweeper Z" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Minesweeper Z"
+          }
+        }
+      }
+    },
+    "Mode" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "模式"
+          }
+        }
+      }
+    },
+    "Monday" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "星期一"
+          }
+        }
+      }
+    },
+    "Money Tracker" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "财务跟踪"
+          }
+        }
+      }
+    },
+    "More Apps" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "更多应用"
+          }
+        }
+      }
+    },
+    "More Features" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "更多功能"
+          }
+        }
+      }
+    },
+    "Movie, TV Show Tracker" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "电影、电视剧跟踪"
+          }
+        }
+      }
+    },
+    "Movie,TV Show Tracker" : {
+
+    },
+    "Nap 20–30 minutes to boost alertness." : {
+
+    },
+    "New Habit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "新习惯"
+          }
+        }
+      }
+    },
+    "New habit name" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "新习惯名称"
+          }
+        }
+      }
+    },
+    "New Reminder" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "新提醒"
+          }
+        }
+      }
+    },
+    "Next >" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "下一页 >"
+          }
+        }
+      }
+    },
+    "No Ads: " : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "无广告："
+          }
+        }
+      }
+    },
+    "No reminders set" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "未设置提醒"
+          }
+        }
+      }
+    },
+    "No reminders set for this habit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "此习惯未设置提醒"
+          }
+        }
+      }
+    },
+    "Notifications are disabled. Please enable them in Settings to receive reminders." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "通知已被禁用。请在设置中启用通知以接收提醒。"
+          }
+        }
+      }
+    },
+    "Novels & Fiction" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "小说与虚构"
+          }
+        }
+      }
+    },
+    "Once archived, the habit will be hidden from today's habits list, but its check-ins will be kept." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "存档后，该习惯将从今日习惯列表中隐藏，但其签到记录将保留。"
+          }
+        }
+      }
+    },
+    "Once favorited, the habit will be ordered first in today's habits list." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "收藏后，该习惯将在今日习惯列表中排在首位。"
+          }
+        }
+      }
+    },
+    "Others" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "其他"
+          }
+        }
+      }
+    },
+    "Piano Keyboard" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "钢琴键盘"
+          }
+        }
+      }
+    },
+    "Please describe your issue below" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "请在下方描述您的问题"
+          }
+        }
+      }
+    },
+    "Posture check" : {
+
+    },
+    "Practice gratitude" : {
+
+    },
+    "Practice mindfulness for calm and clarity." : {
+
+    },
+    "Prevent gum disease and inflammation." : {
+
+    },
+    "Prevent sleep disruption by avoiding stimulants late in the day." : {
+
+    },
+    "Preview" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "预览"
+          }
+        }
+      }
+    },
+    "Privacy Policy" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "隐私政策"
+          }
+        }
+      }
+    },
+    "Progress" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "进度"
+          }
+        }
+      }
+    },
+    "Progress to %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "进展至 %@"
+          }
+        }
+      }
+    },
+    "Rating" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "评分"
+          }
+        }
+      }
+    },
+    "Rating Levels" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "评分等级"
+          }
+        }
+      }
+    },
+    "Rating System" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "评分系统"
+          }
+        }
+      }
+    },
+    "Relax before bed to improve sleep quality." : {
+
+    },
+    "Reminders" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "提醒"
+          }
+        }
+      }
+    },
+    "Remove from Favorites" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "从收藏中移除"
+          }
+        }
+      }
+    },
+    "Reset to Default" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "重置为默认"
+          }
+        }
+      }
+    },
+    "Restore Purchases" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "恢复购买"
+          }
+        }
+      }
+    },
+    "Retro" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "复古"
+          }
+        }
+      }
+    },
+    "Sample Button" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "示例按钮"
+          }
+        }
+      }
+    },
+    "Sample Card" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "示例卡片"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "保存"
+          }
+        }
+      }
+    },
+    "Score Breakdown" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "分数明细"
+          }
+        }
+      }
+    },
+    "Score Categories" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "分数类别"
+          }
+        }
+      }
+    },
+    "Score Range" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "分数范围"
+          }
+        }
+      }
+    },
+    "Score: %lld/%lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "得分：%1$lld/%2$lld"
+          }
+        }
+      }
+    },
+    "Select habits that interest you. You can always add more later!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "选择您感兴趣的习惯。您可以随时添加更多！"
+          }
+        }
+      }
+    },
+    "Select your preferred primary color for the app" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "选择您喜欢的应用程序主色调"
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "设置"
+          }
+        }
+      }
+    },
+    "Share Achievement" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "分享成就"
+          }
+        }
+      }
+    },
+    "Show less" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "显示更少"
+          }
+        }
+      }
+    },
+    "Show more" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "显示更多"
+          }
+        }
+      }
+    },
+    "Shows" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "节目"
+          }
+        }
+      }
+    },
+    "Sleep 7-9 hours" : {
+
+    },
+    "Sleep 7–9 hours" : {
+
+    },
+    "Sort By" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "排序方式"
+          }
+        }
+      }
+    },
+    "Start checking in to track your habits!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "开始签到以跟踪您的习惯！"
+          }
+        }
+      }
+    },
+    "Start your day with light stretching to increase circulation and flexibility." : {
+
+    },
+    "Start Your Journey" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "开始您的旅程"
+          }
+        }
+      }
+    },
+    "Stay hydrated" : {
+
+    },
+    "Strength training" : {
+
+    },
+    "Sudoku Lover" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "数独爱好者"
+          }
+        }
+      }
+    },
+    "sudoku puzzles" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "数独谜题"
+          }
+        }
+      }
+    },
+    "Sunday" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "星期日"
+          }
+        }
+      }
+    },
+    "SwiftSum" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "SwiftSum"
+          }
+        }
+      }
+    },
+    "Swimming" : {
+
+    },
+    "Swimming improves cardiovascular health, builds muscle strength, reduces stress, enhances flexibility, and is low-impact, suitable for all ages." : {
+
+    },
+    "Take a short nap" : {
+
+    },
+    "Take a walk after meals" : {
+
+    },
+    "Take screen breaks to reduce eye strain and stress." : {
+
+    },
+    "Take the stairs" : {
+
+    },
+    "Tap 'Add a Reminder' to get started" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "点击“添加提醒”开始"
+          }
+        }
+      }
+    },
+    "Thank you for supporting Longevity Master!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "感谢您支持长寿大师！"
+          }
+        }
+      }
+    },
+    "Theme Color" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "主题颜色"
+          }
+        }
+      }
+    },
+    "This is how your selected theme color will look throughout the app." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "这是您选择的主题颜色在应用中的显示效果。"
+          }
+        }
+      }
+    },
+    "This will permanently delete the habit '%@' and all its check-in history. This action cannot be undone. Are you sure you want to proceed?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "这将永久删除习惯 '%@' 及其所有签到历史。此操作无法撤销。您确定要继续吗？"
+          }
+        }
+      }
+    },
+    "This will permanently delete the habit ‘%@’ and all its check-in history. This action cannot be undone. Are you sure you want to proceed?" : {
+
+    },
+    "Time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "时间"
+          }
+        }
+      }
+    },
+    "Tips for Improvement" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "改进建议"
+          }
+        }
+      }
+    },
+    "Tips to Improve" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "改进提示"
+          }
+        }
+      }
+    },
+    "To receive timely reminders, please set notification method on your phone to \"Immediate Push.\"" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "要接收及时提醒，请将手机的通知方式设置为“即时推送”。"
+          }
+        }
+      }
+    },
+    "Today" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "今天"
+          }
+        }
+      }
+    },
+    "Total Score" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "总分"
+          }
+        }
+      }
+    },
+    "TripMark" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "TripMark"
+          }
+        }
+      }
+    },
+    "Unarchive" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "取消存档"
+          }
+        }
+      }
+    },
+    "Unlock the full power of Longevity Master with exclusive benefit:" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "通过专属福利解锁长寿大师的全部功能："
+          }
+        }
+      }
+    },
+    "Unlocked" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "已解锁"
+          }
+        }
+      }
+    },
+    "Unlocked %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "已解锁 %@"
+          }
+        }
+      }
+    },
+    "Update" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "更新"
+          }
+        }
+      }
+    },
+    "Upgrade to Premium" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "升级到高级版"
+          }
+        }
+      }
+    },
+    "Upgrade to Premium and build better habits!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "升级到高级版，养成更好的习惯！"
+          }
+        }
+      }
+    },
+    "v%@  Check for Updates" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "v%@ 检查更新"
+          }
+        }
+      }
+    },
+    "Vacation, Itinerary Planner" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "度假、行程规划"
+          }
+        }
+      }
+    },
+    "Vibrate" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "振动"
+          }
+        }
+      }
+    },
+    "Walk 30 minutes at moderate pace." : {
+
+    },
+    "Walk for 10–15 minutes after meals to support digestion and blood sugar control." : {
+
+    },
+    "We Play Piano" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "We Play Piano"
+          }
+        }
+      }
+    },
+    "Week Start" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "一周开始"
+          }
+        }
+      }
+    },
+    "Welcome to Longevity Master" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "欢迎使用长寿大师"
+          }
+        }
+      }
+    },
+    "Welcome, Premium user!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "欢迎您，高级用户！"
+          }
+        }
+      }
+    },
+    "World Weather Live" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "全球天气实时"
+          }
+        }
+      }
+    },
+    "Write 3 things you're grateful for daily." : {
+
+    },
+    "Yoga or stretching" : {
+
+    },
+    "You are now Premium user!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "您现在是高级用户！"
+          }
+        }
+      }
+    },
+    "You're All Set!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "一切就绪！"
+          }
+        }
+      }
+    },
+    "You've selected %lld habit%@. You can always add more habits or modify existing ones later." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "您已选择 %1$lld 个习惯%2$@。您可以随时添加更多习惯或修改现有习惯。"
+          }
+        }
+      }
+    },
+    "Your Name" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "您的姓名"
+          }
+        }
+      }
+    },
+    "Your rating is calculated based on your overall health and wellness habits across multiple dimensions. Focus on building consistent habits across all categories to improve your rating!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "您的评分是根据您在多个维度的整体健康和养生习惯计算得出的。专注于在所有类别中养成一致的习惯以提高您的评分！"
+          }
+        }
+      }
+    },
+    "Your Statistics" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "您的统计数据"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

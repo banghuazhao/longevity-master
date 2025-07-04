@@ -118,12 +118,12 @@ struct OnboardingView: View {
                     .foregroundColor(.red)
                 
                 VStack(spacing: 16) {
-                    Text("Welcome to Longevity Master")
+                    Text(String(localized: "Welcome to Longevity Master"))
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .multilineTextAlignment(.center)
                     
-                    Text("Build healthy habits that promote longevity and well-being. Let's start by selecting some habits that interest you.")
+                    Text(String(localized: "Build healthy habits that promote longevity and well-being. Let's start by selecting some habits that interest you."))
                         .font(.body)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
@@ -136,7 +136,7 @@ struct OnboardingView: View {
             Button(action: {
                 viewModel.nextStep()
             }) {
-                Text("Get Started")
+                Text(String(localized: "Get Started"))
                     .font(.headline)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -153,11 +153,11 @@ struct OnboardingView: View {
         VStack(spacing: 0) {
             // Header
             VStack(spacing: 16) {
-                Text("Choose Your Habits")
+                Text(String(localized: "Choose Your Habits"))
                     .font(.title2)
                     .fontWeight(.bold)
                 
-                Text("Select habits that interest you. You can always add more later!")
+                Text(String(localized: "Select habits that interest you. You can always add more later!"))
                     .font(.body)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
@@ -212,7 +212,7 @@ struct OnboardingView: View {
                     viewModel.nextStep()
                 }
                 label: {
-                    Text("Continue")
+                    Text(String(localized: "Continue"))
                         .font(.headline)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -235,7 +235,7 @@ struct OnboardingView: View {
                     .foregroundColor(.green)
                 
                 VStack(spacing: 16) {
-                    Text("You're All Set!")
+                    Text(String(localized: "You're All Set!"))
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .multilineTextAlignment(.center)
@@ -256,7 +256,7 @@ struct OnboardingView: View {
                     dismiss()
                 }
             }) {
-                Text("Start Your Journey")
+                Text(String(localized: "Start Your Journey"))
                     .font(.headline)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)

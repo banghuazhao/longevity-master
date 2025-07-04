@@ -43,7 +43,7 @@ struct AchievementPopupView: View {
                 }
                 
                 // Achievement title
-                Text("🎉 Achievement Unlocked! 🎉")
+                Text(String(localized: "🎉 Achievement Unlocked! 🎉"))
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundColor(.primary)
@@ -69,12 +69,12 @@ struct AchievementPopupView: View {
                 // Share button
                 ShareLink(
                     item: createAchievementShareText(achievement),
-                    subject: Text("Achievement Unlocked!"),
-                    message: Text("Check out this achievement I unlocked in LongevityMaster!")
+                    subject: Text(String(localized: "Achievement Unlocked!")),
+                    message: Text(String(localized: "Check out this achievement I unlocked in LongevityMaster!"))
                 ) {
                     HStack {
                         Image(systemName: "square.and.arrow.up")
-                        Text("Share Achievement")
+                        Text(String(localized: "Share Achievement"))
                     }
                     .font(.headline)
                     .fontWeight(.semibold)
@@ -95,7 +95,7 @@ struct AchievementPopupView: View {
                 
                 // Continue button
                 Button(action: dismissPopup) {
-                    Text("Continue")
+                    Text(String(localized: "Continue"))
                         .font(.headline)
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
@@ -135,7 +135,7 @@ struct AchievementPopupView: View {
     
     private func startAnimation() {
         // Play haptic feedback
-        Haptics.vibrateIfEnabled()
+        Haptics.shared.vibrateIfEnabled()
         
         // Animate popup appearance
         withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {

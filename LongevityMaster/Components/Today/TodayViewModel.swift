@@ -164,7 +164,7 @@ class TodayViewModel {
     }
 
     func onTapHabitItem(_ todayHabit: TodayHabit) {
-        Haptics.vibrateIfEnabled()
+        Haptics.shared.vibrateIfEnabled()
         withErrorReporting {
             if todayHabit.isCompleted {
                 try dataBase.write { [selectedDate, userCalendar] db in

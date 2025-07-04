@@ -6,12 +6,15 @@
 //
 
 import UIKit
+import Sharing
 
 struct Haptics {
-    static func vibrateIfEnabled() {
-        let isEnabled = UserDefaults.standard.bool(forKey: "vibrateEnabled")
-        print("Vibration setting is \(isEnabled ? "ON" : "OFF")") // debug
-        if isEnabled {
+    @Shared(.appStorage("vibrateEnabled")) var vibrateEnabled: Bool
+     = true
+    static let shared = Haptics()
+    func vibrateIfEnabled() {
+        print("Vibration setting is \(vibrateEnabled ? "ON" : "OFF")") // debug
+        if vibrateEnabled {
             let generator = UIImpactFeedbackGenerator(style: .light)
             generator.prepare()
             generator.impactOccurred()

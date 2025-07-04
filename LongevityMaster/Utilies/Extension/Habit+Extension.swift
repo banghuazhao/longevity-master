@@ -144,14 +144,13 @@ extension Habit.Draft {
         )
     }
     
-
-    func toMockTodayHabit(
+    func toTodayDraftHabit(
         isCompleted: Bool = true,
         streakDescription: String? = nil,
         frequencyDescription: String? = nil
-    ) -> TodayHabit {
-        TodayHabit(
-            habit: toMock,
+    ) -> TodayDraftHabit {
+        TodayDraftHabit(
+            habit: self,
             isCompleted: isCompleted,
             streakDescription: streakDescription,
             frequencyDescription: frequencyDescription

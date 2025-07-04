@@ -56,7 +56,10 @@ class HabitsListViewModel {
         route = .editHabit(
             HabitFormViewModel(
                 habit: Habit.Draft(habit)
-            )
+            ) { [weak self] _ in
+                guard let self else { return }
+                route = nil
+            }
         )
     }
     
@@ -88,7 +91,10 @@ class HabitsListViewModel {
         route = .createHabit(
             HabitFormViewModel(
                 habit: Habit.Draft()
-            )
+            ) { [weak self] _ in
+                guard let self else { return }
+                route = nil
+            }
         )
     }
     

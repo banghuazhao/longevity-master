@@ -361,12 +361,14 @@ struct HabitDetailView: View {
                     viewModel.onTapDeleteHabit()
                 } label: {
                     Image(systemName: "trash")
+                        .appCircularButtonStyle()
                 }
 
                 Button {
                     viewModel.onTapEditHabit()
                 } label: {
                     Image(systemName: "pencil")
+                        .appCircularButtonStyle()
                 }
             }
         }

@@ -25,6 +25,8 @@ class TodayViewModel {
     }
 
     var route: Route?
+    
+    var isEditing: Bool = false
 
     @ObservationIgnored
     @FetchAll(
@@ -197,8 +199,23 @@ class TodayViewModel {
         route = .createHabit(
             HabitFormViewModel(
                 habit: Habit.Draft()
-            )
+            ) { [weak self] _ in
+                guard let self else { return }
+                route = nil
+            }
         )
+    }
+    
+    var hasCompletedToday: Bool {
+        todayHabits.allSatisfy { $0.isCompleted }
+    }
+    
+    var todayCompletionText: String {
+        return "\(todayHabits.filter(\.isCompleted).count) / \(todayHabits.count)"
+    }
+    
+    func onTapEdit() {
+        isEditing = false
     }
 
     // MARK: - Private

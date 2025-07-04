@@ -11,35 +11,40 @@ struct HabitsGalleryView: View {
     @State var category: HabitCategory = .diet
 
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 20) {
-                    Picker("Category", selection: $category) {
+        ScrollView {
+            VStack(spacing: 20) {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 12) {
                         ForEach(HabitCategory.allCases, id: \.self) { category in
-                            Text(category.briefTitle).tag(category)
-                        }
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .padding(.horizontal)
-
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 12) {
-                        ForEach(
-                            HabitsDataStore.all.filter { $0.category == category }
-                        ) { habitNew in
-                            HabitItemView(
-                                todayHabit: habitNew.toMockTodayHabit(),
-                                onTap: {
-                                    Haptics.vibrateIfEnabled()
-                                    habit = habitNew
-                                }
+                            CategoryFilterButton(
+                                title: category.briefTitle,
+                                isSelected: self.category == category,
+                                action: { self.category = category }
                             )
                         }
                     }
-    
-                    Spacer()
+                }
+                
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 12) {
+                    ForEach(
+                        HabitsDataStore.all.filter { $0.category == category
+                        },
+                        id: \.name
+                    ) { habitNew in
+                        HabitDraftItemView(
+                            todayHabit: habitNew.toTodayDraftHabit(),
+                            onTap: {
+                                Haptics.vibrateIfEnabled()
+                                habit = habitNew
+                            }
+                        )
+                    }
                 }
                 .padding()
+                
+                Spacer()
             }
+            .padding(.top, 20)
         }
     }
 }

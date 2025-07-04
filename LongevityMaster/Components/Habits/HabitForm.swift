@@ -17,13 +17,13 @@ class HabitFormViewModel: HashableObject {
     var draftReminders: [Reminder.Draft] = []
     private var originalReminderIDs: Set<Int> = []
 
-    var todayHabit: TodayHabit {
+    var todayHabit: TodayDraftHabit {
         let frequencyDescription: String? = switch habit.frequency {
         case .nDaysEachWeek: "1/\(habit.nDaysPerWeek) this week"
         case .nDaysEachMonth: "1/\(habit.nDaysPerMonth) this month"
         default: nil
         }
-        return habit.toMockTodayHabit(
+        return habit.toTodayDraftHabit(
             streakDescription: "🔥 1d streak",
             frequencyDescription: frequencyDescription
         )
@@ -253,7 +253,7 @@ struct HabitFormView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: AppSpacing.medium) {
-                    HabitItemView(todayHabit: viewModel.todayHabit) {
+                    HabitDraftItemView(todayHabit: viewModel.todayHabit) {
                         viewModel.onTapTodayHabit()
                     }
                     .sheet(isPresented: Binding($viewModel.route.editHabitIcon)) {
@@ -276,13 +276,13 @@ struct HabitFormView: View {
                                 viewModel.onTapGallery()
                             } label: {
                                 Text("Gallery")
-                                    .appButtonStyle(theme: themeManager.current, filled: false)
+                                    .appRectButtonStyle()
                             }
                             .sheet(isPresented: Binding($viewModel.route.habitsGallery)) {
                                 HabitsGalleryView(
                                     habit: $viewModel.habit
                                 )
-                                .presentationDetents([.fraction(0.8), .large])
+                                .presentationDetents([.fraction(0.7), .large])
                                 .presentationDragIndicator(.visible)
                             }
                         }
@@ -301,6 +301,7 @@ struct HabitFormView: View {
                                 }
                             }
                             .pickerStyle(.menu)
+                            .tint(themeManager.current.primaryColor)
                         }
                         Divider()
                         HStack {
@@ -553,7 +554,7 @@ struct HabitFormView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        Task {
+                        Task { @MainActor in
                             if await viewModel.onTapSaveHabit() {
                                 dismiss()
                             }

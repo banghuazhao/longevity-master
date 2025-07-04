@@ -70,7 +70,7 @@ struct PurchaseSheet: View {
                     .padding(.horizontal)
 
                     // Purchase button
-                    if let product = purchaseManager.premiumUserProduct {
+                    if let product = purchaseManager.premiumProduct {
                         if purchaseManager.isPremiumUserPurchased {
                             Text("You are now Premium user!")
                                 .font(.title2)
@@ -82,8 +82,12 @@ struct PurchaseSheet: View {
                             Button(action: {
                                 Task {
                                     isPurchasing = true
-                                    if await purchaseManager.purchasePremiumUser() {
+                                    let result = await purchaseManager.purchasePremium()
+                                    switch result {
+                                    case .success:
                                         showSuccessModal = true
+                                    case .failure(let error):
+                                        print("Purchase failed: \(error.localizedDescription)")
                                     }
                                     isPurchasing = false
                                 }
@@ -112,7 +116,11 @@ struct PurchaseSheet: View {
                     // Links
                     VStack(spacing: 16) {
                         Button("Restore Purchases") {
-                            Task { await purchaseManager.restorePurchases() }
+                            Task {
+                                isPurchasing = true
+                                await purchaseManager.restorePurchases()
+                                isPurchasing = false
+                            }
                         }
                         .foregroundColor(themeManager.current.primaryColor)
                         
@@ -139,7 +147,7 @@ struct PurchaseSheet: View {
             PremiumSuccessView()
         }
         .task {
-            await purchaseManager.loadProducts()
+            await purchaseManager.loadPremiumProduct()
         }
     }
 }

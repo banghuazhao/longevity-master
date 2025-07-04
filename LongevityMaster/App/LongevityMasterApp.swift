@@ -19,13 +19,6 @@ struct LongevityMasterApp: App {
     @State private var didShowOpenAd = false
     
     init() {
-//        let tabBarAppearance = UITabBarAppearance()
-//        tabBarAppearance.configureWithOpaqueBackground()
-//        tabBarAppearance.backgroundColor = UIColor.systemBackground
-//        UITabBar.appearance().standardAppearance = tabBarAppearance
-//        if #available(iOS 15.0, *) {
-//            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-//        }
         MobileAds.shared.start(completionHandler: nil)
         prepareDependencies {
             $0.defaultDatabase = try! appDatabase()
@@ -61,9 +54,6 @@ struct LongevityMasterApp: App {
                         openAd.appHasEnterBackgroundBefore = true
                     }
                 }
-                .task {
-                    await purchaseManager.checkPurchased()
-                }
         }
     }
     
@@ -73,7 +63,7 @@ struct LongevityMasterApp: App {
                 Tab {
                     TodayView()
                         .onAppear {
-                            AdManager.requestATTPermission(with: 1)
+                            AdManager.requestATTPermission(with: 3)
                         }
                 } label: {
                     Label("Today", systemImage: "calendar")
@@ -100,6 +90,7 @@ struct LongevityMasterApp: App {
                     Label("Me", systemImage: "person.fill")
                 }
             }
+            .background(themeManager.current.background)
             .tint(themeManager.current.primaryColor)
 
             // Onboarding overlay

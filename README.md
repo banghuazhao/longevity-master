@@ -7,12 +7,26 @@
 
 A modern habit-tracking iOS app built with SwiftUI and GRDB, designed to help users build and maintain habits that promote long-term health and longevity. Longevity Master focuses on evidence-based habits that contribute to healthy aging and overall well-being.
 
+## 📱 Download on the App Store
+
+<div align="center">
+  <a href="https://apps.apple.com/us/app/longevity-master-habits/id6747810020">
+    <img src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" alt="Download on the App Store" width="200"/>
+  </a>
+</div>
+
+**Now available on the App Store!** 🎉
+
+Build powerful daily habits to extend your lifespan. Longevity Master helps you live longer and feel better with science-based routines for health and wellness.
+
 ## 📱 Screenshots
 
 <div align="center">
-  <img src="screenshots/1.png" alt="Longevity Master Screenshot 1" width="250"/>
-  <img src="screenshots/2.png" alt="Longevity Master Screenshot 2" width="250"/>
-  <img src="screenshots/3.png" alt="Longevity Master Screenshot 3" width="250"/>
+  <img src="screenshots/1.png" alt="Longevity Master Screenshot 1" width="200"/>
+  <img src="screenshots/2.png" alt="Longevity Master Screenshot 2" width="200"/>
+  <img src="screenshots/3.png" alt="Longevity Master Screenshot 3" width="200"/>
+  <img src="screenshots/4.png" alt="Longevity Master Screenshot 4" width="200"/>
+
 </div>
 
 *The app features a clean, modern interface with habit cards, tracking views, and intuitive navigation designed to help users build lasting health habits.*
@@ -22,27 +36,45 @@ A modern habit-tracking iOS app built with SwiftUI and GRDB, designed to help us
 ### 🎯 Core Functionality
 - **Habit Tracking**: Create, edit, and track daily habits with customizable frequencies
 - **Anti-Aging Rating System**: Each habit includes a 1-5 star rating based on scientific evidence for longevity benefits
-- **Smart Categories**: Organized into 5 key areas:
-  - 🍎 **Diet**: Nutrition and eating habits
-  - 🏋️ **Exercise**: Physical activity and fitness
-  - 😴 **Sleep**: Sleep quality and patterns
-  - 🩺 **Preventive Health**: Medical checkups and screenings
-  - 🧘 **Mental Health**: Stress management and cognitive health
+- **Smart Categories**: Organized into 5 key areas (Diet, Exercise, Sleep, Preventive Health, Mental Health)
+
+### 🏆 Achievement System
+- **24 Achievements**: Streak milestones, check-in goals, perfect weeks/months, category mastery, time-based challenges
+- **Progress Tracking**: Visual progress bars and celebration animations
+- **Social Sharing**: Share achievements with friends
+
+### 🔔 Smart Reminders
+- **Customizable Notifications**: Set personalized reminder times for each habit
+- **Habit-Specific Alerts**: Link reminders directly to individual habits
+- **Easy Management**: Simple setup and notification preferences
+
+### ⭐ Longevity Rating System
+- **12-Level Rating**: From Beginner (F) to Legend (SSS) based on overall health habits
+- **Multi-Dimensional Scoring**: Active habits, anti-aging ratings, achievements, check-ins, and streaks
+- **Progress Analytics**: Detailed breakdowns and improvement tips
 
 ### 🎨 User Experience
-- **Modern SwiftUI Interface**: Clean, intuitive design following iOS design guidelines
-- **Context Menus**: Quick access to edit, share, and delete actions
-- **Customizable Habit Cards**: Color-coded with emoji icons and visual indicators
-- **Flexible Scheduling**: Support for various frequency patterns:
-  - Fixed days per week
-  - N days each week
-  - Fixed days per month
-  - N days each month
+- **Modern SwiftUI Interface**: Clean, intuitive design following iOS guidelines
+- **Flexible Scheduling**: Support for various frequency patterns (weekly, monthly, custom)
+- **Theme Customization**: Multiple color themes and personalization options
+- **Haptic Feedback & Sound Effects**: Enhanced user interaction
 
 ### 💾 Data Management
 - **GRDB Database**: Robust local data storage with SQLite
-- **Real-time Updates**: Live data synchronization across the app
-- **Data Persistence**: Reliable habit tracking history
+- **Calendar Integration**: Monthly and yearly habit tracking views
+- **Streak Calculation**: Automatic streak tracking with flexible settings
+- **Data Export**: Built-in data export capabilities
+
+### 📊 Analytics & Insights
+- **Habit Statistics**: Detailed analytics for each habit
+- **Progress Visualization**: Calendar views showing completion patterns
+- **Category Analysis**: Performance breakdown by habit category
+- **Achievement Progress**: Visual progress tracking for all achievements
+
+### 🔧 Advanced Features
+- **Habit Archiving**: Archive habits without losing data
+- **Icon Customization**: Choose from extensive emoji icon library
+- **Multi-language Support**: English and Simplified Chinese localization
 
 ## 🏗️ Architecture
 
@@ -93,12 +125,17 @@ LongevityMaster/
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### For Users
+Download Longevity Master from the [App Store](https://apps.apple.com/us/app/longevity-master-habits/id6747810020) and start building healthy habits today!
+
+### For Developers
+
+#### Prerequisites
 - Xcode 15.0 or later
 - iOS 17.0+ deployment target
 - macOS 14.0+ (for development)
 
-### Installation
+#### Installation
 
 1. **Clone the repository**
    ```bash
@@ -115,7 +152,7 @@ LongevityMaster/
    - Select your target device or simulator
    - Press `Cmd + R` to build and run the app
 
-### Development Setup
+#### Development Setup
 
 The project uses several key dependencies managed through Swift Package Manager:
 
@@ -166,24 +203,17 @@ This means you can:
 
 ## 🆘 Support
 
+- **App Store**: [Longevity Master on the App Store](https://apps.apple.com/us/app/longevity-master-habits/id6747810020)
 - **Issues**: [GitHub Issues](https://github.com/banghuazhao/longevity-master/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/banghuazhao/longevity-master/discussions)
 - **Email**: Open an issue for direct contact
 
 ## 🗺️ Roadmap
 
-### Upcoming Features
-- [ ] Habit streak tracking and statistics
-- [ ] Reminder notifications
-- [ ] Data export and backup
-- [ ] Social sharing of achievements
-- [ ] Integration with HealthKit
-- [ ] Dark mode support
-- [ ] iPad optimization
-
 ### Long-term Goals
-- [ ] Achievements
 - [ ] AI powered scientific habit recommendations
+- [ ] Integration with HealthKit
+- [ ] Data export and backup
 - [ ] Community features
 
 ## 🙏 Acknowledgments

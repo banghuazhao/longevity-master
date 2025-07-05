@@ -6,8 +6,8 @@
 import SharingGRDB
 import SwiftUI
 
-struct HabitItemView: View {
-    let todayHabit: TodayHabit
+struct HabitDraftItemView: View {
+    let todayHabit: TodayDraftHabit
     let onTap: () -> Void
 
     var body: some View {
@@ -71,27 +71,27 @@ struct HabitItemView: View {
         columns: [GridItem(.adaptive(minimum: 150, maximum: 240))],
         spacing: 12
     ) {
-        HabitItemView(
-            todayHabit: TodayHabit(
-                habit: HabitsDataStore.eatSalmon.toMock,
+        HabitDraftItemView(
+            todayHabit: TodayDraftHabit(
+                habit: HabitsDataStore.eatSalmon,
                 isCompleted: true,
                 streakDescription: "🔥 4d streak",
                 frequencyDescription: "1/3 weekly"
             )
         ) {}
 
-        HabitItemView(
-            todayHabit: TodayHabit(
-                habit: HabitsDataStore.swimming.toMock,
+        HabitDraftItemView(
+            todayHabit: TodayDraftHabit(
+                habit: HabitsDataStore.swimming,
                 isCompleted: false,
                 streakDescription: nil,
                 frequencyDescription: "1/3 this week"
             )
         ) {}
 
-        HabitItemView(
-            todayHabit: TodayHabit(
-                habit: HabitsDataStore.sleep.toMock,
+        HabitDraftItemView(
+            todayHabit: TodayDraftHabit(
+                habit: HabitsDataStore.sleep,
                 isCompleted: true,
                 streakDescription: "🔥 4d streak",
                 frequencyDescription: nil

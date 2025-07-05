@@ -23,12 +23,65 @@ class HabitsListViewModel {
     // Add selected category for filtering
     var selectedCategory: HabitCategory? = nil
     
-    // Computed property for filtered habits
-    var filteredHabits: [Habit] {
-        guard let selectedCategory = selectedCategory else {
-            return habits
+    // Add sort and filter properties
+    enum SortOption: String, CaseIterable {
+        case `default` = "Default"
+        case name = "Name"
+        case antiAgingRating = "Anti-Aging Rating"
+        
+        var displayName: String {
+            return self.rawValue
         }
-        return habits.filter { $0.category == selectedCategory }
+    }
+    
+    enum FilterOption: String, CaseIterable {
+        case all = "All"
+        case favorites = "Favorites"
+        case active = "Active"
+        case archived = "Archived"
+        
+        var displayName: String {
+            return self.rawValue
+        }
+    }
+    
+    @ObservationIgnored
+    @Shared(.appStorage("selectedSortOption")) var selectedSortOption: SortOption = .default
+    @ObservationIgnored
+    @Shared(.appStorage("selectedFilterOption")) var selectedFilterOption: FilterOption = .all
+    
+    // Computed property for filtered and sorted habits
+    var filteredHabits: [Habit] {
+        var filtered = habits
+        
+        // Apply category filter
+        if let selectedCategory = selectedCategory {
+            filtered = filtered.filter { $0.category == selectedCategory }
+        }
+        
+        // Apply additional filters
+        switch selectedFilterOption {
+        case .all:
+            break // No additional filtering
+        case .favorites:
+            filtered = filtered.filter { $0.isFavorite }
+        case .archived:
+            filtered = filtered.filter { $0.isArchived }
+        case .active:
+            filtered = filtered.filter { !$0.isArchived }
+        }
+        
+        // Apply sorting
+        switch selectedSortOption {
+        case .default:
+            break
+        case .name:
+            filtered.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        case .antiAgingRating:
+            filtered.sort { $0.antiAgingRating > $1.antiAgingRating }
+        }
+        
+        return filtered
     }
     
     @CasePathable
@@ -56,7 +109,10 @@ class HabitsListViewModel {
         route = .editHabit(
             HabitFormViewModel(
                 habit: Habit.Draft(habit)
-            )
+            ) { [weak self] _ in
+                guard let self else { return }
+                route = nil
+            }
         )
     }
     
@@ -84,17 +140,40 @@ class HabitsListViewModel {
         }
     }
     
-    func onTapCreateHabit() {
+    func onTapCreateHabit(category: HabitCategory? = nil) {
+        let icon = if let category {
+            category.icon
+        } else {
+            "🥑"
+        }
         route = .createHabit(
             HabitFormViewModel(
-                habit: Habit.Draft()
-            )
+                habit: Habit.Draft(
+                    category: category ?? .diet,
+                    icon: icon
+                )
+            ) { [weak self] _ in
+                guard let self else { return }
+                route = nil
+            }
         )
     }
     
     func selectCategory(_ category: HabitCategory?) {
         withAnimation {
             selectedCategory = category
+        }
+    }
+    
+    func selectSortOption(_ option: SortOption) {
+        withAnimation {
+            $selectedSortOption.withLock { $0 = option }
+        }
+    }
+    
+    func selectFilterOption(_ option: FilterOption) {
+        withAnimation {
+            $selectedFilterOption.withLock { $0 = option }
         }
     }
 }
@@ -127,35 +206,99 @@ struct HabitsListView: View {
                         .padding(.horizontal)
                     }
                     
-                    // Habits List
-                    ForEach(viewModel.filteredHabits) { habit in
-                        HabitCardView(
-                            habit: habit,
-                            onEdit: { viewModel.onTapEditHabit(habit) },
-                            onDelete: { viewModel.confirmDeleteHabit(habit) },
-                            onToggleFavorite: { viewModel.toggleFavorite(habit) },
-                            onToggleArchive: { viewModel.toggleArchive(habit) }
-                        )
-                        .padding(.horizontal)
-                        .sheet(item: $viewModel.route.editHabit, id: \.self) { habitFormViewModel in
-                            HabitFormView(
-                                viewModel: habitFormViewModel
-                            )
+                    if viewModel.filteredHabits.isEmpty {
+                        EmptyStateView(
+                            icon: "📝",
+                            title: "No Habits Yet",
+                            subtitle: "Start building healthy habits by creating your first one. Small steps lead to big changes!",
+                            buttonTitle: "Add Habit"
+                        ) {
+                            viewModel.onTapCreateHabit(category: viewModel.selectedCategory)
                         }
-                        .onTapGesture {
-                            viewModel.onTapHabitItem(habit)
+                    } else {
+                        ForEach(viewModel.filteredHabits) { habit in
+                            HabitCardView(
+                                habit: habit,
+                                onEdit: { viewModel.onTapEditHabit(habit) },
+                                onDelete: { viewModel.confirmDeleteHabit(habit) },
+                                onToggleFavorite: { viewModel.toggleFavorite(habit) },
+                                onToggleArchive: { viewModel.toggleArchive(habit) }
+                            )
+                            .padding(.horizontal)
+                            .sheet(item: $viewModel.route.editHabit, id: \.self) { habitFormViewModel in
+                                HabitFormView(
+                                    viewModel: habitFormViewModel
+                                )
+                            }
+                            .onTapGesture {
+                                viewModel.onTapHabitItem(habit)
+                            }
                         }
                     }
                 }
             }
+            .appBackground()
             .navigationTitle("Habits")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Menu {
+                        // Sort Section
+                        Section("Sort By") {
+                            ForEach(HabitsListViewModel.SortOption.allCases, id: \.self) { option in
+                                Button(action: {
+                                    viewModel.selectSortOption(option)
+                                }) {
+                                    HStack {
+                                        Text(option.displayName)
+                                        if viewModel.selectedSortOption == option {
+                                            Spacer()
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // Filter Section
+                        Section("Filter By") {
+                            ForEach(HabitsListViewModel.FilterOption.allCases, id: \.self) { option in
+                                Button(action: {
+                                    viewModel.selectFilterOption(option)
+                                }) {
+                                    HStack {
+                                        Text(option.displayName)
+                                        if viewModel.selectedFilterOption == option {
+                                            Spacer()
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // Reset Option
+                        if viewModel.selectedFilterOption != .all || viewModel.selectedSortOption != .default {
+                            Divider()
+                            Button("Reset to Default") {
+                                viewModel.selectSortOption(.default)
+                                viewModel.selectFilterOption(.all)
+                            }
+                        }
+                    } label: {
+                        ZStack {
+                            Image(systemName: viewModel.selectedFilterOption != .all || viewModel.selectedSortOption != .default ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+                                .appCircularButtonStyle()
+                        }
+                    }
+                }
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         viewModel.onTapCreateHabit()
                     }) {
                         Image(systemName: "plus")
+                            .appCircularButtonStyle()
                     }
                 }
             }

@@ -101,7 +101,7 @@ struct HabitIconEditView: View {
                                                 Color.clear, lineWidth: 2)
                                 )
                                 .onTapGesture {
-                                    Haptics.vibrateIfEnabled()
+                                    Haptics.shared.vibrateIfEnabled()
                                     onSelectIcon(iconNew)
                                 }
                         }

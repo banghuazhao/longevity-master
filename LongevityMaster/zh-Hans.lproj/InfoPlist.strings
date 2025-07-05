@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  LongevityMaster
+
+  Created by Banghua Zhao on 04/07/2025.
+  
+*/
+
+"CFBundleDisplayName" = "抗衰习惯家";
+"NSUserTrackingUsageDescription" = "该标识符将用于向您投放个性化广告。";

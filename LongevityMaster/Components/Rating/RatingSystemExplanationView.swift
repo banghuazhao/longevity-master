@@ -26,12 +26,16 @@ struct RatingSystemExplanationView: View {
                 }
                 .padding()
             }
+            .appBackground()
             .navigationTitle("Rating System")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button {
                         dismiss()
+                    } label: {
+                        Text("Done")
+                            .appRectButtonStyle()
                     }
                 }
             }
@@ -54,12 +58,7 @@ struct RatingSystemExplanationView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
         }
-        .padding(20)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.systemBackground))
-                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-        )
+        .appCardStyle()
     }
     
     private var ratingLevelsSection: some View {
@@ -167,11 +166,7 @@ struct RatingLevelRow: View {
                 .fill(rating.color)
                 .frame(width: 12, height: 12)
         }
-        .padding(16)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color(.systemGray6))
-        )
+        .appInfoSection()
     }
     
     private var scoreRangeText: String {
@@ -262,11 +257,7 @@ struct TipRow: View {
             
             Spacer()
         }
-        .padding(16)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color(.systemGray6))
-        )
+        .appInfoSection()
     }
 }
 

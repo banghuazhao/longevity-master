@@ -22,9 +22,12 @@ class TodayViewModel {
     @CasePathable
     enum Route {
         case createHabit(HabitFormViewModel)
+        case showDeleteAlert(Habit)
     }
 
     var route: Route?
+
+    var isEditing: Bool = false
 
     @ObservationIgnored
     @FetchAll(
@@ -45,16 +48,21 @@ class TodayViewModel {
 
     @ObservationIgnored
     @Dependency(\.defaultDatabase) var dataBase
-    
+
     @ObservationIgnored
     @Dependency(\.achievementService) var achievementService
-    
+
     @ObservationIgnored
     @Shared(.appStorage("startWeekOnMonday")) private var startWeekOnMonday: Bool = true
-    
+
     @ObservationIgnored
     @Dependency(\.soundPlayer) private var soundPlayer
+    @ObservationIgnored
+    @Dependency(\.notificationService) private var notificationService
+    @ObservationIgnored
+    @Dependency(\.defaultDatabase) private var database
     
+
     var userCalendar: Calendar {
         var cal = Calendar.current
         cal.firstWeekday = startWeekOnMonday ? 2 : 1 // 2 = Monday, 1 = Sunday
@@ -80,7 +88,7 @@ class TodayViewModel {
                     let dayOfWeek = userCalendar.component(.weekday, from: selectedDate)
                     if habit.daysOfWeek.contains(dayOfWeek) {
                         let streak = calculateStreakForFixedDays(habit: habit, days: habit.daysOfWeek, unit: .weekday, checkIns: checkInsForHabit)
-                        let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
+                        let streakDescription = streak > 0 && isCompletedToday ? String(localized: "🔥 \(streak)d streak") : nil
                         return TodayHabit(
                             habit: habit,
                             isCompleted: isCompletedToday,
@@ -94,7 +102,7 @@ class TodayViewModel {
                     let dayOfMonth = userCalendar.component(.day, from: selectedDate)
                     if habit.daysOfMonth.contains(dayOfMonth) {
                         let streak = calculateStreakForFixedDays(habit: habit, days: habit.daysOfMonth, unit: .day, checkIns: checkInsForHabit)
-                        let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
+                        let streakDescription = streak > 0 && isCompletedToday ? String(localized: "🔥 \(streak)d streak") : nil
                         return TodayHabit(
                             habit: habit,
                             isCompleted: isCompletedToday,
@@ -112,12 +120,12 @@ class TodayViewModel {
                     }
                     if habit.nDaysPerWeek > checkInsThisWeek.count || isCompletedToday {
                         let streak = calculateStreakForNDaysPerPeriod(habit: habit, checkIns: checkInsForHabit)
-                        let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
+                        let streakDescription = streak > 0 && isCompletedToday ? String(localized: "🔥 \(streak)d streak") : nil
                         let checkInsThisWeekUntilToday = checkInsForHabit.filter { checkIn in
                             checkIn.date >= startOfWeek &&
                                 checkIn.date <= endOfDay
                         }
-                        let frequencyDescription = "\(checkInsThisWeekUntilToday.count)/\(habit.nDaysPerWeek) this week"
+                        let frequencyDescription = String(localized: "\(checkInsThisWeekUntilToday.count)/\(habit.nDaysPerWeek) this week")
                         return TodayHabit(
                             habit: habit,
                             isCompleted: isCompletedToday,
@@ -136,12 +144,12 @@ class TodayViewModel {
                     }
                     if habit.nDaysPerMonth > checkInsThisMonth.count || isCompletedToday {
                         let streak = calculateStreakForNDaysPerPeriod(habit: habit, checkIns: checkInsForHabit)
-                        let streakDescription = streak > 0 && isCompletedToday ? "🔥 \(streak)d streak" : nil
+                        let streakDescription = streak > 0 && isCompletedToday ? String(localized: "🔥 \(streak)d streak") : nil
                         let checkInsThisMonthUntilToday = checkInsForHabit.filter { checkIn in
                             checkIn.date >= startOfMonth &&
                                 checkIn.date <= endOfDay
                         }
-                        let frequencyDescription = "\(checkInsThisMonthUntilToday.count)/\(habit.nDaysPerMonth) this month"
+                        let frequencyDescription = String(localized: "\(checkInsThisMonthUntilToday.count)/\(habit.nDaysPerMonth) this month")
                         return TodayHabit(
                             habit: habit,
                             isCompleted: isCompletedToday,
@@ -156,7 +164,7 @@ class TodayViewModel {
     }
 
     func onTapHabitItem(_ todayHabit: TodayHabit) {
-        Haptics.vibrateIfEnabled()
+        Haptics.shared.vibrateIfEnabled()
         withErrorReporting {
             if todayHabit.isCompleted {
                 try dataBase.write { [selectedDate, userCalendar] db in
@@ -178,7 +186,7 @@ class TodayViewModel {
                 try dataBase.write { [selectedDate] db in
                     let checkIn = CheckIn.Draft(date: selectedDate, habitID: todayHabit.habit.id)
                     let savedCheckIn = try CheckIn.upsert { checkIn }.returning(\.self).fetchOne(db)
-                    
+
                     // Check for achievements after adding check-in
                     if let savedCheckIn {
                         Task {
@@ -193,12 +201,50 @@ class TodayViewModel {
         }
     }
 
-    func onTapAddHabit() {
+    func onTapAddHabit(category: HabitCategory? = nil) {
+        let icon = if let category {
+            category.icon
+        } else {
+            "🥑"
+        }
         route = .createHabit(
             HabitFormViewModel(
-                habit: Habit.Draft()
-            )
+                habit: Habit.Draft(
+                    category: category ?? .diet,
+                    icon: icon
+                )
+            ) { [weak self] _ in
+                guard let self else { return }
+                route = nil
+            }
         )
+    }
+
+    var hasCompletedToday: Bool {
+        todayHabits.allSatisfy { $0.isCompleted }
+    }
+
+    var todayCompletionText: String {
+        return "\(todayHabits.filter(\.isCompleted).count) / \(todayHabits.count)"
+    }
+
+    func onTapEdit() {
+        withAnimation {
+            isEditing.toggle()
+        }
+    }
+    
+    func showDeleteAlert(_ habit: Habit) {
+        route = .showDeleteAlert(habit)
+    }
+    
+    func confirmDeleteHabit(_ habit: Habit) {
+        withErrorReporting {
+            notificationService.removeRemindersForHabit(habit.id)
+            try  database.write { db in
+                try Habit.delete(habit).execute(db)
+            }
+        }
     }
 
     // MARK: - Private

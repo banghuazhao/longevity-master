@@ -152,11 +152,7 @@ struct RemindersView: View {
                         Button("Go to Settings") {
                             viewModel.openSettings()
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 10)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+                        .appButtonStyle()
                     }
                 }
 
@@ -168,13 +164,8 @@ struct RemindersView: View {
                         Image(systemName: "plus.circle.fill")
                         Text("Add a Reminder")
                     }
-                    .font(.headline)
-                    .foregroundColor(.black)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.white)
-                    .cornerRadius(12)
                 }
+                .appButtonStyle()
 
                 // 3. Reminders List
                 if viewModel.reminders.isEmpty {
@@ -205,18 +196,21 @@ struct RemindersView: View {
                     }
                     .padding(.vertical, 40)
                 } else {
-                    ForEach(viewModel.reminders, id: \.id) { reminder in
-                        ReminderRow(
-                            time: reminder.time,
-                            title: reminder.title,
-                            onDelete: {
-                                viewModel.onTapDeleteReminder(reminder)
+                    VStack {
+                        ForEach(viewModel.reminders, id: \.id) { reminder in
+                            ReminderRow(
+                                time: reminder.time,
+                                title: reminder.title,
+                                onDelete: {
+                                    viewModel.onTapDeleteReminder(reminder)
+                                }
+                            )
+                            .onTapGesture {
+                                viewModel.onTapEditReminder(reminder)
                             }
-                        )
-                        .onTapGesture {
-                            viewModel.onTapEditReminder(reminder)
                         }
                     }
+                    .appCardStyle()
                 }
 
                 // 4. Info Footer

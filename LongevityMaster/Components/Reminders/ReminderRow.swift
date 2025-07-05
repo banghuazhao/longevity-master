@@ -8,7 +8,7 @@ import SwiftUI
 struct ReminderRow: View {
     let time: Date
     let title: String
-    let onDelete: () -> Void
+    let onDelete: (() -> Void)?
     
     @State private var showingDeleteAlert = false
     
@@ -18,10 +18,14 @@ struct ReminderRow: View {
                 Image(systemName: "alarm")
                     .foregroundColor(.gray)
                     .font(.subheadline)
+                Spacer()
                 Text(time, format: .dateTime.hour().minute())
                     .font(.subheadline)
                     .fontWeight(.medium)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
             }
+            .frame(width: 90)
             
             
             Divider()
@@ -31,18 +35,20 @@ struct ReminderRow: View {
                 .font(.body)
             
             Spacer()
-            HStack(spacing: 4) {
-                Button(action: {
-                    onDelete()
-                }) {
-                    Image(systemName: "trash")
-                        .foregroundColor(.red)
+            
+            if let onDelete {
+                HStack(spacing: 4) {
+                    Button(action: {
+                        onDelete()
+                    }) {
+                        Image(systemName: "trash")
+                            .foregroundColor(.red)
+                    }
                 }
             }
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
-        .background(Color.gray.opacity(0.1))
         .cornerRadius(8)
     }
 }

@@ -19,8 +19,8 @@ struct MeView: View {
     @FetchAll(Reminder.all, animation: .default) var allReminders
     @ObservationIgnored
     @FetchAll(Achievement.all, animation: .default) var allAchievements
-    @AppStorage("userName") private var userName: String = "Your Name"
-    @AppStorage("userAvatar") private var userAvatar: String = "🙂"
+    @AppStorage("userName") private var userName: String = String(localized: "Your Name")
+    @AppStorage("userAvatar") private var userAvatar: String = "😀"
     @State private var showPurchaseSheet = false
     @State private var showEmojiPicker = false
     
@@ -57,18 +57,21 @@ struct MeView: View {
                                 Spacer()
                             }
                             // Stats Section
-                            HStack(spacing: AppSpacing.large) {
-                                statView(title: "Habits", value: "\(allHabits.filter { !$0.isArchived }.count)/\(allHabits.count)")
-                                statView(title: "Check-ins", value: "\(allCheckIns.count)")
-                                statView(title: "Reminders", value: "\(allReminders.count)")
-                                statView(title: "Achievements", value: "\(allAchievements.filter { $0.isUnlocked }.count)/\(allAchievements.count)")
+                            HStack(spacing: AppSpacing.small) {
+                                statView(title: String(localized: "Habits"), value: "\(allHabits.filter { !$0.isArchived }.count)/\(allHabits.count)")
+                                Divider()
+                                statView(title: String(localized: "Check-ins"), value: "\(allCheckIns.count)")
+                                Divider()
+                                statView(title: String(localized: "Reminders"), value: "\(allReminders.count)")
+                                Divider()
+                                statView(title: String(localized: "Achievements"), value: "\(allAchievements.filter { $0.isUnlocked }.count)/\(allAchievements.count)")
                             }
                             .padding(.top, AppSpacing.small)
                             if !purchaseManager.isPremiumUserPurchased {
                                 Button(action: {
                                     showPurchaseSheet = true
                                 }) {
-                                    Text("Upgrade to Premium")
+                                    Text(String(localized: "Upgrade to Premium"))
                                         .appButtonStyle(theme: themeManager.current)
                                 }
                             } else {
@@ -76,7 +79,7 @@ struct MeView: View {
                                     Image(systemName: "crown.fill")
                                         .foregroundColor(.yellow)
                                         .font(.title3)
-                                    Text("Welcome, Premium user!")
+                                    Text(String(localized: "Welcome, Premium user!"))
                                         .font(.headline)
                                         .foregroundColor(themeManager.current.primaryColor)
                                 }
@@ -91,7 +94,6 @@ struct MeView: View {
                                 .shadow(color: AppShadow.card.color, radius: 4, x: 0, y: 2)
                             }
                         }
-                        .padding()
                         .appCardStyle(theme: themeManager.current)
                         .padding(.horizontal)
                         moreFeatureView
@@ -100,7 +102,7 @@ struct MeView: View {
                         Spacer().frame(height: 10)
                         
                         VStack(spacing: 4) {
-                            Text("Longevity Master  |  Healthy Habits for Long Life")
+                            Text(String(localized: "Longevity Master  |  Healthy Habits for Long Life"))
                                 .font(AppFont.footnote)
                                 .fontWeight(.semibold)
                                 .foregroundColor(themeManager.current.textSecondary)
@@ -142,36 +144,40 @@ struct MeView: View {
                 .font(AppFont.subheadline)
                 .fontWeight(.bold)
                 .foregroundColor(themeManager.current.primaryColor)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
             Text(title)
                 .font(AppFont.caption)
                 .foregroundColor(themeManager.current.textSecondary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
         }
     }
 
     private var othersView: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text("Others")
+            Text(String(localized: "Others"))
                 .appSectionHeader(theme: themeManager.current)
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: AppSpacing.large) {
                 NavigationLink(destination: MoreAppsView()) {
-                    moreItem(icon: "storefront", title: "More Apps")
+                    moreItem(icon: "storefront", title: String(localized: "More Apps"))
                 }
                 if let url = URL(string: "https://itunes.apple.com/app/id\(Constants.AppID.longevityMasterID)?action=write-review") {
                     Button {
                         openURL(url)
                     } label: {
-                        moreItem(icon: "star.fill", title: "Rate Us")
+                        moreItem(icon: "star.fill", title: String(localized: "Rate Us"))
                     }
                 }
                 Button {
                     let email = SupportEmail()
                     email.send(openURL: openURL)
                 } label: {
-                    moreItem(icon: "envelope.fill", title: "Feedback")
+                    moreItem(icon: "envelope.fill", title: String(localized: "Feedback"))
                 }
                 if let appURL = URL(string: "https://itunes.apple.com/app/id\(Constants.AppID.longevityMasterID)") {
                     ShareLink(item: appURL) {
-                        moreItem(icon: "square.and.arrow.up", title: "Share App")
+                        moreItem(icon: "square.and.arrow.up", title: String(localized: "Share App"))
                     }
                 }
             }
@@ -181,20 +187,23 @@ struct MeView: View {
 
     private var moreFeatureView: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text("More Features")
+            Text(String(localized: "More Features"))
                 .appSectionHeader(theme: themeManager.current)
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: AppSpacing.large) {
+                NavigationLink(destination: SettingView()) {
+                    featureItem(icon: "gear", title: String(localized: "Settings"))
+                }
                 NavigationLink(destination: CheckInHistoryView()) {
-                    featureItem(icon: "clock", title: "Checkin History")
+                    featureItem(icon: "clock", title: String(localized: "Checkin History"))
                 }
                 NavigationLink(destination: RemindersView()) {
-                    featureItem(icon: "bell", title: "Reminders")
+                    featureItem(icon: "bell", title: String(localized: "Reminders"))
                 }
                 NavigationLink(destination: AchievementsView()) {
-                    featureItem(icon: "trophy", title: "Achievements")
+                    featureItem(icon: "trophy", title: String(localized: "Achievements"))
                 }
-                NavigationLink(destination: SettingView()) {
-                    featureItem(icon: "gear", title: "Settings")
+                NavigationLink(destination: ThemeColorView()) {
+                    featureItem(icon: "paintbrush.fill", title: String(localized: "Theme Color"))
                 }
             }
         }
@@ -211,6 +220,8 @@ struct MeView: View {
             Text(title)
                 .font(AppFont.caption)
                 .foregroundColor(themeManager.current.textPrimary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
         }
         .frame(maxWidth: .infinity)
         .padding(AppSpacing.small)
@@ -229,6 +240,8 @@ struct MeView: View {
             Text(title)
                 .font(AppFont.caption)
                 .foregroundColor(themeManager.current.textPrimary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
         }
         .frame(maxWidth: .infinity)
         .padding(AppSpacing.small)

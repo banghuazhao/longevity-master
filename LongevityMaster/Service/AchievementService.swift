@@ -71,6 +71,7 @@ class AchievementService {
                         var updatedAchievement = achievement
                         updatedAchievement.isUnlocked = true
                         updatedAchievement.unlockedDate = Date()
+                        updatedAchievement.habitID = checkIn.habitID
                         return try Achievement.update(updatedAchievement).returning(\.self).fetchOne(db)
                     }
                     if let updatedAchievement {

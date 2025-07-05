@@ -17,3 +17,17 @@ struct TodayHabit {
         self.frequencyDescription = frequencyDescription
     }
 }
+
+struct TodayDraftHabit {
+    let habit: Habit.Draft
+    let isCompleted: Bool
+    let streakDescription: String?
+    let frequencyDescription: String?
+    
+    init(habit: Habit.Draft, isCompleted: Bool, streakDescription: String? = nil , frequencyDescription: String? = nil) {
+        self.habit = habit
+        self.isCompleted = isCompleted
+        self.streakDescription = streakDescription
+        self.frequencyDescription = frequencyDescription
+    }
+}

@@ -97,9 +97,7 @@ struct HabitCardView: View {
                 }
             } label: {
                 Image(systemName: "ellipsis")
-                    .foregroundColor(.primary)
-                    .imageScale(.large)
-                    .padding()
+                    .appCircularButtonStyle()
             }
         }
         .padding()

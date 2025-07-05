@@ -4,17 +4,11 @@ import GoogleMobileAds
 import SwiftUI
 
 class AdManager {
-    static let isTestingAds = true
     static var isAuthorized = false
 
     struct GoogleAdsID {
-        #if DEBUG
-            static let bannerViewAdUnitID = isTestingAds ? "ca-app-pub-3940256099942544/2435281174" : ""
-            static let appOpenAdID = isTestingAds ? "ca-app-pub-3940256099942544/5575463023" : ""
-        #else
-            static let bannerViewAdUnitID = ""
-            static let appOpenAdID = ""
-        #endif
+        static let bannerViewAdUnitID = Bundle.main.object(forInfoDictionaryKey: "bannerViewAdUnitID") as? String ?? ""
+        static let appOpenAdID = Bundle.main.object(forInfoDictionaryKey: "appOpenAdID") as? String ?? ""
     }
 
     static func requestATTPermission(with time: TimeInterval = 0) {

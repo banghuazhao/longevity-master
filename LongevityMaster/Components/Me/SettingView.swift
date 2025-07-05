@@ -21,8 +21,8 @@ struct SettingView: View {
                     HStack {
                         Spacer()
                         Picker("Week Start", selection: $startWeekOnMonday) {
-                            Text("Monday").tag(true)
-                            Text("Sunday").tag(false)
+                            Text(String(localized: "Monday")).tag(true)
+                            Text(String(localized: "Sunday")).tag(false)
                         }
                         .pickerStyle(.segmented)
                         .frame(width: 200)
@@ -31,13 +31,13 @@ struct SettingView: View {
                 }
                 settingsSection(title: "Feedback") {
                     Toggle(isOn: $buttonSoundEnabled) {
-                        Text("Checkin Sound")
+                        Text(String(localized: "Checkin Sound"))
                             .font(AppFont.body)
                             .foregroundColor(themeManager.current.textPrimary)
                     }
                     .toggleStyle(SwitchToggleStyle(tint: themeManager.current.primaryColor))
                     Toggle(isOn: $vibrateEnabled) {
-                        Text("Vibrate")
+                        Text(String(localized: "Vibrate"))
                             .font(AppFont.body)
                             .foregroundColor(themeManager.current.textPrimary)
                     }
@@ -45,7 +45,7 @@ struct SettingView: View {
                 }
                 settingsSection(title: "Appearance") {
                     Toggle(isOn: $darkModeEnabled) {
-                        Text("Dark Mode")
+                        Text(String(localized: "Dark Mode"))
                             .font(AppFont.body)
                             .foregroundColor(themeManager.current.textPrimary)
                     }

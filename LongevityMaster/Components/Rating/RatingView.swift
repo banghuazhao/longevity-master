@@ -16,16 +16,12 @@ struct RatingView: View {
                     // Rating Card
                     ratingCard
                     
-                    // Progress to Next Rating
-                    if let nextRating = viewModel.scoreBreakdown?.nextRating {
-                        progressToNextRatingCard(nextRating: nextRating)
-                    }
-                    
                     // Score Breakdown
                     scoreBreakdownSection
                 }
                 .padding()
             }
+            .appBackground()
             .navigationTitle("Longevity Rating")
             .navigationBarTitleDisplayMode(.inline)
             .refreshable {
@@ -79,6 +75,10 @@ struct RatingView: View {
                         .progressViewStyle(LinearProgressViewStyle(tint: breakdown.rating.color))
                         .scaleEffect(x: 1, y: 2, anchor: .center)
                 }
+                
+                if let nextRating = viewModel.scoreBreakdown?.nextRating {
+                    progressToNextRatingCard(nextRating: nextRating)
+                }
             } else {
                 ProgressView()
                     .scaleEffect(1.5)
@@ -117,11 +117,6 @@ struct RatingView: View {
                 }
             }
         }
-        .padding(16)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color(.systemGray6))
-        )
     }
     
     private var scoreBreakdownSection: some View {

@@ -21,11 +21,17 @@ struct ScoreDetailView: View {
                 }
                 .padding()
             }
+            .appBackground()
             .navigationTitle(viewModel.category.rawValue)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") { dismiss() }
+                    Button{
+                        dismiss()
+                    } label: {
+                       Text(String(localized: "Done"))
+                           .appRectButtonStyle()
+                   }
                 }
             }
             .task {
@@ -46,7 +52,7 @@ struct ScoreDetailView: View {
                         .font(.title2)
                         .fontWeight(.bold)
                     
-                    Text("Score: \(viewModel.currentScore)/\(viewModel.category.maxScore)")
+                    Text(String(localized: "Score: \(viewModel.currentScore)/\(viewModel.category.maxScore)"))
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
@@ -55,7 +61,7 @@ struct ScoreDetailView: View {
             
             VStack(spacing: 8) {
                 HStack {
-                    Text("Progress")
+                    Text(String(localized: "Progress"))
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     Spacer()
@@ -69,34 +75,25 @@ struct ScoreDetailView: View {
                     .scaleEffect(x: 1, y: 2, anchor: .center)
             }
         }
-        .padding(20)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.systemBackground))
-                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-        )
+        .appCardStyle()
     }
     
     private var progressSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("How It's Calculated")
+            Text(String(localized: "How It's Calculated"))
                 .font(.headline)
                 .fontWeight(.semibold)
             
             Text(viewModel.category.calculationExplanation)
-                .font(.body)
+                .font(.callout)
                 .foregroundColor(.secondary)
-                .padding(16)
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color(.systemGray6))
-                )
+                .appInfoSection()
         }
     }
     
     private var statisticsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Your Statistics")
+            Text(String(localized: "Your Statistics"))
                 .font(.headline)
                 .fontWeight(.semibold)
             
@@ -110,7 +107,7 @@ struct ScoreDetailView: View {
     
     private var tipsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Tips to Improve")
+            Text(String(localized: "Tips to Improve"))
                 .font(.headline)
                 .fontWeight(.semibold)
             
@@ -122,16 +119,12 @@ struct ScoreDetailView: View {
                             .font(.system(size: 16))
                         
                         Text(tip)
-                            .font(.body)
-                            .foregroundColor(.secondary)
+                            .font(.callout)
+                            .foregroundColor(ThemeManager.shared.current.textSecondary)
                         
                         Spacer()
                     }
-                    .padding(12)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(Color(.systemGray6))
-                    )
+                    .appInfoSection()
                 }
             }
         }

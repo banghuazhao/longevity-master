@@ -97,7 +97,7 @@ func appDatabase() throws -> any DatabaseWriter {
              "criteria" TEXT NOT NULL DEFAULT '',
              "isUnlocked" INTEGER NOT NULL DEFAULT 0,
              "unlockedDate" TEXT,
-             "habitID" INTEGER REFERENCES "habits"("id") ON DELETE CASCADE
+             "habitID" INTEGER REFERENCES "habits"("id") ON DELETE SET NULL
             ) STRICT
             """
         )

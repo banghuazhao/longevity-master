@@ -5,6 +5,7 @@
 
 import Foundation
 import SharingGRDB
+import SwiftUI
 
 @Table
 struct Habit: Identifiable {
@@ -33,21 +34,31 @@ enum HabitCategory: Int, Codable, QueryBindable {
 
     var title: String {
         switch self {
-        case .diet: return "🍎 Diet"
-        case .exercise: return "🏋️ Exercise"
-        case .sleep: return "😴 Sleep"
-        case .preventiveHealth: return "🩺 Preventive Health"
-        case .mentalHealth: return "🧘 Mental Health"
+        case .diet: return String(localized: "🍎 Diet")
+        case .exercise: return String(localized: "🏋️ Exercise")
+        case .sleep: return String(localized: "😴 Sleep")
+        case .preventiveHealth: return String(localized: "🩺 Preventive Health")
+        case .mentalHealth: return String(localized: "🧘 Mental Health")
         }
     }
     
     var briefTitle: String {
         switch self {
-        case .diet: return "🍎 Diet"
-        case .exercise: return "🏋️ Exercise"
-        case .sleep: return "😴 Sleep"
-        case .preventiveHealth: return "🩺 Health"
-        case .mentalHealth: return "🧘 Mental"
+        case .diet: return String(localized: "🍎 Diet")
+        case .exercise: return String(localized: "🏋️ Exercise")
+        case .sleep: return String(localized: "😴 Sleep")
+        case .preventiveHealth: return String(localized: "🩺 Health")
+        case .mentalHealth: return String(localized: "🧘 Mental")
+        }
+    }
+    
+    var icon: String {
+        switch self {
+        case .diet: return "🥑"
+        case .exercise: return "🏋️"
+        case .sleep: return "😴"
+        case .preventiveHealth: return "🩺"
+        case .mentalHealth: return "🧘"
         }
     }
 }
@@ -80,4 +91,161 @@ enum HabitFrequency: Int, QueryBindable {
         case .fixedDaysInMonth, .nDaysEachMonth: return 28
         }
     }
+}
+
+extension Habit {
+    var truncatedName: String {
+        name.count > 20 ? name.prefix(20) + "…" : name
+    }
+    
+    var borderColor: Color {
+        Color(hex: color).blend(with: .black, amount: 0.2)
+    }
+
+    var frequencyDescription: String {
+        switch frequency {
+        case .fixedDaysInWeek:
+            return daysOfWeek.isEmpty ? "No days set" : String(localized: "Every \(daysOfWeekString) of week")
+        case .nDaysEachWeek:
+            let days = Int(frequencyDetail)
+            guard let days else { return "No days set" }
+            if days == 1 {
+                return String(localized: "1 day each week")
+            } else {
+                return String(localized: "\(days) days each week")
+            }
+        case .fixedDaysInMonth:
+            return daysOfMonth.isEmpty ? "No days set" : String(localized: "Every \(daysOfMonthString) of month")
+        case .nDaysEachMonth:
+            let days = Int(frequencyDetail)
+            guard let days else { return "No days set" }
+            if days == 1 {
+                return String(localized: "1 day each month")
+            } else {
+                return String(localized: "\(days) days each month")
+            }
+        }
+    }
+
+    var daysOfWeek: Set<Int> {
+        guard case .fixedDaysInWeek = frequency else {
+            return []
+        }
+        return Set(frequencyDetail.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
+    }
+    
+    var daysOfWeekString: String {
+        daysOfWeek.map { "\($0)" }.sorted().joined(separator: ", ")
+    }
+
+    var daysOfMonth: Set<Int> {
+        guard case .fixedDaysInMonth = frequency else {
+            return []
+        }
+        return Set(frequencyDetail.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
+    }
+    
+    var daysOfMonthString: String {
+        daysOfMonth.map { "\($0)" }.sorted().joined(separator: ", ")
+    }
+
+    var nDaysPerWeek: Int {
+        guard case .nDaysEachWeek = frequency else {
+            return 0
+        }
+        return Int(frequencyDetail.replacingOccurrences(of: " ", with: "")) ?? 0
+    }
+
+    var nDaysPerMonth: Int {
+        guard case .nDaysEachMonth = frequency else {
+            return 0
+        }
+        return Int(frequencyDetail.replacingOccurrences(of: " ", with: "")) ?? 0
+    }
+
+    func toTodayHabit(
+        isCompleted: Bool = true,
+        streakDescription: String? = nil,
+        frequencyDescription: String? = nil
+    ) -> TodayHabit {
+        TodayHabit(
+            habit: self,
+            isCompleted: isCompleted,
+            streakDescription: streakDescription,
+            frequencyDescription: frequencyDescription
+        )
+    }
+
+    var newHabitDraft: Habit.Draft {
+        Habit.Draft(
+            self
+        )
+    }
+}
+
+extension Habit.Draft {
+    var borderColor: Color {
+        Color(hex: color).blend(with: .black, amount: 0.2)
+    }
+
+    var daysOfWeek: Set<Int> {
+        guard case .fixedDaysInWeek = frequency else {
+            return []
+        }
+        return Set(frequencyDetail.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
+    }
+
+    var daysOfMonth: Set<Int> {
+        guard case .fixedDaysInMonth = frequency else {
+            return []
+        }
+        return Set(frequencyDetail.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
+    }
+
+    var nDaysPerWeek: Int {
+        guard case .nDaysEachWeek = frequency else {
+            return 1
+        }
+        return Int(frequencyDetail.replacingOccurrences(of: " ", with: "")) ?? 1
+    }
+
+    var nDaysPerMonth: Int {
+        guard case .nDaysEachMonth = frequency else {
+            return 1
+        }
+        return Int(frequencyDetail.replacingOccurrences(of: " ", with: "")) ?? 1
+    }
+    
+    var toMock: Habit {
+        Habit(
+            id: 0,
+            name: name,
+            category: category,
+            frequency: frequency,
+            frequencyDetail: frequencyDetail,
+            antiAgingRating: antiAgingRating,
+            icon: icon,
+            color: color,
+            note: note,
+            isFavorite: isFavorite,
+            isArchived: isArchived
+        )
+    }
+    
+    func toTodayDraftHabit(
+        isCompleted: Bool = true,
+        streakDescription: String? = nil,
+        frequencyDescription: String? = nil
+    ) -> TodayDraftHabit {
+        TodayDraftHabit(
+            habit: self,
+            isCompleted: isCompleted,
+            streakDescription: streakDescription,
+            frequencyDescription: frequencyDescription
+        )
+    }
+}
+
+extension Habit.Draft: Hashable {
+    
 }

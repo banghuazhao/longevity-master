@@ -10,20 +10,15 @@ import GoogleMobileAds
 @main
 struct LongevityMasterApp: App {
     @AppStorage("darkModeEnabled") private var darkModeEnabled: Bool = false
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @Dependency(\.achievementService) private var achievementService
+    @Dependency(\.themeManager) private var themeManager
     @Dependency(\.purchaseManager) private var purchaseManager
     @StateObject private var openAd = OpenAd()
     @Environment(\.scenePhase) private var scenePhase
     @State private var didShowOpenAd = false
     
     init() {
-//        let tabBarAppearance = UITabBarAppearance()
-//        tabBarAppearance.configureWithOpaqueBackground()
-//        tabBarAppearance.backgroundColor = UIColor.systemBackground
-//        UITabBar.appearance().standardAppearance = tabBarAppearance
-//        if #available(iOS 15.0, *) {
-//            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-//        }
         MobileAds.shared.start(completionHandler: nil)
         prepareDependencies {
             $0.defaultDatabase = try! appDatabase()
@@ -59,38 +54,49 @@ struct LongevityMasterApp: App {
                         openAd.appHasEnterBackgroundBefore = true
                     }
                 }
-                .task {
-                    await purchaseManager.checkPurchased()
-                }
         }
     }
     
     var tabView: some View {
-        TabView {
-            TodayView()
-                .tabItem {
+        ZStack {
+            TabView {
+                Tab {
+                    TodayView()
+                        .onAppear {
+                            AdManager.requestATTPermission(with: 3)
+                        }
+                } label: {
                     Label("Today", systemImage: "calendar")
                 }
-                .onAppear {
-                    AdManager.requestATTPermission(with: 1)
-                }
-
-            HabitsListView()
-                .tabItem {
+                
+                Tab {
+                    HabitsListView()
+                } label: {
                     Label("Habits", systemImage: "list.bullet")
                 }
-            
-            RatingView()
-                .tabItem {
+                
+                Tab {
+                    RatingView()
+                } label: {
                     Label("Rating", systemImage: "star.fill")
                 }
-            
-            MeView()
-                .tabItem {
+                
+                Tab {
+                    MeView()
+                        .onAppear {
+                            AdManager.requestATTPermission(with: 1)
+                        }
+                } label: {
                     Label("Me", systemImage: "person.fill")
                 }
-                .onAppear {
-                    AdManager.requestATTPermission(with: 1)
+            }
+            .background(themeManager.current.background)
+            .tint(themeManager.current.primaryColor)
+
+            // Onboarding overlay
+            Color.clear
+                .fullScreenCover(isPresented: .constant(!hasCompletedOnboarding)) {
+                    OnboardingView()
                 }
         }
     }

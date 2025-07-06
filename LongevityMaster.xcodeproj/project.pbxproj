@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		41449E722E166E9B00DEB393 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41449E712E166E9B00DEB393 /* StoreKit.framework */; };
 		41FFF2722E14E9FC004ACA97 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 41FFF2712E14E9FC004ACA97 /* GoogleMobileAds */; };
-		991CFAF52E1A5EBE00A0BE4A /* MoreApps in Frameworks */ = {isa = PBXBuildFile; productRef = 991CFAF42E1A5EBE00A0BE4A /* MoreApps */; };
+		993B4CDF2E1A8BDA0027D86C /* MoreApps in Frameworks */ = {isa = PBXBuildFile; productRef = 993B4CDE2E1A8BDA0027D86C /* MoreApps */; };
 		996BA7BB2DF19E3A00A4B9FC /* SharingGRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */; };
 		996BA8C32E0A71CA00A4B9FC /* SwiftUINavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 996BA8C22E0A71CA00A4B9FC /* SwiftUINavigation */; };
 		99774EEA2E1007C20099920F /* EasyToast in Frameworks */ = {isa = PBXBuildFile; productRef = 99774EE92E1007C20099920F /* EasyToast */; };
@@ -60,7 +60,7 @@
 				41FFF2722E14E9FC004ACA97 /* GoogleMobileAds in Frameworks */,
 				99774EEA2E1007C20099920F /* EasyToast in Frameworks */,
 				41449E722E166E9B00DEB393 /* StoreKit.framework in Frameworks */,
-				991CFAF52E1A5EBE00A0BE4A /* MoreApps in Frameworks */,
+				993B4CDF2E1A8BDA0027D86C /* MoreApps in Frameworks */,
 				996BA8C32E0A71CA00A4B9FC /* SwiftUINavigation in Frameworks */,
 				996BA7BB2DF19E3A00A4B9FC /* SharingGRDB in Frameworks */,
 			);
@@ -126,7 +126,7 @@
 				996BA8C22E0A71CA00A4B9FC /* SwiftUINavigation */,
 				99774EE92E1007C20099920F /* EasyToast */,
 				41FFF2712E14E9FC004ACA97 /* GoogleMobileAds */,
-				991CFAF42E1A5EBE00A0BE4A /* MoreApps */,
+				993B4CDE2E1A8BDA0027D86C /* MoreApps */,
 			);
 			productName = LongevityMaster;
 			productReference = 993A34222DEB1031002CEA39 /* LongevityMaster.app */;
@@ -186,6 +186,7 @@
 				996BA8C12E0A71CA00A4B9FC /* XCRemoteSwiftPackageReference "swift-navigation" */,
 				99774EE82E1007C20099920F /* XCRemoteSwiftPackageReference "EasyToast" */,
 				41FFF2142E14E225004ACA97 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				993B4CDD2E1A8BDA0027D86C /* XCLocalSwiftPackageReference "LongevityMaster/Modules/MoreApps" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 993A34232DEB1031002CEA39 /* Products */;
@@ -374,7 +375,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.0.2;
+				CURRENT_PROJECT_VERSION = 1.1.0.1;
 				DEVELOPMENT_ASSET_PATHS = "\"LongevityMaster/Preview Content\"";
 				DEVELOPMENT_TEAM = F694X76A5X;
 				ENABLE_PREVIEWS = YES;
@@ -391,7 +392,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appsbayarea.longevityMaster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -408,7 +409,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.0.2;
+				CURRENT_PROJECT_VERSION = 1.1.0.1;
 				DEVELOPMENT_ASSET_PATHS = "\"LongevityMaster/Preview Content\"";
 				DEVELOPMENT_TEAM = F694X76A5X;
 				ENABLE_PREVIEWS = YES;
@@ -425,7 +426,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appsbayarea.longevityMaster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -504,6 +505,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		993B4CDD2E1A8BDA0027D86C /* XCLocalSwiftPackageReference "LongevityMaster/Modules/MoreApps" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LongevityMaster/Modules/MoreApps;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		41FFF2142E14E225004ACA97 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -545,8 +553,9 @@
 			package = 41FFF2142E14E225004ACA97 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
 		};
-		991CFAF42E1A5EBE00A0BE4A /* MoreApps */ = {
+		993B4CDE2E1A8BDA0027D86C /* MoreApps */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 993B4CDD2E1A8BDA0027D86C /* XCLocalSwiftPackageReference "LongevityMaster/Modules/MoreApps" */;
 			productName = MoreApps;
 		};
 		996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */ = {

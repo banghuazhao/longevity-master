@@ -46,5 +46,28 @@ class RatingViewModel {
         route = .ratingSystemExplanation
     }
     
-
+    func createShareText() -> String {
+        guard let breakdown = scoreBreakdown else {
+            return String(localized: "My Longevity Rating - Loading...")
+        }
+        
+        var shareText = "🏆 My Longevity Rating: \(breakdown.rating.displayName) (\(breakdown.rating.description))\n"
+        shareText += "📊 Total Score: \(breakdown.totalScore)/1200 points\n\n"
+        
+        if let items = scoreBreakdownItems {
+            shareText += "📈 Score Breakdown:\n"
+            for item in items {
+                let percentage = Int(item.percentage * 100)
+                shareText += "• \(item.title): \(item.score)/\(item.maxScore) (\(percentage)%)\n"
+            }
+        }
+        
+        if let nextRating = breakdown.nextRating {
+            shareText += "\n🎯 Next Goal: \(nextRating.displayName) (\(nextRating.description)) - \(breakdown.scoreToNextRating) more points needed"
+        }
+        
+        shareText += "\n\n📱 Tracked with Longevity Master"
+        
+        return shareText
+    }
 }

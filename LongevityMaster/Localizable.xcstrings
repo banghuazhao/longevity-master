@@ -1064,6 +1064,9 @@
         }
       }
     },
+    "Check out my longevity rating from Longevity Master!" : {
+
+    },
     "Check out this achievement I unlocked in LongevityMaster!" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2488,6 +2491,12 @@
           }
         }
       }
+    },
+    "My Longevity Rating" : {
+
+    },
+    "My Longevity Rating - Loading..." : {
+
     },
     "My Stats" : {
       "localizations" : {

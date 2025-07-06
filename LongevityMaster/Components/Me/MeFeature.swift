@@ -206,6 +206,9 @@ struct MeView: View {
                 NavigationLink(destination: ThemeColorView()) {
                     featureItem(icon: "paintbrush.fill", title: String(localized: "Theme Color"))
                 }
+                NavigationLink(destination: UserStatsView()) {
+                    featureItem(icon: "chart.bar.fill", title: String(localized: "My Stats"))
+                }
             }
         }
         .padding(.horizontal)

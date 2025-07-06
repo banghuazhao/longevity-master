@@ -222,6 +222,9 @@
         }
       }
     },
+    "⚡" : {
+
+    },
     "✅" : {
       "localizations" : {
         "zh-Hans" : {
@@ -271,6 +274,9 @@
           }
         }
       }
+    },
+    "🔥" : {
+
     },
     "🔥 %lldd streak" : {
       "localizations" : {
@@ -878,6 +884,16 @@
         }
       }
     },
+    "Best Habit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最佳习惯"
+          }
+        }
+      }
+    },
     "Boost daily movement and heart health." : {
       "localizations" : {
         "zh-Hans" : {
@@ -974,6 +990,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "类别"
+          }
+        }
+      }
+    },
+    "Category Breakdown" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分类统计"
           }
         }
       }
@@ -1522,6 +1548,16 @@
         }
       }
     },
+    "Days Active" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活跃天数"
+          }
+        }
+      }
+    },
     "days max" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2012,6 +2048,16 @@
         }
       }
     },
+    "Habit Insights" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "习惯洞察"
+          }
+        }
+      }
+    },
     "Habit Legend" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2128,6 +2174,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "中级+"
+          }
+        }
+      }
+    },
+    "Key Statistics" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关键统计"
           }
         }
       }
@@ -2419,6 +2475,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "更多功能"
+          }
+        }
+      }
+    },
+    "Most Consistent" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最一致"
+          }
+        }
+      }
+    },
+    "My Stats" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的统计"
           }
         }
       }
@@ -3003,6 +3079,26 @@
         }
       }
     },
+    "Share My Stats" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享我的统计"
+          }
+        }
+      }
+    },
+    "Share Your Progress" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享您的进度"
+          }
+        }
+      }
+    },
     "Show less" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3123,6 +3219,16 @@
         }
       }
     },
+    "Started Journey" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始旅程"
+          }
+        }
+      }
+    },
     "Stay hydrated" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3139,6 +3245,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "连胜目标"
+          }
+        }
+      }
+    },
+    "Streak Information" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连胜信息"
           }
         }
       }
@@ -3388,7 +3504,17 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "总打卡次数"
+            "value" : "总签到数"
+          }
+        }
+      }
+    },
+    "Total Habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "总习惯数"
           }
         }
       }

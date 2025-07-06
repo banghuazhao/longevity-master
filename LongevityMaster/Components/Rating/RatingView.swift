@@ -22,7 +22,7 @@ struct RatingView: View {
                 .padding()
             }
             .appBackground()
-            .navigationTitle("Longevity Rating")
+            .navigationTitle(String(localized: "Longevity Rating"))
             .navigationBarTitleDisplayMode(.inline)
             .refreshable {
                 await viewModel.loadRatingData()
@@ -54,7 +54,7 @@ struct RatingView: View {
                         .font(.title2)
                         .foregroundColor(.secondary)
                     
-                    Text("\(breakdown.totalScore) points")
+                    Text(String(localized: "\(breakdown.totalScore) points"))
                         .font(.headline)
                         .foregroundColor(.primary)
                 }
@@ -62,11 +62,11 @@ struct RatingView: View {
                 // Score Progress Bar
                 VStack(spacing: 8) {
                     HStack {
-                        Text("Total Score")
+                        Text(String(localized: "Total Score"))
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("\(breakdown.totalScore)/1200")
+                        Text(String(localized: "\(breakdown.totalScore)/1200"))
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
@@ -100,18 +100,18 @@ struct RatingView: View {
             HStack {
                 Image(systemName: "arrow.up.circle.fill")
                     .foregroundColor(nextRating.color)
-                Text("Progress to \(nextRating.displayName)")
+                Text(String(localized: "Progress to \(nextRating.displayName)"))
                     .font(.headline)
                 Spacer()
             }
             
             if let breakdown = viewModel.scoreBreakdown {
                 HStack {
-                    Text("\(breakdown.scoreToNextRating) points needed")
+                    Text(String(localized: "\(breakdown.scoreToNextRating) points needed"))
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     Spacer()
-                    Text("\(nextRating.description)")
+                    Text(nextRating.description)
                         .font(.subheadline)
                         .foregroundColor(nextRating.color)
                 }
@@ -121,7 +121,7 @@ struct RatingView: View {
     
     private var scoreBreakdownSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Score Breakdown")
+            Text(String(localized: "Score Breakdown"))
                 .font(.title2)
                 .fontWeight(.bold)
             
@@ -159,7 +159,7 @@ struct RatingView: View {
                     
                     Spacer()
                     
-                    Text("\(item.score)/\(item.maxScore)")
+                    Text(String(localized: "\(item.score)/\(item.maxScore)"))
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     
@@ -183,8 +183,8 @@ struct RatingView: View {
                     .fill(Color(.systemBackground))
                     .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
             )
-            .alert("How \(item.title) Score is Calculated", isPresented: $showingExplanation) {
-                Button("Got it!") {
+            .alert(String(localized: "How \(item.title) Score is Calculated"), isPresented: $showingExplanation) {
+                Button(String(localized: "Got it!")) {
                     showingExplanation = false
                 }
             } message: {

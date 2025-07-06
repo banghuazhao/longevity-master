@@ -43,18 +43,18 @@ enum LongevityRating: String, CaseIterable {
     
     var description: String {
         switch self {
-        case .f: return "Beginner"
-        case .dMinus: return "Novice"
-        case .d: return "Novice+"
-        case .cMinus: return "Apprentice"
-        case .c: return "Apprentice+"
-        case .bMinus: return "Intermediate"
-        case .b: return "Intermediate+"
-        case .aMinus: return "Advanced"
-        case .a: return "Advanced+"
-        case .s: return "Expert"
-        case .ss: return "Master"
-        case .sss: return "Legend"
+        case .f: return String(localized: "Beginner")
+        case .dMinus: return String(localized: "Novice")
+        case .d: return String(localized: "Novice+")
+        case .cMinus: return String(localized: "Apprentice")
+        case .c: return String(localized: "Apprentice+")
+        case .bMinus: return String(localized: "Intermediate")
+        case .b: return String(localized: "Intermediate+")
+        case .aMinus: return String(localized: "Advanced")
+        case .a: return String(localized: "Advanced+")
+        case .s: return String(localized: "Expert")
+        case .ss: return String(localized: "Master")
+        case .sss: return String(localized: "Legend")
         }
     }
     
@@ -82,6 +82,16 @@ enum ScoreCategory: String, CaseIterable {
     case achievements = "Achievements"
     case totalCheckIns = "Total Check-ins"
     case longestStreak = "Longest Streak"
+    
+    var localizedTitle: String {
+        switch self {
+        case .activeHabits: return String(localized: "Active Habits")
+        case .antiAgingRating: return String(localized: "Anti-Aging Rating")
+        case .achievements: return String(localized: "Achievements")
+        case .totalCheckIns: return String(localized: "Total Check-ins")
+        case .longestStreak: return String(localized: "Longest Streak")
+        }
+    }
     
     var maxScore: Int {
         switch self {
@@ -116,15 +126,15 @@ enum ScoreCategory: String, CaseIterable {
     var calculationExplanation: String {
         switch self {
         case .activeHabits:
-            return "10 points per active habit, up to 30 habits (300 points max). Only non-archived habits count."
+            return String(localized: "10 points per active habit, up to 30 habits (300 points max). Only non-archived habits count.")
         case .antiAgingRating:
-            return "2 points per anti-aging rating point. Each habit has a rating from 1-5. Maximum 300 points."
+            return String(localized: "2 points per anti-aging rating point. Each habit has a rating from 1-5. Maximum 300 points.")
         case .achievements:
-            return "10 points per unlocked achievement. Currently \(ScoreCategory.achievements.maxScore / 10) achievements available."
+            return String(localized: "10 points per unlocked achievement. Currently \(AchievementDefinitions.all.count) achievements available.")
         case .totalCheckIns:
-            return "2 points per check-in, up to 100 check-ins (200 points max). All check-ins across all habits count."
+            return String(localized: "2 points per check-in, up to 100 check-ins (200 points max). All check-ins across all habits count.")
         case .longestStreak:
-            return "2 points per day in your longest consecutive streak. Maximum 125 days (250 points)."
+            return String(localized: "2 points per day in your longest consecutive streak. Maximum 125 days (250 points).")
         }
     }
 }
@@ -189,7 +199,7 @@ struct ScoreBreakdownItem {
     }
     
     var title: String {
-        return category.rawValue
+        return category.localizedTitle
     }
     
     var percentage: Double {

@@ -65,7 +65,7 @@ struct ScoreDetailView: View {
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     Spacer()
-                    Text("\(Int(viewModel.percentage * 100))%")
+                    Text(String("\(Int(viewModel.percentage * 100))%"))
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }

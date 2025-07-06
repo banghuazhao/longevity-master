@@ -12,6 +12,7 @@
       }
     },
     "%@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -341,6 +342,9 @@
         }
       }
     },
+    "0-99 points" : {
+
+    },
     "1 day each month" : {
       "localizations" : {
         "zh-Hans" : {
@@ -381,6 +385,56 @@
         }
       }
     },
+    "2 points per anti-aging rating point. Each habit has a rating from 1-5. Maximum 300 points." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个抗衰老评分点 2 分。每个习惯的评分为 1-5。最多 300 分。"
+          }
+        }
+      }
+    },
+    "2 points per check-in, up to 100 check-ins (200 points max). All check-ins across all habits count." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每次打卡 2 分，最多 100 次打卡（最多 200 分）。所有习惯的所有打卡都计算在内。"
+          }
+        }
+      }
+    },
+    "2 points per day in your longest consecutive streak. Maximum 125 days (250 points)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最长连续连胜中每天 2 分。最多 125 天（250 分）。"
+          }
+        }
+      }
+    },
+    "10 points per active habit, up to 30 habits (300 points max). Only non-archived habits count." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个活跃习惯 10 分，最多 30 个习惯（最多 300 分）。仅计算未归档的习惯。"
+          }
+        }
+      }
+    },
+    "10 points per unlocked achievement. Currently %lld achievements available." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个解锁的成就 10 分。目前有 %lld 个成就可用。"
+          }
+        }
+      }
+    },
     "10–15 minutes of sunlight for vitamin D." : {
       "localizations" : {
         "zh-Hans" : {
@@ -390,6 +444,39 @@
           }
         }
       }
+    },
+    "100-199 points" : {
+
+    },
+    "200-299 points" : {
+
+    },
+    "300-399 points" : {
+
+    },
+    "400-499 points" : {
+
+    },
+    "500-599 points" : {
+
+    },
+    "600-699 points" : {
+
+    },
+    "700-799 points" : {
+
+    },
+    "800-899 points" : {
+
+    },
+    "900-999 points" : {
+
+    },
+    "1000-1099 points" : {
+
+    },
+    "1100+ points" : {
+
     },
     "Achievement Unlocked!" : {
       "localizations" : {
@@ -407,6 +494,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "成就"
+          }
+        }
+      }
+    },
+    "Active Habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活跃习惯"
           }
         }
       }
@@ -447,6 +544,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "添加到收藏"
+          }
+        }
+      }
+    },
+    "Advanced" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高级"
+          }
+        }
+      }
+    },
+    "Advanced+" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高级+"
           }
         }
       }
@@ -511,6 +628,26 @@
         }
       }
     },
+    "Apprentice" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "学徒"
+          }
+        }
+      }
+    },
+    "Apprentice+" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "学徒+"
+          }
+        }
+      }
+    },
     "Archive" : {
       "localizations" : {
         "zh-Hans" : {
@@ -551,6 +688,16 @@
         }
       }
     },
+    "Beginner" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "初学者"
+          }
+        }
+      }
+    },
     "Boost daily movement and heart health." : {
       "localizations" : {
         "zh-Hans" : {
@@ -577,6 +724,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "刷牙并使用牙线"
+          }
+        }
+      }
+    },
+    "Build Consistency" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "建立一致性"
           }
         }
       }
@@ -927,6 +1084,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "完成来自所有 5 个类别的习惯"
+          }
+        }
+      }
+    },
+    "Complete various challenges to earn achievement points" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成各种挑战以获得成就积分"
           }
         }
       }
@@ -1301,6 +1468,16 @@
         }
       }
     },
+    "Expert" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "专家"
+          }
+        }
+      }
+    },
     "Favorite" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1357,6 +1534,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "健身狂热者"
+          }
+        }
+      }
+    },
+    "Focus on daily check-ins rather than perfect performance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "专注于每日打卡而不是完美表现"
+          }
+        }
+      }
+    },
+    "Focus on habits with higher anti-aging ratings for better scores" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "专注于具有更高抗衰老评分的习惯以获得更好的分数"
           }
         }
       }
@@ -1436,7 +1633,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "明白！"
+            "value" : "明白了！"
           }
         }
       }
@@ -1506,7 +1703,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ 分数如何计算"
+            "value" : "%@ 分数是如何计算的"
           }
         }
       }
@@ -1516,7 +1713,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "计算方式"
+            "value" : "如何计算"
           }
         }
       }
@@ -1551,12 +1748,52 @@
         }
       }
     },
+    "Intermediate" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中级"
+          }
+        }
+      }
+    },
+    "Intermediate+" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中级+"
+          }
+        }
+      }
+    },
+    "Legend" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "传奇"
+          }
+        }
+      }
+    },
     "Locked" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "已锁定"
+          }
+        }
+      }
+    },
+    "Longest Streak" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最长连胜"
           }
         }
       }
@@ -1576,7 +1813,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "抗衰评分"
+            "value" : "长寿评分"
           }
         }
       }
@@ -1586,7 +1823,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "抗衰评分系统"
+            "value" : "长寿评分系统"
           }
         }
       }
@@ -1647,6 +1884,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "保持良好姿势以减少背部和颈部压力。"
+          }
+        }
+      }
+    },
+    "Master" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大师"
           }
         }
       }
@@ -1717,6 +1964,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "星期一"
+          }
+        }
+      }
+    },
+    "Monitor your streaks and celebrate small victories" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "监控您的连胜并庆祝小胜利"
           }
         }
       }
@@ -1862,6 +2119,26 @@
         }
       }
     },
+    "Novice" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新手"
+          }
+        }
+      }
+    },
+    "Novice+" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新手+"
+          }
+        }
+      }
+    },
     "Once archived, the habit will be hidden from today's habits list, but its check-ins will be kept." : {
       "localizations" : {
         "zh-Hans" : {
@@ -1982,6 +2259,16 @@
         }
       }
     },
+    "Prioritize High-Impact Habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "优先考虑高影响力习惯"
+          }
+        }
+      }
+    },
     "Privacy Policy" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2007,7 +2294,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "进展至 %@"
+            "value" : "向 %@ 的进度"
           }
         }
       }
@@ -2167,7 +2454,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "得分：%1$lld/%2$lld"
+            "value" : "分数：%1$lld/%2$lld"
           }
         }
       }
@@ -2188,6 +2475,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择您喜欢的应用程序主色调"
+          }
+        }
+      }
+    },
+    "Set Realistic Goals" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设定现实目标"
           }
         }
       }
@@ -2288,6 +2585,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "开始签到以跟踪您的习惯！"
+          }
+        }
+      }
+    },
+    "Start with small, achievable habits and gradually increase complexity" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从小而可实现的习惯开始，逐渐增加复杂性"
           }
         }
       }
@@ -2507,7 +2814,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "改进提示"
+            "value" : "改进建议"
           }
         }
       }
@@ -2532,12 +2839,32 @@
         }
       }
     },
+    "Total Check-ins" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "总打卡次数"
+          }
+        }
+      }
+    },
     "Total Score" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "总分"
+          }
+        }
+      }
+    },
+    "Track Progress" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟踪进度"
           }
         }
       }
@@ -2558,6 +2885,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "取消存档"
+          }
+        }
+      }
+    },
+    "Unlock Achievements" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解锁成就"
           }
         }
       }
@@ -2798,7 +3135,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "您的评分是根据您在多个维度的整体健康和养生习惯计算得出的。专注于在所有类别中养成一致的习惯以提高您的评分！"
+            "value" : "您的评分基于您在多个维度的整体健康和保健习惯计算。专注于在所有类别中建立一致的习惯以提高您的评分！"
           }
         }
       }
@@ -2808,7 +3145,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "您的统计数据"
+            "value" : "您的统计"
           }
         }
       }

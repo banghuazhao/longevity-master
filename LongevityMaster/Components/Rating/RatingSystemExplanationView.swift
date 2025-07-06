@@ -27,14 +27,14 @@ struct RatingSystemExplanationView: View {
                 .padding()
             }
             .appBackground()
-            .navigationTitle("Rating System")
+            .navigationTitle(String(localized: "Rating System"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         dismiss()
                     } label: {
-                        Text("Done")
+                        Text(String(localized: "Done"))
                             .appRectButtonStyle()
                     }
                 }
@@ -48,11 +48,11 @@ struct RatingSystemExplanationView: View {
                 .font(.system(size: 48))
                 .foregroundColor(.orange)
             
-            Text("Longevity Rating System")
+            Text(String(localized: "Longevity Rating System"))
                 .font(.title)
                 .fontWeight(.bold)
             
-            Text("Your rating is calculated based on your overall health and wellness habits across multiple dimensions. Focus on building consistent habits across all categories to improve your rating!")
+            Text(String(localized: "Your rating is calculated based on your overall health and wellness habits across multiple dimensions. Focus on building consistent habits across all categories to improve your rating!"))
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -63,7 +63,7 @@ struct RatingSystemExplanationView: View {
     
     private var ratingLevelsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Rating Levels")
+            Text(String(localized: "Rating Levels"))
                 .font(.headline)
                 .fontWeight(.semibold)
             
@@ -77,7 +77,7 @@ struct RatingSystemExplanationView: View {
     
     private var scoreCategoriesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Score Categories")
+            Text(String(localized: "Score Categories"))
                 .font(.headline)
                 .fontWeight(.semibold)
             
@@ -91,39 +91,39 @@ struct RatingSystemExplanationView: View {
     
     private var tipsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Tips for Improvement")
+            Text(String(localized: "Tips for Improvement"))
                 .font(.headline)
                 .fontWeight(.semibold)
             
             VStack(spacing: 12) {
                 TipRow(
                     icon: "target",
-                    title: "Set Realistic Goals",
-                    description: "Start with small, achievable habits and gradually increase complexity"
+                    title: String(localized: "Set Realistic Goals"),
+                    description: String(localized: "Start with small, achievable habits and gradually increase complexity")
                 )
                 
                 TipRow(
                     icon: "calendar",
-                    title: "Build Consistency",
-                    description: "Focus on daily check-ins rather than perfect performance"
+                    title: String(localized: "Build Consistency"),
+                    description: String(localized: "Focus on daily check-ins rather than perfect performance")
                 )
                 
                 TipRow(
                     icon: "chart.line.uptrend.xyaxis",
-                    title: "Track Progress",
-                    description: "Monitor your streaks and celebrate small victories"
+                    title: String(localized: "Track Progress"),
+                    description: String(localized: "Monitor your streaks and celebrate small victories")
                 )
                 
                 TipRow(
                     icon: "star.fill",
-                    title: "Prioritize High-Impact Habits",
-                    description: "Focus on habits with higher anti-aging ratings for better scores"
+                    title: String(localized: "Prioritize High-Impact Habits"),
+                    description: String(localized: "Focus on habits with higher anti-aging ratings for better scores")
                 )
                 
                 TipRow(
                     icon: "trophy.fill",
-                    title: "Unlock Achievements",
-                    description: "Complete various challenges to earn achievement points"
+                    title: String(localized: "Unlock Achievements"),
+                    description: String(localized: "Complete various challenges to earn achievement points")
                 )
             }
         }
@@ -150,7 +150,7 @@ struct RatingLevelRow: View {
             
             // Score Range
             VStack(alignment: .leading, spacing: 4) {
-                Text("Score Range")
+                Text(String(localized: "Score Range"))
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
@@ -171,18 +171,18 @@ struct RatingLevelRow: View {
     
     private var scoreRangeText: String {
         switch rating {
-        case .f: return "0-99 points"
-        case .dMinus: return "100-199 points"
-        case .d: return "200-299 points"
-        case .cMinus: return "300-399 points"
-        case .c: return "400-499 points"
-        case .bMinus: return "500-599 points"
-        case .b: return "600-699 points"
-        case .aMinus: return "700-799 points"
-        case .a: return "800-899 points"
-        case .s: return "900-999 points"
-        case .ss: return "1000-1099 points"
-        case .sss: return "1100+ points"
+        case .f: return String(localized: "0-99 points")
+        case .dMinus: return String(localized: "100-199 points")
+        case .d: return String(localized: "200-299 points")
+        case .cMinus: return String(localized: "300-399 points")
+        case .c: return String(localized: "400-499 points")
+        case .bMinus: return String(localized: "500-599 points")
+        case .b: return String(localized: "600-699 points")
+        case .aMinus: return String(localized: "700-799 points")
+        case .a: return String(localized: "800-899 points")
+        case .s: return String(localized: "900-999 points")
+        case .ss: return String(localized: "1000-1099 points")
+        case .sss: return String(localized: "1100+ points")
         }
     }
 }
@@ -214,7 +214,7 @@ struct ScoreCategoryRow: View {
             
             // Max Score
             VStack(alignment: .trailing, spacing: 4) {
-                Text("Max")
+                Text(String(localized: "Max"))
                     .font(.caption)
                     .foregroundColor(.secondary)
                 

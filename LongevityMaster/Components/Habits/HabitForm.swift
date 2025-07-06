@@ -44,6 +44,9 @@ class HabitFormViewModel: HashableObject {
     
     @ObservationIgnored
     @Dependency(\.notificationService) var notificationService
+    
+    @ObservationIgnored
+    @Dependency(\.appRatingService) var appRatingService
 
     var showTitleEmptyToast = false
     let isEdit: Bool
@@ -172,6 +175,9 @@ class HabitFormViewModel: HashableObject {
                 }
             }
             onSaveHabit?(updatedHabit)
+            
+            // Increment habit modification count for rating prompts
+            appRatingService.incrementHabitModificationCount()
         }
         return true
     }

@@ -29,6 +29,9 @@ class HabitDetailViewModel {
     
     @ObservationIgnored
     @Dependency(\.achievementService) var achievementService
+    
+    @ObservationIgnored
+    @Dependency(\.appRatingService) var appRatingService
 
     @ObservationIgnored
     @Shared(.appStorage("startWeekOnMonday")) private var startWeekOnMonday: Bool = true
@@ -206,6 +209,8 @@ class HabitDetailViewModel {
             ) { [weak self] updatedHabit in
                 guard let self else { return }
                 habit = updatedHabit
+                // Increment habit modification count for rating prompts
+                appRatingService.incrementHabitModificationCount()
             }
         )
     }

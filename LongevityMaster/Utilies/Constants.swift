@@ -11,6 +11,10 @@ import UIKit
 struct Constants {
     static let isPhone = UIDevice.current.userInterfaceIdiom == .phone
     static let isMac = UIDevice.current.userInterfaceIdiom == .mac
+    
+    struct AppID {
+        static let longevityMasterID = "6747810020"
+    }
 }
 
 extension String {

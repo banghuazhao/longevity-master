@@ -1,16 +1,21 @@
 //
 //  MoreAppsView.swift
-//  LongevityMaster
+//  MoreApps
 //
 //  Created by Lulin Yang on 2025/6/27.
 //
 
+#if canImport(UIKit)
 import SwiftUI
 
-struct MoreAppsView: View {
-    let apps = AppItemStore.allItems
+public struct MoreAppsView: View {
+    private let apps: [AppItem]
+    
+    public init(apps: [AppItem] = AppItemStore.allItems) {
+        self.apps = apps
+    }
 
-    var body: some View {
+    public var body: some View {
         List(apps) { app in
             Button(action: {
                 if let url = app.url {
@@ -28,6 +33,7 @@ struct MoreAppsView: View {
 
                     VStack(alignment: .leading, spacing: 4) {
                         Text(app.title)
+                            .foregroundColor(.primary)
                             .font(.headline)
 
                         Text(app.detail)
@@ -41,7 +47,9 @@ struct MoreAppsView: View {
                 }
                 .padding(.vertical, 4)
             }
+            .buttonStyle(.plain)
         }
-        .navigationTitle("More Apps")
+        .navigationTitle(String(localized: "More Apps", bundle: .module))
     }
 }
+#endif 

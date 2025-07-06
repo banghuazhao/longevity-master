@@ -15,7 +15,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%@"
           }
         }
@@ -31,7 +31,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%1$@ - %2$@"
           }
         }
@@ -41,7 +41,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%@ - 升级到高级版"
           }
         }
@@ -51,7 +51,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%lld"
           }
         }
@@ -501,16 +501,6 @@
         }
       }
     },
-    "All Cities" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "所有城市"
-          }
-        }
-      }
-    },
     "Anti-Aging Rating" : {
       "localizations" : {
         "zh-Hans" : {
@@ -561,16 +551,6 @@
         }
       }
     },
-    "BMI Diary" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "BMI 日记"
-          }
-        }
-      }
-    },
     "Boost daily movement and heart health." : {
       "localizations" : {
         "zh-Hans" : {
@@ -601,16 +581,6 @@
         }
       }
     },
-    "Budget, Expense & Bill Planner" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "预算、费用和账单规划"
-          }
-        }
-      }
-    },
     "Build healthy habits that promote longevity and well-being. Let's start by selecting some habits that interest you." : {
       "localizations" : {
         "zh-Hans" : {
@@ -631,16 +601,6 @@
         }
       }
     },
-    "CalmCanvas" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "CalmCanvas"
-          }
-        }
-      }
-    },
     "Cancel" : {
       "localizations" : {
         "zh-Hans" : {
@@ -657,16 +617,6 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "类别"
-          }
-        }
-      }
-    },
-    "Check out more Apps made by us" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "查看我们开发的更多应用"
           }
         }
       }
@@ -737,16 +687,6 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "选择您的习惯"
-          }
-        }
-      }
-    },
-    "ClassicReads" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "ClassicReads"
           }
         }
       }
@@ -837,17 +777,6 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "删除"
-          }
-        }
-      }
-    },
-    "Delete ' %@ '?" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "删除 ' %@ '？"
           }
         }
       }
@@ -1082,16 +1011,6 @@
         }
       }
     },
-    "Falling Block Puzzle" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Falling Block Puzzle"
-          }
-        }
-      }
-    },
     "Favorite" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1118,27 +1037,6 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "按条件筛选"
-          }
-        }
-      }
-    },
-    "Fitness, Weight Loss & Health" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "健身、减重与健康"
-          }
-        }
-      }
-    },
-    "Fitness, Weight Loss &Health" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "健身、减重与健康"
           }
         }
       }
@@ -1343,16 +1241,6 @@
         }
       }
     },
-    "Math Solver & Calculator App" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "数学解题与计算器应用"
-          }
-        }
-      }
-    },
     "Max" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1383,47 +1271,6 @@
         }
       }
     },
-    "Meditation, Relaxing" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "冥想、放松"
-          }
-        }
-      }
-    },
-    "Meditation,Relaxing" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "冥想、放松"
-          }
-        }
-      }
-    },
-    "Minesweeper App" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "扫雷应用"
-          }
-        }
-      }
-    },
-    "Minesweeper Z" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Minesweeper Z"
-          }
-        }
-      }
-    },
     "Mode" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1440,16 +1287,6 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "星期一"
-          }
-        }
-      }
-    },
-    "Money Tracker" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "财务跟踪"
           }
         }
       }
@@ -1481,27 +1318,6 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "更多功能"
-          }
-        }
-      }
-    },
-    "Movie, TV Show Tracker" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "电影、电视剧跟踪"
-          }
-        }
-      }
-    },
-    "Movie,TV Show Tracker" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "电影、电视剧跟踪"
           }
         }
       }
@@ -1596,16 +1412,6 @@
         }
       }
     },
-    "Novels & Fiction" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "小说与虚构"
-          }
-        }
-      }
-    },
     "Once archived, the habit will be hidden from today's habits list, but its check-ins will be kept." : {
       "localizations" : {
         "zh-Hans" : {
@@ -1632,16 +1438,6 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "其他"
-          }
-        }
-      }
-    },
-    "Piano Keyboard" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "钢琴键盘"
           }
         }
       }
@@ -1836,16 +1632,6 @@
         }
       }
     },
-    "Retro" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "复古"
-          }
-        }
-      }
-    },
     "Sample Button" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1986,16 +1772,6 @@
         }
       }
     },
-    "Shows" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "节目"
-          }
-        }
-      }
-    },
     "Sleep 7-9 hours" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2076,42 +1852,12 @@
         }
       }
     },
-    "Sudoku Lover" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "数独爱好者"
-          }
-        }
-      }
-    },
-    "sudoku puzzles" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "数独谜题"
-          }
-        }
-      }
-    },
     "Sunday" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "星期日"
-          }
-        }
-      }
-    },
-    "SwiftSum" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "SwiftSum"
           }
         }
       }
@@ -2296,16 +2042,6 @@
         }
       }
     },
-    "TripMark" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "TripMark"
-          }
-        }
-      }
-    },
     "Unarchive" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2386,16 +2122,6 @@
         }
       }
     },
-    "Vacation, Itinerary Planner" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "度假、行程规划"
-          }
-        }
-      }
-    },
     "Vibrate" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2426,16 +2152,6 @@
         }
       }
     },
-    "We Play Piano" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "We Play Piano"
-          }
-        }
-      }
-    },
     "Week Start" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2462,16 +2178,6 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "欢迎您，高级用户！"
-          }
-        }
-      }
-    },
-    "World Weather Live" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "全球天气实时"
           }
         }
       }
@@ -2541,7 +2247,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "您的姓名"
           }
         }
@@ -2551,7 +2257,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "您的评分是根据您在多个维度的整体健康和养生习惯计算得出的。专注于在所有类别中养成一致的习惯以提高您的评分！"
           }
         }

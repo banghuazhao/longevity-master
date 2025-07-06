@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		41449E722E166E9B00DEB393 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41449E712E166E9B00DEB393 /* StoreKit.framework */; };
 		41FFF2722E14E9FC004ACA97 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 41FFF2712E14E9FC004ACA97 /* GoogleMobileAds */; };
+		991CFAF52E1A5EBE00A0BE4A /* MoreApps in Frameworks */ = {isa = PBXBuildFile; productRef = 991CFAF42E1A5EBE00A0BE4A /* MoreApps */; };
 		996BA7BB2DF19E3A00A4B9FC /* SharingGRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */; };
 		996BA8C32E0A71CA00A4B9FC /* SwiftUINavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 996BA8C22E0A71CA00A4B9FC /* SwiftUINavigation */; };
 		99774EEA2E1007C20099920F /* EasyToast in Frameworks */ = {isa = PBXBuildFile; productRef = 99774EE92E1007C20099920F /* EasyToast */; };
@@ -59,6 +60,7 @@
 				41FFF2722E14E9FC004ACA97 /* GoogleMobileAds in Frameworks */,
 				99774EEA2E1007C20099920F /* EasyToast in Frameworks */,
 				41449E722E166E9B00DEB393 /* StoreKit.framework in Frameworks */,
+				991CFAF52E1A5EBE00A0BE4A /* MoreApps in Frameworks */,
 				996BA8C32E0A71CA00A4B9FC /* SwiftUINavigation in Frameworks */,
 				996BA7BB2DF19E3A00A4B9FC /* SharingGRDB in Frameworks */,
 			);
@@ -124,6 +126,7 @@
 				996BA8C22E0A71CA00A4B9FC /* SwiftUINavigation */,
 				99774EE92E1007C20099920F /* EasyToast */,
 				41FFF2712E14E9FC004ACA97 /* GoogleMobileAds */,
+				991CFAF42E1A5EBE00A0BE4A /* MoreApps */,
 			);
 			productName = LongevityMaster;
 			productReference = 993A34222DEB1031002CEA39 /* LongevityMaster.app */;
@@ -541,6 +544,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 41FFF2142E14E225004ACA97 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
+		};
+		991CFAF42E1A5EBE00A0BE4A /* MoreApps */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MoreApps;
 		};
 		996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */ = {
 			isa = XCSwiftPackageProductDependency;

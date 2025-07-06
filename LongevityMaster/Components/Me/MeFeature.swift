@@ -6,6 +6,7 @@
 import SwiftUI
 import Dependencies
 import SharingGRDB
+import MoreApps
 
 struct MeView: View {
     @Environment(\.openURL) private var openURL

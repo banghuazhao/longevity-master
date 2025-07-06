@@ -218,17 +218,17 @@ class ScoreDetailViewModel: HashableObject {
         percentage = Double(currentScore) / Double(ScoreCategory.activeHabits.maxScore)
         
         statistics = [
-            Statistic(title: "Active Habits", value: "\(activeHabits.count)", subtitle: "out of 30"),
-            Statistic(title: "Archived Habits", value: "\(allHabits.filter { $0.isArchived }.count)", subtitle: "not counted"),
-            Statistic(title: "Categories", value: "\(Set(activeHabits.map { $0.category }).count)", subtitle: "variety"),
-            Statistic(title: "Favorites", value: "\(activeHabits.filter { $0.isFavorite }.count)", subtitle: "starred")
+            Statistic(title: String(localized: "Active Habits"), value: "\(activeHabits.count)", subtitle: String(localized: "out of 30")),
+            Statistic(title: String(localized: "Archived Habits"), value: "\(allHabits.filter { $0.isArchived }.count)", subtitle: String(localized: "not counted")),
+            Statistic(title: String(localized: "Categories"), value: "\(Set(activeHabits.map { $0.category }).count)", subtitle: String(localized: "variety")),
+            Statistic(title: String(localized: "Favorites"), value: "\(activeHabits.filter { $0.isFavorite }.count)", subtitle: String(localized: "starred"))
         ]
         
         tips = [
-            "Create new habits to increase your score",
-            "Archive unused habits to keep your list clean",
-            "Try habits from different categories for variety",
-            "Mark your most important habits as favorites"
+            String(localized: "Create new habits to increase your score"),
+            String(localized: "Archive unused habits to keep your list clean"),
+            String(localized: "Try habits from different categories for variety"),
+            String(localized: "Mark your most important habits as favorites")
         ]
     }
     
@@ -241,17 +241,17 @@ class ScoreDetailViewModel: HashableObject {
         let averageRating = activeHabits.isEmpty ? 0 : Double(totalRating) / Double(activeHabits.count)
         
         statistics = [
-            Statistic(title: "Total Rating", value: "\(totalRating)", subtitle: "points"),
-            Statistic(title: "Average Rating", value: String(format: "%.1f", averageRating), subtitle: "per habit"),
-            Statistic(title: "5-Star Habits", value: "\(activeHabits.filter { $0.antiAgingRating == 5 }.count)", subtitle: "maximum impact"),
-            Statistic(title: "High Impact", value: "\(activeHabits.filter { $0.antiAgingRating >= 4 }.count)", subtitle: "4-5 stars")
+            Statistic(title: String(localized: "Total Rating"), value: "\(totalRating)", subtitle: String(localized: "points")),
+            Statistic(title: String(localized: "Average Rating"), value: String(format: "%.1f", averageRating), subtitle: String(localized: "per habit")),
+            Statistic(title: String(localized: "5-Star Habits"), value: "\(activeHabits.filter { $0.antiAgingRating == 5 }.count)", subtitle: String(localized: "maximum impact")),
+            Statistic(title: String(localized: "High Impact"), value: "\(activeHabits.filter { $0.antiAgingRating >= 4 }.count)", subtitle: String(localized: "4-5 stars"))
         ]
         
         tips = [
-            "Focus on habits with 4-5 star anti-aging ratings",
-            "Replace low-impact habits with higher-rated ones",
-            "Consider the cumulative effect of multiple habits",
-            "Balance high-impact habits with sustainable ones"
+            String(localized: "Focus on habits with 4-5 star anti-aging ratings"),
+            String(localized: "Replace low-impact habits with higher-rated ones"),
+            String(localized: "Consider the cumulative effect of multiple habits"),
+            String(localized: "Balance high-impact habits with sustainable ones")
         ]
     }
     
@@ -267,17 +267,17 @@ class ScoreDetailViewModel: HashableObject {
         }
         
         statistics = [
-            Statistic(title: "Unlocked", value: "\(unlockedAchievements.count)", subtitle: "achievements"),
-            Statistic(title: "Available", value: "\(allAchievements.count)", subtitle: "total"),
-            Statistic(title: "Recent", value: "\(recentUnlocks.count)", subtitle: "last 2 days"),
-            Statistic(title: "Progress", value: "\(Int(percentage * 100))%", subtitle: "complete")
+            Statistic(title: String(localized: "Unlocked"), value: "\(unlockedAchievements.count)", subtitle: String(localized: "achievements")),
+            Statistic(title: String(localized: "Available"), value: "\(allAchievements.count)", subtitle: String(localized: "total")),
+            Statistic(title: String(localized: "Recent"), value: "\(recentUnlocks.count)", subtitle: String(localized: "last 2 days")),
+            Statistic(title: String(localized: "Progress"), value: "\(Int(percentage * 100))%", subtitle: String(localized: "complete"))
         ]
         
         tips = [
-            "Complete daily habits to unlock streak achievements",
-            "Try different habit categories for variety achievements",
-            "Check in consistently to reach milestone achievements",
-            "Complete habits early or late for time-based achievements"
+            String(localized: "Complete daily habits to unlock streak achievements"),
+            String(localized: "Try different habit categories for variety achievements"),
+            String(localized: "Check in consistently to reach milestone achievements"),
+            String(localized: "Complete habits early or late for time-based achievements")
         ]
     }
     
@@ -293,17 +293,17 @@ class ScoreDetailViewModel: HashableObject {
         let checkInsThisMonth = allCheckIns.filter { $0.date >= startOfMonth }
         
         statistics = [
-            Statistic(title: "Total Check-ins", value: "\(allCheckIns.count)", subtitle: "all time"),
-            Statistic(title: "This Week", value: "\(checkInsThisWeek.count)", subtitle: "recent activity"),
-            Statistic(title: "This Month", value: "\(checkInsThisMonth.count)", subtitle: "monthly progress"),
-            Statistic(title: "Average/Day", value: String(format: "%.1f", Double(allCheckIns.count) / max(1, Double(userCalendar.dateComponents([.day], from: allCheckIns.first?.date ?? today, to: today).day ?? 1))), subtitle: "consistency")
+            Statistic(title: String(localized: "Total Check-ins"), value: "\(allCheckIns.count)", subtitle: String(localized: "all time")),
+            Statistic(title: String(localized: "This Week"), value: "\(checkInsThisWeek.count)", subtitle: String(localized: "recent activity")),
+            Statistic(title: String(localized: "This Month"), value: "\(checkInsThisMonth.count)", subtitle: String(localized: "monthly progress")),
+            Statistic(title: String(localized: "Average/Day"), value: String(format: "%.1f", Double(allCheckIns.count) / max(1, Double(userCalendar.dateComponents([.day], from: allCheckIns.first?.date ?? today, to: today).day ?? 1))), subtitle: String(localized: "consistency"))
         ]
         
         tips = [
-            "Check in daily to build consistency",
-            "Don't break your streak - even one check-in counts",
-            "Use reminders to never miss a day",
-            "Celebrate milestones to stay motivated"
+            String(localized: "Check in daily to build consistency"),
+            String(localized: "Don't break your streak - even one check-in counts"),
+            String(localized: "Use reminders to never miss a day"),
+            String(localized: "Celebrate milestones to stay motivated")
         ]
     }
     
@@ -316,17 +316,17 @@ class ScoreDetailViewModel: HashableObject {
         let averageStreak = calculateAverageStreak()
         
         statistics = [
-            Statistic(title: "Longest Streak", value: "\(longestStreak)", subtitle: "days"),
-            Statistic(title: "Current Streak", value: "\(currentStreak)", subtitle: "days"),
-            Statistic(title: "Average Streak", value: String(format: "%.1f", averageStreak), subtitle: "days"),
-            Statistic(title: "Streak Goal", value: "125", subtitle: "days max")
+            Statistic(title: String(localized: "Longest Streak"), value: "\(longestStreak)", subtitle: String(localized: "days")),
+            Statistic(title: String(localized: "Current Streak"), value: "\(currentStreak)", subtitle: String(localized: "days")),
+            Statistic(title: String(localized: "Average Streak"), value: String(format: "%.1f", averageStreak), subtitle: String(localized: "days")),
+            Statistic(title: String(localized: "Streak Goal"), value: "125", subtitle: String(localized: "days max"))
         ]
         
         tips = [
-            "Never miss two days in a row",
-            "Start with small, achievable habits",
-            "Track your progress to stay motivated",
-            "Build momentum with consistent daily check-ins"
+            String(localized: "Never miss two days in a row"),
+            String(localized: "Start with small, achievable habits"),
+            String(localized: "Track your progress to stay motivated"),
+            String(localized: "Build momentum with consistent daily check-ins")
         ]
     }
     

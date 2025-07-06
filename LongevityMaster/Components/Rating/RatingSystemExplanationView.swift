@@ -200,7 +200,7 @@ struct ScoreCategoryRow: View {
             
             // Category Info
             VStack(alignment: .leading, spacing: 4) {
-                Text(category.rawValue)
+                Text(category.localizedTitle)
                     .font(.subheadline)
                     .fontWeight(.medium)
                 

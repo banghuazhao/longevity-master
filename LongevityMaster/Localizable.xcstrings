@@ -343,7 +343,14 @@
       }
     },
     "0-99 points" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0-99 分"
+          }
+        }
+      }
     },
     "1 day each month" : {
       "localizations" : {
@@ -415,6 +422,19 @@
         }
       }
     },
+    "4-5 stars" : {
+
+    },
+    "5-Star Habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 星习惯"
+          }
+        }
+      }
+    },
     "10 points per active habit, up to 30 habits (300 points max). Only non-archived habits count." : {
       "localizations" : {
         "zh-Hans" : {
@@ -446,37 +466,114 @@
       }
     },
     "100-199 points" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100-199 分"
+          }
+        }
+      }
     },
     "200-299 points" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "200-299 分"
+          }
+        }
+      }
     },
     "300-399 points" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "300-399 分"
+          }
+        }
+      }
     },
     "400-499 points" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "400-499 分"
+          }
+        }
+      }
     },
     "500-599 points" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "500-599 分"
+          }
+        }
+      }
     },
     "600-699 points" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "600-699 分"
+          }
+        }
+      }
     },
     "700-799 points" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "700-799 分"
+          }
+        }
+      }
     },
     "800-899 points" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "800-899 分"
+          }
+        }
+      }
     },
     "900-999 points" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "900-999 分"
+          }
+        }
+      }
     },
     "1000-1099 points" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1000-1099 分"
+          }
+        }
+      }
     },
     "1100+ points" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1100+ 分"
+          }
+        }
+      }
     },
     "Achievement Unlocked!" : {
       "localizations" : {
@@ -487,6 +584,9 @@
           }
         }
       }
+    },
+    "achievements" : {
+
     },
     "Achievements" : {
       "localizations" : {
@@ -618,6 +718,16 @@
         }
       }
     },
+    "all time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "总计"
+          }
+        }
+      }
+    },
     "Anti-Aging Rating" : {
       "localizations" : {
         "zh-Hans" : {
@@ -658,12 +768,32 @@
         }
       }
     },
+    "Archive unused habits to keep your list clean" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "归档未使用的习惯以保持列表整洁"
+          }
+        }
+      }
+    },
     "Archived" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "已存档"
+          }
+        }
+      }
+    },
+    "Archived Habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已归档习惯"
           }
         }
       }
@@ -678,12 +808,62 @@
         }
       }
     },
+    "Available" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可用"
+          }
+        }
+      }
+    },
+    "Average Rating" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平均评分"
+          }
+        }
+      }
+    },
+    "Average Streak" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平均连胜"
+          }
+        }
+      }
+    },
+    "Average/Day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平均/天"
+          }
+        }
+      }
+    },
     "Avoid caffeine after 2 PM" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "下午 2 点后避免摄入咖啡因"
+          }
+        }
+      }
+    },
+    "Balance high-impact habits with sustainable ones" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平衡高影响力习惯与可持续习惯"
           }
         }
       }
@@ -748,6 +928,16 @@
         }
       }
     },
+    "Build momentum with consistent daily check-ins" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通过一致的每日打卡建立动力"
+          }
+        }
+      }
+    },
     "Build muscle and improve bone density." : {
       "localizations" : {
         "zh-Hans" : {
@@ -764,6 +954,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "取消"
+          }
+        }
+      }
+    },
+    "Categories" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "类别"
           }
         }
       }
@@ -798,12 +998,42 @@
         }
       }
     },
+    "Celebrate milestones to stay motivated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "庆祝里程碑以保持动力"
+          }
+        }
+      }
+    },
     "Century Streak" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "百日连胜"
+          }
+        }
+      }
+    },
+    "Check in consistently to reach milestone achievements" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "持续打卡以达到里程碑成就"
+          }
+        }
+      }
+    },
+    "Check in daily to build consistency" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日打卡以建立一致性"
           }
         }
       }
@@ -884,6 +1114,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择您的习惯"
+          }
+        }
+      }
+    },
+    "complete" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成"
           }
         }
       }
@@ -1038,6 +1278,16 @@
         }
       }
     },
+    "Complete daily habits to unlock streak achievements" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成每日习惯以解锁连胜成就"
+          }
+        }
+      }
+    },
     "Complete habits 5 days in a row" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1068,6 +1318,16 @@
         }
       }
     },
+    "Complete habits early or late for time-based achievements" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在早期或晚期完成习惯以获得基于时间的成就"
+          }
+        }
+      }
+    },
     "Complete habits from 3 different categories" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1084,6 +1344,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "完成来自所有 5 个类别的习惯"
+          }
+        }
+      }
+    },
+    "Complete new habits to increase your score" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "创建新习惯以提高您的分数"
           }
         }
       }
@@ -1124,6 +1395,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "社交联系"
+          }
+        }
+      }
+    },
+    "Consider the cumulative effect of multiple habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "考虑多个习惯的累积效果"
+          }
+        }
+      }
+    },
+    "consistency" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一致性"
           }
         }
       }
@@ -1198,12 +1489,45 @@
         }
       }
     },
+    "Create new habits to increase your score" : {
+
+    },
+    "Current Streak" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前连胜"
+          }
+        }
+      }
+    },
     "Dark Mode" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "黑夜模式"
+          }
+        }
+      }
+    },
+    "days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天"
+          }
+        }
+      }
+    },
+    "days max" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天最大"
           }
         }
       }
@@ -1284,6 +1608,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "进行晨间拉伸运动"
+          }
+        }
+      }
+    },
+    "Don't break your streak - even one check-in counts" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不要打破您的连胜 - 即使一次打卡也算数"
           }
         }
       }
@@ -1488,6 +1822,16 @@
         }
       }
     },
+    "Favorites" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收藏"
+          }
+        }
+      }
+    },
     "Feedback" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1544,6 +1888,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "专注于每日打卡而不是完美表现"
+          }
+        }
+      }
+    },
+    "Focus on habits with 4-5 star anti-aging ratings" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "专注于具有 4-5 星抗衰老评分的习惯"
           }
         }
       }
@@ -1698,6 +2052,16 @@
         }
       }
     },
+    "High Impact" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高影响力"
+          }
+        }
+      }
+    },
     "How %@ Score is Calculated" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1764,6 +2128,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "中级+"
+          }
+        }
+      }
+    },
+    "last 2 days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近 2 天"
           }
         }
       }
@@ -1888,6 +2262,16 @@
         }
       }
     },
+    "Mark your most important habits as favorites" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将您最重要的习惯标记为收藏"
+          }
+        }
+      }
+    },
     "Master" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1904,6 +2288,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最大"
+          }
+        }
+      }
+    },
+    "maximum impact" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最大影响"
           }
         }
       }
@@ -1999,6 +2393,16 @@
         }
       }
     },
+    "monthly progress" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "月度进度"
+          }
+        }
+      }
+    },
     "More Apps" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2025,6 +2429,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "小睡 20-30 分钟以提高警觉性。"
+          }
+        }
+      }
+    },
+    "Never miss two days in a row" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "永远不要连续错过两天"
           }
         }
       }
@@ -2109,6 +2523,16 @@
         }
       }
     },
+    "not counted" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不计入"
+          }
+        }
+      }
+    },
     "Notifications are disabled. Please enable them in Settings to receive reminders." : {
       "localizations" : {
         "zh-Hans" : {
@@ -2169,6 +2593,26 @@
         }
       }
     },
+    "out of 30" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共 30 个"
+          }
+        }
+      }
+    },
+    "per habit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个习惯"
+          }
+        }
+      }
+    },
     "Perfect Month" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2195,6 +2639,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "请在下方描述您的问题"
+          }
+        }
+      }
+    },
+    "points" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分"
           }
         }
       }
@@ -2339,6 +2793,26 @@
         }
       }
     },
+    "Recent" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近"
+          }
+        }
+      }
+    },
+    "recent activity" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近活动"
+          }
+        }
+      }
+    },
     "Relax before bed to improve sleep quality." : {
       "localizations" : {
         "zh-Hans" : {
@@ -2365,6 +2839,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "从收藏中移除"
+          }
+        }
+      }
+    },
+    "Replace low-impact habits with higher-rated ones" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用更高评分的习惯替换低影响力习惯"
           }
         }
       }
@@ -2579,12 +3063,32 @@
         }
       }
     },
+    "starred" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已收藏"
+          }
+        }
+      }
+    },
     "Start checking in to track your habits!" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "开始签到以跟踪您的习惯！"
+          }
+        }
+      }
+    },
+    "Start with small, achievable habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从小而可实现的习惯开始"
           }
         }
       }
@@ -2625,6 +3129,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "保持水分"
+          }
+        }
+      }
+    },
+    "Streak Goal" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连胜目标"
           }
         }
       }
@@ -2769,6 +3283,26 @@
         }
       }
     },
+    "This Month" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本月"
+          }
+        }
+      }
+    },
+    "This Week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本周"
+          }
+        }
+      }
+    },
     "This will permanently delete the habit '%@' and all its check-in history. This action cannot be undone. Are you sure you want to proceed?" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2839,12 +3373,32 @@
         }
       }
     },
+    "total" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "总计"
+          }
+        }
+      }
+    },
     "Total Check-ins" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "总打卡次数"
+          }
+        }
+      }
+    },
+    "Total Rating" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "总评分"
           }
         }
       }
@@ -2865,6 +3419,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "跟踪进度"
+          }
+        }
+      }
+    },
+    "Track your progress to stay motivated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟踪您的进度以保持动力"
+          }
+        }
+      }
+    },
+    "Try different habit categories for variety achievements" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尝试不同的习惯类别以获得多样性成就"
+          }
+        }
+      }
+    },
+    "Try habits from different categories for variety" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尝试来自不同类别的习惯以获得多样性"
           }
         }
       }
@@ -2959,12 +3543,32 @@
         }
       }
     },
+    "Use reminders to never miss a day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用提醒以永不错过一天"
+          }
+        }
+      }
+    },
     "v%@  Check for Updates" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "v%@ 检查更新"
+          }
+        }
+      }
+    },
+    "variety" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "多样性"
           }
         }
       }

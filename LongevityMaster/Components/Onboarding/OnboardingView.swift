@@ -240,11 +240,20 @@ struct OnboardingView: View {
                         .fontWeight(.bold)
                         .multilineTextAlignment(.center)
                     
-                    Text("You've selected \(viewModel.selectedHabits.count) habit\(viewModel.selectedHabits.count == 1 ? "" : "s"). You can always add more habits or modify existing ones later.")
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
+                    if viewModel.selectedHabits.count == 1 {
+                        Text("You've selected \(viewModel.selectedHabits.count) habit. You can always add more habits or modify existing ones later.")
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                    } else {
+                        Text("You've selected \(viewModel.selectedHabits.count) habits. You can always add more habits or modify existing ones later.")
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                    }
+                        
                 }
             }
             

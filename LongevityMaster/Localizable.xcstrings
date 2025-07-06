@@ -5,7 +5,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : ""
           }
         }
@@ -25,7 +25,7 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%1$@ - %2$@"
           }
         },
@@ -61,7 +61,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%lld 天"
           }
         }
@@ -71,7 +71,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%lld 天"
           }
         }
@@ -101,13 +101,13 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%1$lld of %2$lld unlocked"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "已解锁 %1$lld/%2$lld"
           }
         }
@@ -117,7 +117,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%lld 分"
           }
         }
@@ -127,7 +127,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "还需 %lld 分"
           }
         }
@@ -137,13 +137,13 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%1$lld/%2$lld"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%1$lld/%2$lld"
           }
         }
@@ -153,7 +153,7 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%1$lld/%2$lld this month"
           }
         },
@@ -169,7 +169,7 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%1$lld/%2$lld this week"
           }
         },
@@ -185,7 +185,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%lld/1200"
           }
         }
@@ -195,7 +195,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%lld%%"
           }
         }
@@ -205,7 +205,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "• "
           }
         }
@@ -215,7 +215,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "< 上一页"
           }
         }
@@ -225,7 +225,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "✅"
           }
         }
@@ -245,7 +245,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "🎉 成就解锁！🎉"
           }
         }
@@ -265,7 +265,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "💎 感谢您成为高级会员！"
           }
         }
@@ -385,7 +385,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "10-15 分钟的阳光照射以获取维生素 D。"
           }
         }
@@ -395,7 +395,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "成就解锁！"
           }
         }
@@ -405,7 +405,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "成就"
           }
         }
@@ -415,7 +415,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "无广告体验"
           }
         }
@@ -425,7 +425,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "添加提醒"
           }
         }
@@ -435,7 +435,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "添加提醒"
           }
         }
@@ -445,7 +445,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "添加到收藏"
           }
         }
@@ -455,7 +455,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "在 %lld 天完成后，该习惯本月将不再显示。"
           }
         }
@@ -465,7 +465,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "在 %lld 天完成后，该习惯本周将不再显示。"
           }
         }
@@ -475,7 +475,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "在 %lld 天完成后，该习惯本月将不再显示。"
           }
         }
@@ -485,7 +485,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "在 %lld 天完成后，该习惯本周将不再显示。"
           }
         }
@@ -495,7 +495,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "全部"
           }
         }
@@ -505,7 +505,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "抗衰老评分"
           }
         }
@@ -515,7 +515,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "存档"
           }
         }
@@ -525,7 +525,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "已存档"
           }
         }
@@ -535,7 +535,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "最多允许 64 个通知。目前已设置 %lld 个。"
           }
         }
@@ -545,7 +545,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "下午 2 点后避免摄入咖啡因"
           }
         }
@@ -555,7 +555,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "增强日常活动和心脏健康。"
           }
         }
@@ -565,7 +565,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "快步走"
           }
         }
@@ -575,7 +575,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "刷牙并使用牙线"
           }
         }
@@ -585,7 +585,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "养成促进长寿和健康的习惯。让我们从选择一些您感兴趣的习惯开始。"
           }
         }
@@ -595,7 +595,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "增强肌肉并改善骨密度。"
           }
         }
@@ -605,7 +605,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "取消"
           }
         }
@@ -615,8 +615,38 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "类别"
+          }
+        }
+      }
+    },
+    "Category Explorer" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "类别探索者"
+          }
+        }
+      }
+    },
+    "Category Master" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "类别大师"
+          }
+        }
+      }
+    },
+    "Century Streak" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "百日连胜"
           }
         }
       }
@@ -625,8 +655,18 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "看看我在 LongevityMaster 中解锁的成就！"
+          }
+        }
+      }
+    },
+    "Check-in Champion" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打卡冠军"
           }
         }
       }
@@ -635,7 +675,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "签到历史"
           }
         }
@@ -665,7 +705,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "签到音效"
           }
         }
@@ -675,7 +715,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "选择主题颜色"
           }
         }
@@ -685,8 +725,218 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "选择您的习惯"
+          }
+        }
+      }
+    },
+    "Complete 10 total check-ins" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成 10 次总打卡"
+          }
+        }
+      }
+    },
+    "Complete 20 diet-related habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成 20 个饮食相关习惯"
+          }
+        }
+      }
+    },
+    "Complete 20 exercise-related habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成 20 个运动相关习惯"
+          }
+        }
+      }
+    },
+    "Complete 20 mental health habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成 20 个心理健康习惯"
+          }
+        }
+      }
+    },
+    "Complete 20 preventive health habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成 20 个预防保健习惯"
+          }
+        }
+      }
+    },
+    "Complete 20 sleep-related habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成 20 个睡眠相关习惯"
+          }
+        }
+      }
+    },
+    "Complete 50 total check-ins" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成 50 次总打卡"
+          }
+        }
+      }
+    },
+    "Complete 100 total check-ins" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成 100 次总打卡"
+          }
+        }
+      }
+    },
+    "Complete 500 total check-ins" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成 500 次总打卡"
+          }
+        }
+      }
+    },
+    "Complete 1000 total check-ins" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成 1000 次总打卡"
+          }
+        }
+      }
+    },
+    "Complete a habit 3 days in a row" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连续 3 天完成一个习惯"
+          }
+        }
+      }
+    },
+    "Complete a habit after 10 PM" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在晚上 10 点后完成一个习惯"
+          }
+        }
+      }
+    },
+    "Complete a habit before 8 AM" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在上午 8 点前完成一个习惯"
+          }
+        }
+      }
+    },
+    "Complete all scheduled habits for a month" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成一个月的所有计划习惯"
+          }
+        }
+      }
+    },
+    "Complete all scheduled habits for a week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成一周的所有计划习惯"
+          }
+        }
+      }
+    },
+    "Complete habits 5 days in a row" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连续 5 天完成习惯"
+          }
+        }
+      }
+    },
+    "Complete habits 10 days in a row" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连续 10 天完成习惯"
+          }
+        }
+      }
+    },
+    "Complete habits 20 days in a row" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连续 20 天完成习惯"
+          }
+        }
+      }
+    },
+    "Complete habits from 3 different categories" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成来自 3 个不同类别的习惯"
+          }
+        }
+      }
+    },
+    "Complete habits from all 5 categories" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成来自所有 5 个类别的习惯"
+          }
+        }
+      }
+    },
+    "Complete your first habit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成您的第一个习惯"
           }
         }
       }
@@ -695,7 +945,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "恭喜！"
           }
         }
@@ -705,8 +955,28 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "社交联系"
+          }
+        }
+      }
+    },
+    "Consistency King" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "坚持之王"
+          }
+        }
+      }
+    },
+    "Consistent" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "坚持不懈"
           }
         }
       }
@@ -715,7 +985,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "食用 4-6 盎司的三文鱼以获取欧米伽-3 脂肪酸。"
           }
         }
@@ -725,7 +995,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "食用 4-6 盎司的三文鱼以获取欧米伽-3 脂肪酸。"
           }
         }
@@ -735,7 +1005,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "联系支持"
           }
         }
@@ -745,7 +1015,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "继续"
           }
         }
@@ -755,7 +1025,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "创建每日提醒"
           }
         }
@@ -775,7 +1045,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "删除"
           }
         }
@@ -785,7 +1055,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "删除 '%@'？"
           }
         }
@@ -795,7 +1065,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "删除 '%@'？"
           }
         }
@@ -805,8 +1075,18 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "描述"
+          }
+        }
+      }
+    },
+    "Diet Champion" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "饮食冠军"
           }
         }
       }
@@ -815,7 +1095,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "数字排毒"
           }
         }
@@ -825,7 +1105,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "关闭"
           }
         }
@@ -835,7 +1115,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "进行晨间拉伸运动"
           }
         }
@@ -845,7 +1125,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "完成"
           }
         }
@@ -855,7 +1135,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "饮用 1-2 杯绿茶以获取多酚和保持水分。"
           }
         }
@@ -865,7 +1145,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "每天至少饮用 8 杯水以保持水分。"
           }
         }
@@ -875,8 +1155,18 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "喝绿茶"
+          }
+        }
+      }
+    },
+    "Early Bird" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "早起的鸟儿"
           }
         }
       }
@@ -885,7 +1175,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "吃一把蓝莓或草莓以获取抗氧化剂。"
           }
         }
@@ -895,7 +1185,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "吃一小把坚果以获取健康脂肪和蛋白质。"
           }
         }
@@ -905,7 +1195,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "吃浆果"
           }
         }
@@ -915,7 +1205,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "吃羽衣甘蓝"
           }
         }
@@ -925,7 +1215,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "吃坚果"
           }
         }
@@ -935,7 +1225,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "吃三文鱼"
           }
         }
@@ -945,7 +1235,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "编辑"
           }
         }
@@ -955,7 +1245,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "编辑习惯"
           }
         }
@@ -965,7 +1255,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "编辑提醒"
           }
         }
@@ -975,7 +1265,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "与亲人进行有意义的对话。"
           }
         }
@@ -985,7 +1275,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "享受无广告的习惯跟踪体验。"
           }
         }
@@ -1015,7 +1305,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "收藏"
           }
         }
@@ -1035,8 +1325,38 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "按条件筛选"
+          }
+        }
+      }
+    },
+    "First Milestone" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第一个里程碑"
+          }
+        }
+      }
+    },
+    "First Steps" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第一步"
+          }
+        }
+      }
+    },
+    "Fitness Fanatic" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "健身狂热者"
           }
         }
       }
@@ -1045,7 +1365,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "遵循睡前例程"
           }
         }
@@ -1055,7 +1375,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "频率"
           }
         }
@@ -1075,7 +1395,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "开始使用"
           }
         }
@@ -1085,8 +1405,18 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "获取阳光照射"
+          }
+        }
+      }
+    },
+    "Getting Started" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始起步"
           }
         }
       }
@@ -1095,7 +1425,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "前往设置"
           }
         }
@@ -1105,8 +1435,48 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "明白！"
+          }
+        }
+      }
+    },
+    "Habit Builder" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "习惯建设者"
+          }
+        }
+      }
+    },
+    "Habit Grandmaster" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "习惯大师"
+          }
+        }
+      }
+    },
+    "Habit Legend" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "习惯传奇"
+          }
+        }
+      }
+    },
+    "Habit Master" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "习惯大师"
           }
         }
       }
@@ -1115,8 +1485,18 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "习惯"
+          }
+        }
+      }
+    },
+    "Health Guardian" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "健康守护者"
           }
         }
       }
@@ -1125,7 +1505,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%@ 分数如何计算"
           }
         }
@@ -1135,7 +1515,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "计算方式"
           }
         }
@@ -1145,7 +1525,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "提高灵活性并减轻压力。"
           }
         }
@@ -1155,7 +1535,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "改善心血管健康并减轻压力。"
           }
         }
@@ -1165,7 +1545,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "在餐食中加入羽衣甘蓝以获取抗氧化剂和维生素。"
           }
         }
@@ -1175,7 +1555,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "已锁定"
           }
         }
@@ -1211,11 +1591,41 @@
         }
       }
     },
+    "Maintain a 7-day streak" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持 7 天连胜"
+          }
+        }
+      }
+    },
+    "Maintain a 30-day streak" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持 30 天连胜"
+          }
+        }
+      }
+    },
+    "Maintain a 100-day streak" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持 100 天连胜"
+          }
+        }
+      }
+    },
     "Maintain a consistent schedule with enough rest." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "保持规律的作息时间并充分休息。"
           }
         }
@@ -1225,7 +1635,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "保持规律的睡眠时间，每晚休息 7-9 小时。"
           }
         }
@@ -1235,7 +1645,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "保持良好姿势以减少背部和颈部压力。"
           }
         }
@@ -1245,7 +1655,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "最大"
           }
         }
@@ -1255,7 +1665,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "我"
           }
         }
@@ -1265,8 +1675,28 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "冥想"
+          }
+        }
+      }
+    },
+    "Mental Health Guru" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心理健康大师"
+          }
+        }
+      }
+    },
+    "Milestone Reacher" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "里程碑达成者"
           }
         }
       }
@@ -1275,7 +1705,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "模式"
           }
         }
@@ -1285,8 +1715,18 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "星期一"
+          }
+        }
+      }
+    },
+    "Month Master" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "月度大师"
           }
         }
       }
@@ -1306,7 +1746,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "更多应用"
           }
         }
@@ -1316,7 +1756,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "更多功能"
           }
         }
@@ -1326,7 +1766,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "小睡 20-30 分钟以提高警觉性。"
           }
         }
@@ -1336,7 +1776,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "新习惯"
           }
         }
@@ -1346,7 +1786,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "新习惯名称"
           }
         }
@@ -1356,7 +1796,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "新提醒"
           }
         }
@@ -1366,8 +1806,18 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "下一页 >"
+          }
+        }
+      }
+    },
+    "Night Owl" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜猫子"
           }
         }
       }
@@ -1376,7 +1826,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "无广告："
           }
         }
@@ -1386,7 +1836,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "未设置提醒"
           }
         }
@@ -1396,7 +1846,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "此习惯未设置提醒"
           }
         }
@@ -1406,7 +1856,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "通知已被禁用。请在设置中启用通知以接收提醒。"
           }
         }
@@ -1416,7 +1866,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "存档后，该习惯将从今日习惯列表中隐藏，但其签到记录将保留。"
           }
         }
@@ -1426,7 +1876,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "收藏后，该习惯将在今日习惯列表中排在首位。"
           }
         }
@@ -1436,8 +1886,28 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "其他"
+          }
+        }
+      }
+    },
+    "Perfect Month" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完美月份"
+          }
+        }
+      }
+    },
+    "Perfect Week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完美一周"
           }
         }
       }
@@ -1446,7 +1916,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "请在下方描述您的问题"
           }
         }
@@ -1456,7 +1926,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "姿势检查"
           }
         }
@@ -1466,7 +1936,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "练习感恩"
           }
         }
@@ -1476,7 +1946,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "练习正念以获得平静和清晰。"
           }
         }
@@ -1486,7 +1956,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "预防牙龈疾病和炎症。"
           }
         }
@@ -1496,7 +1966,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "通过避免在晚间使用刺激物来防止睡眠中断。"
           }
         }
@@ -1506,7 +1976,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "预览"
           }
         }
@@ -1516,7 +1986,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "隐私政策"
           }
         }
@@ -1526,7 +1996,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "进度"
           }
         }
@@ -1536,7 +2006,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "进展至 %@"
           }
         }
@@ -1556,7 +2026,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "评分"
           }
         }
@@ -1566,7 +2036,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "评分等级"
           }
         }
@@ -1576,7 +2046,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "评分系统"
           }
         }
@@ -1586,7 +2056,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "睡前放松以提高睡眠质量。"
           }
         }
@@ -1596,7 +2066,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "提醒"
           }
         }
@@ -1606,7 +2076,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "从收藏中移除"
           }
         }
@@ -1616,7 +2086,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "重置为默认"
           }
         }
@@ -1626,7 +2096,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "恢复购买"
           }
         }
@@ -1636,7 +2106,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "示例按钮"
           }
         }
@@ -1646,7 +2116,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "示例卡片"
           }
         }
@@ -1656,7 +2126,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "保存"
           }
         }
@@ -1666,7 +2136,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "分数明细"
           }
         }
@@ -1676,7 +2146,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "分数类别"
           }
         }
@@ -1686,7 +2156,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "分数范围"
           }
         }
@@ -1696,7 +2166,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "得分：%1$lld/%2$lld"
           }
         }
@@ -1706,7 +2176,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "选择您感兴趣的习惯。您可以随时添加更多！"
           }
         }
@@ -1716,7 +2186,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "选择您喜欢的应用程序主色调"
           }
         }
@@ -1726,7 +2196,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "设置"
           }
         }
@@ -1736,7 +2206,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "分享成就"
           }
         }
@@ -1756,7 +2226,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "显示更少"
           }
         }
@@ -1766,7 +2236,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "显示更多"
           }
         }
@@ -1776,7 +2246,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "睡眠 7-9 小时"
           }
         }
@@ -1786,8 +2256,18 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "睡眠 7-9 小时"
+          }
+        }
+      }
+    },
+    "Sleep Specialist" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睡眠专家"
           }
         }
       }
@@ -1796,7 +2276,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "排序方式"
           }
         }
@@ -1806,7 +2286,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "开始签到以跟踪您的习惯！"
           }
         }
@@ -1816,7 +2296,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "以轻度拉伸开始您的一天，以增加血液循环和灵活性。"
           }
         }
@@ -1826,7 +2306,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "开始您的旅程"
           }
         }
@@ -1836,8 +2316,18 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "保持水分"
+          }
+        }
+      }
+    },
+    "Streak Master" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连胜大师"
           }
         }
       }
@@ -1846,7 +2336,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "力量训练"
           }
         }
@@ -1856,8 +2346,18 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "星期日"
+          }
+        }
+      }
+    },
+    "Super Consistent" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "超级坚持"
           }
         }
       }
@@ -1866,7 +2366,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "游泳"
           }
         }
@@ -1876,7 +2376,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "游泳改善心血管健康，增强肌肉力量，减轻压力，增加灵活性，且低冲击，适合所有年龄段。"
           }
         }
@@ -1886,7 +2386,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "小睡片刻"
           }
         }
@@ -1896,7 +2396,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "饭后散步"
           }
         }
@@ -1906,7 +2406,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "屏幕休息以减少眼睛疲劳和压力。"
           }
         }
@@ -1916,7 +2416,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "走楼梯"
           }
         }
@@ -1926,7 +2426,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "点击“添加提醒”开始"
           }
         }
@@ -1946,7 +2446,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "主题颜色"
           }
         }
@@ -1956,7 +2456,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "这是您选择的主题颜色在应用中的显示效果。"
           }
         }
@@ -1966,7 +2466,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "这将永久删除习惯 '%@' 及其所有签到历史。此操作无法撤销。您确定要继续吗？"
           }
         }
@@ -1976,7 +2476,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "这将永久删除习惯 '%@' 及其所有签到历史。此操作无法撤销。您确定要继续吗？"
           }
         }
@@ -1986,7 +2486,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "时间"
           }
         }
@@ -1996,7 +2496,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "改进建议"
           }
         }
@@ -2006,7 +2506,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "改进提示"
           }
         }
@@ -2016,7 +2516,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "要接收及时提醒，请将手机的通知方式设置为“即时推送”。"
           }
         }
@@ -2026,7 +2526,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "今天"
           }
         }
@@ -2036,8 +2536,18 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "总分"
+          }
+        }
+      }
+    },
+    "Ultra Consistent" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "超强坚持"
           }
         }
       }
@@ -2046,7 +2556,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "取消存档"
           }
         }
@@ -2066,7 +2576,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "已解锁"
           }
         }
@@ -2076,7 +2586,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "已解锁 %@"
           }
         }
@@ -2086,7 +2596,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "更新"
           }
         }
@@ -2096,7 +2606,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "升级到高级版"
           }
         }
@@ -2106,7 +2616,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "升级到高级版，养成更好的习惯！"
           }
         }
@@ -2116,8 +2626,18 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "v%@ 检查更新"
+          }
+        }
+      }
+    },
+    "Variety Seeker" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "多样性探索者"
           }
         }
       }
@@ -2126,7 +2646,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "振动"
           }
         }
@@ -2136,7 +2656,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "以适中速度步行 30 分钟。"
           }
         }
@@ -2146,7 +2666,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "饭后步行 10-15 分钟以支持消化和血糖控制。"
           }
         }
@@ -2156,8 +2676,18 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "一周开始"
+          }
+        }
+      }
+    },
+    "Week Warrior" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "周战士"
           }
         }
       }
@@ -2176,7 +2706,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "欢迎您，高级用户！"
           }
         }
@@ -2186,7 +2716,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "每天写下 3 件您感恩的事情。"
           }
         }
@@ -2207,7 +2737,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "瑜伽或拉伸"
           }
         }
@@ -2217,7 +2747,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "您现在是高级用户！"
           }
         }
@@ -2227,18 +2757,28 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "一切就绪！"
           }
         }
       }
     },
-    "You've selected %lld habit%@. You can always add more habits or modify existing ones later." : {
+    "You've selected %lld habit. You can always add more habits or modify existing ones later." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "您已选择 %1$lld 个习惯%2$@。您可以随时添加更多习惯或修改现有习惯。"
+            "state" : "translated",
+            "value" : "您已选择 %1$lld 个习惯。您可以随时添加更多习惯或修改现有习惯。"
+          }
+        }
+      }
+    },
+    "You've selected %lld habits. You can always add more habits or modify existing ones later." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您已选择 %1$lld 个习惯。您可以随时添加更多习惯或修改现有习惯。"
           }
         }
       }
@@ -2267,7 +2807,7 @@
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "您的统计数据"
           }
         }

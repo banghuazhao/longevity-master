@@ -27,7 +27,7 @@ struct LongevityMasterApp: App {
 
     var body: some Scene {
         WindowGroup {
-            tabView
+            content
                 .overlay {
                     if let achievementToShow = achievementService.achievementToShow {
                         AchievementPopupView(
@@ -57,37 +57,14 @@ struct LongevityMasterApp: App {
         }
     }
     
-    var tabView: some View {
+    @ViewBuilder
+    var content: some View {
         ZStack {
-            TabView {
-                Tab {
-                    TodayView()
-                        .onAppear {
-                            AdManager.requestATTPermission(with: 3)
-                        }
-                } label: {
-                    Label("Today", systemImage: "calendar")
-                }
-                
-                Tab {
-                    HabitsListView()
-                } label: {
-                    Label("Habits", systemImage: "list.bullet")
-                }
-                
-                Tab {
-                    RatingView()
-                } label: {
-                    Label("Rating", systemImage: "star.fill")
-                }
-                
-                Tab {
-                    MeView()
-                        .onAppear {
-                            AdManager.requestATTPermission(with: 1)
-                        }
-                } label: {
-                    Label("Me", systemImage: "person.fill")
+            Group {
+                if #available(iOS 18.0, *) {
+                    tabView18
+                } else {
+                    tabView
                 }
             }
             .background(themeManager.current.background)
@@ -97,6 +74,72 @@ struct LongevityMasterApp: App {
             Color.clear
                 .fullScreenCover(isPresented: .constant(!hasCompletedOnboarding)) {
                     OnboardingView()
+                }
+        }
+    }
+    
+    @available(iOS 18.0, *)
+    var tabView18: some View {
+        TabView {
+            Tab {
+                TodayView()
+                    .onAppear {
+                        AdManager.requestATTPermission(with: 3)
+                    }
+            } label: {
+                Label("Today", systemImage: "calendar")
+            }
+            
+            Tab {
+                HabitsListView()
+            } label: {
+                Label("Habits", systemImage: "list.bullet")
+            }
+            
+            Tab {
+                RatingView()
+            } label: {
+                Label("Rating", systemImage: "star.fill")
+            }
+            
+            Tab {
+                MeView()
+                    .onAppear {
+                        AdManager.requestATTPermission(with: 1)
+                    }
+            } label: {
+                Label("Me", systemImage: "person.fill")
+            }
+        }
+    }
+    
+    var tabView: some View {
+        TabView {
+            TodayView()
+                .tabItem{
+                    Label("Today", systemImage: "calendar")
+                }
+                .onAppear {
+                    AdManager.requestATTPermission(with: 3)
+                }
+            
+            HabitsListView()
+                .tabItem{
+                    Label("Habits", systemImage: "list.bullet")
+                }
+            
+            
+            RatingView()
+                .tabItem{
+                    Label("Rating", systemImage: "star.fill")
+                }
+            
+            MeView()
+                .tabItem{
+                    Label("Me", systemImage: "person.fill")
+                }
+                .onAppear {
+                    AdManager.requestATTPermission(with: 1)
                 }
         }
     }

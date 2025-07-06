@@ -383,19 +383,22 @@ struct UserStatsView: View {
                     let count = viewModel.categoryStats[category] ?? 0
                     if count > 0 {
                         HStack {
-                            Text(category.icon)
-                                .font(.title3)
-                            
                             Text(category.briefTitle)
                                 .font(AppFont.body)
                                 .foregroundColor(viewModel.themeManager.current.textPrimary)
                             
                             Spacer()
                             
-                            Text("\(count)")
-                                .font(AppFont.body)
-                                .fontWeight(.semibold)
-                                .foregroundColor(viewModel.themeManager.current.primaryColor)
+                            HStack {
+                                Text("\(count)")
+                                    .font(AppFont.body)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(viewModel.themeManager.current.primaryColor)
+                                
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.headline)
+                                    .foregroundColor(.green)
+                            }
                         }
                         .padding(.vertical, 4)
                     }

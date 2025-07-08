@@ -54,7 +54,7 @@ enum ThemeColor: String, CaseIterable {
 struct BaseTheme: AppTheme {
     let primaryColor: Color
     let secondaryGray = Color(red: 0.56, green: 0.56, blue: 0.58) // #8E8E93
-    let background = Color(red: 0.95, green: 0.95, blue: 0.97) // #F2F2F7
+    let background = Color(hex: 0xF4F2F3FF) // #F2F2F7
     let card = Color.white
     let accent: Color
     let success = Color(red: 0.20, green: 0.78, blue: 0.35) // #34C759
@@ -87,37 +87,16 @@ struct DarkBaseTheme: AppTheme {
     }
 }
 
-// MARK: - Legacy Theme Support (for backward compatibility)
-struct DefaultTheme: AppTheme {
-    let primaryColor = Color(red: 1.0, green: 0.47, blue: 0.18) // #FF772F
-    let secondaryGray = Color(red: 0.56, green: 0.56, blue: 0.58) // #8E8E93
-    let background = Color(red: 0.95, green: 0.95, blue: 0.97) // #F2F2F7
-    let card = Color.white
-    let accent = Color(red: 1.0, green: 0.58, blue: 0.0) // #FF9500
-    let success = Color(red: 0.20, green: 0.78, blue: 0.35) // #34C759
-    let warning = Color(red: 1.0, green: 0.80, blue: 0.0) // #FFCC00
-    let error = Color(red: 1.0, green: 0.23, blue: 0.19) // #FF3B30
-    let textPrimary = Color(red: 0.11, green: 0.11, blue: 0.12) // #1C1C1E
-    let textSecondary = Color(red: 0.56, green: 0.56, blue: 0.58) // #8E8E93
-}
-
-struct DarkTheme: AppTheme {
-    let primaryColor = Color(red: 1.0, green: 0.47, blue: 0.18) // #FF772F
-    let secondaryGray = Color(red: 0.56, green: 0.56, blue: 0.58)
-    let background = Color(red: 0.10, green: 0.10, blue: 0.12) // #1A1A1F
-    let card = Color(red: 0.16, green: 0.16, blue: 0.18) // #29292E
-    let accent = Color(red: 1.0, green: 0.58, blue: 0.0)
-    let success = Color(red: 0.20, green: 0.78, blue: 0.35)
-    let warning = Color(red: 1.0, green: 0.80, blue: 0.0)
-    let error = Color(red: 1.0, green: 0.23, blue: 0.19)
-    let textPrimary = Color.white
-    let textSecondary = Color(red: 0.7, green: 0.7, blue: 0.75)
-}
-
 // MARK: - Theme Manager
 @Observable
 class ThemeManager: ObservableObject {
-    var current: AppTheme = DefaultTheme()
+    var current: AppTheme {
+        let themeColor = ThemeColor(rawValue: selectedThemeColor) ?? .default
+        return darkModeEnabled ?
+            DarkBaseTheme(themeColor: themeColor) :
+            BaseTheme(themeColor: themeColor)
+    }
+    
     @ObservationIgnored
     @Shared(.appStorage("darkModeEnabled")) private var darkModeEnabled: Bool = false
     @ObservationIgnored
@@ -129,27 +108,10 @@ class ThemeManager: ObservableObject {
         return selectedThemeColor
     }
     
-    init() {
-        updateCurrentTheme()
-    }
-
-    func updateTheme(darkMode: Bool) {
-        withAnimation {
-            updateCurrentTheme()
-        }
-    }
-    
     func updateThemeColor(_ themeColorName: String) {
         $selectedThemeColor.withLock{
             $0 = themeColorName
         }
-        let themeColor = ThemeColor(rawValue: themeColorName) ?? .default
-        current = darkModeEnabled ? DarkBaseTheme(themeColor: themeColor) : BaseTheme(themeColor: themeColor)
-    }
-    
-    private func updateCurrentTheme() {
-        let themeColor = ThemeColor(rawValue: selectedThemeColor) ?? .default
-        current = darkModeEnabled ? DarkBaseTheme(themeColor: themeColor) : BaseTheme(themeColor: themeColor)
     }
 }
 

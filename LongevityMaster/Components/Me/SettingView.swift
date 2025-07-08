@@ -58,9 +58,6 @@ struct SettingView: View {
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
         .preferredColorScheme(darkModeEnabled ? .dark : .light)
-        .onChange(of: darkModeEnabled) { _, newValue in
-            themeManager.updateTheme(darkMode: newValue)
-        }
     }
 
     private func settingsSection<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {

@@ -126,7 +126,7 @@ struct MeView: View {
                 }
                 if !purchaseManager.isPremiumUserPurchased {
                     BannerView()
-                        .frame(height: 60)
+                        .frame(height: 50)
                 }
             }
             .sheet(isPresented: $showPurchaseSheet) {

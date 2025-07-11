@@ -112,7 +112,7 @@ func appDatabase() throws -> any DatabaseWriter {
     #endif
     
     migrator.registerMigration("Add default daily reminder") { db in
-        let defaultTime = Calendar.current.date(from: DateComponents(hour: 9, minute: 0)) ?? Date()
+        let defaultTime = Calendar.current.date(from: DateComponents(hour: 20, minute: 0)) ?? Date()
         var defaultReminder = Reminder.Draft()
         defaultReminder.time = defaultTime
         let reminder = try Reminder.upsert { defaultReminder }.returning(\.self).fetchOne(db)

@@ -156,7 +156,8 @@ struct RatingView: View {
     
     struct ScoreBreakdownRow: View {
         let item: ScoreBreakdownItem
-        @State private var showingExplanation = false
+        
+        @State var isInfoPresented: Bool = false
         
         var body: some View {
             VStack(spacing: 8) {
@@ -169,20 +170,36 @@ struct RatingView: View {
                         .font(.subheadline)
                         .fontWeight(.medium)
                     
-                    Spacer()
-                    
-                    Text(String(localized: "\(item.score)/\(item.maxScore)"))
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                    
                     Button(action: {
-                        showingExplanation = true
+                        isInfoPresented.toggle()
                     }) {
                         Image(systemName: "info.circle")
                             .foregroundColor(.secondary)
                             .font(.system(size: 16))
                     }
                     .buttonStyle(.borderless)
+                    .popover(isPresented: $isInfoPresented) {
+                        ScrollView {
+                            VStack(spacing: 16) {
+                                Text(String(localized: "How \(item.title) Score is Calculated"))
+                                    .font(.headline)
+                                    .multilineTextAlignment(.center)
+                                
+                                Text(item.explanation)
+                                    .font(.body)
+                                    .multilineTextAlignment(.leading)
+                            }
+                            .frame(minHeight: 150)
+                        }
+                        .padding()
+                        .presentationCompactAdaptation(.popover)
+                    }
+                    
+                    Spacer()
+                    
+                    Text(String(localized: "\(item.score)/\(item.maxScore)"))
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
                 }
                 
                 ProgressView(value: item.percentage)
@@ -195,13 +212,6 @@ struct RatingView: View {
                     .fill(Color(.systemBackground))
                     .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
             )
-            .alert(String(localized: "How \(item.title) Score is Calculated"), isPresented: $showingExplanation) {
-                Button(String(localized: "Got it!")) {
-                    showingExplanation = false
-                }
-            } message: {
-                Text(item.explanation)
-            }
         }
     }
 }

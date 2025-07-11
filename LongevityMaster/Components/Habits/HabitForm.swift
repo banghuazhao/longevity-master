@@ -544,8 +544,8 @@ struct HabitFormView: View {
             .background(themeManager.current.background.ignoresSafeArea())
             .navigationTitle(
                 viewModel.isEdit
-                ? "Edit Habit"
-                : "New Habit"
+                ? String(localized: "Edit Habit")
+                : String(localized: "New Habit")
             )
             .scrollDismissesKeyboard(.immediately)
             .navigationBarTitleDisplayMode(.inline)

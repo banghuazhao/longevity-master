@@ -16,6 +16,14 @@ struct TodayView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: .zero) {
+                    if viewModel.showMotivationalQuote, let quote = viewModel.currentQuote {
+                        MotivationalQuoteView(quote: quote) {
+                            viewModel.dismissMotivationalQuote()
+                        }
+                        .padding(.bottom, AppSpacing.medium)
+                        .padding(.horizontal, AppSpacing.medium)
+                    }
+                    
                     HStack {
                         Image(systemName: "calendar")
                             .font(.headline)
@@ -152,6 +160,9 @@ struct TodayView: View {
                             .appCircularButtonStyle()
                     }
                 }
+            }
+            .onAppear {
+                viewModel.updateMotivationalQuote()
             }
         }
     }

@@ -11,6 +11,9 @@
         }
       }
     },
+    "— %@" : {
+
+    },
     "%@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -429,7 +432,14 @@
       }
     },
     "4-5 stars" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4-5 星"
+          }
+        }
+      }
     },
     "5-Star Habits" : {
       "localizations" : {
@@ -581,6 +591,16 @@
         }
       }
     },
+    "A healthy outside starts from the inside." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "健康的外表始于内在。"
+          }
+        }
+      }
+    },
     "Achievement Unlocked!" : {
       "localizations" : {
         "zh-Hans" : {
@@ -592,7 +612,14 @@
       }
     },
     "achievements" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "成就"
+          }
+        }
+      }
     },
     "Achievements" : {
       "localizations" : {
@@ -1065,7 +1092,14 @@
       }
     },
     "Check out my longevity rating from Longevity Master!" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "去看看我从抗衰习惯家得出的长寿评分！"
+          }
+        }
+      }
     },
     "Check out this achievement I unlocked in LongevityMaster!" : {
       "localizations" : {
@@ -1448,6 +1482,16 @@
         }
       }
     },
+    "Consistency is the key to success." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "坚持是成功的关键。"
+          }
+        }
+      }
+    },
     "Consistency King" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1519,7 +1563,14 @@
       }
     },
     "Create new habits to increase your score" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "创建新习惯以提高你的分数"
+          }
+        }
+      }
     },
     "Current Streak" : {
       "localizations" : {
@@ -1527,6 +1578,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "当前连胜"
+          }
+        }
+      }
+    },
+    "Daily Motivational Quotes" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日励志语录"
           }
         }
       }
@@ -1657,6 +1718,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不要打破您的连胜 - 即使一次打卡也算数"
+          }
+        }
+      }
+    },
+    "Don't count the days, make the days count." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不要数日子，要让日子有意义。"
           }
         }
       }
@@ -1841,6 +1912,26 @@
         }
       }
     },
+    "Every day is a new beginning. Take a deep breath and start again." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天都是新的开始。深呼吸，重新出发。"
+          }
+        }
+      }
+    },
+    "Every expert was once a beginner." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个专家都曾是新手。"
+          }
+        }
+      }
+    },
     "Expert" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2021,6 +2112,16 @@
         }
       }
     },
+    "Good health is not something we can buy. However, it can be an extremely valuable savings account." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "健康无法用金钱买到，但却是最宝贵的财富。"
+          }
+        }
+      }
+    },
     "Got it!" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2098,6 +2199,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "健康守护者"
+          }
+        }
+      }
+    },
+    "Health is a relationship between you and your body." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "健康是你与身体的关系。"
+          }
+        }
+      }
+    },
+    "Health is not valued till sickness comes." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "健康失去后才被珍惜。"
           }
         }
       }
@@ -2494,10 +2615,24 @@
       }
     },
     "My Longevity Rating" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的长寿评分"
+          }
+        }
+      }
     },
     "My Longevity Rating - Loading..." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的长寿评分 - 加载中..."
+          }
+        }
+      }
     },
     "My Stats" : {
       "localizations" : {
@@ -2939,12 +3074,32 @@
         }
       }
     },
+    "Reset" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重置"
+          }
+        }
+      }
+    },
     "Reset to Default" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "重置为默认"
+          }
+        }
+      }
+    },
+    "Reset Today's Motivation" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重置今日励志语录"
           }
         }
       }
@@ -3159,6 +3314,16 @@
         }
       }
     },
+    "Small progress is still progress." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小进步也是进步。"
+          }
+        }
+      }
+    },
     "Sort By" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3289,6 +3454,16 @@
         }
       }
     },
+    "Success is not final, failure is not fatal: it is the courage to continue that counts." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "成功不是终点，失败也不是末日，重要的是继续前行的勇气。"
+          }
+        }
+      }
+    },
     "Sunday" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3349,6 +3524,16 @@
         }
       }
     },
+    "Take care of your body. It's the only place you have to live." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "照顾好你的身体，这是你唯一的居所。"
+          }
+        }
+      }
+    },
     "Take screen breaks to reduce eye strain and stress." : {
       "localizations" : {
         "zh-Hans" : {
@@ -3385,6 +3570,76 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "感谢您支持抗衰习惯家！"
+          }
+        }
+      }
+    },
+    "The body achieves what the mind believes." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "身体能实现心灵所相信的。"
+          }
+        }
+      }
+    },
+    "The difference between try and triumph is just a little umph!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尝试与成功之间只差一点点努力！"
+          }
+        }
+      }
+    },
+    "The first wealth is health." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "健康是第一财富。"
+          }
+        }
+      }
+    },
+    "The greatest wealth is health." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "健康是最大的财富。"
+          }
+        }
+      }
+    },
+    "The only bad workout is the one that didn't happen." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "唯一糟糕的锻炼就是没有进行的锻炼。"
+          }
+        }
+      }
+    },
+    "The only person you are destined to become is the person you decide to be." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你注定成为的人，就是你决定成为的人。"
+          }
+        }
+      }
+    },
+    "The only way to do great work is to love what you do." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "唯有热爱，方能成就卓越。"
           }
         }
       }
@@ -3605,6 +3860,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "取消存档"
+          }
+        }
+      }
+    },
+    "Unknown" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "佚名"
           }
         }
       }
@@ -3856,6 +4121,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您已选择 %1$lld 个习惯。您可以随时添加更多习惯或修改现有习惯。"
+          }
+        }
+      }
+    },
+    "Your future self is watching you right now through memories." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未来的你正通过记忆看着现在的你。"
+          }
+        }
+      }
+    },
+    "Your health is an investment, not an expense." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "健康是一项投资，而不是开销。"
           }
         }
       }

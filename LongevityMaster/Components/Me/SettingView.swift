@@ -6,12 +6,15 @@
 //
 import SwiftUI
 import Dependencies
+import Sharing
 
 struct SettingView: View {
     @AppStorage("startWeekOnMonday") private var startWeekOnMonday: Bool = true
     @AppStorage("buttonSoundEnabled") private var buttonSoundEnabled: Bool = true
     @AppStorage("vibrateEnabled") private var vibrateEnabled: Bool = true
     @AppStorage("darkModeEnabled") private var darkModeEnabled: Bool = false
+    @AppStorage("motivationalQuotesEnabled") private var motivationalQuotesEnabled: Bool = true
+    @Shared(.appStorage("lastQuoteDismissedDate")) private var lastQuoteDismissedDate: Date? = nil
     @Dependency(\.themeManager) var themeManager
 
     var body: some View {
@@ -42,6 +45,26 @@ struct SettingView: View {
                             .foregroundColor(themeManager.current.textPrimary)
                     }
                     .toggleStyle(SwitchToggleStyle(tint: themeManager.current.primaryColor))
+                }
+                settingsSection(title: "Motivation") {
+                    Toggle(isOn: $motivationalQuotesEnabled) {
+                        Text(String(localized: "Daily Motivational Quotes"))
+                            .font(AppFont.body)
+                            .foregroundColor(themeManager.current.textPrimary)
+                    }
+                    .toggleStyle(SwitchToggleStyle(tint: themeManager.current.primaryColor))
+                    
+                    HStack {
+                        Text("Reset Today's Motivation")
+                        Spacer()
+                        
+                        Button {
+                            $lastQuoteDismissedDate.withLock { $0 = nil }
+                        } label: {
+                            Text("Reset")
+                        }
+                        .appRectButtonStyle()
+                    }
                 }
                 settingsSection(title: "Appearance") {
                     Toggle(isOn: $darkModeEnabled) {

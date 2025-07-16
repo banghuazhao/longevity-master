@@ -28,6 +28,8 @@ class TodayViewModel {
     var route: Route?
 
     var isEditing: Bool = false
+    var currentQuote: MotivationalQuote?
+    var showMotivationalQuote: Bool = false
 
     @ObservationIgnored
     @FetchAll(
@@ -61,6 +63,8 @@ class TodayViewModel {
     @Dependency(\.notificationService) private var notificationService
     @ObservationIgnored
     @Dependency(\.defaultDatabase) private var database
+    @ObservationIgnored
+    @Dependency(\.motivationalQuoteService) private var motivationalQuoteService
     
 
     var userCalendar: Calendar {
@@ -70,6 +74,24 @@ class TodayViewModel {
     }
 
     private var cancelable = Set<AnyCancellable>()
+
+    func updateMotivationalQuote() {
+        withAnimation {
+            if motivationalQuoteService.shouldShowQuote() {
+                currentQuote = motivationalQuoteService.getRandomQuote()
+                showMotivationalQuote = true
+            } else {
+                showMotivationalQuote = false
+            }
+        }
+    }
+
+    func dismissMotivationalQuote() {
+        withAnimation {
+            motivationalQuoteService.dismissQuoteForToday()
+            showMotivationalQuote = false
+        }
+    }
 
     private func updateTodayHabits() -> [TodayHabit] {
         habits

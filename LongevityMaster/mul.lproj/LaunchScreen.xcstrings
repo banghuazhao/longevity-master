@@ -3,7 +3,7 @@
   "strings" : {
     "GJd-Yh-RWb.text" : {
       "comment" : "Class = \"UILabel\"; text = \"LongevityMaster\"; ObjectID = \"GJd-Yh-RWb\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21,7 +21,7 @@
     },
     "obG-Y5-kRd.text" : {
       "comment" : "Class = \"UILabel\"; text = \"Build Healthy Habits for Life\"; ObjectID = \"obG-Y5-kRd\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

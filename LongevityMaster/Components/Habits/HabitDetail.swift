@@ -46,6 +46,13 @@ class HabitDetailViewModel {
         case monthly = "Monthly"
         case yearly = "Yearly"
         var id: String { rawValue }
+        
+        var displayName: String {
+            switch self {
+            case .monthly: String(localized: "Monthly")
+            case .yearly: String(localized: "Yearly")
+            }
+        }
     }
 
     var calendarMode: CalendarMode = .monthly
@@ -71,10 +78,28 @@ class HabitDetailViewModel {
     }
 
     var todayHabit: TodayHabit {
-        habit.toTodayHabit(
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let streak = calculateCurrentStreak(checkIns: checkIns, calendar: calendar, today: today)
+        let streakDescription = streak > 0 ? String(localized: "🔥 \(streak)d streak") : nil
+        return habit.toTodayHabit(
             isCompleted: true,
-            streakDescription: habit.frequencyDescription
+            streakDescription: streakDescription,
+            frequencyDescription: habit.frequencyDescription
         )
+    }
+
+    private func calculateCurrentStreak(checkIns: [CheckIn], calendar: Calendar, today: Date) -> Int {
+        let sortedDates = checkIns.map { calendar.startOfDay(for: $0.date) }.sorted(by: >)
+        var streak = 0
+        var currentDate = today
+        let dateSet = Set(sortedDates)
+        while dateSet.contains(currentDate) {
+            streak += 1
+            guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else { break }
+            currentDate = previousDate
+        }
+        return streak
     }
 
     var reminders: [Reminder.Draft] {
@@ -325,7 +350,7 @@ struct HabitDetailView: View {
                 // Segmented control for calendar mode
                 Picker("Mode", selection: $viewModel.calendarMode) {
                     ForEach(HabitDetailViewModel.CalendarMode.allCases) { mode in
-                        Text(mode.rawValue).tag(mode)
+                        Text(mode.displayName).tag(mode)
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())

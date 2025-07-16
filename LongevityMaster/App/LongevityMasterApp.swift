@@ -16,7 +16,6 @@ struct LongevityMasterApp: App {
     @Dependency(\.purchaseManager) private var purchaseManager
     @StateObject private var openAd = OpenAd()
     @Environment(\.scenePhase) private var scenePhase
-    @State private var didShowOpenAd = false
     
     init() {
         MobileAds.shared.start(completionHandler: nil)

@@ -6,9 +6,10 @@
 import Combine
 import Foundation
 import Observation
-import SharingGRDB
+import SQLiteData
 import SwiftUI
 import SwiftUINavigation
+import Sharing
 
 @Observable
 @MainActor

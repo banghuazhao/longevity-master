@@ -10,9 +10,9 @@
 		41449E722E166E9B00DEB393 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41449E712E166E9B00DEB393 /* StoreKit.framework */; };
 		41FFF2722E14E9FC004ACA97 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 41FFF2712E14E9FC004ACA97 /* GoogleMobileAds */; };
 		993B4CDF2E1A8BDA0027D86C /* MoreApps in Frameworks */ = {isa = PBXBuildFile; productRef = 993B4CDE2E1A8BDA0027D86C /* MoreApps */; };
-		996BA7BB2DF19E3A00A4B9FC /* SharingGRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */; };
 		996BA8C32E0A71CA00A4B9FC /* SwiftUINavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 996BA8C22E0A71CA00A4B9FC /* SwiftUINavigation */; };
 		99774EEA2E1007C20099920F /* EasyToast in Frameworks */ = {isa = PBXBuildFile; productRef = 99774EE92E1007C20099920F /* EasyToast */; };
+		99BE8BC22F8CF14100480D3B /* SQLiteData in Frameworks */ = {isa = PBXBuildFile; productRef = 99BE8BC12F8CF14100480D3B /* SQLiteData */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,12 +57,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99BE8BC22F8CF14100480D3B /* SQLiteData in Frameworks */,
 				41FFF2722E14E9FC004ACA97 /* GoogleMobileAds in Frameworks */,
 				99774EEA2E1007C20099920F /* EasyToast in Frameworks */,
 				41449E722E166E9B00DEB393 /* StoreKit.framework in Frameworks */,
 				993B4CDF2E1A8BDA0027D86C /* MoreApps in Frameworks */,
 				996BA8C32E0A71CA00A4B9FC /* SwiftUINavigation in Frameworks */,
-				996BA7BB2DF19E3A00A4B9FC /* SharingGRDB in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,11 +122,11 @@
 			);
 			name = LongevityMaster;
 			packageProductDependencies = (
-				996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */,
 				996BA8C22E0A71CA00A4B9FC /* SwiftUINavigation */,
 				99774EE92E1007C20099920F /* EasyToast */,
 				41FFF2712E14E9FC004ACA97 /* GoogleMobileAds */,
 				993B4CDE2E1A8BDA0027D86C /* MoreApps */,
+				99BE8BC12F8CF14100480D3B /* SQLiteData */,
 			);
 			productName = LongevityMaster;
 			productReference = 993A34222DEB1031002CEA39 /* LongevityMaster.app */;
@@ -182,11 +182,11 @@
 			mainGroup = 993A34192DEB1031002CEA39;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				996BA7B92DF19E3A00A4B9FC /* XCRemoteSwiftPackageReference "sharing-grdb" */,
 				996BA8C12E0A71CA00A4B9FC /* XCRemoteSwiftPackageReference "swift-navigation" */,
 				99774EE82E1007C20099920F /* XCRemoteSwiftPackageReference "EasyToast" */,
 				41FFF2142E14E225004ACA97 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 				993B4CDD2E1A8BDA0027D86C /* XCLocalSwiftPackageReference "LongevityMaster/Modules/MoreApps" */,
+				99BE8BC02F8CF14100480D3B /* XCRemoteSwiftPackageReference "sqlite-data" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 993A34232DEB1031002CEA39 /* Products */;
@@ -523,14 +523,6 @@
 				minimumVersion = 12.6.0;
 			};
 		};
-		996BA7B92DF19E3A00A4B9FC /* XCRemoteSwiftPackageReference "sharing-grdb" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pointfreeco/sharing-grdb";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.4.1;
-			};
-		};
 		996BA8C12E0A71CA00A4B9FC /* XCRemoteSwiftPackageReference "swift-navigation" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-navigation";
@@ -547,6 +539,14 @@
 				minimumVersion = 0.4.0;
 			};
 		};
+		99BE8BC02F8CF14100480D3B /* XCRemoteSwiftPackageReference "sqlite-data" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/sqlite-data";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -560,11 +560,6 @@
 			package = 993B4CDD2E1A8BDA0027D86C /* XCLocalSwiftPackageReference "LongevityMaster/Modules/MoreApps" */;
 			productName = MoreApps;
 		};
-		996BA7BA2DF19E3A00A4B9FC /* SharingGRDB */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 996BA7B92DF19E3A00A4B9FC /* XCRemoteSwiftPackageReference "sharing-grdb" */;
-			productName = SharingGRDB;
-		};
 		996BA8C22E0A71CA00A4B9FC /* SwiftUINavigation */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 996BA8C12E0A71CA00A4B9FC /* XCRemoteSwiftPackageReference "swift-navigation" */;
@@ -574,6 +569,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 99774EE82E1007C20099920F /* XCRemoteSwiftPackageReference "EasyToast" */;
 			productName = EasyToast;
+		};
+		99BE8BC12F8CF14100480D3B /* SQLiteData */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 99BE8BC02F8CF14100480D3B /* XCRemoteSwiftPackageReference "sqlite-data" */;
+			productName = SQLiteData;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

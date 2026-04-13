@@ -3,7 +3,7 @@
 // Copyright Apps Bay Limited. All rights reserved.
 //
 
-import SharingGRDB
+import SQLiteData
 import SwiftUI
 import GoogleMobileAds
 

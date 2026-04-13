@@ -4,8 +4,9 @@
 //
 
 import Foundation
-import SharingGRDB
+import SQLiteData
 import SwiftUI
+import Sharing
 
 @Observable
 class RatingService {

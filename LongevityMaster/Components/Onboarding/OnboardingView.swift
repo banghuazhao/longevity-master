@@ -4,7 +4,7 @@
 //
 
 import SwiftUI
-import SharingGRDB
+import SQLiteData
 
 @Observable
 @MainActor

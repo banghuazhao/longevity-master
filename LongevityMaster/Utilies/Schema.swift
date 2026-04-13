@@ -5,7 +5,7 @@
 
 import Foundation
 import OSLog
-import SharingGRDB
+import SQLiteData
 
 private let logger = Logger(subsystem: "Reminders", category: "Database")
 

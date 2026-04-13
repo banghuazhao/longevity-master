@@ -4,7 +4,7 @@
 //
   
 
-import SharingGRDB
+import SQLiteData
 import Foundation
 
 @Table

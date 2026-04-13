@@ -4,7 +4,8 @@
 //
 
 import SwiftUI
-import SharingGRDB
+import SQLiteData
+import Sharing
 
 struct ScoreDetailView: View {
     @Environment(\.dismiss) private var dismiss

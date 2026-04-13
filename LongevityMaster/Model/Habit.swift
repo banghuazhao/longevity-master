@@ -4,7 +4,7 @@
 //
 
 import Foundation
-import SharingGRDB
+import SQLiteData
 import SwiftUI
 
 @Table

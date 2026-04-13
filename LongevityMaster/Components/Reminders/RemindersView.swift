@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Dependencies
-import SharingGRDB
+import SQLiteData
 import SwiftUINavigation
 
 @Observable

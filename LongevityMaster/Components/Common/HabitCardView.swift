@@ -122,6 +122,17 @@ struct HabitCardView: View {
                 Text("This will permanently delete the habit ‘\(habit.truncatedName)’ and all its check-in history. This action cannot be undone. Are you sure you want to proceed?")
             }
         )
+        .onAppear {
+            let a = 1
+            func test(_ c: @escaping () -> Void) {
+                
+            }
+            let c : () -> Void = { [a] in
+                print(a)
+            }
+            
+            test(c)
+        }
     }
 }
 

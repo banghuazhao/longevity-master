@@ -6,7 +6,7 @@
 import Dependencies
 import Foundation
 import UserNotifications
-import SharingGRDB
+import SQLiteData
 
 @Observable
 class NotificationService {

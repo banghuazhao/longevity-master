@@ -1,8 +1,9 @@
 import Observation
-import SharingGRDB
+import SQLiteData
 import SwiftUI
 import SwiftUINavigation
 import Dependencies
+import Sharing
 
 @Observable
 @MainActor

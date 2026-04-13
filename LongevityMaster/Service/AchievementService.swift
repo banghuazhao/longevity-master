@@ -4,8 +4,9 @@
 //
 
 import Foundation
-import SharingGRDB
+import SQLiteData
 import Observation
+import Sharing
 
 @Observable
 class AchievementService {

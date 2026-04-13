@@ -4,7 +4,7 @@
 //
 
 import SwiftUI
-import SharingGRDB
+import SQLiteData
 
 struct RatingView: View {
     @State private var viewModel = RatingViewModel()

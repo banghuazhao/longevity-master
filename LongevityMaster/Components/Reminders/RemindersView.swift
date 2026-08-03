@@ -23,7 +23,13 @@ class RemindersViewModel: HashableObject {
     @Dependency(\.notificationService) var notificationService
     
     var notificationStatus: NotificationService.NotificationAuthorizationStatus = .notDetermined
-    
+
+    /// Depending on its habit's schedule a single reminder can occupy up to 7 (weekly) or 31
+    /// (monthly) of the 64 pending requests iOS allows, so counting reminder rows understates
+    /// how much of that budget is actually in use.
+    var pendingNotificationCount: Int = 0
+
+
     @CasePathable
     enum Route: Equatable {
         case addReminder(ReminderFormViewModel)
@@ -75,7 +81,7 @@ class RemindersViewModel: HashableObject {
                 if let updatedReminder {
                     await notificationService.scheduleReminder(updatedReminder)
                 }
-                
+                await refreshPendingNotificationCount()
             }
         }
     }
@@ -92,6 +98,7 @@ class RemindersViewModel: HashableObject {
                     try await database.write { db in
                         try Reminder.delete(reminderToDelete).execute(db)
                     }
+                    await refreshPendingNotificationCount()
                 }
             }
         }
@@ -109,11 +116,16 @@ class RemindersViewModel: HashableObject {
             if let reminder {
                 await notificationService.scheduleReminder(reminder)
             }
+            await refreshPendingNotificationCount()
         }
     }
-    
+
     func checkNotificationPermission() async {
         notificationStatus = await notificationService.getAuthorizationStatus()
+    }
+
+    func refreshPendingNotificationCount() async {
+        pendingNotificationCount = await notificationService.getPendingNotifications().count
     }
     
     func openSettings() {
@@ -215,7 +227,7 @@ struct RemindersView: View {
 
                 // 4. Info Footer
                 if !viewModel.reminders.isEmpty {
-                    Text("At most 64 notifications allowed. Currently \(viewModel.reminders.count) set.")
+                    Text("At most 64 notifications allowed. Currently \(viewModel.pendingNotificationCount) set.")
                         .font(.footnote)
                         .foregroundColor(.gray)
                         .padding()
@@ -228,6 +240,7 @@ struct RemindersView: View {
         .onAppear {
             Task {
                 await viewModel.checkNotificationPermission()
+                await viewModel.refreshPendingNotificationCount()
             }
         }
         .sheet(isPresented: Binding($viewModel.route.addReminder)) {

@@ -524,7 +524,7 @@ struct HabitFormView: View {
                                 ForEach(viewModel.draftReminders, id: \ .id) { draft in
                                     ReminderRow(
                                         time: draft.time,
-                                        title: "Every Day",
+                                        title: viewModel.habit.frequencyDescription,
                                         onDelete: {
                                             viewModel.onTapDeleteReminder(draft)
                                         }

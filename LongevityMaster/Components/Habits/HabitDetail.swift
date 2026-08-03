@@ -383,7 +383,7 @@ struct HabitDetailView: View {
                             ForEach(viewModel.reminders, id: \.id) { reminder in
                                 ReminderRow(
                                     time: reminder.time,
-                                    title: "Every Day",
+                                    title: viewModel.habit.frequencyDescription,
                                     onDelete: {
                                         viewModel.onTapDeleteReminder(reminder)
                                     }

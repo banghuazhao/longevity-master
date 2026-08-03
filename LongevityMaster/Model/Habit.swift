@@ -188,6 +188,10 @@ extension Habit.Draft {
         Color(hex: color).blend(with: .black, amount: 0.2)
     }
 
+    var frequencyDescription: String {
+        toMock.frequencyDescription
+    }
+
     var daysOfWeek: Set<Int> {
         guard case .fixedDaysInWeek = frequency else {
             return []

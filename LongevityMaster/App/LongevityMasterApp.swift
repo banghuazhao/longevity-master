@@ -9,16 +9,14 @@ import GoogleMobileAds
 
 @main
 struct LongevityMasterApp: App {
-    @AppStorage("darkModeEnabled") private var darkModeEnabled: Bool = false
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @Dependency(\.achievementService) private var achievementService
-    @Dependency(\.themeManager) private var themeManager
     @Dependency(\.purchaseManager) private var purchaseManager
     @StateObject private var openAd = OpenAd()
     @Environment(\.scenePhase) private var scenePhase
-    
+
     init() {
         MobileAds.shared.start(completionHandler: nil)
+        AppearanceMode.migrateFromLegacyDarkModeFlag()
         prepareDependencies {
             $0.defaultDatabase = try! appDatabase()
         }
@@ -26,7 +24,7 @@ struct LongevityMasterApp: App {
 
     var body: some Scene {
         WindowGroup {
-            content
+            RootView()
                 .overlay {
                     if let achievementToShow = achievementService.achievementToShow {
                         AchievementPopupView(
@@ -38,7 +36,6 @@ struct LongevityMasterApp: App {
                         )
                     }
                 }
-                .preferredColorScheme(darkModeEnabled ? .dark : .light)
                 .task {
                     await requestNotificationPermissions()
                 }
@@ -60,8 +57,19 @@ struct LongevityMasterApp: App {
         }
     }
     
-    @ViewBuilder
-    var content: some View {
+    private func requestNotificationPermissions() async {
+        @Dependency(\.notificationService) var notificationService
+        await notificationService.requestPermission()
+        await notificationService.printAllNotifications()
+    }
+}
+
+struct RootView: View {
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
+    @Dependency(\.themeManager) private var themeManager
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
         ZStack {
             Group {
                 if #available(iOS 18.0, *) {
@@ -79,8 +87,15 @@ struct LongevityMasterApp: App {
                     OnboardingView()
                 }
         }
+        // `nil` for .system, which lets the device's own setting through.
+        .preferredColorScheme(themeManager.appearanceMode.colorScheme)
+        // Once the preference above resolves, this is the scheme actually being rendered,
+        // which is what .system needs in order to pick a theme.
+        .onChange(of: colorScheme, initial: true) { _, newScheme in
+            themeManager.systemColorScheme = newScheme
+        }
     }
-    
+
     @available(iOS 18.0, *)
     var tabView18: some View {
         TabView {
@@ -145,11 +160,5 @@ struct LongevityMasterApp: App {
                     AdManager.requestATTPermission(with: 1)
                 }
         }
-    }
-    
-    private func requestNotificationPermissions() async {
-        @Dependency(\.notificationService) var notificationService
-        await notificationService.requestPermission()
-        await notificationService.printAllNotifications()
     }
 }

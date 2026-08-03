@@ -1,6 +1,45 @@
 import SwiftUI
+import UIKit
 import Dependencies
 import Sharing
+
+// MARK: - Appearance
+enum AppearanceMode: String, CaseIterable {
+    case system
+    case light
+    case dark
+
+    /// `nil` hands control back to the device's own light/dark setting.
+    var colorScheme: ColorScheme? {
+        switch self {
+        case .system: return nil
+        case .light: return .light
+        case .dark: return .dark
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .system: return String(localized: "System")
+        case .light: return String(localized: "Light")
+        case .dark: return String(localized: "Dark")
+        }
+    }
+
+    static let storageKey = "appearanceMode"
+    private static let legacyDarkModeKey = "darkModeEnabled"
+
+    /// Earlier versions stored appearance as a plain dark-mode on/off flag and always forced
+    /// light or dark, never following the system. Anyone who already has that flag keeps the
+    /// appearance they were seeing; everyone else starts on `.system`.
+    static func migrateFromLegacyDarkModeFlag(defaults: UserDefaults = .standard) {
+        guard defaults.object(forKey: storageKey) == nil,
+              defaults.object(forKey: legacyDarkModeKey) != nil
+        else { return }
+        let migrated: AppearanceMode = defaults.bool(forKey: legacyDarkModeKey) ? .dark : .light
+        defaults.set(migrated.rawValue, forKey: storageKey)
+    }
+}
 
 // MARK: - Theme Protocol
 protocol AppTheme {
@@ -92,25 +131,48 @@ struct DarkBaseTheme: AppTheme {
 class ThemeManager: ObservableObject {
     var current: AppTheme {
         let themeColor = ThemeColor(rawValue: selectedThemeColor) ?? .default
-        return darkModeEnabled ?
+        return isDarkMode ?
             DarkBaseTheme(themeColor: themeColor) :
             BaseTheme(themeColor: themeColor)
     }
-    
+
+    var appearanceMode: AppearanceMode {
+        AppearanceMode(rawValue: selectedAppearanceMode) ?? .system
+    }
+
+    /// The scheme the window is actually rendering in. `RootView` keeps this current so that
+    /// `.system` can resolve to a concrete theme.
+    var systemColorScheme: ColorScheme =
+        UITraitCollection.current.userInterfaceStyle == .dark ? .dark : .light
+
+    var isDarkMode: Bool {
+        switch appearanceMode {
+        case .system: return systemColorScheme == .dark
+        case .light: return false
+        case .dark: return true
+        }
+    }
+
     @ObservationIgnored
-    @Shared(.appStorage("darkModeEnabled")) private var darkModeEnabled: Bool = false
+    @Shared(.appStorage(AppearanceMode.storageKey)) private var selectedAppearanceMode: String = AppearanceMode.system.rawValue
     @ObservationIgnored
     @Shared(.appStorage("selectedThemeColor")) private var selectedThemeColor: String = ThemeColor.default.rawValue
-        
+
     static let shared = ThemeManager()
-    
+
     var currentThemeColor: String {
         return selectedThemeColor
     }
-    
+
     func updateThemeColor(_ themeColorName: String) {
         $selectedThemeColor.withLock{
             $0 = themeColorName
+        }
+    }
+
+    func updateAppearanceMode(_ mode: AppearanceMode) {
+        $selectedAppearanceMode.withLock {
+            $0 = mode.rawValue
         }
     }
 }

@@ -12,7 +12,7 @@ struct SettingView: View {
     @AppStorage("startWeekOnMonday") private var startWeekOnMonday: Bool = true
     @AppStorage("buttonSoundEnabled") private var buttonSoundEnabled: Bool = true
     @AppStorage("vibrateEnabled") private var vibrateEnabled: Bool = true
-    @AppStorage("darkModeEnabled") private var darkModeEnabled: Bool = false
+    @AppStorage(AppearanceMode.storageKey) private var appearanceMode: String = AppearanceMode.system.rawValue
     @AppStorage("motivationalQuotesEnabled") private var motivationalQuotesEnabled: Bool = true
     @Shared(.appStorage("lastQuoteDismissedDate")) private var lastQuoteDismissedDate: Date? = nil
     @Dependency(\.themeManager) var themeManager
@@ -67,12 +67,17 @@ struct SettingView: View {
                     }
                 }
                 settingsSection(title: "Appearance") {
-                    Toggle(isOn: $darkModeEnabled) {
-                        Text(String(localized: "Dark Mode"))
-                            .font(AppFont.body)
-                            .foregroundColor(themeManager.current.textPrimary)
+                    HStack {
+                        Spacer()
+                        Picker("Appearance", selection: $appearanceMode) {
+                            ForEach(AppearanceMode.allCases, id: \.self) { mode in
+                                Text(mode.title).tag(mode.rawValue)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(width: 240)
+                        Spacer()
                     }
-                    .toggleStyle(SwitchToggleStyle(tint: themeManager.current.primaryColor))
                 }
             }
             .padding()
@@ -80,7 +85,6 @@ struct SettingView: View {
         .background(themeManager.current.background.ignoresSafeArea())
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
-        .preferredColorScheme(darkModeEnabled ? .dark : .light)
     }
 
     private func settingsSection<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {

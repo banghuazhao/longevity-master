@@ -134,8 +134,14 @@ extension Habit {
         return Set(frequencyDetail.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
     }
     
+    /// Weekday numbers follow Calendar's 1 = Sunday ... 7 = Saturday, which lines up with
+    /// shortWeekdaySymbols by index and so comes out in the reader's own language.
     var daysOfWeekString: String {
-        daysOfWeek.map { "\($0)" }.sorted().joined(separator: ", ")
+        let symbols = Calendar.current.shortWeekdaySymbols
+        return daysOfWeek
+            .sorted()
+            .map { symbols.indices.contains($0 - 1) ? symbols[$0 - 1] : "\($0)" }
+            .joined(separator: ", ")
     }
 
     var daysOfMonth: Set<Int> {
@@ -145,8 +151,10 @@ extension Habit {
         return Set(frequencyDetail.split(separator: ",").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
     }
     
+    /// Sort the numbers, not their descriptions — sorting as text ordered 1, 7, 14, 21, 28
+    /// as "1, 14, 21, 28, 7".
     var daysOfMonthString: String {
-        daysOfMonth.map { "\($0)" }.sorted().joined(separator: ", ")
+        daysOfMonth.sorted().map(String.init).joined(separator: ", ")
     }
 
     var nDaysPerWeek: Int {

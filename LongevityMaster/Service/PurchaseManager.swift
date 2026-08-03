@@ -13,9 +13,28 @@ final class PurchaseManager {
     
     private let productID = "premium_user"
     var premiumProduct: Product?
-    
+
+    /// Listens for entitlement changes that happen outside of an in-app purchase flow:
+    /// Ask to Buy approvals, Family Sharing, purchases made on another device, and refunds.
+    @ObservationIgnored
+    private var transactionListener: Task<Void, Never>?
+
+    init() {
+        transactionListener = Task { [weak self] in
+            for await result in Transaction.updates {
+                guard case let .verified(transaction) = result else { continue }
+                await transaction.finish()
+                await self?.checkPurchaseStatus()
+            }
+        }
+    }
+
+    deinit {
+        transactionListener?.cancel()
+    }
+
     // MARK: - Public Interface
-    
+
     /// Loads the premium product from the App Store
     @MainActor
     func loadPremiumProduct() async {

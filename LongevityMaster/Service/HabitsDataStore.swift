@@ -71,7 +71,7 @@ struct HabitsDataStore {
 
         // 🛡️ PREVENTIVE HEALTH
         Habit.Draft(name: String(localized: "Get sun exposure"), category: .preventiveHealth, frequency: .fixedDaysInMonth, frequencyDetail: "1,7,14,21,28", antiAgingRating: 3, icon: "☀️", color: 0xCCDDEE99, note: String(localized: "10–15 minutes of sunlight for vitamin D.")),
-        Habit.Draft(name: String(localized: "Brush & floss teeth"), category: .preventiveHealth, frequency: .nDaysEachWeek, frequencyDetail: "14", antiAgingRating: 2, icon: "🦷", color: 0xD9D9D999, note: String(localized: "Prevent gum disease and inflammation.")),
+        Habit.Draft(name: String(localized: "Brush & floss teeth"), category: .preventiveHealth, frequency: .nDaysEachWeek, frequencyDetail: "7", antiAgingRating: 2, icon: "🦷", color: 0xD9D9D999, note: String(localized: "Prevent gum disease and inflammation.")),
         Habit.Draft(name: String(localized: "Take a walk after meals"), category: .preventiveHealth, frequency: .nDaysEachWeek, frequencyDetail: "7", antiAgingRating: 4, icon: "🚶‍♂️", color: 0xFFE4E199, note: String(localized: "Walk for 10–15 minutes after meals to support digestion and blood sugar control.")),
         Habit.Draft(name: String(localized: "Posture check"), category: .preventiveHealth, frequency: .nDaysEachWeek, frequencyDetail: "7", antiAgingRating: 3, icon: "🧍", color: 0xFFF5E199, note: String(localized: "Maintain good posture to reduce back and neck strain."))
     ]

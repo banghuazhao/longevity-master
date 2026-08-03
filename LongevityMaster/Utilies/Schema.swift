@@ -127,6 +127,21 @@ func appDatabase() throws -> any DatabaseWriter {
         try Achievement.upsert { AchievementDefinitions.all }.execute(db)
     }
 
+    // The "Brush & floss teeth" gallery habit shipped as 14 days each week, which a
+    // 7-day week can never satisfy, so it was stuck at "n/14 this week" forever.
+    // Repair any habit copied from the gallery before the seed data was corrected.
+    migrator.registerMigration("Clamp weekly frequency to 7 days") { db in
+        try #sql(
+            """
+            UPDATE "habits"
+            SET "frequencyDetail" = '7'
+            WHERE "frequency" = \(bind: HabitFrequency.nDaysEachWeek.rawValue)
+             AND CAST("frequencyDetail" AS INTEGER) > 7
+            """
+        )
+        .execute(db)
+    }
+
     try migrator.migrate(database)
 
     return database

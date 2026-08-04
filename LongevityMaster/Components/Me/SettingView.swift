@@ -16,6 +16,8 @@ struct SettingView: View {
     @AppStorage("motivationalQuotesEnabled") private var motivationalQuotesEnabled: Bool = true
     @Shared(.appStorage("lastQuoteDismissedDate")) private var lastQuoteDismissedDate: Date? = nil
     @Dependency(\.themeManager) var themeManager
+    @Dependency(\.consentManager) var consentManager
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         ScrollView {
@@ -85,12 +87,69 @@ struct SettingView: View {
                         Spacer()
                     }
                 }
+                settingsSection(title: "Privacy") {
+                    // Whole-row buttons: the consent row comes and goes depending on region, and
+                    // an identified collection keeps each row pinned to its own action as the
+                    // list changes.
+                    ForEach(privacyRows) { row in
+                        Button(action: row.action) {
+                            HStack {
+                                Text(row.title)
+                                    .font(AppFont.body)
+                                    .foregroundColor(themeManager.current.textPrimary)
+                                Spacer()
+                                Image(systemName: row.icon)
+                                    .foregroundColor(themeManager.current.primaryColor)
+                            }
+                            .padding(.vertical, AppSpacing.small)
+                            // Keeps the tappable area to this row alone.
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
             }
             .padding()
         }
         .background(themeManager.current.background.ignoresSafeArea())
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private struct PrivacyRow: Identifiable {
+        let id: String
+        let title: String
+        let icon: String
+        let action: () -> Void
+    }
+
+    private var privacyRows: [PrivacyRow] {
+        var rows: [PrivacyRow] = []
+        // Only offered where a choice actually exists to change: UMP reports privacy options as
+        // required in the EEA/UK and other regulated regions, and as not required elsewhere.
+        if consentManager.isPrivacyOptionsRequired {
+            rows.append(
+                PrivacyRow(
+                    id: "manage-consent",
+                    title: String(localized: "Manage Consent"),
+                    icon: "slider.horizontal.3"
+                ) {
+                    Task { await consentManager.presentPrivacyOptionsForm() }
+                }
+            )
+        }
+        rows.append(
+            PrivacyRow(
+                id: "privacy-policy",
+                title: String(localized: "Privacy Policy"),
+                icon: "arrow.up.right.square"
+            ) {
+                if let url = URL(string: "https://apps-bay.github.io/Apps-Bay-Website/privacy/") {
+                    openURL(url)
+                }
+            }
+        )
+        return rows
     }
 
     private func settingsSection<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {

@@ -7,4 +7,4 @@
 */
 
 "CFBundleDisplayName" = "抗衰习惯家";
-"NSUserTrackingUsageDescription" = "该标识符将用于向您投放个性化广告。";
+"NSUserTrackingUsageDescription" = "抗衰习惯家会使用您设备的广告标识符来决定应用内显示哪些广告，例如向您展示健身装备或健康餐食的广告，而不是随机投放的广告。即使您拒绝，也可以正常使用全部习惯与提醒功能。";

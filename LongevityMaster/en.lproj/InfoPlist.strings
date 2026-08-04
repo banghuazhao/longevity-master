@@ -7,4 +7,4 @@
 */
 
 "CFBundleDisplayName" = "Longevity Master";
-"NSUserTrackingUsageDescription" = "This identifier will be used to deliver personalized ads to you.";
+"NSUserTrackingUsageDescription" = "Longevity Master uses your device's advertising identifier to choose which ads appear in the app — for example, showing you fitness gear or healthy meal-kit ads instead of ads picked at random. You can use every habit and reminder feature if you decline.";

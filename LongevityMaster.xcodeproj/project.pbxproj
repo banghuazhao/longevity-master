@@ -576,7 +576,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "LongevityMaster/LongevityMaster-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This identifier will be used to deliver personalized ads to you.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Longevity Master uses your device's advertising identifier to choose which ads appear in the app — for example, showing you fitness gear or healthy meal-kit ads instead of ads picked at random. You can use every habit and reminder feature if you decline.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -611,7 +611,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "LongevityMaster/LongevityMaster-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This identifier will be used to deliver personalized ads to you.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Longevity Master uses your device's advertising identifier to choose which ads appear in the app — for example, showing you fitness gear or healthy meal-kit ads instead of ads picked at random. You can use every habit and reminder feature if you decline.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

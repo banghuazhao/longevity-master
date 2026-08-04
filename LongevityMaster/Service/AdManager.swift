@@ -1,43 +1,16 @@
-import AdSupport
-import AppTrackingTransparency
 import GoogleMobileAds
 import SwiftUI
 
 class AdManager {
-    static var isAuthorized = false
-
     struct GoogleAdsID {
         static let bannerViewAdUnitID = Bundle.main.object(forInfoDictionaryKey: "bannerViewAdUnitID") as? String ?? ""
         static let appOpenAdID = Bundle.main.object(forInfoDictionaryKey: "appOpenAdID") as? String ?? ""
     }
 
-    static func requestATTPermission(with time: TimeInterval = 0) {
-        guard !isAuthorized else { return }
-        DispatchQueue.main.asyncAfter(deadline: .now() + time) {
-            ATTrackingManager.requestTrackingAuthorization { status in
-                switch status {
-                case .authorized:
-                    // Tracking authorization dialog was shown
-                    // and we are authorized
-                    print("Authorized")
-                    isAuthorized = true
-    
-                    // Now that we are authorized we can get the IDFA
-                    print(ASIdentifierManager.shared().advertisingIdentifier)
-                case .denied:
-                    // Tracking authorization dialog was
-                    // shown and permission is denied
-                    print("Denied")
-                case .notDetermined:
-                    // Tracking authorization dialog has not been shown
-                    print("Not Determined")
-                case .restricted:
-                    print("Restricted")
-                @unknown default:
-                    print("Unknown")
-                }
-            }
-        }
+    /// Every ad request in the app funnels through this. Consent is gathered by `ConsentManager`,
+    /// which owns the ATT + UMP decision; nothing here reads either signal on its own.
+    static var canRequestAds: Bool {
+        ConsentManager.shared.hasResolved && ConsentManager.shared.canRequestAds
     }
 }
 
@@ -48,7 +21,7 @@ final class OpenAd: NSObject, ObservableObject, FullScreenContentDelegate {
     var bypassAdThisTime = false
 
     func requestAppOpenAd() {
-        print("[DEBUG] requestAppOpenAd called")
+        guard AdManager.canRequestAds else { return }
         let request = Request()
         request.scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
         AppOpenAd.load(
@@ -68,7 +41,7 @@ final class OpenAd: NSObject, ObservableObject, FullScreenContentDelegate {
     }
 
     func tryToPresentAd() {
-        print("[DEBUG] tryToPresentAd called")
+        guard AdManager.canRequestAds else { return }
         if let gOpenAd = appOpenAd, wasLoadTimeLessThanNHoursAgo(thresholdN: 4) {
             let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
             let window = windowScene?.windows.first
@@ -131,7 +104,7 @@ struct BannerView: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        guard viewWidth != .zero else { return }
+        guard viewWidth != .zero, AdManager.canRequestAds else { return }
 
         bannerView.adSize = currentOrientationAnchoredAdaptiveBanner(width: viewWidth)
         let request = Request()

@@ -932,6 +932,16 @@
         }
       }
     },
+    "Change" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更改"
+          }
+        }
+      }
+    },
     "Check In Habit" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2335,6 +2345,16 @@
         }
       }
     },
+    "Manage Consent" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理同意设置"
+          }
+        }
+      }
+    },
     "Mark your most important habits as favorites" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2792,6 +2812,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "优先考虑高影响力习惯"
+          }
+        }
+      }
+    },
+    "Privacy" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐私"
           }
         }
       }

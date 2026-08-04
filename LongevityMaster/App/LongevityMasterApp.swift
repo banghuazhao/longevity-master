@@ -11,11 +11,13 @@ import GoogleMobileAds
 struct LongevityMasterApp: App {
     @Dependency(\.achievementService) private var achievementService
     @Dependency(\.purchaseManager) private var purchaseManager
+    @Dependency(\.consentManager) private var consentManager
     @StateObject private var openAd = OpenAd()
     @Environment(\.scenePhase) private var scenePhase
 
     init() {
-        MobileAds.shared.start(completionHandler: nil)
+        // The ad SDK is deliberately not started here. `ConsentManager` starts it only once
+        // consent has resolved, so no ad request can precede the user's answer.
         AppearanceMode.migrateFromLegacyDarkModeFlag()
         AppGroup.mirrorStartWeekOnMondayFromAppDefaults()
         prepareDependencies {
@@ -39,7 +41,11 @@ struct LongevityMasterApp: App {
                     }
                 }
                 .task {
+                    // Deliberately sequential: the notification alert makes the app inactive,
+                    // and ATT asked during that window never reaches the screen. Consent runs
+                    // once the user has dealt with notifications.
                     await requestNotificationPermissions()
+                    await consentManager.resolve()
                 }
                 .task {
                     await purchaseManager.checkPurchaseStatus()
@@ -103,9 +109,6 @@ struct RootView: View {
         TabView {
             Tab {
                 TodayView()
-                    .onAppear {
-                        AdManager.requestATTPermission(with: 3)
-                    }
             } label: {
                 Label("Today", systemImage: "calendar")
             }
@@ -124,9 +127,6 @@ struct RootView: View {
             
             Tab {
                 MeView()
-                    .onAppear {
-                        AdManager.requestATTPermission(with: 1)
-                    }
             } label: {
                 Label("Me", systemImage: "person.fill")
             }
@@ -138,9 +138,6 @@ struct RootView: View {
             TodayView()
                 .tabItem{
                     Label("Today", systemImage: "calendar")
-                }
-                .onAppear {
-                    AdManager.requestATTPermission(with: 3)
                 }
             
             HabitsListView()
@@ -157,9 +154,6 @@ struct RootView: View {
             MeView()
                 .tabItem{
                     Label("Me", systemImage: "person.fill")
-                }
-                .onAppear {
-                    AdManager.requestATTPermission(with: 1)
                 }
         }
     }

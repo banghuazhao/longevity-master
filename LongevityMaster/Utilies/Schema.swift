@@ -9,6 +9,42 @@ import SQLiteData
 
 private let logger = Logger(subsystem: "Reminders", category: "Database")
 
+/// The database lives in the shared App Group container so the widget extension can read it.
+/// If the group is unavailable — entitlement missing, or not yet provisioned — fall back to the
+/// app's own Documents directory: the app keeps working and only the widget goes without data.
+private func liveDatabaseURL() -> URL {
+    let legacyURL = URL.documentsDirectory.appending(component: "db.sqlite")
+    guard let containerURL = AppGroup.containerURL else { return legacyURL }
+
+    let sharedURL = containerURL.appending(component: "db.sqlite")
+    let fileManager = FileManager.default
+    guard !fileManager.fileExists(atPath: sharedURL.path()) else { return sharedURL }
+    guard fileManager.fileExists(atPath: legacyURL.path()) else { return sharedURL }
+
+    // Copy the whole set before deleting anything: a database moved without its write-ahead
+    // log is a database missing its most recent transactions.
+    let suffixes = ["", "-wal", "-shm"]
+    do {
+        for suffix in suffixes {
+            let source = URL(filePath: legacyURL.path() + suffix)
+            guard fileManager.fileExists(atPath: source.path()) else { continue }
+            try fileManager.copyItem(at: source, to: URL(filePath: sharedURL.path() + suffix))
+        }
+    } catch {
+        logger.error("failed to move database into app group: \(error.localizedDescription)")
+        for suffix in suffixes {
+            try? fileManager.removeItem(at: URL(filePath: sharedURL.path() + suffix))
+        }
+        return legacyURL
+    }
+
+    for suffix in suffixes {
+        try? fileManager.removeItem(at: URL(filePath: legacyURL.path() + suffix))
+    }
+    logger.info("moved database into app group container")
+    return sharedURL
+}
+
 func appDatabase() throws -> any DatabaseWriter {
     @Dependency(\.context) var context
 
@@ -28,9 +64,13 @@ func appDatabase() throws -> any DatabaseWriter {
         #endif
     }
 
+    // The widget reads and writes this same file from another process, so wait for the lock
+    // instead of failing outright when the two overlap.
+    configuration.busyMode = .timeout(5)
+
     switch context {
     case .live:
-        let path = URL.documentsDirectory.appending(component: "db.sqlite").path()
+        let path = liveDatabaseURL().path()
         logger.info("open \(path)")
         database = try DatabasePool(path: path, configuration: configuration)
     case .preview, .test:

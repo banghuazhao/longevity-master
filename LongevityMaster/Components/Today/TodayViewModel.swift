@@ -69,9 +69,7 @@ class TodayViewModel {
     
 
     var userCalendar: Calendar {
-        var cal = Calendar.current
-        cal.firstWeekday = startWeekOnMonday ? 2 : 1 // 2 = Monday, 1 = Sunday
-        return cal
+        .userPreferred(startWeekOnMonday: startWeekOnMonday)
     }
 
     private var cancelable = Set<AnyCancellable>()
@@ -95,94 +93,28 @@ class TodayViewModel {
     }
 
     private func updateTodayHabits() -> [TodayHabit] {
-        habits
-            .compactMap { habit -> TodayHabit? in
+        HabitSchedule
+            .habitsDue(on: selectedDate, habits: habits, checkIns: checkIns, calendar: userCalendar)
+            .map { scheduled in
+                let habit = scheduled.habit
                 let checkInsForHabit = checkIns.filter { $0.habitID == habit.id }
-                let startOfDay = selectedDate.startOfDay(for: userCalendar)
-                let endOfDay = selectedDate.endOfDay(for: userCalendar)
-                let checkInsToday = checkInsForHabit.filter { checkIn in
-                    checkIn.date >= startOfDay &&
-                        checkIn.date <= endOfDay
-                }
-                let isCompletedToday = checkInsToday.count > 0
-                switch habit.frequency {
+                let streak = switch habit.frequency {
                 case .fixedDaysInWeek:
-                    // Day of the week (1 = Sunday, 2 = Monday, ..., 7 = Saturday)
-                    let dayOfWeek = userCalendar.component(.weekday, from: selectedDate)
-                    if habit.daysOfWeek.contains(dayOfWeek) {
-                        let streak = calculateStreakForFixedDays(habit: habit, days: habit.daysOfWeek, unit: .weekday, checkIns: checkInsForHabit)
-                        let streakDescription = streak > 0 && isCompletedToday ? String(localized: "🔥 \(streak)d streak") : nil
-                        return TodayHabit(
-                            habit: habit,
-                            isCompleted: isCompletedToday,
-                            streakDescription: streakDescription
-                        )
-                    } else {
-                        return nil
-                    }
+                    calculateStreakForFixedDays(habit: habit, days: habit.daysOfWeek, unit: .weekday, checkIns: checkInsForHabit)
                 case .fixedDaysInMonth:
-                    // Get the day of the month (1–31)
-                    let dayOfMonth = userCalendar.component(.day, from: selectedDate)
-                    if habit.daysOfMonth.contains(dayOfMonth) {
-                        let streak = calculateStreakForFixedDays(habit: habit, days: habit.daysOfMonth, unit: .day, checkIns: checkInsForHabit)
-                        let streakDescription = streak > 0 && isCompletedToday ? String(localized: "🔥 \(streak)d streak") : nil
-                        return TodayHabit(
-                            habit: habit,
-                            isCompleted: isCompletedToday,
-                            streakDescription: streakDescription
-                        )
-                    } else {
-                        return nil
-                    }
-                case .nDaysEachWeek:
-                    let startOfWeek = selectedDate.startOfWeek(for: userCalendar)
-                    let endOfWeek = selectedDate.endOfWeek(for: userCalendar)
-                    let checkInsThisWeek = checkInsForHabit.filter { checkIn in
-                        checkIn.date >= startOfWeek &&
-                            checkIn.date <= endOfWeek
-                    }
-                    if habit.nDaysPerWeek > checkInsThisWeek.count || isCompletedToday {
-                        let streak = calculateStreakForNDaysPerPeriod(habit: habit, checkIns: checkInsForHabit)
-                        let streakDescription = streak > 0 && isCompletedToday ? String(localized: "🔥 \(streak)d streak") : nil
-                        let checkInsThisWeekUntilToday = checkInsForHabit.filter { checkIn in
-                            checkIn.date >= startOfWeek &&
-                                checkIn.date <= endOfDay
-                        }
-                        let frequencyDescription = String(localized: "\(checkInsThisWeekUntilToday.count)/\(habit.nDaysPerWeek) this week")
-                        return TodayHabit(
-                            habit: habit,
-                            isCompleted: isCompletedToday,
-                            streakDescription: streakDescription,
-                            frequencyDescription: frequencyDescription
-                        )
-                    } else {
-                        return nil
-                    }
-                case .nDaysEachMonth:
-                    let startOfMonth = selectedDate.startOfMonth(for: userCalendar)
-                    let endOfMonth = selectedDate.endOfMonth(for: userCalendar)
-                    let checkInsThisMonth = checkInsForHabit.filter { checkIn in
-                        checkIn.date >= startOfMonth &&
-                            checkIn.date <= endOfMonth
-                    }
-                    if habit.nDaysPerMonth > checkInsThisMonth.count || isCompletedToday {
-                        let streak = calculateStreakForNDaysPerPeriod(habit: habit, checkIns: checkInsForHabit)
-                        let streakDescription = streak > 0 && isCompletedToday ? String(localized: "🔥 \(streak)d streak") : nil
-                        let checkInsThisMonthUntilToday = checkInsForHabit.filter { checkIn in
-                            checkIn.date >= startOfMonth &&
-                                checkIn.date <= endOfDay
-                        }
-                        let frequencyDescription = String(localized: "\(checkInsThisMonthUntilToday.count)/\(habit.nDaysPerMonth) this month")
-                        return TodayHabit(
-                            habit: habit,
-                            isCompleted: isCompletedToday,
-                            streakDescription: streakDescription,
-                            frequencyDescription: frequencyDescription
-                        )
-                    } else {
-                        return nil
-                    }
+                    calculateStreakForFixedDays(habit: habit, days: habit.daysOfMonth, unit: .day, checkIns: checkInsForHabit)
+                case .nDaysEachWeek, .nDaysEachMonth:
+                    calculateStreakForNDaysPerPeriod(habit: habit, checkIns: checkInsForHabit)
                 }
+                let streakDescription = streak > 0 && scheduled.isCompleted
+                    ? String(localized: "🔥 \(streak)d streak")
+                    : nil
+                return TodayHabit(
+                    habit: habit,
+                    isCompleted: scheduled.isCompleted,
+                    streakDescription: streakDescription,
+                    frequencyDescription: scheduled.frequencyDescription
+                )
             }
     }
 
@@ -221,6 +153,16 @@ class TodayViewModel {
                     await soundPlayer.playCheckinSound()
                 }
             }
+            WidgetRefresher.reload()
+        }
+    }
+
+    /// The widget writes check-ins from its own process, which GRDB's observation does not
+    /// see, so re-read once the app comes back to the foreground.
+    func reloadFromSharedDatabase() async {
+        await withErrorReporting {
+            try await $habits.load()
+            try await $checkIns.load()
         }
     }
 
@@ -267,6 +209,7 @@ class TodayViewModel {
             try  database.write { db in
                 try Habit.delete(habit).execute(db)
             }
+            WidgetRefresher.reload()
         }
     }
 

@@ -31,6 +31,12 @@ struct SettingView: View {
                         .frame(width: 200)
                         Spacer()
                     }
+                    .onChange(of: startWeekOnMonday) { _, newValue in
+                        // The widget works out week boundaries too, and reads this from the
+                        // shared container because it cannot see the app's own defaults.
+                        AppGroup.mirrorStartWeekOnMonday(newValue)
+                        WidgetRefresher.reload()
+                    }
                 }
                 settingsSection(title: "Feedback") {
                     Toggle(isOn: $buttonSoundEnabled) {

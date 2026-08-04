@@ -9,7 +9,8 @@ import SwiftUINavigation
 
 struct TodayView: View {
     @State var viewModel = TodayViewModel()
-    
+
+    @Environment(\.scenePhase) private var scenePhase
     @Dependency(\.themeManager) var themeManager
     
     var body: some View {
@@ -163,6 +164,10 @@ struct TodayView: View {
             }
             .onAppear {
                 viewModel.updateMotivationalQuote()
+            }
+            .onChange(of: scenePhase) { _, newPhase in
+                guard newPhase == .active else { return }
+                Task { await viewModel.reloadFromSharedDatabase() }
             }
         }
     }

@@ -17,9 +17,11 @@ struct LongevityMasterApp: App {
     init() {
         MobileAds.shared.start(completionHandler: nil)
         AppearanceMode.migrateFromLegacyDarkModeFlag()
+        AppGroup.mirrorStartWeekOnMondayFromAppDefaults()
         prepareDependencies {
             $0.defaultDatabase = try! appDatabase()
         }
+        WidgetRefresher.reload()
     }
 
     var body: some Scene {

@@ -175,7 +175,8 @@ class HabitFormViewModel: HashableObject {
                 }
             }
             onSaveHabit?(updatedHabit)
-            
+            WidgetRefresher.reload()
+
             // Increment habit modification count for rating prompts
             appRatingService.incrementHabitModificationCount()
         }

@@ -75,8 +75,9 @@ struct TodayHabitsProvider: TimelineProvider {
 extension WidgetHabit {
     /// Only ever shown in the widget gallery and in Xcode previews.
     static let samples: [WidgetHabit] = [
-        WidgetHabit(id: -1, name: String(localized: "Eat berries"), icon: "🍓", colorHex: 0xA084E899, isCompleted: true, detail: String(localized: "2/5 this week")),
-        WidgetHabit(id: -2, name: String(localized: "Brisk walking"), icon: "🚶", colorHex: 0xBFD8B899, isCompleted: false, detail: String(localized: "1/5 this week")),
+        // Interpolated so these reuse the same catalog entry as the real running totals.
+        WidgetHabit(id: -1, name: String(localized: "Eat berries"), icon: "🍓", colorHex: 0xA084E899, isCompleted: true, detail: String(localized: "\(2)/\(5) this week")),
+        WidgetHabit(id: -2, name: String(localized: "Brisk walking"), icon: "🚶", colorHex: 0xBFD8B899, isCompleted: false, detail: String(localized: "\(1)/\(5) this week")),
         WidgetHabit(id: -3, name: String(localized: "Meditate"), icon: "🧘‍♀️", colorHex: 0x4DD0AE99, isCompleted: false, detail: nil),
         WidgetHabit(id: -4, name: String(localized: "Sleep 7–9 hours"), icon: "😴", colorHex: 0xFFD18C99, isCompleted: false, detail: nil),
     ]

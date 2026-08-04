@@ -231,23 +231,11 @@ enum WeekDays: Int, CaseIterable {
     case sat = 7
     case sun = 1
 
+    /// Raw values follow Calendar's 1 = Sunday numbering, which lines up with
+    /// shortWeekdaySymbols by index and so reads in the user's own language.
     var title: String {
-        switch self {
-        case .mon:
-            "Mon"
-        case .tue:
-            "Tue"
-        case .wed:
-            "Wed"
-        case .thu:
-            "Thu"
-        case .fri:
-            "Fri"
-        case .sat:
-            "Sat"
-        case .sun:
-            "Sun"
-        }
+        let symbols = Calendar.current.shortWeekdaySymbols
+        return symbols.indices.contains(rawValue - 1) ? symbols[rawValue - 1] : ""
     }
 }
 
@@ -348,6 +336,9 @@ struct HabitFormView: View {
                                 }
                             }
                             .tint(themeManager.current.primaryColor)
+                            // A translation long enough to wrap would spill over the day
+                            // selector below; truncate rather than grow downwards.
+                            .lineLimit(1)
                         }
                         switch viewModel.habit.frequency {
                         case .fixedDaysInWeek:
@@ -361,12 +352,18 @@ struct HabitFormView: View {
                                                 .font(.subheadline)
                                                 .lineLimit(1)
                                                 .minimumScaleFactor(0.5)
-                                            if viewModel.hasSelectedWeekDay(weekDay) {
-                                                Image(systemName: "checkmark.circle.fill")
-                                                    .foregroundColor(themeManager.current.primaryColor)
-                                            }
+                                            // Showing the mark only when selected left the row
+                                            // at ragged heights, so unselected days keep the
+                                            // space with a hollow circle.
+                                            Image(systemName: viewModel.hasSelectedWeekDay(weekDay) ? "checkmark.circle.fill" : "circle")
+                                                .foregroundColor(
+                                                    viewModel.hasSelectedWeekDay(weekDay)
+                                                    ? themeManager.current.primaryColor
+                                                    : themeManager.current.secondaryGray.opacity(0.35)
+                                                )
                                         }
                                         .padding(8)
+                                        .frame(maxWidth: .infinity)
                                     }
                                     .tint(themeManager.current.primaryColor)
                                     .background(
@@ -394,6 +391,7 @@ struct HabitFormView: View {
                                                 .minimumScaleFactor(0.5)
                                         }
                                         .padding(8)
+                                        .frame(maxWidth: .infinity)
                                     }
                                     .tint(themeManager.current.primaryColor)
                                     .background(

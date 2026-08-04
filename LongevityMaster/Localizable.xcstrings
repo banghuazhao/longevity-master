@@ -11,9 +11,6 @@
         }
       }
     },
-    "— %@" : {
-
-    },
     "%@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -137,6 +134,16 @@
         }
       }
     },
+    "%lld%%" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%%"
+          }
+        }
+      }
+    },
     "%lld/%lld" : {
       "localizations" : {
         "en" : {
@@ -195,161 +202,12 @@
         }
       }
     },
-    "%lld%%" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld%%"
-          }
-        }
-      }
-    },
-    "• " : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "• "
-          }
-        }
-      }
-    },
     "+%lld more" : {
-
-    },
-    "< Previous" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "< 上一页"
-          }
-        }
-      }
-    },
-    "⚡" : {
-
-    },
-    "✅" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "✅"
-          }
-        }
-      }
-    },
-    "🍎 Diet" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🍎 饮食"
-          }
-        }
-      }
-    },
-    "🎉 Achievement Unlocked! 🎉" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🎉 成就解锁！🎉"
-          }
-        }
-      }
-    },
-    "🏋️ Exercise" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🏋️ 锻炼"
-          }
-        }
-      }
-    },
-    "💎 Thanks for being a Premium member!" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "💎 感谢您成为高级会员！"
-          }
-        }
-      }
-    },
-    "🔥" : {
-
-    },
-    "🔥 %lldd streak" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🔥 连续%lld天"
-          }
-        }
-      }
-    },
-    "🔥 1d streak" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🔥 连续1天"
-          }
-        }
-      }
-    },
-    "🧘 Mental" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🧘 心理健康"
-          }
-        }
-      }
-    },
-    "🧘 Mental Health" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🧘 心理健康"
-          }
-        }
-      }
-    },
-    "🩺 Health" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🩺 预防保健"
-          }
-        }
-      }
-    },
-    "🩺 Preventive Health" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🩺 预防保健"
-          }
-        }
-      }
-    },
-    "😴 Sleep" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "😴 睡眠"
+            "value" : "还有 %lld 项"
           }
         }
       }
@@ -404,8 +262,65 @@
         }
       }
     },
-    "1/5 this week" : {
-
+    "10 points per active habit, up to 30 habits (300 points max). Only non-archived habits count." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个活跃习惯 10 分，最多 30 个习惯（最多 300 分）。仅计算未归档的习惯。"
+          }
+        }
+      }
+    },
+    "10 points per unlocked achievement. Currently %lld achievements available." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个解锁的成就 10 分。目前有 %lld 个成就可用。"
+          }
+        }
+      }
+    },
+    "100-199 points" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100-199 分"
+          }
+        }
+      }
+    },
+    "1000-1099 points" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1000-1099 分"
+          }
+        }
+      }
+    },
+    "10–15 minutes of sunlight for vitamin D." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10-15 分钟的阳光照射以获取维生素 D。"
+          }
+        }
+      }
+    },
+    "1100+ points" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1100+ 分"
+          }
+        }
+      }
     },
     "2 points per anti-aging rating point. Each habit has a rating from 1-5. Maximum 300 points." : {
       "localizations" : {
@@ -437,69 +352,6 @@
         }
       }
     },
-    "2/5 this week" : {
-
-    },
-    "4-5 stars" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "4-5 星"
-          }
-        }
-      }
-    },
-    "5-Star Habits" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "5 星习惯"
-          }
-        }
-      }
-    },
-    "10 points per active habit, up to 30 habits (300 points max). Only non-archived habits count." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每个活跃习惯 10 分，最多 30 个习惯（最多 300 分）。仅计算未归档的习惯。"
-          }
-        }
-      }
-    },
-    "10 points per unlocked achievement. Currently %lld achievements available." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每个解锁的成就 10 分。目前有 %lld 个成就可用。"
-          }
-        }
-      }
-    },
-    "10–15 minutes of sunlight for vitamin D." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "10-15 分钟的阳光照射以获取维生素 D。"
-          }
-        }
-      }
-    },
-    "100-199 points" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "100-199 分"
-          }
-        }
-      }
-    },
     "200-299 points" : {
       "localizations" : {
         "zh-Hans" : {
@@ -520,12 +372,32 @@
         }
       }
     },
+    "4-5 stars" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4-5 星"
+          }
+        }
+      }
+    },
     "400-499 points" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "400-499 分"
+          }
+        }
+      }
+    },
+    "5-Star Habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 星习惯"
           }
         }
       }
@@ -580,22 +452,12 @@
         }
       }
     },
-    "1000-1099 points" : {
+    "< Previous" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "1000-1099 分"
-          }
-        }
-      }
-    },
-    "1100+ points" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "1100+ 分"
+            "value" : "< 上一页"
           }
         }
       }
@@ -616,16 +478,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "成就解锁！"
-          }
-        }
-      }
-    },
-    "achievements" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "成就"
           }
         }
       }
@@ -660,7 +512,7 @@
         }
       }
     },
-    "Add a Reminder" : {
+    "Add Reminder" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -670,7 +522,7 @@
         }
       }
     },
-    "Add Reminder" : {
+    "Add a Reminder" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -760,16 +612,6 @@
         }
       }
     },
-    "all time" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "总计"
-          }
-        }
-      }
-    },
     "Anti-Aging Rating" : {
       "localizations" : {
         "zh-Hans" : {
@@ -781,7 +623,14 @@
       }
     },
     "Appearance" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外观"
+          }
+        }
+      }
     },
     "Apprentice" : {
       "localizations" : {
@@ -1083,8 +932,25 @@
         }
       }
     },
+    "Check In Habit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "习惯打卡"
+          }
+        }
+      }
+    },
     "Check a habit in or out for today." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为今天的习惯打卡或取消打卡。"
+          }
+        }
+      }
     },
     "Check in consistently to reach milestone achievements" : {
       "localizations" : {
@@ -1106,11 +972,15 @@
         }
       }
     },
-    "Check In Habit" : {
-
-    },
     "Check off today's habits without opening the app." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无需打开应用，即可勾选今天的习惯。"
+          }
+        }
+      }
     },
     "Check out my longevity rating from Longevity Master!" : {
       "localizations" : {
@@ -1202,22 +1072,32 @@
         }
       }
     },
-    "complete" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "完成"
-          }
-        }
-      }
-    },
     "Complete 10 total check-ins" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "完成 10 次总打卡"
+          }
+        }
+      }
+    },
+    "Complete 100 total check-ins" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成 100 次总打卡"
+          }
+        }
+      }
+    },
+    "Complete 1000 total check-ins" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成 1000 次总打卡"
           }
         }
       }
@@ -1282,32 +1162,12 @@
         }
       }
     },
-    "Complete 100 total check-ins" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "完成 100 次总打卡"
-          }
-        }
-      }
-    },
     "Complete 500 total check-ins" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "完成 500 次总打卡"
-          }
-        }
-      }
-    },
-    "Complete 1000 total check-ins" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "完成 1000 次总打卡"
           }
         }
       }
@@ -1372,16 +1232,6 @@
         }
       }
     },
-    "Complete habits 5 days in a row" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "连续 5 天完成习惯"
-          }
-        }
-      }
-    },
     "Complete habits 10 days in a row" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1398,6 +1248,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "连续 20 天完成习惯"
+          }
+        }
+      }
+    },
+    "Complete habits 5 days in a row" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连续 5 天完成习惯"
           }
         }
       }
@@ -1493,12 +1353,12 @@
         }
       }
     },
-    "consistency" : {
+    "Consistency King" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "一致性"
+            "value" : "坚持之王"
           }
         }
       }
@@ -1509,16 +1369,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "坚持是成功的关键。"
-          }
-        }
-      }
-    },
-    "Consistency King" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "坚持之王"
           }
         }
       }
@@ -1614,7 +1464,14 @@
       }
     },
     "Dark" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深色"
+          }
+        }
+      }
     },
     "Dark Mode" : {
       "extractionState" : "stale",
@@ -1623,16 +1480,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "黑夜模式"
-          }
-        }
-      }
-    },
-    "days" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "天"
           }
         }
       }
@@ -1647,12 +1494,22 @@
         }
       }
     },
-    "days max" : {
+    "Days of Month" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "天最大"
+            "value" : "每月指定日"
+          }
+        }
+      }
+    },
+    "Days of Week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周指定日"
           }
         }
       }
@@ -2159,7 +2016,14 @@
       }
     },
     "Habit" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "习惯"
+          }
+        }
+      }
     },
     "Habit Builder" : {
       "localizations" : {
@@ -2341,16 +2205,6 @@
         }
       }
     },
-    "last 2 days" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "最近 2 天"
-          }
-        }
-      }
-    },
     "Legend" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2362,7 +2216,14 @@
       }
     },
     "Light" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浅色"
+          }
+        }
+      }
     },
     "Locked" : {
       "localizations" : {
@@ -2414,12 +2275,12 @@
         }
       }
     },
-    "Maintain a 7-day streak" : {
+    "Maintain a 100-day streak" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "保持 7 天连胜"
+            "value" : "保持 100 天连胜"
           }
         }
       }
@@ -2434,12 +2295,12 @@
         }
       }
     },
-    "Maintain a 100-day streak" : {
+    "Maintain a 7-day streak" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "保持 100 天连胜"
+            "value" : "保持 7 天连胜"
           }
         }
       }
@@ -2500,16 +2361,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最大"
-          }
-        }
-      }
-    },
-    "maximum impact" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "最大影响"
           }
         }
       }
@@ -2605,16 +2456,6 @@
         }
       }
     },
-    "monthly progress" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "月度进度"
-          }
-        }
-      }
-    },
     "More Apps" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2705,22 +2546,22 @@
         }
       }
     },
-    "New habit name" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新习惯名称"
-          }
-        }
-      }
-    },
     "New Reminder" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "新提醒"
+          }
+        }
+      }
+    },
+    "New habit name" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新习惯名称"
           }
         }
       }
@@ -2775,18 +2616,15 @@
         }
       }
     },
-    "not counted" : {
+    "Nothing scheduled today. Enjoy the rest." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "不计入"
+            "value" : "今天没有安排，好好休息。"
           }
         }
       }
-    },
-    "Nothing scheduled today. Enjoy the rest." : {
-
     },
     "Notifications are disabled. Please enable them in Settings to receive reminders." : {
       "localizations" : {
@@ -2839,7 +2677,14 @@
       }
     },
     "Open Longevity Master to get started." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开 Longevity Master 开始使用。"
+          }
+        }
+      }
     },
     "Others" : {
       "localizations" : {
@@ -2847,26 +2692,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "其他"
-          }
-        }
-      }
-    },
-    "out of 30" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "共 30 个"
-          }
-        }
-      }
-    },
-    "per habit" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每个习惯"
           }
         }
       }
@@ -2897,16 +2722,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "请在下方描述您的问题"
-          }
-        }
-      }
-    },
-    "points" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "分"
           }
         }
       }
@@ -3061,16 +2876,6 @@
         }
       }
     },
-    "recent activity" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "最近活动"
-          }
-        }
-      }
-    },
     "Relax before bed to improve sleep quality." : {
       "localizations" : {
         "zh-Hans" : {
@@ -3121,22 +2926,22 @@
         }
       }
     },
-    "Reset to Default" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "重置为默认"
-          }
-        }
-      }
-    },
     "Reset Today's Motivation" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "重置今日励志语录"
+          }
+        }
+      }
+    },
+    "Reset to Default" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重置为默认"
           }
         }
       }
@@ -3371,12 +3176,12 @@
         }
       }
     },
-    "starred" : {
+    "Start Your Journey" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已收藏"
+            "value" : "开始您的旅程"
           }
         }
       }
@@ -3417,16 +3222,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "以轻度拉伸开始您的一天，以增加血液循环和灵活性。"
-          }
-        }
-      }
-    },
-    "Start Your Journey" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "开始您的旅程"
           }
         }
       }
@@ -3542,7 +3337,14 @@
       }
     },
     "System" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟随系统"
+          }
+        }
+      }
     },
     "Take a short nap" : {
       "localizations" : {
@@ -3694,16 +3496,6 @@
         }
       }
     },
-    "This is how your selected theme color will look throughout the app." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这是您选择的主题颜色在应用中的显示效果。"
-          }
-        }
-      }
-    },
     "This Month" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3720,6 +3512,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "本周"
+          }
+        }
+      }
+    },
+    "This is how your selected theme color will look throughout the app." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是您选择的主题颜色在应用中的显示效果。"
           }
         }
       }
@@ -3750,6 +3552,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "时间"
+          }
+        }
+      }
+    },
+    "Times a Month" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每月次数"
+          }
+        }
+      }
+    },
+    "Times a Week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周次数"
           }
         }
       }
@@ -3795,14 +3617,11 @@
       }
     },
     "Today's Habits" : {
-
-    },
-    "total" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "总计"
+            "value" : "今日习惯"
           }
         }
       }
@@ -3997,26 +3816,6 @@
         }
       }
     },
-    "v%@  Check for Updates" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "v%@ 检查更新"
-          }
-        }
-      }
-    },
-    "variety" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "多样性"
-          }
-        }
-      }
-    },
     "Variety Seeker" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4168,6 +3967,26 @@
         }
       }
     },
+    "Your Name" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您的姓名"
+          }
+        }
+      }
+    },
+    "Your Statistics" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您的统计"
+          }
+        }
+      }
+    },
     "Your future self is watching you right now through memories." : {
       "localizations" : {
         "zh-Hans" : {
@@ -4188,16 +4007,6 @@
         }
       }
     },
-    "Your Name" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "您的姓名"
-          }
-        }
-      }
-    },
     "Your rating is calculated based on your overall health and wellness habits across multiple dimensions. Focus on building consistent habits across all categories to improve your rating!" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4208,12 +4017,321 @@
         }
       }
     },
-    "Your Statistics" : {
+    "achievements" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "您的统计"
+            "value" : "成就"
+          }
+        }
+      }
+    },
+    "all time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "总计"
+          }
+        }
+      }
+    },
+    "complete" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成"
+          }
+        }
+      }
+    },
+    "consistency" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一致性"
+          }
+        }
+      }
+    },
+    "days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天"
+          }
+        }
+      }
+    },
+    "days max" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天最大"
+          }
+        }
+      }
+    },
+    "last 2 days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近 2 天"
+          }
+        }
+      }
+    },
+    "maximum impact" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最大影响"
+          }
+        }
+      }
+    },
+    "monthly progress" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "月度进度"
+          }
+        }
+      }
+    },
+    "not counted" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不计入"
+          }
+        }
+      }
+    },
+    "out of 30" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共 30 个"
+          }
+        }
+      }
+    },
+    "per habit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个习惯"
+          }
+        }
+      }
+    },
+    "points" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分"
+          }
+        }
+      }
+    },
+    "recent activity" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近活动"
+          }
+        }
+      }
+    },
+    "starred" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已收藏"
+          }
+        }
+      }
+    },
+    "total" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "总计"
+          }
+        }
+      }
+    },
+    "v%@  Check for Updates" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "v%@ 检查更新"
+          }
+        }
+      }
+    },
+    "variety" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "多样性"
+          }
+        }
+      }
+    },
+    "— %@" : {
+      "shouldTranslate" : false
+    },
+    "• " : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• "
+          }
+        }
+      }
+    },
+    "⚡" : {
+      "shouldTranslate" : false
+    },
+    "✅" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "✅"
+          }
+        }
+      }
+    },
+    "🍎 Diet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🍎 饮食"
+          }
+        }
+      }
+    },
+    "🎉 Achievement Unlocked! 🎉" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🎉 成就解锁！🎉"
+          }
+        }
+      }
+    },
+    "🏋️ Exercise" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🏋️ 锻炼"
+          }
+        }
+      }
+    },
+    "💎 Thanks for being a Premium member!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "💎 感谢您成为高级会员！"
+          }
+        }
+      }
+    },
+    "🔥" : {
+      "shouldTranslate" : false
+    },
+    "🔥 %lldd streak" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🔥 连续%lld天"
+          }
+        }
+      }
+    },
+    "🔥 1d streak" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🔥 连续1天"
+          }
+        }
+      }
+    },
+    "😴 Sleep" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "😴 睡眠"
+          }
+        }
+      }
+    },
+    "🧘 Mental" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🧘 心理健康"
+          }
+        }
+      }
+    },
+    "🧘 Mental Health" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🧘 心理健康"
+          }
+        }
+      }
+    },
+    "🩺 Health" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🩺 预防保健"
+          }
+        }
+      }
+    },
+    "🩺 Preventive Health" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🩺 预防保健"
           }
         }
       }

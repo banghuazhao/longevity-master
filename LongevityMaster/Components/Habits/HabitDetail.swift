@@ -428,14 +428,14 @@ struct HabitDetailView: View {
                     viewModel.onTapDeleteHabit()
                 } label: {
                     Image(systemName: "trash")
-                        .appCircularButtonStyle(overrideColor: .red)
+                        .appToolbarCircularButtonStyle(overrideColor: .red)
                 }
 
                 Button {
                     viewModel.onTapEditHabit()
                 } label: {
                     Image(systemName: "pencil")
-                        .appCircularButtonStyle()
+                        .appToolbarCircularButtonStyle()
                 }
             }
         }

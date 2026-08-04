@@ -150,7 +150,7 @@ struct TodayView: View {
                         viewModel.onTapEdit()
                     }) {
                         Text(viewModel.isEditing ? "Done" : "Edit")
-                            .appRectButtonStyle()
+                            .appToolbarRectButtonStyle()
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -158,7 +158,7 @@ struct TodayView: View {
                         viewModel.onTapAddHabit()
                     }) {
                         Image(systemName: "plus")
-                            .appCircularButtonStyle()
+                            .appToolbarCircularButtonStyle()
                     }
                 }
             }

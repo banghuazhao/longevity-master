@@ -290,3 +290,32 @@ extension View {
             .cornerRadius(AppCornerRadius.info)
     }
 }
+
+// MARK: - Toolbar Buttons
+
+// From iOS 26 the system draws a Liquid Glass background behind every toolbar item. Our own
+// capsule sitting inside that one is what leaves these buttons looking boxed in and padded out,
+// so from iOS 26 the background is the system's job and we carry nothing but the tint. Below
+// iOS 26 the toolbar has no background of its own and the app's capsule still provides it.
+extension View {
+    @ViewBuilder
+    func appToolbarCircularButtonStyle(
+        theme: AppTheme = ThemeManager.shared.current,
+        overrideColor: Color? = nil
+    ) -> some View {
+        if #available(iOS 26.0, *) {
+            foregroundStyle(overrideColor ?? theme.primaryColor)
+        } else {
+            appCircularButtonStyle(theme: theme, overrideColor: overrideColor)
+        }
+    }
+
+    @ViewBuilder
+    func appToolbarRectButtonStyle(theme: AppTheme = ThemeManager.shared.current) -> some View {
+        if #available(iOS 26.0, *) {
+            foregroundStyle(theme.primaryColor)
+        } else {
+            appRectButtonStyle(theme: theme)
+        }
+    }
+}

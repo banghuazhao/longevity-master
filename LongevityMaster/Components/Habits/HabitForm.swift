@@ -556,7 +556,7 @@ struct HabitFormView: View {
                         dismiss()
                     } label: {
                         Text("Dismiss")
-                            .appRectButtonStyle()
+                            .appToolbarRectButtonStyle()
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
@@ -568,7 +568,7 @@ struct HabitFormView: View {
                         }
                     } label: {
                         Text(viewModel.isEdit ? "Update" : "Save")
-                            .appRectButtonStyle()
+                            .appToolbarRectButtonStyle()
                     }
                 }
             }

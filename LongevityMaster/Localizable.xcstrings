@@ -215,6 +215,9 @@
         }
       }
     },
+    "+%lld more" : {
+
+    },
     "< Previous" : {
       "localizations" : {
         "zh-Hans" : {
@@ -401,6 +404,9 @@
         }
       }
     },
+    "1/5 this week" : {
+
+    },
     "2 points per anti-aging rating point. Each habit has a rating from 1-5. Maximum 300 points." : {
       "localizations" : {
         "zh-Hans" : {
@@ -430,6 +436,9 @@
           }
         }
       }
+    },
+    "2/5 this week" : {
+
     },
     "4-5 stars" : {
       "localizations" : {
@@ -771,6 +780,9 @@
         }
       }
     },
+    "Appearance" : {
+
+    },
     "Apprentice" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1071,6 +1083,9 @@
         }
       }
     },
+    "Check a habit in or out for today." : {
+
+    },
     "Check in consistently to reach milestone achievements" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1090,6 +1105,12 @@
           }
         }
       }
+    },
+    "Check In Habit" : {
+
+    },
+    "Check off today's habits without opening the app." : {
+
     },
     "Check out my longevity rating from Longevity Master!" : {
       "localizations" : {
@@ -1592,7 +1613,11 @@
         }
       }
     },
+    "Dark" : {
+
+    },
     "Dark Mode" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2133,6 +2158,9 @@
         }
       }
     },
+    "Habit" : {
+
+    },
     "Habit Builder" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2332,6 +2360,9 @@
           }
         }
       }
+    },
+    "Light" : {
+
     },
     "Locked" : {
       "localizations" : {
@@ -2754,6 +2785,9 @@
         }
       }
     },
+    "Nothing scheduled today. Enjoy the rest." : {
+
+    },
     "Notifications are disabled. Please enable them in Settings to receive reminders." : {
       "localizations" : {
         "zh-Hans" : {
@@ -2803,6 +2837,9 @@
           }
         }
       }
+    },
+    "Open Longevity Master to get started." : {
+
     },
     "Others" : {
       "localizations" : {
@@ -3504,6 +3541,9 @@
         }
       }
     },
+    "System" : {
+
+    },
     "Take a short nap" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3753,6 +3793,9 @@
           }
         }
       }
+    },
+    "Today's Habits" : {
+
     },
     "total" : {
       "localizations" : {

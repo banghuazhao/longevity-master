@@ -73,7 +73,7 @@
 		52CFB31F205A20A74CE25892 /* Date+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Date+Extension.swift"; path = "LongevityMaster/Utilies/Extension/Date+Extension.swift"; sourceTree = SOURCE_ROOT; };
 		67C223FAEE8C243F53AF5759 /* TodayHabitsProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TodayHabitsProvider.swift; path = LongevityWidget/TodayHabitsProvider.swift; sourceTree = SOURCE_ROOT; };
 		7F7DDAE6F234D511053781F3 /* HabitSchedule.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HabitSchedule.swift; path = LongevityMaster/Service/HabitSchedule.swift; sourceTree = SOURCE_ROOT; };
-		7FE51B26A0316031164714D1 /* Localizable.xcstrings */ = {isa = PBXFileReference; includeInIndex = 1; name = Localizable.xcstrings; path = LongevityMaster/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
+		7FE51B26A0316031164714D1 /* Localizable.xcstrings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = LongevityMaster/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
 		958AA33B7C8D73DA90D57F62 /* CheckIn.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CheckIn.swift; path = LongevityMaster/Model/CheckIn.swift; sourceTree = SOURCE_ROOT; };
 		993A34222DEB1031002CEA39 /* LongevityMaster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LongevityMaster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		993A34342DEB1032002CEA39 /* LongevityMasterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LongevityMasterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,8 +89,9 @@
 		99B6CAA32E166897001CC1CB /* Exceptions for "LongevityMaster" folder in "LongevityMaster" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Config/Debug.xcconfig,
+				Config/Release.xcconfig,
 				"LongevityMaster-Info.plist",
-				LongevityMaster.entitlements,
 			);
 			target = 993A34212DEB1031002CEA39 /* LongevityMaster */;
 		};
@@ -285,7 +286,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 2660;
 				TargetAttributes = {
 					993A34212DEB1031002CEA39 = {
 						CreatedOnToolsVersion = 16.2;
@@ -310,7 +311,7 @@
 				996BA8C12E0A71CA00A4B9FC /* XCRemoteSwiftPackageReference "swift-navigation" */,
 				99774EE82E1007C20099920F /* XCRemoteSwiftPackageReference "EasyToast" */,
 				41FFF2142E14E225004ACA97 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
-				993B4CDD2E1A8BDA0027D86C /* XCLocalSwiftPackageReference "MoreApps" */,
+				993B4CDD2E1A8BDA0027D86C /* XCLocalSwiftPackageReference "LongevityMaster/Modules/MoreApps" */,
 				99BE8BC02F8CF14100480D3B /* XCRemoteSwiftPackageReference "sqlite-data" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -408,7 +409,6 @@
 				CODE_SIGN_ENTITLEMENTS = LongevityWidget/LongevityWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = F694X76A5X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LongevityWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Longevity Master";
@@ -418,7 +418,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appsbayarea.longevityMaster.LongevityWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -437,6 +437,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -467,6 +468,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = F694X76A5X;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -490,6 +492,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -503,6 +506,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -533,6 +537,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = F694X76A5X;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -549,6 +554,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
@@ -566,7 +572,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.3.0.1;
 				DEVELOPMENT_ASSET_PATHS = "\"LongevityMaster/Preview Content\"";
-				DEVELOPMENT_TEAM = F694X76A5X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "LongevityMaster/LongevityMaster-Info.plist";
@@ -602,7 +607,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.3.0.1;
 				DEVELOPMENT_ASSET_PATHS = "\"LongevityMaster/Preview Content\"";
-				DEVELOPMENT_TEAM = F694X76A5X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "LongevityMaster/LongevityMaster-Info.plist";
@@ -633,7 +637,6 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = F694X76A5X;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MARKETING_VERSION = 1.0;
@@ -652,7 +655,6 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = F694X76A5X;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MARKETING_VERSION = 1.0;
@@ -672,7 +674,6 @@
 				CODE_SIGN_ENTITLEMENTS = LongevityWidget/LongevityWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = F694X76A5X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LongevityWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Longevity Master";
@@ -682,7 +683,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appsbayarea.longevityMaster.LongevityWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -735,7 +736,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		993B4CDD2E1A8BDA0027D86C /* XCLocalSwiftPackageReference "MoreApps" */ = {
+		993B4CDD2E1A8BDA0027D86C /* XCLocalSwiftPackageReference "LongevityMaster/Modules/MoreApps" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = LongevityMaster/Modules/MoreApps;
 		};
@@ -789,7 +790,7 @@
 		};
 		993B4CDE2E1A8BDA0027D86C /* MoreApps */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 993B4CDD2E1A8BDA0027D86C /* XCLocalSwiftPackageReference "MoreApps" */;
+			package = 993B4CDD2E1A8BDA0027D86C /* XCLocalSwiftPackageReference "LongevityMaster/Modules/MoreApps" */;
 			productName = MoreApps;
 		};
 		996BA8C22E0A71CA00A4B9FC /* SwiftUINavigation */ = {

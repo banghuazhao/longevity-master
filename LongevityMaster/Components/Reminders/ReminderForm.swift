@@ -54,7 +54,7 @@ struct ReminderFormView: View {
                             dismiss()
                         } label: {
                             Text("Cancel")
-                                .appRectButtonStyle()
+                                .appToolbarRectButtonStyle()
                         }
                     }
                     ToolbarItem(placement: .topBarTrailing) {
@@ -63,7 +63,7 @@ struct ReminderFormView: View {
                             dismiss()
                         } label: {
                             Text(viewModel.isEdit ? "Update" : "Save")
-                                .appRectButtonStyle()
+                                .appToolbarRectButtonStyle()
                         }
                     }
                 }

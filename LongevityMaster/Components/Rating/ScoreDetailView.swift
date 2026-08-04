@@ -31,7 +31,7 @@ struct ScoreDetailView: View {
                         dismiss()
                     } label: {
                        Text(String(localized: "Done"))
-                           .appRectButtonStyle()
+                           .appToolbarRectButtonStyle()
                    }
                 }
             }

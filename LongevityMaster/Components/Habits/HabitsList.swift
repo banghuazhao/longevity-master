@@ -287,10 +287,8 @@ struct HabitsListView: View {
                             }
                         }
                     } label: {
-                        ZStack {
-                            Image(systemName: viewModel.selectedFilterOption != .all || viewModel.selectedSortOption != .default ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
-                                .appCircularButtonStyle()
-                        }
+                        Image(systemName: viewModel.selectedFilterOption != .all || viewModel.selectedSortOption != .default ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+                            .appToolbarCircularButtonStyle()
                     }
                 }
                 
@@ -299,7 +297,7 @@ struct HabitsListView: View {
                         viewModel.onTapCreateHabit()
                     }) {
                         Image(systemName: "plus")
-                            .appCircularButtonStyle()
+                            .appToolbarCircularButtonStyle()
                     }
                 }
             }

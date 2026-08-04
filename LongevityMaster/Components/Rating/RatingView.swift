@@ -32,7 +32,7 @@ struct RatingView: View {
                         message: Text(String(localized: "Check out my longevity rating from Longevity Master!"))
                     ) {
                         Image(systemName: "square.and.arrow.up")
-                            .appCircularButtonStyle()
+                            .appToolbarCircularButtonStyle()
                     }
                 }
             }

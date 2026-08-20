@@ -121,10 +121,10 @@ class RatingService {
         return min(longestStreak * 2, ScoreCategory.longestStreak.maxScore)
     }
     
-    func getScoreBreakdown() -> [ScoreBreakdownItem] {
-        let breakdown = calculateLongevityScore()
-        
-        return [
+    /// Takes the breakdown rather than building its own: computing one walks every habit,
+    /// achievement and check-in, and callers already have the result in hand.
+    func getScoreBreakdown(from breakdown: LongevityScoreBreakdown) -> [ScoreBreakdownItem] {
+        [
             ScoreBreakdownItem(
                 category: .activeHabits,
                 score: breakdown.habitsScore

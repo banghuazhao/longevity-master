@@ -27,8 +27,9 @@ class RatingViewModel {
     func loadRatingData() async {
         isLoading = true
         
-        scoreBreakdown = ratingService.calculateLongevityScore()
-        scoreBreakdownItems = ratingService.getScoreBreakdown()
+        let breakdown = ratingService.calculateLongevityScore()
+        scoreBreakdown = breakdown
+        scoreBreakdownItems = ratingService.getScoreBreakdown(from: breakdown)
         
         isLoading = false
     }

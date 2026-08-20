@@ -52,12 +52,9 @@ class UserStatsViewModel {
     var mostFrequentHabit: Habit? { findMostFrequentHabit() }
     var categoryStats: [HabitCategory: Int] { calculateCategoryStats() }
     
-    // Longevity Rating
+    /// Reading this recomputes the score from every habit, achievement and check-in — so take
+    /// one breakdown and read the parts you need off it, rather than asking once per value.
     var longevityScore: LongevityScoreBreakdown { ratingService.calculateLongevityScore() }
-    var longevityRating: LongevityRating { longevityScore.rating }
-    var totalScore: Int { longevityScore.totalScore }
-    var scoreToNextRating: Int { longevityScore.scoreToNextRating }
-    var nextRating: LongevityRating? { longevityScore.nextRating }
     
     private func calculateTotalDaysActive() -> Int {
         let uniqueDates = Set(allCheckIns.map { Calendar.current.startOfDay(for: $0.date) })
@@ -147,6 +144,7 @@ class UserStatsViewModel {
     }
     
     func generateShareText() -> String {
+        let score = longevityScore
         let bestHabitName = bestHabit?.name ?? "No habits yet"
         let earliestDate = earliestCheckIn?.date ?? Date()
         let dateFormatter = DateFormatter()
@@ -155,8 +153,8 @@ class UserStatsViewModel {
         return """
         📊 My Longevity Master Stats
         
-        🏆 Longevity Rating: \(longevityRating.displayName) (\(longevityRating.description))
-        📈 Total Score: \(totalScore) points
+        🏆 Longevity Rating: \(score.rating.displayName) (\(score.rating.description))
+        📈 Total Score: \(score.totalScore) points
         🎯 Total Habits: \(totalHabits)
         ✅ Total Check-ins: \(totalCheckIns)
         🏆 Achievements Unlocked: \(totalAchievements)
@@ -228,7 +226,9 @@ struct UserStatsView: View {
     }
     
     private var longevityRatingSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.medium) {
+        let score = viewModel.longevityScore
+
+        return VStack(alignment: .leading, spacing: AppSpacing.medium) {
             Text(String(localized: "Longevity Rating"))
                 .appSectionHeader(theme: viewModel.themeManager.current)
             
@@ -236,18 +236,18 @@ struct UserStatsView: View {
                 // Rating Display
                 HStack(spacing: AppSpacing.large) {
                     VStack(spacing: AppSpacing.small) {
-                        Text(viewModel.longevityRating.displayName)
+                        Text(score.rating.displayName)
                             .font(.system(size: 48, weight: .bold, design: .rounded))
-                            .foregroundColor(viewModel.longevityRating.color)
+                            .foregroundColor(score.rating.color)
                         
-                        Text(viewModel.longevityRating.description)
+                        Text(score.rating.description)
                             .font(AppFont.subheadline)
                             .foregroundColor(viewModel.themeManager.current.textSecondary)
                     }
                     .frame(maxWidth: .infinity)
                     
                     VStack(spacing: AppSpacing.small) {
-                        Text("\(viewModel.totalScore)")
+                        Text("\(score.totalScore)")
                             .font(.system(size: 32, weight: .bold, design: .rounded))
                             .foregroundColor(viewModel.themeManager.current.primaryColor)
                         

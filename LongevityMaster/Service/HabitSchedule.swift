@@ -25,8 +25,12 @@ enum HabitSchedule {
         let startOfDay = date.startOfDay(for: calendar)
         let endOfDay = date.endOfDay(for: calendar)
 
+        // Grouped once instead of re-filtered per habit: otherwise every habit walks the whole
+        // check-in table, every time the day's list is rebuilt.
+        let checkInsByHabit = Dictionary(grouping: checkIns, by: \.habitID)
+
         return habits.compactMap { habit -> ScheduledHabit? in
-            let checkInsForHabit = checkIns.filter { $0.habitID == habit.id }
+            let checkInsForHabit = checkInsByHabit[habit.id] ?? []
             let isCompletedToday = checkInsForHabit.contains { checkIn in
                 checkIn.date >= startOfDay && checkIn.date <= endOfDay
             }

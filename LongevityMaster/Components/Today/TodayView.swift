@@ -14,6 +14,11 @@ struct TodayView: View {
     @Dependency(\.themeManager) var themeManager
     
     var body: some View {
+        let todayHabits = viewModel.todayHabits
+        let completedCount = todayHabits.filter(\.isCompleted).count
+        let completionText = "\(completedCount) / \(todayHabits.count)"
+        let habitsByCategory = Dictionary(grouping: todayHabits, by: \.habit.category)
+
         NavigationStack {
             ScrollView {
                 VStack(spacing: .zero) {
@@ -46,11 +51,11 @@ struct TodayView: View {
                         .datePickerStyle(.compact)
                         .tint(ThemeManager.shared.current.primaryColor)
                         
-                        if viewModel.hasCompletedToday {
+                        if todayHabits.allSatisfy(\.isCompleted) {
                             Text(String(localized: "✅"))
                                 .font(AppFont.subheadline)
                         } else {
-                            Text(viewModel.todayCompletionText)
+                            Text(completionText)
                                 .font(AppFont.subheadline)
                         }
                         
@@ -58,7 +63,7 @@ struct TodayView: View {
                         
                     }
 
-                    if viewModel.todayHabits.isEmpty {
+                    if todayHabits.isEmpty {
                         EmptyStateView(
                             icon: "📅",
                             title: "No Habits for Today",
@@ -70,7 +75,7 @@ struct TodayView: View {
                     } else {
                         VStack {
                             ForEach(HabitCategory.allCases, id: \.rawValue) { category in
-                                let subHabits = viewModel.todayHabits.filter { $0.habit.category == category }
+                                let subHabits = habitsByCategory[category] ?? []
                                 if !subHabits.isEmpty {
                                     HStack {
                                         Spacer()

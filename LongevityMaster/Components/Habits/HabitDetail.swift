@@ -224,7 +224,6 @@ class HabitDetailViewModel {
                 }
             }
         }
-        print("Toggle check-in called")
         Haptics.shared.vibrateIfEnabled()
     }
 

@@ -23,7 +23,7 @@ actor SoundPlayer {
                 players[name] = player
                 player.play()
             } catch {
-                print("Failed to play sound: \(error)")
+                debugLog("Failed to play sound: \(error)")
             }
         }
     }

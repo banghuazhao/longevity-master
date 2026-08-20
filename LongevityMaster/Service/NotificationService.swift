@@ -19,21 +19,25 @@ class NotificationService {
         do {
             return try await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound])
         } catch {
-            print("Failed to request notification permission: \(error)")
+            debugLog("Failed to request notification permission: \(error)")
             return false
         }
     }
     
+    /// Dumps the pending reminder schedule while developing. Release skips the fetch as well
+    /// as the output: it runs at launch, and nobody is reading the result.
     func printAllNotifications() async {
-        let notifications = await UNUserNotificationCenter.current().pendingNotificationRequests()
-        for notification in notifications {
-            print("Notification ID: \(notification.identifier)")
-            if let content = notification.content as? UNMutableNotificationContent {
-                print("Title: \(content.title)")
-                print("Body: \(content.body)")
-                print("Trigger: \(String(describing: notification.trigger))")
+        #if DEBUG
+            let notifications = await UNUserNotificationCenter.current().pendingNotificationRequests()
+            for notification in notifications {
+                debugLog("Notification ID: \(notification.identifier)")
+                if let content = notification.content as? UNMutableNotificationContent {
+                    debugLog("Title: \(content.title)")
+                    debugLog("Body: \(content.body)")
+                    debugLog("Trigger: \(String(describing: notification.trigger))")
+                }
             }
-        }
+        #endif
     }
         
 
@@ -59,10 +63,10 @@ class NotificationService {
             do {
                 try await UNUserNotificationCenter.current().add(request)
             } catch {
-                print("Failed to schedule notification \(entry.id): \(error)")
+                debugLog("Failed to schedule notification \(entry.id): \(error)")
             }
         }
-        print("Scheduled \(schedule.count) notification(s) for reminder: \(reminder.id)")
+        debugLog("Scheduled \(schedule.count) notification(s) for reminder: \(reminder.id)")
     }
 
     /// A reminder attached to a habit should only fire on the days that habit is actually
@@ -121,7 +125,7 @@ class NotificationService {
     func removeReminder(_ reminder: Reminder) {
         UNUserNotificationCenter.current()
             .removePendingNotificationRequests(withIdentifiers: notificationIdentifiers(for: reminder))
-        print("Removed notifications for reminder: \(reminder.id)")
+        debugLog("Removed notifications for reminder: \(reminder.id)")
     }
     
     func removeRemindersForHabit(_ habitID: Int) {
@@ -137,13 +141,13 @@ class NotificationService {
                 removeReminder(reminder)
             }
             
-            print("Removed notifications for \(reminders.count) reminders associated with habit ID: \(habitID)")
+            debugLog("Removed notifications for \(reminders.count) reminders associated with habit ID: \(habitID)")
         }
     }
 
     func removeAllReminders() {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        print("Removed all pending notifications")
+        debugLog("Removed all pending notifications")
     }
 
     func getPendingNotifications() async -> [UNNotificationRequest] {

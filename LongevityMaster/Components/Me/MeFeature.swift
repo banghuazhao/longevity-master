@@ -281,7 +281,7 @@ struct SupportEmail {
         guard let url = URL(string: urlString) else { return }
         openURL(url) { accepted in
             if !accepted { // e.g. Simulator
-                print("Device doesn't support email.\n \(body)")
+                debugLog("Device doesn't support email.\n \(body)")
             }
         }
     }

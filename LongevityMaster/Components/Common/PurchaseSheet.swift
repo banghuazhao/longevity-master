@@ -87,7 +87,7 @@ struct PurchaseSheet: View {
                                     case .success:
                                         showSuccessModal = true
                                     case .failure(let error):
-                                        print("Purchase failed: \(error.localizedDescription)")
+                                        debugLog("Purchase failed: \(error.localizedDescription)")
                                     }
                                     isPurchasing = false
                                 }

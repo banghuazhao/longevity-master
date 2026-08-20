@@ -51,7 +51,6 @@ struct LongevityMasterApp: App {
                     await purchaseManager.checkPurchaseStatus()
                 }
                 .onChange(of: scenePhase) { _, newPhase in
-                    print("scenePhase: \(newPhase)")
                     if newPhase == .active {
                         Task { await purchaseManager.checkPurchaseStatus() }
                         if !purchaseManager.isPremiumUserPurchased {

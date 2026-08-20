@@ -28,7 +28,7 @@ class AppRatingService {
     /// Increments the habit modification count and checks if we should show a rating prompt
     func incrementHabitModificationCount() {
         $habitModificationCount.withLock { $0 += 1 }
-        print("Habit modification count: \(habitModificationCount)")
+        debugLog("Habit modification count: \(habitModificationCount)")
         
         // Check if we should show rating prompt
         checkAndShowRatingPrompt()
@@ -56,7 +56,7 @@ class AppRatingService {
     
     /// Shows the system rating prompt
     private func showRatingPrompt() {
-        print("showRatingPrompt")
+        debugLog("showRatingPrompt")
         // Update last prompt date
         $lastRatingPromptDate.withLock { $0 = Date() }
         

@@ -29,9 +29,9 @@ final class OpenAd: NSObject, ObservableObject, FullScreenContentDelegate {
             request: request,
             completionHandler: { appOpenAdIn, error in
                 if let error = error {
-                    print("[OPEN AD] Failed to load: \(error)")
+                    debugLog("[OPEN AD] Failed to load: \(error)")
                 } else {
-                    print("[OPEN AD] Ad is ready")
+                    debugLog("[OPEN AD] Ad is ready")
                 }
                 self.appOpenAd = appOpenAdIn
                 self.appOpenAd?.fullScreenContentDelegate = self
@@ -50,13 +50,13 @@ final class OpenAd: NSObject, ObservableObject, FullScreenContentDelegate {
                 return
             }
             if appHasEnterBackgroundBefore {
-                print("[DEBUG] Presenting App Open Ad")
+                debugLog("[DEBUG] Presenting App Open Ad")
                 gOpenAd.present(from: (window?.rootViewController)!)
             } else {
-                print("[DEBUG] appHasEnterBackgroundBefore is false, not presenting ad")
+                debugLog("[DEBUG] appHasEnterBackgroundBefore is false, not presenting ad")
             }
         } else {
-            print("[DEBUG] No ad loaded or ad expired, requesting new ad")
+            debugLog("[DEBUG] No ad loaded or ad expired, requesting new ad")
             requestAppOpenAd()
         }
     }
@@ -70,12 +70,12 @@ final class OpenAd: NSObject, ObservableObject, FullScreenContentDelegate {
     }
 
     func ad(_ ad: FullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
-        print("[OPEN AD] Failed to present: \(error)")
+        debugLog("[OPEN AD] Failed to present: \(error)")
         requestAppOpenAd()
     }
 
     func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) {
-        print("[OPEN AD] Ad dismissed")
+        debugLog("[OPEN AD] Ad dismissed")
         requestAppOpenAd()
     }
 }
@@ -134,11 +134,11 @@ struct BannerView: UIViewControllerRepresentable {
         // MARK: - BannerViewDelegate methods
 
         private func bannerViewDidReceiveAd(_ bannerView: BannerView) {
-            print("DID RECEIVE Banner AD")
+            debugLog("DID RECEIVE Banner AD")
         }
 
         private func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: Error) {
-            print("DID NOT RECEIVE Banner AD: \(error.localizedDescription)")
+            debugLog("DID NOT RECEIVE Banner AD: \(error.localizedDescription)")
         }
     }
 }

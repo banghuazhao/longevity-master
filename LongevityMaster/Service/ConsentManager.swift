@@ -136,7 +136,7 @@ final class ConsentManager {
         await withCheckedContinuation { continuation in
             ConsentInformation.shared.requestConsentInfoUpdate(with: parameters) { error in
                 if let error {
-                    print("[CONSENT] Info update failed: \(error.localizedDescription)")
+                    debugLog("[CONSENT] Info update failed: \(error.localizedDescription)")
                 }
                 continuation.resume()
             }
@@ -149,7 +149,7 @@ final class ConsentManager {
         await withCheckedContinuation { continuation in
             ConsentForm.loadAndPresentIfRequired(from: root) { error in
                 if let error {
-                    print("[CONSENT] Form presentation failed: \(error.localizedDescription)")
+                    debugLog("[CONSENT] Form presentation failed: \(error.localizedDescription)")
                 }
                 continuation.resume()
             }
@@ -210,7 +210,7 @@ final class ConsentManager {
         await withCheckedContinuation { continuation in
             ConsentForm.presentPrivacyOptionsForm(from: root) { error in
                 if let error {
-                    print("[CONSENT] Privacy options form failed: \(error.localizedDescription)")
+                    debugLog("[CONSENT] Privacy options form failed: \(error.localizedDescription)")
                 }
                 continuation.resume()
             }

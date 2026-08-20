@@ -182,6 +182,24 @@ func appDatabase() throws -> any DatabaseWriter {
         .execute(db)
     }
 
+    // Every habit-scoped lookup — the Today list, a habit's calendar, the achievement checks,
+    // and the cascade when a habit is deleted — scanned the whole table without these.
+    migrator.registerMigration("Index check-ins by habit and date") { db in
+        try #sql(
+            """
+            CREATE INDEX IF NOT EXISTS "checkIns_habitID" ON "checkIns"("habitID")
+            """
+        )
+        .execute(db)
+
+        try #sql(
+            """
+            CREATE INDEX IF NOT EXISTS "checkIns_date" ON "checkIns"("date")
+            """
+        )
+        .execute(db)
+    }
+
     try migrator.migrate(database)
 
     return database

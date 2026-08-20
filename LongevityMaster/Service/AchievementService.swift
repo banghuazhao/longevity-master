@@ -176,51 +176,19 @@ class AchievementService {
     }
     
     private func checkPerfectWeekAchievement(_ achievement: Achievement, criteria: AchievementCriteria, for checkIn: CheckIn) async -> Bool {
-        let weekStart = checkIn.date.startOfWeek(for: userCalendar)
-        let weekEnd = checkIn.date.endOfWeek(for: userCalendar)
-        
-        let habits = allHabits
-            .filter { !$0.isArchived }
-            
-        for habit in habits {
-            let checkInsForHabit = allCheckIns
-                .filter { $0.habitID == habit.id }
-                .filter { $0.date >= weekStart && $0.date <= weekEnd }
-            
-            // Check if habit was scheduled for this week and completed
-            let scheduledDays = getScheduledDays(for: habit, in: weekStart...weekEnd)
-            let completedDays = Set(checkInsForHabit.map { userCalendar.component(.weekday, from: $0.date) })
-            
-            if !scheduledDays.isSubset(of: completedDays) {
-                return false
-            }
-        }
-        
-        return true
+        let date = checkIn.date
+        return everyHabitMetItsTarget(
+            in: date.startOfWeek(for: userCalendar) ... date.endOfWeek(for: userCalendar),
+            period: .week
+        )
     }
-    
+
     private func checkPerfectMonthAchievement(_ achievement: Achievement, criteria: AchievementCriteria, for checkIn: CheckIn) async -> Bool {
-        let monthStart = checkIn.date.startOfMonth(for: userCalendar)
-        let monthEnd = checkIn.date.endOfMonth(for: userCalendar)
-        
-        let habits = allHabits
-            .filter { !$0.isArchived }
-        
-        for habit in habits {
-            let checkInsForHabit = allCheckIns
-                .filter { $0.habitID == habit.id }
-                .filter { $0.date >= monthStart && $0.date <= monthEnd }
-            
-            // Check if habit was scheduled for this month and completed
-            let scheduledDays = getScheduledDays(for: habit, in: monthStart...monthEnd)
-            let completedDays = Set(checkInsForHabit.map { userCalendar.component(.day, from: $0.date) })
-            
-            if !scheduledDays.isSubset(of: completedDays) {
-                return false
-            }
-        }
-        
-        return true
+        let date = checkIn.date
+        return everyHabitMetItsTarget(
+            in: date.startOfMonth(for: userCalendar) ... date.endOfMonth(for: userCalendar),
+            period: .month
+        )
     }
     
     private func checkCategoryMasterAchievement(_ achievement: Achievement, criteria: AchievementCriteria, for checkIn: CheckIn) async -> Bool {
@@ -290,20 +258,106 @@ class AchievementService {
         return allCheckIns.count >= criteria.targetValue
     }
     
-    private func getScheduledDays(for habit: Habit, in dateRange: ClosedRange<Date>) -> Set<Int> {
-        var scheduledDays: Set<Int> = []
-        
+    /// Which period a "perfect" run is being judged over.
+    private enum PerfectPeriod {
+        case week
+        case month
+    }
+
+    /// True when every active habit did what it owed over `range`.
+    ///
+    /// Fixed-schedule habits must have a check-in on each day they came due; days still ahead
+    /// are not held against the user. Quota habits ("5 times a week") must have met the count.
+    /// A habit whose quota period outlasts `range` — a monthly quota judged over one week —
+    /// cannot be settled here and is passed over; a weekly quota judged over a month has to
+    /// have been met in every whole week the month contains.
+    ///
+    /// Returns false when nothing could be judged at all, so a user with no habits does not
+    /// get handed a perfect week.
+    private func everyHabitMetItsTarget(in range: ClosedRange<Date>, period: PerfectPeriod) -> Bool {
+        let habits = allHabits.filter { !$0.isArchived }
+        guard !habits.isEmpty else { return false }
+
+        let checkInsByHabit = Dictionary(grouping: allCheckIns, by: \.habitID)
+        let now = Date()
+        var judgedAnything = false
+
+        for habit in habits {
+            let checkIns = (checkInsByHabit[habit.id] ?? []).filter { range.contains($0.date) }
+
+            switch habit.frequency {
+            case .fixedDaysInWeek, .fixedDaysInMonth:
+                let due = scheduledDays(for: habit, in: range).filter { $0 <= now }
+                guard !due.isEmpty else { continue }
+                judgedAnything = true
+                let checkedDays = Set(checkIns.map { $0.date.startOfDay(for: userCalendar) })
+                guard Set(due).isSubset(of: checkedDays) else { return false }
+
+            case .nDaysEachWeek:
+                judgedAnything = true
+                switch period {
+                case .week:
+                    guard checkIns.count >= habit.nDaysPerWeek else { return false }
+                case .month:
+                    for week in wholeWeeks(in: range) where week.upperBound <= now {
+                        let met = checkIns.filter { week.contains($0.date) }.count
+                        guard met >= habit.nDaysPerWeek else { return false }
+                    }
+                }
+
+            case .nDaysEachMonth:
+                guard period == .month else { continue }
+                judgedAnything = true
+                guard checkIns.count >= habit.nDaysPerMonth else { return false }
+            }
+        }
+
+        return judgedAnything
+    }
+
+    /// The days inside `range` on which a fixed-schedule habit came due. Empty for quota
+    /// habits, which owe a count over the period rather than any particular day.
+    private func scheduledDays(for habit: Habit, in range: ClosedRange<Date>) -> [Date] {
+        let days: Set<Int>
+        let unit: Calendar.Component
         switch habit.frequency {
         case .fixedDaysInWeek:
-            scheduledDays = habit.daysOfWeek
+            days = habit.daysOfWeek
+            unit = .weekday
         case .fixedDaysInMonth:
-            scheduledDays = habit.daysOfMonth
+            days = habit.daysOfMonth
+            unit = .day
         case .nDaysEachWeek, .nDaysEachMonth:
-            // For these types, we consider all days as potentially scheduled
-            scheduledDays = Set(1...31)
+            return []
         }
-        
-        return scheduledDays
+        guard !days.isEmpty else { return [] }
+
+        var result: [Date] = []
+        var day = range.lowerBound.startOfDay(for: userCalendar)
+        while day <= range.upperBound {
+            if days.contains(userCalendar.component(unit, from: day)) {
+                result.append(day)
+            }
+            guard let next = userCalendar.date(byAdding: .day, value: 1, to: day) else { break }
+            day = next
+        }
+        return result
+    }
+
+    /// The weeks lying wholly inside `range`, so judging a weekly quota over a month does not
+    /// fail on the part-weeks hanging off either end.
+    private func wholeWeeks(in range: ClosedRange<Date>) -> [ClosedRange<Date>] {
+        var weeks: [ClosedRange<Date>] = []
+        var start = range.lowerBound.startOfWeek(for: userCalendar)
+        while start <= range.upperBound {
+            let end = start.endOfWeek(for: userCalendar)
+            if start >= range.lowerBound, end <= range.upperBound {
+                weeks.append(start ... end)
+            }
+            guard let next = userCalendar.date(byAdding: .weekOfYear, value: 1, to: start) else { break }
+            start = next
+        }
+        return weeks
     }
 } 
 

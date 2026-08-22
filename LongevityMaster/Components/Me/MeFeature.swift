@@ -12,14 +12,21 @@ struct MeView: View {
     @Environment(\.openURL) private var openURL
     @Dependency(\.purchaseManager) var purchaseManager
     @Dependency(\.themeManager) var themeManager
+    // This screen shows six numbers and nothing else, so it reads six numbers. Fetching the
+    // four tables whole meant holding every habit, check-in, reminder and achievement in
+    // memory — and re-reading all of them on any write anywhere in the app.
     @ObservationIgnored
-    @FetchAll(Habit.all, animation: .default) var allHabits
+    @FetchOne(Habit.where { !$0.isArchived }.count(), animation: .default) var activeHabitCount = 0
     @ObservationIgnored
-    @FetchAll(CheckIn.all, animation: .default) var allCheckIns
+    @FetchOne(Habit.all.count(), animation: .default) var habitCount = 0
     @ObservationIgnored
-    @FetchAll(Reminder.all, animation: .default) var allReminders
+    @FetchOne(CheckIn.all.count(), animation: .default) var checkInCount = 0
     @ObservationIgnored
-    @FetchAll(Achievement.all, animation: .default) var allAchievements
+    @FetchOne(Reminder.all.count(), animation: .default) var reminderCount = 0
+    @ObservationIgnored
+    @FetchOne(Achievement.where { $0.isUnlocked }.count(), animation: .default) var unlockedAchievementCount = 0
+    @ObservationIgnored
+    @FetchOne(Achievement.all.count(), animation: .default) var achievementCount = 0
     @AppStorage("userName") private var userName: String = String(localized: "Your Name")
     @AppStorage("userAvatar") private var userAvatar: String = "😀"
     @State private var showPurchaseSheet = false
@@ -59,13 +66,13 @@ struct MeView: View {
                             }
                             // Stats Section
                             HStack(spacing: AppSpacing.small) {
-                                statView(title: String(localized: "Habits"), value: "\(allHabits.filter { !$0.isArchived }.count)/\(allHabits.count)")
+                                statView(title: String(localized: "Habits"), value: "\(activeHabitCount)/\(habitCount)")
                                 Divider()
-                                statView(title: String(localized: "Check-ins"), value: "\(allCheckIns.count)")
+                                statView(title: String(localized: "Check-ins"), value: "\(checkInCount)")
                                 Divider()
-                                statView(title: String(localized: "Reminders"), value: "\(allReminders.count)")
+                                statView(title: String(localized: "Reminders"), value: "\(reminderCount)")
                                 Divider()
-                                statView(title: String(localized: "Achievements"), value: "\(allAchievements.filter { $0.isUnlocked }.count)/\(allAchievements.count)")
+                                statView(title: String(localized: "Achievements"), value: "\(unlockedAchievementCount)/\(achievementCount)")
                             }
                             .padding(.top, AppSpacing.small)
                             if !purchaseManager.isPremiumUserPurchased {

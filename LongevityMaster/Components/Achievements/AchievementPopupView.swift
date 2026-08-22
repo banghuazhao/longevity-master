@@ -171,9 +171,7 @@ struct AchievementPopupView: View {
         shareText += "📝 \(achievement.description)\n\n"
         
         if let unlockDate = achievement.unlockedDate {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .medium
-            shareText += "📅 Unlocked on \(formatter.string(from: unlockDate))\n\n"
+            shareText += "📅 Unlocked on \(DateFormatter.mediumDate.string(from: unlockDate))\n\n"
         }
         
         shareText += "💪 Keep building healthy habits with \(appName)!\n"

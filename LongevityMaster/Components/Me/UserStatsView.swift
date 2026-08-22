@@ -41,13 +41,7 @@ class UserStatsViewModel {
     var bestHabit: Habit? { findBestHabit() }
     var earliestCheckIn: CheckIn? { findEarliestCheckIn() }
     var earliestCheckInString: String? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        if let date = earliestCheckIn?.date {
-            return dateFormatter.string(from: date)
-        } else {
-            return nil
-        }
+        earliestCheckIn.map { DateFormatter.mediumDate.string(from: $0.date) }
     }
     var mostFrequentHabit: Habit? { findMostFrequentHabit() }
     var categoryStats: [HabitCategory: Int] { calculateCategoryStats() }
@@ -56,55 +50,48 @@ class UserStatsViewModel {
     /// one breakdown and read the parts you need off it, rather than asking once per value.
     var longevityScore: LongevityScoreBreakdown { ratingService.calculateLongevityScore() }
     
-    private func calculateTotalDaysActive() -> Int {
-        let uniqueDates = Set(allCheckIns.map { Calendar.current.startOfDay(for: $0.date) })
-        return uniqueDates.count
+    /// The start of every day carrying a check-in. Days active and both streak figures are all
+    /// questions about this one set, and asking it directly beats sorting the whole table and
+    /// then comparing calendar days one check-in at a time.
+    private func activeDays(_ calendar: Calendar) -> Set<Date> {
+        Set(allCheckIns.map { calendar.startOfDay(for: $0.date) })
     }
-    
+
+    private func calculateTotalDaysActive() -> Int {
+        activeDays(Calendar.current).count
+    }
+
     private func calculateLongestStreak() -> Int {
-        let sortedDates = allCheckIns.map { $0.date }.sorted()
+        let calendar = Calendar.current
         var longestStreak = 0
         var currentStreak = 0
-        var lastDate: Date?
-        
-        for date in sortedDates {
-            let startOfDay = Calendar.current.startOfDay(for: date)
-            
-            if let last = lastDate {
-                let daysBetween = Calendar.current.dateComponents([.day], from: Calendar.current.startOfDay(for: last), to: startOfDay).day ?? 0
-                
-                if daysBetween == 1 {
-                    currentStreak += 1
-                } else if daysBetween > 1 {
-                    longestStreak = max(longestStreak, currentStreak)
-                    currentStreak = 1
-                }
+        var lastDay: Date?
+
+        for day in activeDays(calendar).sorted() {
+            if let lastDay, calendar.dateComponents([.day], from: lastDay, to: day).day == 1 {
+                currentStreak += 1
             } else {
+                longestStreak = max(longestStreak, currentStreak)
                 currentStreak = 1
             }
-            
-            lastDate = startOfDay
+            lastDay = day
         }
-        
+
         return max(longestStreak, currentStreak)
     }
-    
+
     private func calculateCurrentStreak() -> Int {
-        let today = Calendar.current.startOfDay(for: Date())
-        let sortedDates = allCheckIns.map { $0.date }.sorted()
+        let calendar = Calendar.current
+        let days = activeDays(calendar)
         var currentStreak = 0
-        var checkDate = today
-        
-        while true {
-            let hasCheckIn = sortedDates.contains { Calendar.current.isDate($0, inSameDayAs: checkDate) }
-            if hasCheckIn {
-                currentStreak += 1
-                checkDate = Calendar.current.date(byAdding: .day, value: -1, to: checkDate) ?? checkDate
-            } else {
-                break
-            }
+        var checkDate = calendar.startOfDay(for: Date())
+
+        while days.contains(checkDate) {
+            currentStreak += 1
+            guard let previous = calendar.date(byAdding: .day, value: -1, to: checkDate) else { break }
+            checkDate = previous
         }
-        
+
         return currentStreak
     }
     
@@ -133,13 +120,18 @@ class UserStatsViewModel {
     }
     
     private func calculateCategoryStats() -> [HabitCategory: Int] {
-        var stats: [HabitCategory: Int] = [:]
-        
-        for habit in allHabits where !habit.isArchived {
-            let checkInCount = allCheckIns.filter { $0.habitID == habit.id }.count
-            stats[habit.category, default: 0] += checkInCount
+        // Tallied in one pass. Filtering the whole check-in table once per habit meant every
+        // habit walked every check-in.
+        var countsByHabit: [Habit.ID: Int] = [:]
+        for checkIn in allCheckIns {
+            countsByHabit[checkIn.habitID, default: 0] += 1
         }
-        
+
+        var stats: [HabitCategory: Int] = [:]
+        for habit in allHabits where !habit.isArchived {
+            stats[habit.category, default: 0] += countsByHabit[habit.id] ?? 0
+        }
+
         return stats
     }
     
@@ -147,8 +139,6 @@ class UserStatsViewModel {
         let score = longevityScore
         let bestHabitName = bestHabit?.name ?? "No habits yet"
         let earliestDate = earliestCheckIn?.date ?? Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
         
         return """
         📊 My Longevity Master Stats
@@ -162,7 +152,7 @@ class UserStatsViewModel {
         🔥 Longest Streak: \(longestStreak) days
         ⚡ Current Streak: \(currentStreak) days
         🌟 Best Habit: \(bestHabitName)
-        🕐 Started: \(dateFormatter.string(from: earliestDate))
+        🕐 Started: \(DateFormatter.mediumDate.string(from: earliestDate))
         
         #LongevityMaster #HealthyHabits #Wellness
         """

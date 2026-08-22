@@ -331,96 +331,63 @@ class ScoreDetailViewModel: HashableObject {
         ]
     }
     
+    /// The start of every day carrying a check-in. All three streak figures below are
+    /// questions about this one set, and `userCalendar` derives a fresh Calendar — and re-reads
+    /// UserDefaults — on every access, so it is taken once as well.
+    private func activeDays(_ calendar: Calendar) -> [Date] {
+        Set(allCheckIns.map { $0.date.startOfDay(for: calendar) }).sorted()
+    }
+
     private func calculateLongestStreak() -> Int {
-        guard !allCheckIns.isEmpty else { return 0 }
-        
-        let uniqueDates = Set(allCheckIns.map { $0.date.startOfDay(for: userCalendar) }).sorted()
-        
+        let calendar = userCalendar
         var longestStreak = 0
         var currentStreak = 0
         var previousDate: Date?
-        
-        for date in uniqueDates {
-            if let previous = previousDate {
-                let daysDifference = userCalendar.dateComponents([.day], from: previous, to: date).day ?? 0
-                
-                if daysDifference == 1 {
-                    currentStreak += 1
-                } else {
-                    longestStreak = max(longestStreak, currentStreak)
-                    currentStreak = 1
-                }
+
+        for date in activeDays(calendar) {
+            if let previousDate, calendar.dateComponents([.day], from: previousDate, to: date).day == 1 {
+                currentStreak += 1
             } else {
+                longestStreak = max(longestStreak, currentStreak)
                 currentStreak = 1
             }
-            
             previousDate = date
         }
-        
-        longestStreak = max(longestStreak, currentStreak)
-        return longestStreak
+
+        return max(longestStreak, currentStreak)
     }
-    
+
     private func calculateCurrentStreak() -> Int {
-        guard !allCheckIns.isEmpty else { return 0 }
-        
-        let mostRecentCheckIn = allCheckIns.max { $0.date < $1.date }
-        guard let mostRecentDate = mostRecentCheckIn?.date else { return 0 }
-        
-        var currentStreak = 0
-        var currentDate = mostRecentDate
-        
-        while true {
-            let startOfDay = currentDate.startOfDay(for: userCalendar)
-            let endOfDay = currentDate.endOfDay(for: userCalendar)
-            
-            let hasAnyCheckIn = allCheckIns.contains { checkIn in
-                checkIn.date >= startOfDay && checkIn.date <= endOfDay
-            }
-            
-            if hasAnyCheckIn {
-                currentStreak += 1
-                currentDate = userCalendar.date(byAdding: .day, value: -1, to: currentDate) ?? currentDate
-            } else {
-                break
-            }
-        }
-        
-        return currentStreak
+        let calendar = userCalendar
+        let days = Set(activeDays(calendar))
+        guard let mostRecent = days.max() else { return 0 }
+        // Counting back from the most recent check-in, so a gap of a few days does not zero a
+        // streak the user has not yet broken.
+        return calendar.consecutiveDays(endingAt: mostRecent, within: days, upTo: days.count)
     }
     
     private func calculateAverageStreak() -> Double {
-        guard !allCheckIns.isEmpty else { return 0 }
-        
-        let uniqueDates = Set(allCheckIns.map { $0.date.startOfDay(for: userCalendar) }).sorted()
-        
+        let calendar = userCalendar
         var streaks: [Int] = []
         var currentStreak = 0
         var previousDate: Date?
-        
-        for date in uniqueDates {
-            if let previous = previousDate {
-                let daysDifference = userCalendar.dateComponents([.day], from: previous, to: date).day ?? 0
-                
-                if daysDifference == 1 {
-                    currentStreak += 1
-                } else {
-                    if currentStreak > 0 {
-                        streaks.append(currentStreak)
-                    }
-                    currentStreak = 1
-                }
+
+        for date in activeDays(calendar) {
+            if let previousDate, calendar.dateComponents([.day], from: previousDate, to: date).day == 1 {
+                currentStreak += 1
             } else {
+                if currentStreak > 0 {
+                    streaks.append(currentStreak)
+                }
                 currentStreak = 1
             }
-            
             previousDate = date
         }
-        
+
         if currentStreak > 0 {
             streaks.append(currentStreak)
         }
-        
+
         return streaks.isEmpty ? 0 : Double(streaks.reduce(0, +)) / Double(streaks.count)
     }
 }

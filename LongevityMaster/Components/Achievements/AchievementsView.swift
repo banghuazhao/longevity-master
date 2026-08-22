@@ -49,122 +49,103 @@ class AchievementsViewModel {
         return cal
     }
     
-    func getProgress(for achievement: Achievement) -> Double {
+    /// Everything the progress bars need, derived in one pass over the check-ins.
+    ///
+    /// Each row used to answer its own question from scratch: sorting the whole check-in table
+    /// for a streak, rescanning it once per day walked, and — for the category and variety bars
+    /// — pairing every check-in against every habit. With two dozen achievements on screen that
+    /// is the same work over and over.
+    private struct ProgressIndex {
+        var daysByHabit: [Habit.ID: Set<Date>] = [:]
+        var countsByHabit: [Habit.ID: Int] = [:]
+        var latestDateByHabit: [Habit.ID: Date] = [:]
+        var countsByCategory: [HabitCategory: Int] = [:]
+        var categoriesTouched: Set<HabitCategory> = []
+        var activeDays: Set<Date> = []
+        var latestDate: Date?
+        var totalCheckIns = 0
+
+        init(checkIns: [CheckIn], habits: [Habit], calendar: Calendar) {
+            let categoryByHabit = Dictionary(
+                habits.map { ($0.id, $0.category) },
+                uniquingKeysWith: { first, _ in first }
+            )
+
+            for checkIn in checkIns {
+                let day = checkIn.date.startOfDay(for: calendar)
+                activeDays.insert(day)
+                daysByHabit[checkIn.habitID, default: []].insert(day)
+                countsByHabit[checkIn.habitID, default: 0] += 1
+
+                if checkIn.date > latestDateByHabit[checkIn.habitID] ?? .distantPast {
+                    latestDateByHabit[checkIn.habitID] = checkIn.date
+                }
+                if checkIn.date > latestDate ?? .distantPast {
+                    latestDate = checkIn.date
+                }
+                if let category = categoryByHabit[checkIn.habitID] {
+                    countsByCategory[category, default: 0] += 1
+                    categoriesTouched.insert(category)
+                }
+            }
+
+            totalCheckIns = checkIns.count
+        }
+    }
+
+    /// Progress for every achievement, keyed by id. The list reads this once rather than asking
+    /// per row.
+    var progressByAchievement: [Achievement.ID: Double] {
+        let calendar = userCalendar
+        let index = ProgressIndex(checkIns: allCheckIns, habits: allHabits, calendar: calendar)
+        return Dictionary(
+            uniqueKeysWithValues: allAchievements.map {
+                ($0.id, progress(for: $0, using: index, calendar: calendar))
+            }
+        )
+    }
+
+    private func progress(for achievement: Achievement, using index: ProgressIndex, calendar: Calendar) -> Double {
+        let target = achievement.criteria.targetValue
+        // Nothing to make progress towards, and dividing by it would give back a NaN width.
+        guard target > 0 else { return 0 }
+
+        let habitID = achievement.habitID
+
         switch achievement.type {
         case .streak:
-            return getStreakProgress(for: achievement)
+            let days = habitID.map { index.daysByHabit[$0] ?? [] } ?? index.activeDays
+            let latest = habitID.map { index.latestDateByHabit[$0] } ?? index.latestDate
+            guard let latest else { return 0 }
+            let streak = calendar.consecutiveDays(endingAt: latest, within: days, upTo: target)
+            return min(Double(streak) / Double(target), 1.0)
+
         case .totalCheckIns:
-            return getTotalCheckInsProgress(for: achievement)
+            let count = habitID.map { index.countsByHabit[$0] ?? 0 } ?? index.totalCheckIns
+            return min(Double(count) / Double(target), 1.0)
+
         case .perfectWeek, .perfectMonth:
             return 0 // These are binary achievements
+
         case .categoryMaster:
-            return getCategoryMasterProgress(for: achievement)
+            guard let category = achievement.criteria.category else { return 0 }
+            return min(Double(index.countsByCategory[category] ?? 0) / Double(target), 1.0)
+
         case .earlyBird, .nightOwl:
             return 0 // These are binary achievements
+
         case .consistency:
-            return getConsistencyProgress(for: achievement)
+            let days = calendar.consecutiveDays(endingAt: Date(), within: index.activeDays, upTo: target)
+            return min(Double(days) / Double(target), 1.0)
+
         case .variety:
-            return getVarietyProgress(for: achievement)
+            return min(Double(index.categoriesTouched.count) / Double(target), 1.0)
+
         case .milestone:
-            return getMilestoneProgress(for: achievement)
+            return min(Double(index.totalCheckIns) / Double(target), 1.0)
         }
     }
-    
-    private func getStreakProgress(for achievement: Achievement) -> Double {
-        let targetStreak = achievement.criteria.targetValue
-        let habitID = achievement.habitID
-        
-        let checkIns = allCheckIns.filter { habitID == nil || $0.habitID == habitID }
-        let sortedCheckIns = checkIns.sorted { $0.date > $1.date }
-        
-        guard let latestCheckIn = sortedCheckIns.first else { return 0 }
-        
-        var currentStreak = 0
-        var currentDate = latestCheckIn.date
-        
-        for _ in 0..<targetStreak {
-            let startOfDay = currentDate.startOfDay(for: userCalendar)
-            let endOfDay = currentDate.endOfDay(for: userCalendar)
-            
-            let hasCheckIn = checkIns.contains { checkIn in
-                checkIn.date >= startOfDay && checkIn.date <= endOfDay
-            }
-            
-            if hasCheckIn {
-                currentStreak += 1
-                currentDate = userCalendar.date(byAdding: .day, value: -1, to: currentDate) ?? currentDate
-            } else {
-                break
-            }
-        }
-        
-        return min(Double(currentStreak) / Double(targetStreak), 1.0)
-    }
-    
-    private func getTotalCheckInsProgress(for achievement: Achievement) -> Double {
-        let targetCount = achievement.criteria.targetValue
-        let habitID = achievement.habitID
-        
-        let totalCheckIns = allCheckIns.filter { habitID == nil || $0.habitID == habitID }.count
-        
-        return min(Double(totalCheckIns) / Double(targetCount), 1.0)
-    }
-    
-    private func getCategoryMasterProgress(for achievement: Achievement) -> Double {
-        guard let targetCategory = achievement.criteria.category else { return 0 }
-        let targetCount = achievement.criteria.targetValue
-        
-        let categoryCheckIns = allCheckIns.filter { checkIn in
-            if let habit = allHabits.first(where: { $0.id == checkIn.habitID }) {
-                return habit.category == targetCategory
-            }
-            return false
-        }.count
-        
-        return min(Double(categoryCheckIns) / Double(targetCount), 1.0)
-    }
-    
-    private func getConsistencyProgress(for achievement: Achievement) -> Double {
-        let targetDays = achievement.criteria.targetValue
-        var currentDate = Date()
-        var consecutiveDays = 0
-        
-        for _ in 0..<targetDays {
-            let startOfDay = currentDate.startOfDay(for: userCalendar)
-            let endOfDay = currentDate.endOfDay(for: userCalendar)
-            
-            let hasAnyCheckIn = allCheckIns.contains { checkIn in
-                checkIn.date >= startOfDay && checkIn.date <= endOfDay
-            }
-            
-            if hasAnyCheckIn {
-                consecutiveDays += 1
-                currentDate = userCalendar.date(byAdding: .day, value: -1, to: currentDate) ?? currentDate
-            } else {
-                break
-            }
-        }
-        
-        return min(Double(consecutiveDays) / Double(targetDays), 1.0)
-    }
-    
-    private func getVarietyProgress(for achievement: Achievement) -> Double {
-        let targetCategories = achievement.criteria.targetValue
-        
-        let uniqueCategories = Set(allCheckIns.compactMap { checkIn in
-            allHabits.first(where: { $0.id == checkIn.habitID })?.category
-        })
-        
-        return min(Double(uniqueCategories.count) / Double(targetCategories), 1.0)
-    }
-    
-    private func getMilestoneProgress(for achievement: Achievement) -> Double {
-        let targetCount = achievement.criteria.targetValue
-        let totalCheckIns = allCheckIns.count
-        
-        return min(Double(totalCheckIns) / Double(targetCount), 1.0)
-    }
-    
+
     func createAchievementShareText(_ achievement: Achievement) -> String {
         let appName = "LongevityMaster"
         let appStoreURL = "https://apps.apple.com/app/id\(Constants.AppID.longevityMasterID)"
@@ -174,9 +155,7 @@ class AchievementsViewModel {
         shareText += "📝 \(achievement.description)\n\n"
         
         if let unlockDate = achievement.unlockedDate {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .medium
-            shareText += "📅 Unlocked on \(formatter.string(from: unlockDate))\n\n"
+            shareText += "📅 Unlocked on \(DateFormatter.mediumDate.string(from: unlockDate))\n\n"
         }
         
         shareText += "💪 Keep building healthy habits with \(appName)!\n"
@@ -252,12 +231,13 @@ struct AchievementsView: View {
                 .padding(.bottom)
                 
                 // Achievements list
+                let progressByAchievement = viewModel.progressByAchievement
                 ScrollView {
                     LazyVStack(spacing: 12) {
                         ForEach(achievementsToShow) { achievement in
                             AchievementRowView(
                                 achievement: achievement,
-                                progress: viewModel.getProgress(for: achievement),
+                                progress: progressByAchievement[achievement.id] ?? 0,
                                 shareText: viewModel.createAchievementShareText(achievement)
                             )
                         }

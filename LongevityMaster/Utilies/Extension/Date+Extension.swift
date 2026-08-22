@@ -41,3 +41,21 @@ extension Date {
         return calendar.date(byAdding: components, to: startOfMonth(for: calendar))!
     }
 }
+
+extension Calendar {
+    /// How many days in a row, counting back from `date`, appear in `days`. Stops at `limit`,
+    /// which is as far as any caller needs it counted.
+    ///
+    /// Streaks were being counted by rescanning the check-ins for each day walked; a set of
+    /// start-of-days answers the same question without the rescan.
+    func consecutiveDays(endingAt date: Date, within days: Set<Date>, upTo limit: Int) -> Int {
+        var streak = 0
+        var current = date
+        while streak < limit, days.contains(startOfDay(for: current)) {
+            streak += 1
+            guard let previous = self.date(byAdding: .day, value: -1, to: current) else { break }
+            current = previous
+        }
+        return streak
+    }
+}

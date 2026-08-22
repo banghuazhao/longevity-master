@@ -12,16 +12,7 @@ import Sharing
 class AchievementService {
     @ObservationIgnored
     @Dependency(\.defaultDatabase) var database
-    
-    @ObservationIgnored
-    @FetchAll(Achievement.all, animation: .default) var allAchievements
-    
-    @ObservationIgnored
-    @FetchAll(CheckIn.all, animation: .default) var allCheckIns
-    
-    @ObservationIgnored
-    @FetchAll(Habit.all, animation: .default) var allHabits
-    
+
     @ObservationIgnored
     @Shared(.appStorage("startWeekOnMonday")) private var startWeekOnMonday: Bool = true
 
@@ -30,15 +21,7 @@ class AchievementService {
         cal.firstWeekday = startWeekOnMonday ? 2 : 1 // 2 = Monday, 1 = Sunday
         return cal
     }
-    
-    var unlockedAchievements: [Achievement] {
-        allAchievements.filter { $0.isUnlocked }
-    }
-    
-    var lockedAchievements: [Achievement] {
-        allAchievements.filter { !$0.isUnlocked }
-    }
-    
+
     var achievementToShow: Achievement?
 
     init() {
@@ -47,7 +30,7 @@ class AchievementService {
             await initializeAchievements()
         }
     }
-    
+
     private func initializeAchievements() async {
         await withErrorReporting {
             try await database.write { db in
@@ -61,203 +44,141 @@ class AchievementService {
             }
         }
     }
-    
+
+    // MARK: - Evaluating a check-in
+
+    /// Everything the criteria need, read once per check-in.
+    ///
+    /// Judging the achievements used to fan a single check-in out into a database read per
+    /// streak and total-check-ins achievement, plus several passes that paired every check-in
+    /// against every habit. It was also inconsistent about what it was judging: the criteria
+    /// that read the observed table copies were looking at a database that had not yet caught
+    /// up with the check-in just written, while the ones that read directly had. Every
+    /// criterion now sees the same fresh snapshot.
+    private struct Snapshot {
+        let checkIns: [CheckIn]
+        let habits: [Habit]
+        let checkInsByHabit: [Habit.ID: [CheckIn]]
+        let categoryByHabit: [Habit.ID: HabitCategory]
+        /// The start of every day carrying a check-in against any habit at all.
+        let activeDays: Set<Date>
+
+        init(checkIns: [CheckIn], habits: [Habit], calendar: Calendar) {
+            self.checkIns = checkIns
+            self.habits = habits
+            checkInsByHabit = Dictionary(grouping: checkIns, by: \.habitID)
+            categoryByHabit = Dictionary(
+                habits.map { ($0.id, $0.category) },
+                uniquingKeysWith: { first, _ in first }
+            )
+            activeDays = Set(checkIns.map { $0.date.startOfDay(for: calendar) })
+        }
+    }
+
     func checkAchievementsAndShow(for checkIn: CheckIn) async {
-        var newlyUnlocked: [Achievement] = []
-        
         await withErrorReporting {
-            for achievement in allAchievements where !achievement.isUnlocked {
-                if await checkAchievementCriteria(achievement, for: checkIn) {
-                    let updatedAchievement = try await database.write { db in
-                        var updatedAchievement = achievement
-                        updatedAchievement.isUnlocked = true
-                        updatedAchievement.unlockedDate = Date()
-                        updatedAchievement.habitID = checkIn.habitID
-                        return try Achievement.update(updatedAchievement).returning(\.self).fetchOne(db)
-                    }
-                    if let updatedAchievement {
-                        newlyUnlocked.append(updatedAchievement)
-                    }
+            let calendar = userCalendar
+
+            // Locked achievements come from the same read as the rest, so an achievement
+            // unlocked a moment ago cannot be unlocked again and have its date overwritten.
+            let (checkIns, habits, locked) = try await database.read { db in
+                (
+                    try CheckIn.all.fetchAll(db),
+                    try Habit.all.fetchAll(db),
+                    try Achievement.where { !$0.isUnlocked }.fetchAll(db)
+                )
+            }
+
+            let snapshot = Snapshot(checkIns: checkIns, habits: habits, calendar: calendar)
+            let earned = locked.filter {
+                meetsCriteria($0, for: checkIn, in: snapshot, calendar: calendar)
+            }
+            guard !earned.isEmpty else { return }
+
+            // One transaction for the lot, rather than one per achievement.
+            let unlockedDate = Date()
+            let saved = try await database.write { db in
+                try earned.compactMap { achievement -> Achievement? in
+                    var achievement = achievement
+                    achievement.isUnlocked = true
+                    achievement.unlockedDate = unlockedDate
+                    achievement.habitID = checkIn.habitID
+                    return try Achievement.update(achievement).returning(\.self).fetchOne(db)
+                }
+            }
+
+            if let toShow = saved.first {
+                await MainActor.run {
+                    achievementToShow = toShow
                 }
             }
         }
-        
-        if !newlyUnlocked.isEmpty {
-            let toShow = newlyUnlocked.first
-            await MainActor.run {
-                achievementToShow = toShow
-            }
-        }
     }
-    
-    private func checkAchievementCriteria(_ achievement: Achievement, for checkIn: CheckIn) async -> Bool {
-        // Decode criteria from string
+
+    private func meetsCriteria(
+        _ achievement: Achievement,
+        for checkIn: CheckIn,
+        in snapshot: Snapshot,
+        calendar: Calendar
+    ) -> Bool {
         guard let criteria = AchievementCriteria.decode(from: achievement.criteria.encode()) else {
             return false
         }
-        
+        let target = criteria.targetValue
+
         switch achievement.type {
         case .streak:
-            return await checkStreakAchievement(achievement, criteria: criteria, for: checkIn)
+            let habitID = achievement.habitID ?? checkIn.habitID
+            let habitCheckIns = snapshot.checkInsByHabit[habitID] ?? []
+            guard !habitCheckIns.isEmpty else { return false }
+            let days = Set(habitCheckIns.map { $0.date.startOfDay(for: calendar) })
+            return calendar.consecutiveDays(endingAt: checkIn.date, within: days, upTo: target) >= target
+
         case .totalCheckIns:
-            return await checkTotalCheckInsAchievement(achievement, criteria: criteria, for: checkIn)
+            let habitID = achievement.habitID ?? checkIn.habitID
+            return (snapshot.checkInsByHabit[habitID] ?? []).count >= target
+
         case .perfectWeek:
-            return await checkPerfectWeekAchievement(achievement, criteria: criteria, for: checkIn)
+            return everyHabitMetItsTarget(
+                in: checkIn.date.startOfWeek(for: calendar) ... checkIn.date.endOfWeek(for: calendar),
+                period: .week,
+                snapshot: snapshot,
+                calendar: calendar
+            )
+
         case .perfectMonth:
-            return await checkPerfectMonthAchievement(achievement, criteria: criteria, for: checkIn)
+            return everyHabitMetItsTarget(
+                in: checkIn.date.startOfMonth(for: calendar) ... checkIn.date.endOfMonth(for: calendar),
+                period: .month,
+                snapshot: snapshot,
+                calendar: calendar
+            )
+
         case .categoryMaster:
-            return await checkCategoryMasterAchievement(achievement, criteria: criteria, for: checkIn)
+            guard let category = criteria.category else { return false }
+            let count = snapshot.checkIns.count { snapshot.categoryByHabit[$0.habitID] == category }
+            return count >= target
+
         case .earlyBird:
-            return await checkEarlyBirdAchievement(achievement, criteria: criteria, for: checkIn)
+            return calendar.component(.hour, from: checkIn.date) < 8
+
         case .nightOwl:
-            return await checkNightOwlAchievement(achievement, criteria: criteria, for: checkIn)
+            return calendar.component(.hour, from: checkIn.date) >= 22
+
         case .consistency:
-            return await checkConsistencyAchievement(achievement, criteria: criteria, for: checkIn)
+            return calendar.consecutiveDays(endingAt: checkIn.date, within: snapshot.activeDays, upTo: target) >= target
+
         case .variety:
-            return await checkVarietyAchievement(achievement, criteria: criteria, for: checkIn)
+            let categories = Set(snapshot.checkIns.compactMap { snapshot.categoryByHabit[$0.habitID] })
+            return categories.count >= target
+
         case .milestone:
-            return await checkMilestoneAchievement(achievement, criteria: criteria, for: checkIn)
+            return snapshot.checkIns.count >= target
         }
-    }
-    
-    private func checkStreakAchievement(_ achievement: Achievement, criteria: AchievementCriteria, for checkIn: CheckIn) async -> Bool {
-        let targetStreak = criteria.targetValue
-        let habitID = achievement.habitID ?? checkIn.habitID
-    
-        let checkIns = try? await database.read { db in
-            try CheckIn
-                .where { $0.habitID.eq(habitID) }
-                .order { $0.date.desc() }
-                .fetchAll(db)
-        }
-        
-        guard let checkIns = checkIns, !checkIns.isEmpty else {
-            return false
-        }
-        
-        var currentStreak = 0
-        var currentDate = checkIn.date
-        
-        for _ in 0..<targetStreak {
-            let startOfDay = currentDate.startOfDay(for: userCalendar)
-            let endOfDay = currentDate.endOfDay(for: userCalendar)
-            
-            let hasCheckIn = checkIns.contains { checkIn in
-                checkIn.date >= startOfDay && checkIn.date <= endOfDay
-            }
-            
-            if hasCheckIn {
-                currentStreak += 1
-                currentDate = userCalendar.date(byAdding: .day, value: -1, to: currentDate) ?? currentDate
-            } else {
-                break
-            }
-        }
-        
-        return currentStreak >= targetStreak
-    }
-    
-    private func checkTotalCheckInsAchievement(_ achievement: Achievement, criteria: AchievementCriteria, for checkIn: CheckIn) async -> Bool {
-        let targetCount = criteria.targetValue
-        let habitID = achievement.habitID ?? checkIn.habitID
-        
-        let totalCheckIns = await withErrorReporting {
-            try await database.read { db in
-                try CheckIn
-                    .where { $0.habitID.eq(habitID) }
-                    .order { $0.date.desc() }
-                    .fetchAll(db)
-            }
-        }
-        
-        guard let totalCheckIns else { return false }
-        
-        return totalCheckIns.count >= targetCount
-    }
-    
-    private func checkPerfectWeekAchievement(_ achievement: Achievement, criteria: AchievementCriteria, for checkIn: CheckIn) async -> Bool {
-        let date = checkIn.date
-        return everyHabitMetItsTarget(
-            in: date.startOfWeek(for: userCalendar) ... date.endOfWeek(for: userCalendar),
-            period: .week
-        )
     }
 
-    private func checkPerfectMonthAchievement(_ achievement: Achievement, criteria: AchievementCriteria, for checkIn: CheckIn) async -> Bool {
-        let date = checkIn.date
-        return everyHabitMetItsTarget(
-            in: date.startOfMonth(for: userCalendar) ... date.endOfMonth(for: userCalendar),
-            period: .month
-        )
-    }
-    
-    private func checkCategoryMasterAchievement(_ achievement: Achievement, criteria: AchievementCriteria, for checkIn: CheckIn) async -> Bool {
-        guard let targetCategory = criteria.category else { return false }
-        let targetCount = criteria.targetValue
-        
-        var categoryCheckIns = 0
-        for checkIn in allCheckIns  {
-            for habit in allHabits where habit.id == checkIn.habitID {
-                if habit.category == targetCategory {
-                    categoryCheckIns += 1
-                }
-            }
-        }
-        
-        return categoryCheckIns >= targetCount
-    }
-    
-    private func checkEarlyBirdAchievement(_ achievement: Achievement, criteria: AchievementCriteria, for checkIn: CheckIn) async -> Bool {
-        let hour = userCalendar.component(.hour, from: checkIn.date)
-        return hour < 8
-    }
-    
-    private func checkNightOwlAchievement(_ achievement: Achievement, criteria: AchievementCriteria, for checkIn: CheckIn) async -> Bool {
-        let hour = userCalendar.component(.hour, from: checkIn.date)
-        return hour >= 22
-    }
-    
-    private func checkConsistencyAchievement(_ achievement: Achievement, criteria: AchievementCriteria, for checkIn: CheckIn) async -> Bool {
-        let targetDays = criteria.targetValue
-        var currentDate = checkIn.date
-        var consecutiveDays = 0
-        
-        for _ in 0..<targetDays {
-            let startOfDay = currentDate.startOfDay(for: userCalendar)
-            let endOfDay = currentDate.endOfDay(for: userCalendar)
-            
-            let hasAnyCheckIn = allCheckIns
-                .filter { $0.date >= startOfDay && $0.date <= endOfDay }
-                .count > 0
-            
-            if hasAnyCheckIn {
-                consecutiveDays += 1
-                currentDate = userCalendar.date(byAdding: .day, value: -1, to: currentDate) ?? currentDate
-            } else {
-                break
-            }
-        }
-        
-        return consecutiveDays >= targetDays
-    }
-    
-    private func checkVarietyAchievement(_ achievement: Achievement, criteria: AchievementCriteria, for checkIn: CheckIn) async -> Bool {
-        let targetCategories = criteria.targetValue
-        
-        var uniqueCategories = Set<HabitCategory>()
-        for checkIn in allCheckIns  {
-            for habit in allHabits where habit.id == checkIn.habitID {
-                uniqueCategories.insert(habit.category)
-            }
-        }
-        
-        return uniqueCategories.count >= targetCategories
-    }
-    
-    private func checkMilestoneAchievement(_ achievement: Achievement, criteria: AchievementCriteria, for checkIn: CheckIn) async -> Bool {
-        return allCheckIns.count >= criteria.targetValue
-    }
-    
+    // MARK: - Perfect week and month
+
     /// Which period a "perfect" run is being judged over.
     private enum PerfectPeriod {
         case week
@@ -274,23 +195,27 @@ class AchievementService {
     ///
     /// Returns false when nothing could be judged at all, so a user with no habits does not
     /// get handed a perfect week.
-    private func everyHabitMetItsTarget(in range: ClosedRange<Date>, period: PerfectPeriod) -> Bool {
-        let habits = allHabits.filter { !$0.isArchived }
+    private func everyHabitMetItsTarget(
+        in range: ClosedRange<Date>,
+        period: PerfectPeriod,
+        snapshot: Snapshot,
+        calendar: Calendar
+    ) -> Bool {
+        let habits = snapshot.habits.filter { !$0.isArchived }
         guard !habits.isEmpty else { return false }
 
-        let checkInsByHabit = Dictionary(grouping: allCheckIns, by: \.habitID)
         let now = Date()
         var judgedAnything = false
 
         for habit in habits {
-            let checkIns = (checkInsByHabit[habit.id] ?? []).filter { range.contains($0.date) }
+            let checkIns = (snapshot.checkInsByHabit[habit.id] ?? []).filter { range.contains($0.date) }
 
             switch habit.frequency {
             case .fixedDaysInWeek, .fixedDaysInMonth:
-                let due = scheduledDays(for: habit, in: range).filter { $0 <= now }
+                let due = scheduledDays(for: habit, in: range, calendar: calendar).filter { $0 <= now }
                 guard !due.isEmpty else { continue }
                 judgedAnything = true
-                let checkedDays = Set(checkIns.map { $0.date.startOfDay(for: userCalendar) })
+                let checkedDays = Set(checkIns.map { $0.date.startOfDay(for: calendar) })
                 guard Set(due).isSubset(of: checkedDays) else { return false }
 
             case .nDaysEachWeek:
@@ -299,8 +224,8 @@ class AchievementService {
                 case .week:
                     guard checkIns.count >= habit.nDaysPerWeek else { return false }
                 case .month:
-                    for week in wholeWeeks(in: range) where week.upperBound <= now {
-                        let met = checkIns.filter { week.contains($0.date) }.count
+                    for week in wholeWeeks(in: range, calendar: calendar) where week.upperBound <= now {
+                        let met = checkIns.count { week.contains($0.date) }
                         guard met >= habit.nDaysPerWeek else { return false }
                     }
                 }
@@ -317,7 +242,7 @@ class AchievementService {
 
     /// The days inside `range` on which a fixed-schedule habit came due. Empty for quota
     /// habits, which owe a count over the period rather than any particular day.
-    private func scheduledDays(for habit: Habit, in range: ClosedRange<Date>) -> [Date] {
+    private func scheduledDays(for habit: Habit, in range: ClosedRange<Date>, calendar: Calendar) -> [Date] {
         let days: Set<Int>
         let unit: Calendar.Component
         switch habit.frequency {
@@ -333,12 +258,12 @@ class AchievementService {
         guard !days.isEmpty else { return [] }
 
         var result: [Date] = []
-        var day = range.lowerBound.startOfDay(for: userCalendar)
+        var day = range.lowerBound.startOfDay(for: calendar)
         while day <= range.upperBound {
-            if days.contains(userCalendar.component(unit, from: day)) {
+            if days.contains(calendar.component(unit, from: day)) {
                 result.append(day)
             }
-            guard let next = userCalendar.date(byAdding: .day, value: 1, to: day) else { break }
+            guard let next = calendar.date(byAdding: .day, value: 1, to: day) else { break }
             day = next
         }
         return result
@@ -346,20 +271,20 @@ class AchievementService {
 
     /// The weeks lying wholly inside `range`, so judging a weekly quota over a month does not
     /// fail on the part-weeks hanging off either end.
-    private func wholeWeeks(in range: ClosedRange<Date>) -> [ClosedRange<Date>] {
+    private func wholeWeeks(in range: ClosedRange<Date>, calendar: Calendar) -> [ClosedRange<Date>] {
         var weeks: [ClosedRange<Date>] = []
-        var start = range.lowerBound.startOfWeek(for: userCalendar)
+        var start = range.lowerBound.startOfWeek(for: calendar)
         while start <= range.upperBound {
-            let end = start.endOfWeek(for: userCalendar)
+            let end = start.endOfWeek(for: calendar)
             if start >= range.lowerBound, end <= range.upperBound {
                 weeks.append(start ... end)
             }
-            guard let next = userCalendar.date(byAdding: .weekOfYear, value: 1, to: start) else { break }
+            guard let next = calendar.date(byAdding: .weekOfYear, value: 1, to: start) else { break }
             start = next
         }
         return weeks
     }
-} 
+}
 
 
 // Dependency injection

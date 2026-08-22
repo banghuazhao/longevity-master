@@ -10,8 +10,11 @@ import Sharing
 class HabitDetailViewModel {
     var habit: Habit
     
+    /// Scoped to this habit in `init`. The detail screen only ever shows one habit's history,
+    /// so reading the whole table meant holding — and re-filtering — every other habit's
+    /// check-ins as well.
     @ObservationIgnored
-    @FetchAll(CheckIn.all, animation: .default) var allCheckIns: [CheckIn]
+    @FetchAll var checkIns: [CheckIn]
 
     @ObservationIgnored
     @FetchAll(Reminder.all, animation: .default) var allReminders
@@ -74,10 +77,6 @@ class HabitDetailViewModel {
         return cal
     }
 
-    var checkIns: [CheckIn] {
-        allCheckIns.filter { $0.habitID == habit.id }
-    }
-
     var todayHabit: TodayHabit {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
@@ -91,11 +90,10 @@ class HabitDetailViewModel {
     }
 
     private func calculateCurrentStreak(checkIns: [CheckIn], calendar: Calendar, today: Date) -> Int {
-        let sortedDates = checkIns.map { calendar.startOfDay(for: $0.date) }.sorted(by: >)
+        let checkedDays = Set(checkIns.map { calendar.startOfDay(for: $0.date) })
         var streak = 0
         var currentDate = today
-        let dateSet = Set(sortedDates)
-        while dateSet.contains(currentDate) {
+        while checkedDays.contains(currentDate) {
             streak += 1
             guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else { break }
             currentDate = previousDate
@@ -118,12 +116,17 @@ class HabitDetailViewModel {
 
     init(habit: Habit) {
         self.habit = habit
+        _checkIns = FetchAll(CheckIn.where { $0.habitID.eq(habit.id) }, animation: .default)
     }
 
-    var monthTitle: String {
+    private static let monthTitleFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM"
-        return formatter.string(from: selectedMonth)
+        return formatter
+    }()
+
+    var monthTitle: String {
+        Self.monthTitleFormatter.string(from: selectedMonth)
     }
 
     var weekdaySymbols: [String] {
@@ -133,19 +136,51 @@ class HabitDetailViewModel {
         return Array(symbols[idx...] + symbols[..<idx])
     }
 
-    var calendarDays: [Date?] {
+    /// One cell of the month grid, with everything it needs already decided.
+    struct CalendarCell: Identifiable {
+        /// Position in the grid. The leading and trailing blanks are not distinguishable by
+        /// value, so they need a positional identity of their own.
+        let id: Int
+        let date: Date?
+        let isToday: Bool
+        let isChecked: Bool
+        let isCurrentMonth: Bool
+    }
+
+    /// The month's grid, built in a single pass. Asking each cell in turn meant deriving a
+    /// Calendar — and re-reading UserDefaults — three times per cell, and answering "is this
+    /// day checked?" by rescanning the check-ins with a calendar comparison apiece.
+    var calendarCells: [CalendarCell] {
+        let cal = userCalendar
+        let checkedDays = Set(checkIns.map { cal.startOfDay(for: $0.date) })
+
+        return calendarDays(for: cal).enumerated().map { index, day in
+            guard let day else {
+                return CalendarCell(id: index, date: nil, isToday: false, isChecked: false, isCurrentMonth: false)
+            }
+            return CalendarCell(
+                id: index,
+                date: day,
+                isToday: cal.isDateInToday(day),
+                isChecked: checkedDays.contains(cal.startOfDay(for: day)),
+                isCurrentMonth: cal.isDate(day, equalTo: selectedMonth, toGranularity: .month)
+            )
+        }
+    }
+
+    private func calendarDays(for cal: Calendar) -> [Date?] {
         let now = Date()
-        let currentHour = userCalendar.component(.hour, from: now)
-        let currentMinute = userCalendar.component(.minute, from: now)
-        let startOfMonth = selectedMonth.startOfMonth(for: userCalendar)
-        let range = userCalendar.range(of: .day, in: .month, for: startOfMonth)!
+        let currentHour = cal.component(.hour, from: now)
+        let currentMinute = cal.component(.minute, from: now)
+        let startOfMonth = selectedMonth.startOfMonth(for: cal)
+        let range = cal.range(of: .day, in: .month, for: startOfMonth)!
         let numDays = range.count
-        let firstWeekday = userCalendar.component(.weekday, from: startOfMonth)
-        let firstWeekdayIdx = (firstWeekday - userCalendar.firstWeekday + 7) % 7
+        let firstWeekday = cal.component(.weekday, from: startOfMonth)
+        let firstWeekdayIdx = (firstWeekday - cal.firstWeekday + 7) % 7
         var days: [Date?] = Array(repeating: nil, count: firstWeekdayIdx)
         for day in 1 ... numDays {
-            if let date = userCalendar.date(bySetting: .day, value: day, of: startOfMonth),
-               let dateWithTime = userCalendar.date(bySettingHour: currentHour, minute: currentMinute, second: 0, of: date) {
+            if let date = cal.date(bySetting: .day, value: day, of: startOfMonth),
+               let dateWithTime = cal.date(bySettingHour: currentHour, minute: currentMinute, second: 0, of: date) {
                 days.append(dateWithTime)
             }
         }
@@ -154,16 +189,6 @@ class HabitDetailViewModel {
             days.append(nil)
         }
         return days
-    }
-
-    func isToday(day: Date?) -> Bool {
-        guard let day = day else { return false }
-        return userCalendar.isDateInToday(day)
-    }
-
-    func isChecked(day: Date?) -> Bool {
-        guard let day = day else { return false }
-        return checkIns.contains { userCalendar.isDate($0.date, inSameDayAs: day) }
     }
 
     func isCurrentMonth(day: Date?) -> Bool {
@@ -256,9 +281,10 @@ class HabitDetailViewModel {
     // For yearly view: get all check-ins for a year, grouped by month and day
     func yearlyCheckIns(for year: Int) -> [Int: Set<Int>] {
         // [month: Set<day>]
+        let cal = userCalendar
         var result: [Int: Set<Int>] = [:]
         for checkIn in checkIns {
-            let comps = userCalendar.dateComponents([.year, .month, .day], from: checkIn.date)
+            let comps = cal.dateComponents([.year, .month, .day], from: checkIn.date)
             if comps.year == year, let month = comps.month, let day = comps.day {
                 result[month, default: []].insert(day)
             }
@@ -499,16 +525,16 @@ struct HabitDetailView: View {
             LazyVGrid(
                 columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 8
             ) {
-                ForEach(viewModel.calendarDays, id: \.self) { day in
+                ForEach(viewModel.calendarCells) { cell in
                     CalendarDayCell(
-                        day: day,
-                        isToday: viewModel.isToday(day: day),
-                        isChecked: viewModel.isChecked(day: day),
-                        isCurrentMonth: viewModel.isCurrentMonth(day: day),
+                        day: cell.date,
+                        isToday: cell.isToday,
+                        isChecked: cell.isChecked,
+                        isCurrentMonth: cell.isCurrentMonth,
                         theme: themeManager.current
                     )
                     .onTapGesture {
-                        viewModel.toggleCheckIn(for: day)
+                        viewModel.toggleCheckIn(for: cell.date)
                     }
                 }
                 .opacity(viewModel.habit.isArchived ? 0.6 : 1.0)
@@ -527,7 +553,9 @@ struct HabitDetailView: View {
                 }
                 .tint(themeManager.current.primaryColor)
                 Spacer()
-                Text("\(viewModel.selectedYear)")
+                // Not "\(selectedYear)": interpolating an Int into a LocalizedStringKey runs it
+                // through a number formatter, which renders 2026 as "2,026".
+                Text(verbatim: String(viewModel.selectedYear))
                     .font(.headline)
                 Spacer()
                 Button(action: { viewModel.nextYear() }) {
@@ -617,10 +645,14 @@ struct YearlyCalendarGrid: View {
         return calendar.range(of: .day, in: .month, for: calendar.date(from: comps)!)?.count ?? 30
     }
 
-    func shortMonthName(for month: Int) -> String {
+    private static let monthSymbols: [String] = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
-        return formatter.shortMonthSymbols[month - 1]
+        return formatter.shortMonthSymbols
+    }()
+
+    func shortMonthName(for month: Int) -> String {
+        Self.monthSymbols[month - 1]
     }
 }
 
@@ -790,9 +822,7 @@ struct HabitAchievementRowView: View {
         shareText += "📝 \(achievement.description)\n\n"
         
         if let unlockDate = achievement.unlockedDate {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .medium
-            shareText += "📅 Unlocked on \(formatter.string(from: unlockDate))\n\n"
+            shareText += "📅 Unlocked on \(DateFormatter.mediumDate.string(from: unlockDate))\n\n"
         }
         
         shareText += "💪 Keep building healthy habits with \(appName)!\n"

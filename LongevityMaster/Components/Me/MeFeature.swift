@@ -188,6 +188,9 @@ struct MeView: View {
                         moreItem(icon: "square.and.arrow.up", title: String(localized: "Share App"))
                     }
                 }
+                NavigationLink(destination: LanguageView()) {
+                    moreItem(icon: "globe", title: String(localized: "Language"))
+                }
             }
         }
         .padding(.horizontal)

@@ -1062,6 +1062,16 @@
         }
       }
     },
+    "Choose Language" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择语言"
+          }
+        }
+      }
+    },
     "Choose Theme Color" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1078,6 +1088,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择您的习惯"
+          }
+        }
+      }
+    },
+    "Close the app and open it again to finish changing the language." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请关闭并重新打开应用以完成语言切换。"
           }
         }
       }
@@ -2215,6 +2235,16 @@
         }
       }
     },
+    "Language" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "语言"
+          }
+        }
+      }
+    },
     "Legend" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2736,6 +2766,16 @@
         }
       }
     },
+    "Pick the language the app is shown in, or follow the language your device is set to." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择应用显示的语言，或跟随设备的语言设置。"
+          }
+        }
+      }
+    },
     "Please describe your issue below" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2932,6 +2972,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "从收藏中移除"
+          }
+        }
+      }
+    },
+    "Reopen to Finish" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新打开以完成"
           }
         }
       }
@@ -3442,6 +3492,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "感谢您支持抗衰习惯家！"
+          }
+        }
+      }
+    },
+    "The app stays in its current language until you close and reopen it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "应用会保持当前语言，直到你关闭并重新打开它。"
           }
         }
       }

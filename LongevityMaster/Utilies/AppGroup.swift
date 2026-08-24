@@ -42,13 +42,3 @@ enum AppGroup {
         return defaults.bool(forKey: startWeekOnMondayKey)
     }
 }
-
-extension Calendar {
-    /// `Calendar.current` follows the device region's week start; the app lets the user pick,
-    /// and every scheduling calculation has to agree on which one is in effect.
-    static func userPreferred(startWeekOnMonday: Bool) -> Calendar {
-        var calendar = Calendar.current
-        calendar.firstWeekday = startWeekOnMonday ? 2 : 1 // 2 = Monday, 1 = Sunday
-        return calendar
-    }
-}

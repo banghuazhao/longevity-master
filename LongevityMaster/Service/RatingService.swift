@@ -17,9 +17,7 @@ class RatingService {
     @Shared(.appStorage("startWeekOnMonday")) private var startWeekOnMonday: Bool = true
     
     var userCalendar: Calendar {
-        var cal = Calendar.current
-        cal.firstWeekday = startWeekOnMonday ? 2 : 1 // 2 = Monday, 1 = Sunday
-        return cal
+        .userPreferred(startWeekOnMonday: startWeekOnMonday)
     }
     
     @ObservationIgnored
@@ -85,40 +83,11 @@ class RatingService {
     }
     
     private func calculateLongestStreakScore() -> Int {
-        // Calculate longest streak - any check-in on consecutive days
-        guard !allCheckIns.isEmpty else { return 0 }
-        
-        // Get all unique dates with check-ins, sorted chronologically
-        let uniqueDates = Set(allCheckIns.map { $0.date.startOfDay(for: userCalendar) }).sorted()
-        
-        var longestStreak = 0
-        var currentStreak = 0
-        var previousDate: Date?
-        
-        for date in uniqueDates {
-            if let previous = previousDate {
-                let daysDifference = userCalendar.dateComponents([.day], from: previous, to: date).day ?? 0
-                
-                if daysDifference == 1 {
-                    // Consecutive day
-                    currentStreak += 1
-                } else {
-                    // Gap found, reset streak
-                    longestStreak = max(longestStreak, currentStreak)
-                    currentStreak = 1
-                }
-            } else {
-                // First date
-                currentStreak = 1
-            }
-            
-            previousDate = date
-        }
-        
-        // Check if the last streak is the longest
-        longestStreak = max(longestStreak, currentStreak)
-        
-        return min(longestStreak * 2, ScoreCategory.longestStreak.maxScore)
+        // Longest run of consecutive days carrying a check-in against any habit. `userCalendar`
+        // builds a Calendar and reads UserDefaults on every access, so it is taken once.
+        let calendar = userCalendar
+        let activeDays = Set(allCheckIns.map { $0.date.startOfDay(for: calendar) })
+        return min(calendar.longestDayStreak(in: activeDays) * 2, ScoreCategory.longestStreak.maxScore)
     }
     
     /// Takes the breakdown rather than building its own: computing one walks every habit,

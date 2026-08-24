@@ -17,9 +17,7 @@ class AchievementService {
     @Shared(.appStorage("startWeekOnMonday")) private var startWeekOnMonday: Bool = true
 
     var userCalendar: Calendar {
-        var cal = Calendar.current
-        cal.firstWeekday = startWeekOnMonday ? 2 : 1 // 2 = Monday, 1 = Sunday
-        return cal
+        .userPreferred(startWeekOnMonday: startWeekOnMonday)
     }
 
     var achievementToShow: Achievement?

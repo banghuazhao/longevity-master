@@ -72,33 +72,19 @@ class HabitDetailViewModel {
     var route: Route?
 
     var userCalendar: Calendar {
-        var cal = Calendar.current
-        cal.firstWeekday = startWeekOnMonday ? 2 : 1 // 2 = Monday, 1 = Sunday
-        return cal
+        .userPreferred(startWeekOnMonday: startWeekOnMonday)
     }
 
     var todayHabit: TodayHabit {
         let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
-        let streak = calculateCurrentStreak(checkIns: checkIns, calendar: calendar, today: today)
+        let activeDays = Set(checkIns.map { calendar.startOfDay(for: $0.date) })
+        let streak = calendar.currentDayStreak(in: activeDays)
         let streakDescription = streak > 0 ? String(localized: "🔥 \(streak)d streak") : nil
         return habit.toTodayHabit(
             isCompleted: true,
             streakDescription: streakDescription,
             frequencyDescription: habit.frequencyDescription
         )
-    }
-
-    private func calculateCurrentStreak(checkIns: [CheckIn], calendar: Calendar, today: Date) -> Int {
-        let checkedDays = Set(checkIns.map { calendar.startOfDay(for: $0.date) })
-        var streak = 0
-        var currentDate = today
-        while checkedDays.contains(currentDate) {
-            streak += 1
-            guard let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) else { break }
-            currentDate = previousDate
-        }
-        return streak
     }
 
     var reminders: [Reminder.Draft] {

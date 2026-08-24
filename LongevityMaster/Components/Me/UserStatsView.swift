@@ -63,36 +63,12 @@ class UserStatsViewModel {
 
     private func calculateLongestStreak() -> Int {
         let calendar = Calendar.current
-        var longestStreak = 0
-        var currentStreak = 0
-        var lastDay: Date?
-
-        for day in activeDays(calendar).sorted() {
-            if let lastDay, calendar.dateComponents([.day], from: lastDay, to: day).day == 1 {
-                currentStreak += 1
-            } else {
-                longestStreak = max(longestStreak, currentStreak)
-                currentStreak = 1
-            }
-            lastDay = day
-        }
-
-        return max(longestStreak, currentStreak)
+        return calendar.longestDayStreak(in: activeDays(calendar))
     }
 
     private func calculateCurrentStreak() -> Int {
         let calendar = Calendar.current
-        let days = activeDays(calendar)
-        var currentStreak = 0
-        var checkDate = calendar.startOfDay(for: Date())
-
-        while days.contains(checkDate) {
-            currentStreak += 1
-            guard let previous = calendar.date(byAdding: .day, value: -1, to: checkDate) else { break }
-            checkDate = previous
-        }
-
-        return currentStreak
+        return calendar.currentDayStreak(in: activeDays(calendar))
     }
     
     private func findBestHabit() -> Habit? {

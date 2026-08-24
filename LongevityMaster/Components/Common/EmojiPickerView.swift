@@ -3,7 +3,7 @@ import Dependencies
 
 struct EmojiPickerView: View {
     @Binding var selectedEmoji: String
-    var title: String? = nil
+    var title: LocalizedStringKey? = nil
     var categoryOrder: [Category] = Category.allCases
     
     @Dependency(\.themeManager) var themeManager
@@ -15,6 +15,17 @@ struct EmojiPickerView: View {
         case activities = "Activities"
         case objects = "Objects"
         var id: String { rawValue }
+
+        /// `rawValue` keys the emoji table, so the label the picker shows is separate.
+        var title: LocalizedStringKey {
+            switch self {
+            case .smileys: return "Smileys"
+            case .animals: return "Animals"
+            case .food: return "Food"
+            case .activities: return "Activities"
+            case .objects: return "Objects"
+            }
+        }
     }
     
     static let emojiByCategory: [Category: [String]] = [
@@ -45,7 +56,7 @@ struct EmojiPickerView: View {
             }
             Picker("Category", selection: $selectedCategory) {
                 ForEach(categoryOrder) { category in
-                    Text(category.rawValue).tag(category)
+                    Text(category.title).tag(category)
                 }
             }
             .pickerStyle(.segmented)

@@ -75,6 +75,26 @@ enum ThemeColor: String, CaseIterable {
         }
     }
     
+    /// The name shown on the theme picker. A `LocalizedStringKey` so it is translated —
+    /// `rawValue` cannot be, because it is what gets written to user defaults.
+    var title: LocalizedStringKey {
+        switch self {
+        case .default: return "Default"
+        case .blue: return "Blue"
+        case .green: return "Green"
+        case .purple: return "Purple"
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .default: return "flame.fill"
+        case .blue: return "drop.fill"
+        case .green: return "leaf.fill"
+        case .purple: return "sparkles"
+        }
+    }
+
     var accentColor: Color {
         switch self {
         case .default:

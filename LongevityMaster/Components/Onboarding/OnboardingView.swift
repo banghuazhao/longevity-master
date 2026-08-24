@@ -169,7 +169,7 @@ struct OnboardingView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
                     CategoryFilterButton(
-                        title: "All",
+                        title: String(localized: "All"),
                         isSelected: viewModel.selectedCategory == nil,
                         action: { viewModel.selectCategory(nil) }
                     )

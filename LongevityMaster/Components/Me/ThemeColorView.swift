@@ -12,13 +12,6 @@ struct ThemeColorView: View {
     @Dependency(\.themeManager) var themeManager
     @Environment(\.dismiss) private var dismiss
     
-    private let themeColors: [ThemeColorOption] = [
-        ThemeColorOption(name: "Default", color: Color(red: 1.0, green: 0.47, blue: 0.18), icon: "flame.fill"),
-        ThemeColorOption(name: "Blue", color: Color(red: 0.0, green: 0.48, blue: 1.0), icon: "drop.fill"),
-        ThemeColorOption(name: "Green", color: Color(red: 0.20, green: 0.78, blue: 0.35), icon: "leaf.fill"),
-        ThemeColorOption(name: "Purple", color: Color(red: 0.58, green: 0.35, blue: 0.95), icon: "sparkles")
-    ]
-    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -39,12 +32,12 @@ struct ThemeColorView: View {
                     
                     // Theme Color Options
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: AppSpacing.large) {
-                        ForEach(themeColors, id: \.name) { themeOption in
+                        ForEach(ThemeColor.allCases, id: \.rawValue) { themeColor in
                             ThemeColorCard(
-                                themeOption: themeOption,
-                                isSelected: themeManager.currentThemeColor == themeOption.name,
+                                themeColor: themeColor,
+                                isSelected: themeManager.currentThemeColor == themeColor.rawValue,
                                 onTap: {
-                                    themeManager.updateThemeColor(themeOption.name)
+                                    themeManager.updateThemeColor(themeColor.rawValue)
                                 }
                             )
                         }
@@ -93,15 +86,9 @@ struct ThemeColorView: View {
     }
 }
 
-struct ThemeColorOption {
-    let name: String
-    let color: Color
-    let icon: String
-}
-
 struct ThemeColorCard: View {
     @Dependency(\.themeManager) var themeManager
-    let themeOption: ThemeColorOption
+    let themeColor: ThemeColor
     let isSelected: Bool
     let onTap: () -> Void
     
@@ -111,17 +98,17 @@ struct ThemeColorCard: View {
                 // Color circle with icon
                 ZStack {
                     Circle()
-                        .fill(themeOption.color)
+                        .fill(themeColor.primaryColor)
                         .frame(width: 50, height: 50)
-                        .shadow(color: themeOption.color.opacity(0.3), radius: 8, x: 0, y: 4)
+                        .shadow(color: themeColor.primaryColor.opacity(0.3), radius: 8, x: 0, y: 4)
                     
-                    Image(systemName: themeOption.icon)
+                    Image(systemName: themeColor.icon)
                         .font(.title)
                         .foregroundColor(.white)
                 }
                 
                 // Theme name
-                Text(themeOption.name)
+                Text(themeColor.title)
                     .font(AppFont.headline)
                     .fontWeight(.semibold)
                     .foregroundColor(themeManager.current.textPrimary)
@@ -132,7 +119,7 @@ struct ThemeColorCard: View {
             .cornerRadius(AppCornerRadius.card)
             .overlay(
                 RoundedRectangle(cornerRadius: AppCornerRadius.card)
-                    .stroke(isSelected ? themeOption.color : Color.clear, lineWidth: 3)
+                    .stroke(isSelected ? themeColor.primaryColor : Color.clear, lineWidth: 3)
             )
             .shadow(color: AppShadow.card.color, radius: AppShadow.card.radius, x: AppShadow.card.x, y: AppShadow.card.y)
         }

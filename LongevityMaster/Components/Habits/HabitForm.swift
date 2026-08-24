@@ -573,7 +573,7 @@ struct HabitFormView: View {
             .onChange(of: viewModel.habit.frequency) { _, _ in
                 viewModel.onChangeOfHabitFrequency()
             }
-            .easyToast(isPresented: $viewModel.showTitleEmptyToast, message: "Habit name is empty")
+            .easyToast(isPresented: $viewModel.showTitleEmptyToast, message: String(localized: "Habit name is empty"))
             .sheet(isPresented: Binding($viewModel.route.addReminder)) {
                 if case .addReminder(let formViewModel) = viewModel.route {
                     ReminderFormView(viewModel: formViewModel) 

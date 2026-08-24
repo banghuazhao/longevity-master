@@ -58,6 +58,16 @@
         }
       }
     },
+    "%lld check-ins" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 次打卡"
+          }
+        }
+      }
+    },
     "%lld day" : {
       "localizations" : {
         "zh-Hans" : {
@@ -130,6 +140,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "还需 %lld 分"
+          }
+        }
+      }
+    },
+    "%lld times" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 次"
           }
         }
       }
@@ -492,6 +512,16 @@
         }
       }
     },
+    "Active" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "进行中"
+          }
+        }
+      }
+    },
     "Active Habits" : {
       "localizations" : {
         "zh-Hans" : {
@@ -502,12 +532,32 @@
         }
       }
     },
+    "Activities" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活动"
+          }
+        }
+      }
+    },
     "Ad-free experience" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "无广告体验"
+          }
+        }
+      }
+    },
+    "Add Habit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加习惯"
           }
         }
       }
@@ -608,6 +658,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "全部"
+          }
+        }
+      }
+    },
+    "Animals" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "动物"
           }
         }
       }
@@ -782,6 +842,16 @@
         }
       }
     },
+    "Blue" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "蓝色"
+          }
+        }
+      }
+    },
     "Boost daily movement and heart health." : {
       "localizations" : {
         "zh-Hans" : {
@@ -933,6 +1003,7 @@
       }
     },
     "Change" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1062,6 +1133,16 @@
         }
       }
     },
+    "Choose Habit Icon" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择习惯图标"
+          }
+        }
+      }
+    },
     "Choose Language" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1088,6 +1169,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择您的习惯"
+          }
+        }
+      }
+    },
+    "Choose your avatar" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择您的头像"
           }
         }
       }
@@ -1544,22 +1635,22 @@
         }
       }
     },
+    "Default" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "默认"
+          }
+        }
+      }
+    },
     "Delete" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "删除"
-          }
-        }
-      }
-    },
-    "Delete '%@'?" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "删除 '%@'？"
           }
         }
       }
@@ -1914,6 +2005,16 @@
         }
       }
     },
+    "First check-in" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "首次打卡"
+          }
+        }
+      }
+    },
     "Fitness Fanatic" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1960,6 +2061,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "遵循睡前例程"
+          }
+        }
+      }
+    },
+    "Food" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "食物"
           }
         }
       }
@@ -2045,6 +2156,16 @@
         }
       }
     },
+    "Green" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "绿色"
+          }
+        }
+      }
+    },
     "Habit" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2101,6 +2222,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "习惯大师"
+          }
+        }
+      }
+    },
+    "Habit name is empty" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "习惯名称为空"
           }
         }
       }
@@ -2536,6 +2667,16 @@
         }
       }
     },
+    "Motivation" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "激励"
+          }
+        }
+      }
+    },
     "My Longevity Rating" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2562,6 +2703,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "我的统计"
+          }
+        }
+      }
+    },
+    "Name" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名称"
           }
         }
       }
@@ -2646,6 +2797,26 @@
         }
       }
     },
+    "No Habits Yet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没有习惯"
+          }
+        }
+      }
+    },
+    "No Habits for Today" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天没有习惯"
+          }
+        }
+      }
+    },
     "No reminders set" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2702,6 +2873,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新手+"
+          }
+        }
+      }
+    },
+    "Objects" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "物品"
           }
         }
       }
@@ -2892,6 +3073,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "向 %@ 的进度"
+          }
+        }
+      }
+    },
+    "Purple" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "紫色"
           }
         }
       }
@@ -3246,6 +3437,16 @@
         }
       }
     },
+    "Smileys" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "表情"
+          }
+        }
+      }
+    },
     "Sort By" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3262,6 +3463,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "开始您的旅程"
+          }
+        }
+      }
+    },
+    "Start building healthy habits by creating your first one. Small steps lead to big changes!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "创建您的第一个习惯，开始培养健康生活。小小的坚持，也能带来巨大的改变！"
           }
         }
       }
@@ -3616,16 +3827,6 @@
         }
       }
     },
-    "This will permanently delete the habit '%@' and all its check-in history. This action cannot be undone. Are you sure you want to proceed?" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这将永久删除习惯 '%@' 及其所有签到历史。此操作无法撤销。您确定要继续吗？"
-          }
-        }
-      }
-    },
     "This will permanently delete the habit ‘%@’ and all its check-in history. This action cannot be undone. Are you sure you want to proceed?" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3956,6 +4157,16 @@
         }
       }
     },
+    "Week Starts On" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周开始于"
+          }
+        }
+      }
+    },
     "Week Warrior" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4023,6 +4234,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您现在是高级用户！"
+          }
+        }
+      }
+    },
+    "You don't have any habits scheduled for today. Create some habits to start your journey!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您今天没有安排任何习惯。创建一些习惯，开启您的旅程吧！"
           }
         }
       }

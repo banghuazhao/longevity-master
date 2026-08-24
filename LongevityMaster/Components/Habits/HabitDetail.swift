@@ -479,7 +479,7 @@ struct HabitDetailView: View {
             )
         }
         .alert(
-            "Delete '\(viewModel.habit.truncatedName)'?",
+            "Delete ‘\(viewModel.habit.truncatedName)’?",
             isPresented: Binding($viewModel.route.deleteAlert)
         ) {
             Button("Delete", role: .destructive) {
@@ -488,7 +488,7 @@ struct HabitDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("This will permanently delete the habit '\(viewModel.habit.truncatedName)' and all its check-in history. This action cannot be undone. Are you sure you want to proceed?")
+            Text("This will permanently delete the habit ‘\(viewModel.habit.truncatedName)’ and all its check-in history. This action cannot be undone. Are you sure you want to proceed?")
         }
     }
     

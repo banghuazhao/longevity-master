@@ -338,7 +338,7 @@ struct UserStatsView: View {
                         icon: "🌟",
                         title: String(localized: "Best Habit"),
                         subtitle: bestHabit.name,
-                        detail: "\(allCheckInsForHabit(bestHabit.id).count) check-ins"
+                        detail: String(localized: "\(allCheckInsForHabit(bestHabit.id).count) check-ins")
                     )
                 }
                 
@@ -347,7 +347,7 @@ struct UserStatsView: View {
                         icon: "🕐",
                         title: String(localized: "Started Journey"),
                         subtitle: earliestCheckInString,
-                        detail: "First check-in"
+                        detail: String(localized: "First check-in")
                     )
                 }
                 
@@ -356,7 +356,7 @@ struct UserStatsView: View {
                         icon: "📈",
                         title: String(localized: "Most Consistent"),
                         subtitle: mostFrequent.name,
-                        detail: "\(allCheckInsForHabit(mostFrequent.id).count) times"
+                        detail: String(localized: "\(allCheckInsForHabit(mostFrequent.id).count) times")
                     )
                 }
             }

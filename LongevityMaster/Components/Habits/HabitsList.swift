@@ -29,9 +29,15 @@ class HabitsListViewModel {
         case `default` = "Default"
         case name = "Name"
         case antiAgingRating = "Anti-Aging Rating"
-        
-        var displayName: String {
-            return self.rawValue
+
+        /// A key rather than `rawValue`: `rawValue` is what gets written to user defaults, and
+        /// returning it meant the menu read English no matter which language was chosen.
+        var displayName: LocalizedStringKey {
+            switch self {
+            case .default: return "Default"
+            case .name: return "Name"
+            case .antiAgingRating: return "Anti-Aging Rating"
+            }
         }
     }
     
@@ -40,9 +46,14 @@ class HabitsListViewModel {
         case favorites = "Favorites"
         case active = "Active"
         case archived = "Archived"
-        
-        var displayName: String {
-            return self.rawValue
+
+        var displayName: LocalizedStringKey {
+            switch self {
+            case .all: return "All"
+            case .favorites: return "Favorites"
+            case .active: return "Active"
+            case .archived: return "Archived"
+            }
         }
     }
     
@@ -190,7 +201,7 @@ struct HabitsListView: View {
                         HStack(spacing: 12) {
                             // All categories option
                             CategoryFilterButton(
-                                title: "All",
+                                title: String(localized: "All"),
                                 isSelected: viewModel.selectedCategory == nil,
                                 action: { viewModel.selectCategory(nil) }
                             )

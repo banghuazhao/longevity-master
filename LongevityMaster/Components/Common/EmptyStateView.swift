@@ -8,9 +8,11 @@ import Dependencies
 
 struct EmptyStateView: View {
     let icon: String
-    let title: String
-    let subtitle: String
-    let buttonTitle: String
+    // `LocalizedStringKey`, not `String`: `Text` only looks a string up in the catalog when it
+    // arrives as a key, so plain-`String` titles shipped as English whatever language was picked.
+    let title: LocalizedStringKey
+    let subtitle: LocalizedStringKey
+    let buttonTitle: LocalizedStringKey
     let action: () -> Void
     
     @Dependency(\.themeManager) var themeManager

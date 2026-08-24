@@ -78,6 +78,16 @@
         }
       }
     },
+    "%lld day in a row" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连续 %lld 天"
+          }
+        }
+      }
+    },
     "%lld days" : {
       "localizations" : {
         "zh-Hans" : {
@@ -104,6 +114,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每周 %lld 天"
+          }
+        }
+      }
+    },
+    "%lld days in a row" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连续 %lld 天"
           }
         }
       }
@@ -145,6 +165,7 @@
       }
     },
     "%lld times" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2813,6 +2834,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今天没有习惯"
+          }
+        }
+      }
+    },
+    "No habits yet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没有习惯"
           }
         }
       }

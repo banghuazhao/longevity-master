@@ -38,12 +38,10 @@ class UserStatsViewModel {
     var totalDaysActive: Int { calculateTotalDaysActive() }
     var longestStreak: Int { calculateLongestStreak() }
     var currentStreak: Int { calculateCurrentStreak() }
-    var bestHabit: Habit? { findBestHabit() }
     var earliestCheckIn: CheckIn? { findEarliestCheckIn() }
     var earliestCheckInString: String? {
         earliestCheckIn.map { DateFormatter.mediumDate.string(from: $0.date) }
     }
-    var mostFrequentHabit: Habit? { findMostFrequentHabit() }
     var categoryStats: [HabitCategory: Int] { calculateCategoryStats() }
     
     /// Reading this recomputes the score from every habit, achievement and check-in — so take
@@ -71,28 +69,51 @@ class UserStatsViewModel {
         return calendar.currentDayStreak(in: activeDays(calendar))
     }
     
-    private func findBestHabit() -> Habit? {
-        let habitCheckInCounts = Dictionary(grouping: allCheckIns, by: { $0.habitID })
-            .mapValues { $0.count }
-        
-        return habitCheckInCounts.max(by: { $0.value < $1.value })
-            .flatMap { habitID in
-                allHabits.first { $0.id == habitID.key }
-            }
-    }
-    
     private func findEarliestCheckIn() -> CheckIn? {
         return allCheckIns.min(by: { $0.date < $1.date })
     }
-    
-    private func findMostFrequentHabit() -> Habit? {
-        let habitCheckInCounts = Dictionary(grouping: allCheckIns, by: { $0.habitID })
-            .mapValues { $0.count }
-        
-        return habitCheckInCounts.max(by: { $0.value < $1.value })
-            .flatMap { habitID in
-                allHabits.first { $0.id == habitID.key }
+
+    /// One habit, and the number the insight row is about it.
+    struct HabitInsight {
+        let habit: Habit
+        let value: Int
+    }
+
+    struct HabitInsights {
+        /// Most check-ins of any habit.
+        let best: HabitInsight?
+        /// Longest run of consecutive days any habit was checked in on. A different question
+        /// from `best` — these two rows used to run the identical computation and so always
+        /// named the same habit, with the same number, under two headings.
+        let mostConsistent: HabitInsight?
+    }
+
+    /// Derived in one pass. Read this once and take both rows off it rather than asking
+    /// separately, which walked the check-ins twice over.
+    var habitInsights: HabitInsights {
+        let calendar = Calendar.current
+        var checkInsByHabit: [Habit.ID: Int] = [:]
+        var daysByHabit: [Habit.ID: Set<Date>] = [:]
+        for checkIn in allCheckIns {
+            checkInsByHabit[checkIn.habitID, default: 0] += 1
+            daysByHabit[checkIn.habitID, default: []].insert(calendar.startOfDay(for: checkIn.date))
+        }
+
+        var best: HabitInsight?
+        var mostConsistent: HabitInsight?
+        for habit in allHabits {
+            if let count = checkInsByHabit[habit.id], count > best?.value ?? 0 {
+                best = HabitInsight(habit: habit, value: count)
             }
+            if let days = daysByHabit[habit.id] {
+                let streak = calendar.longestDayStreak(in: days)
+                if streak > mostConsistent?.value ?? 0 {
+                    mostConsistent = HabitInsight(habit: habit, value: streak)
+                }
+            }
+        }
+
+        return HabitInsights(best: best, mostConsistent: mostConsistent)
     }
     
     private func calculateCategoryStats() -> [HabitCategory: Int] {
@@ -113,7 +134,7 @@ class UserStatsViewModel {
     
     func generateShareText() -> String {
         let score = longevityScore
-        let bestHabitName = bestHabit?.name ?? "No habits yet"
+        let bestHabitName = habitInsights.best?.habit.name ?? String(localized: "No habits yet")
         let earliestDate = earliestCheckIn?.date ?? Date()
         
         return """
@@ -304,17 +325,20 @@ struct UserStatsView: View {
     
     @ViewBuilder
     private var habitInsightsSection: some View {
+        // Read once: both rows come off the same pass over the check-ins.
+        let insights = viewModel.habitInsights
+
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
             Text(String(localized: "Habit Insights"))
                 .appSectionHeader(theme: viewModel.themeManager.current)
             
             VStack(spacing: AppSpacing.medium) {
-                if let bestHabit = viewModel.bestHabit {
+                if let best = insights.best {
                     insightRow(
                         icon: "🌟",
                         title: String(localized: "Best Habit"),
-                        subtitle: bestHabit.name,
-                        detail: String(localized: "\(allCheckInsForHabit(bestHabit.id).count) check-ins")
+                        subtitle: best.habit.name,
+                        detail: String(localized: "\(best.value) check-ins")
                     )
                 }
                 
@@ -327,12 +351,16 @@ struct UserStatsView: View {
                     )
                 }
                 
-                if let mostFrequent = viewModel.mostFrequentHabit {
+                if let mostConsistent = insights.mostConsistent {
                     insightRow(
                         icon: "📈",
                         title: String(localized: "Most Consistent"),
-                        subtitle: mostFrequent.name,
-                        detail: String(localized: "\(allCheckInsForHabit(mostFrequent.id).count) times")
+                        subtitle: mostConsistent.habit.name,
+                        // Two keys rather than one, the way the habit form already handles it:
+                        // the catalog has no plural rule to lean on.
+                        detail: mostConsistent.value == 1
+                            ? String(localized: "\(mostConsistent.value) day in a row")
+                            : String(localized: "\(mostConsistent.value) days in a row")
                     )
                 }
             }
@@ -444,9 +472,6 @@ struct UserStatsView: View {
         .padding(.vertical, 4)
     }
     
-    private func allCheckInsForHabit(_ habitId: Int) -> [CheckIn] {
-        return viewModel.allCheckIns.filter { $0.habitID == habitId }
-    }
 }
 
 struct ShareSheet: UIViewControllerRepresentable {

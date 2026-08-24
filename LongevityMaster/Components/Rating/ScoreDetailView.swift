@@ -284,18 +284,33 @@ class ScoreDetailViewModel: HashableObject {
         currentScore = min(allCheckIns.count * 2, ScoreCategory.totalCheckIns.maxScore)
         percentage = Double(currentScore) / Double(ScoreCategory.totalCheckIns.maxScore)
         
+        // Taken once: `userCalendar` builds a Calendar and reads UserDefaults on every access.
+        let calendar = userCalendar
         let today = Date()
-        let startOfWeek = today.startOfWeek(for: userCalendar)
-        let startOfMonth = today.startOfMonth(for: userCalendar)
-        
-        let checkInsThisWeek = allCheckIns.filter { $0.date >= startOfWeek }
-        let checkInsThisMonth = allCheckIns.filter { $0.date >= startOfMonth }
-        
+        let startOfWeek = today.startOfWeek(for: calendar)
+        let startOfMonth = today.startOfMonth(for: calendar)
+
+        var thisWeek = 0
+        var thisMonth = 0
+        var earliest: Date?
+        for checkIn in allCheckIns {
+            if checkIn.date >= startOfWeek { thisWeek += 1 }
+            if checkIn.date >= startOfMonth { thisMonth += 1 }
+            // `allCheckIns` is unordered, so the earliest has to be looked for. Reading
+            // `first` took whatever row the database happened to return, which is the order
+            // check-ins were entered — and people back-date them.
+            earliest = min(earliest ?? checkIn.date, checkIn.date)
+        }
+
         statistics = [
             Statistic(title: String(localized: "Total Check-ins"), value: "\(allCheckIns.count)", subtitle: String(localized: "all time")),
-            Statistic(title: String(localized: "This Week"), value: "\(checkInsThisWeek.count)", subtitle: String(localized: "recent activity")),
-            Statistic(title: String(localized: "This Month"), value: "\(checkInsThisMonth.count)", subtitle: String(localized: "monthly progress")),
-            Statistic(title: String(localized: "Average/Day"), value: String(format: "%.1f", Double(allCheckIns.count) / max(1, Double(userCalendar.dateComponents([.day], from: allCheckIns.first?.date ?? today, to: today).day ?? 1))), subtitle: String(localized: "consistency"))
+            Statistic(title: String(localized: "This Week"), value: "\(thisWeek)", subtitle: String(localized: "recent activity")),
+            Statistic(title: String(localized: "This Month"), value: "\(thisMonth)", subtitle: String(localized: "monthly progress")),
+            Statistic(
+                title: String(localized: "Average/Day"),
+                value: String(format: "%.1f", Double(allCheckIns.count) / Double(daysTracked(since: earliest, until: today, calendar: calendar))),
+                subtitle: String(localized: "consistency")
+            )
         ]
         
         tips = [
@@ -329,6 +344,19 @@ class ScoreDetailViewModel: HashableObject {
         ]
     }
     
+    /// How many days the user has been tracking, counting both the first day and today, so a
+    /// day-one user averages over one day rather than dividing by zero. Whole calendar days
+    /// apart, not 24-hour spans: a check-in at 9pm yesterday is one day ago at 10am, not zero.
+    private func daysTracked(since earliest: Date?, until today: Date, calendar: Calendar) -> Int {
+        guard let earliest else { return 1 }
+        let span = calendar.dateComponents(
+            [.day],
+            from: earliest.startOfDay(for: calendar),
+            to: today.startOfDay(for: calendar)
+        ).day ?? 0
+        return max(1, span + 1)
+    }
+
     /// The start of every day carrying a check-in. All three streak figures below are
     /// questions about this one set, and `userCalendar` derives a fresh Calendar — and re-reads
     /// UserDefaults — on every access, so it is taken once as well.

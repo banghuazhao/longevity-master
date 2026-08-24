@@ -102,21 +102,6 @@ struct TodayView: View {
                                                     .offset(x: -10, y: -10)
                                                 }
                                             }
-                                            .alert(
-                                                item: $viewModel.route.showDeleteAlert,
-                                                title: { habit in
-                                                    Text(String(localized: "Delete ‘\(habit.truncatedName)’?"))
-                                                },
-                                                actions: { habit in
-                                                    Button("Delete", role: .destructive) {
-                                                        viewModel.confirmDeleteHabit(habit)
-                                                    }
-                                                    Button("Cancel", role: .cancel) {}
-                                                },
-                                                message: { habit in
-                                                    Text(String(localized: "This will permanently delete the habit ‘\(habit.truncatedName)’ and all its check-in history. This action cannot be undone. Are you sure you want to proceed?"))
-                                                }
-                                            )
                                         }
                                         
                                         if viewModel.isEditing {
@@ -146,6 +131,23 @@ struct TodayView: View {
             .sheet(item: $viewModel.route.createHabit, id: \.self) { habitFormViewModel in
                 HabitFormView(viewModel: habitFormViewModel)
             }
+            // One alert for the screen. Attached inside the grid it was one per habit tile,
+            // every one of them bound to the same single route.
+            .alert(
+                item: $viewModel.route.showDeleteAlert,
+                title: { habit in
+                    Text(String(localized: "Delete ‘\(habit.truncatedName)’?"))
+                },
+                actions: { habit in
+                    Button("Delete", role: .destructive) {
+                        viewModel.confirmDeleteHabit(habit)
+                    }
+                    Button("Cancel", role: .cancel) {}
+                },
+                message: { habit in
+                    Text(String(localized: "This will permanently delete the habit ‘\(habit.truncatedName)’ and all its check-in history. This action cannot be undone. Are you sure you want to proceed?"))
+                }
+            )
             .appBackground()
             .navigationTitle("Today")
             .navigationBarTitleDisplayMode(.inline)

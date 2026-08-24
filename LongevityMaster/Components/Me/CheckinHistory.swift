@@ -11,10 +11,17 @@ import SQLiteData
 @MainActor
 @Observable
 class CheckInHistoryViewModel {
-    @ObservationIgnored
-    @FetchAll(
+    /// Read a page at a time rather than the whole table. The join was fetching every
+    /// check-in the user has ever made — and re-running on every write anywhere in the app,
+    /// since it is an observed query — which only gets worse the longer someone sticks with
+    /// the habit of checking in.
+    private static let pageSize = 100
+
+    private static func page(limit: Int) -> some StructuredQueriesCore.Statement<CheckInHistory> {
         CheckIn
-            .order(by: \.date)
+            // Newest first: this is a history, and the entry someone wants to look at or
+            // undo is almost always the one they just made.
+            .order { $0.date.desc() }
             .leftJoin(Habit.all) {
                 $0.habitID.eq($1.id)
             }
@@ -24,14 +31,45 @@ class CheckInHistoryViewModel {
                     habitName: $1.name ?? "",
                     habitIcon: $1.icon ?? ""
                 )
-            },
-        animation: .default
-    )
+            }
+            .limit(limit)
+    }
+
+    @ObservationIgnored
+    @FetchAll(CheckInHistoryViewModel.page(limit: CheckInHistoryViewModel.pageSize), animation: .default)
     var checkinHistories
-    
+
     @ObservationIgnored
     @Dependency(\.defaultDatabase) var database
-    
+
+    private var limit = pageSize
+    private var isLoadingPage = false
+
+    /// Stops the list asking for more once a page comes back short, which is how the end of
+    /// the table announces itself.
+    private var hasMore = true
+
+    /// Called as the last row appears. Every row appearing near the end asks, so this has to
+    /// be cheap and idempotent when there is nothing left to load.
+    func onAppearOfRow(_ history: CheckInHistory) async {
+        guard hasMore,
+              !isLoadingPage,
+              history.checkIn.id == checkinHistories.last?.checkIn.id
+        else { return }
+
+        isLoadingPage = true
+        defer { isLoadingPage = false }
+
+        let previousCount = checkinHistories.count
+        limit += Self.pageSize
+
+        await withErrorReporting {
+            try await $checkinHistories.load(Self.page(limit: limit))
+        }
+
+        hasMore = checkinHistories.count > previousCount
+    }
+
     func onTapDeleteCheckin(_ checkin: CheckInHistory) {
         withErrorReporting {
             try database.write { db in
@@ -86,6 +124,9 @@ struct CheckInHistoryView: View {
                             .buttonStyle(.borderless)
                         }
                         .padding(.vertical, 8)
+                        .task {
+                            await viewModel.onAppearOfRow(checkinHistory)
+                        }
                     }
                 }
             }

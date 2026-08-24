@@ -194,6 +194,9 @@ struct HabitsListView: View {
     @State var viewModel = HabitsListViewModel()
 
     var body: some View {
+        // Read once. Every access filters and sorts the whole list, and the body asks twice.
+        let habits = viewModel.filteredHabits
+
         NavigationStack {
             ScrollView {
                 VStack(spacing: 16) {
@@ -218,7 +221,7 @@ struct HabitsListView: View {
                         .padding(.horizontal)
                     }
                     
-                    if viewModel.filteredHabits.isEmpty {
+                    if habits.isEmpty {
                         EmptyStateView(
                             icon: "📝",
                             title: "No Habits Yet",
@@ -228,7 +231,7 @@ struct HabitsListView: View {
                             viewModel.onTapCreateHabit(category: viewModel.selectedCategory)
                         }
                     } else {
-                        ForEach(viewModel.filteredHabits) { habit in
+                        ForEach(habits) { habit in
                             HabitCardView(
                                 habit: habit,
                                 onEdit: { viewModel.onTapEditHabit(habit) },
@@ -237,11 +240,6 @@ struct HabitsListView: View {
                                 onToggleArchive: { viewModel.toggleArchive(habit) }
                             )
                             .padding(.horizontal)
-                            .sheet(item: $viewModel.route.editHabit, id: \.self) { habitFormViewModel in
-                                HabitFormView(
-                                    viewModel: habitFormViewModel
-                                )
-                            }
                             .onTapGesture {
                                 viewModel.onTapHabitItem(habit)
                             }
@@ -313,6 +311,11 @@ struct HabitsListView: View {
                 }
             }
             .sheet(item: $viewModel.route.createHabit, id: \.self) { habitFormViewModel in
+                HabitFormView(viewModel: habitFormViewModel)
+            }
+            // One presentation for the screen. Attached inside the `ForEach` it was one per
+            // habit card, every one of them bound to the same single route.
+            .sheet(item: $viewModel.route.editHabit, id: \.self) { habitFormViewModel in
                 HabitFormView(viewModel: habitFormViewModel)
             }
             .navigationDestination(item: $viewModel.route.habitDetail) { habitDetailViewModel in

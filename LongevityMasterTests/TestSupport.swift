@@ -82,6 +82,7 @@ extension RatingService {
         try await $allHabits.load()
         try await $allAchievements.load()
         try await $allCheckIns.load()
+        try await $allSkippedDays.load()
     }
 }
 

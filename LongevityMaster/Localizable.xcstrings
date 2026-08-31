@@ -2307,6 +2307,16 @@
         }
       }
     },
+    "Hold a day to mark it a rest day — your streak counts straight through it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长按某一天可将其标记为休息日 —— 连续记录会直接跨过这一天。"
+          }
+        }
+      }
+    },
     "How %@ Score is Calculated" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2533,6 +2543,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "管理同意设置"
+          }
+        }
+      }
+    },
+    "Mark today a rest day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将今天标记为休息日"
           }
         }
       }
@@ -3244,6 +3264,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重置为默认"
+          }
+        }
+      }
+    },
+    "Rest Days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "休息日"
+          }
+        }
+      }
+    },
+    "Rest day on. Tap to turn off." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "休息日已开启，点按可关闭。"
+          }
+        }
+      }
+    },
+    "Rest day — nothing missed today counts against your streak." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "休息日 —— 今天错过的内容不会中断你的连续记录。"
           }
         }
       }
@@ -4627,6 +4677,9 @@
           }
         }
       }
+    },
+    "😌" : {
+      "shouldTranslate" : false
     },
     "😴 Sleep" : {
       "localizations" : {

@@ -60,8 +60,11 @@ class AchievementService {
         let categoryByHabit: [Habit.ID: HabitCategory]
         /// The start of every day carrying a check-in against any habit at all.
         let activeDays: Set<Date>
+        /// Days off. Streaks count through these, and a habit is not held to its schedule on
+        /// one.
+        let restDays: RestDays
 
-        init(checkIns: [CheckIn], habits: [Habit], calendar: Calendar) {
+        init(checkIns: [CheckIn], habits: [Habit], skippedDays: [SkippedDay], calendar: Calendar) {
             self.checkIns = checkIns
             self.habits = habits
             checkInsByHabit = Dictionary(grouping: checkIns, by: \.habitID)
@@ -70,6 +73,7 @@ class AchievementService {
                 uniquingKeysWith: { first, _ in first }
             )
             activeDays = Set(checkIns.map { $0.date.startOfDay(for: calendar) })
+            restDays = RestDays(skippedDays, in: calendar)
         }
     }
 
@@ -79,15 +83,21 @@ class AchievementService {
 
             // Locked achievements come from the same read as the rest, so an achievement
             // unlocked a moment ago cannot be unlocked again and have its date overwritten.
-            let (checkIns, habits, locked) = try await database.read { db in
+            let (checkIns, habits, skippedDays, locked) = try await database.read { db in
                 (
                     try CheckIn.all.fetchAll(db),
                     try Habit.all.fetchAll(db),
+                    try SkippedDay.all.fetchAll(db),
                     try Achievement.where { !$0.isUnlocked }.fetchAll(db)
                 )
             }
 
-            let snapshot = Snapshot(checkIns: checkIns, habits: habits, calendar: calendar)
+            let snapshot = Snapshot(
+                checkIns: checkIns,
+                habits: habits,
+                skippedDays: skippedDays,
+                calendar: calendar
+            )
             let earned = locked.filter {
                 meetsCriteria($0, for: checkIn, in: snapshot, calendar: calendar)
             }
@@ -130,7 +140,12 @@ class AchievementService {
             let habitCheckIns = snapshot.checkInsByHabit[habitID] ?? []
             guard !habitCheckIns.isEmpty else { return false }
             let days = Set(habitCheckIns.map { $0.date.startOfDay(for: calendar) })
-            return calendar.consecutiveDays(endingAt: checkIn.date, within: days, upTo: target) >= target
+            return calendar.consecutiveDays(
+                endingAt: checkIn.date,
+                within: days,
+                skipping: snapshot.restDays.forHabit(habitID),
+                upTo: target
+            ) >= target
 
         case .totalCheckIns:
             let habitID = achievement.habitID ?? checkIn.habitID
@@ -164,7 +179,12 @@ class AchievementService {
             return calendar.component(.hour, from: checkIn.date) >= 22
 
         case .consistency:
-            return calendar.consecutiveDays(endingAt: checkIn.date, within: snapshot.activeDays, upTo: target) >= target
+            return calendar.consecutiveDays(
+                endingAt: checkIn.date,
+                within: snapshot.activeDays,
+                skipping: snapshot.restDays.everyHabit,
+                upTo: target
+            ) >= target
 
         case .variety:
             let categories = Set(snapshot.checkIns.compactMap { snapshot.categoryByHabit[$0.habitID] })
@@ -208,9 +228,14 @@ class AchievementService {
         for habit in habits {
             let checkIns = (snapshot.checkInsByHabit[habit.id] ?? []).filter { range.contains($0.date) }
 
+            let restDays = snapshot.restDays.forHabit(habit.id)
+
             switch habit.frequency {
             case .fixedDaysInWeek, .fixedDaysInMonth:
-                let due = scheduledDays(for: habit, in: range, calendar: calendar).filter { $0 <= now }
+                // A day taken off is not a day the habit came due, so it cannot be the day
+                // that costs a perfect week.
+                let due = scheduledDays(for: habit, in: range, calendar: calendar)
+                    .filter { $0 <= now && !restDays.contains($0) }
                 guard !due.isEmpty else { continue }
                 judgedAnything = true
                 let checkedDays = Set(checkIns.map { $0.date.startOfDay(for: calendar) })
@@ -220,22 +245,34 @@ class AchievementService {
                 judgedAnything = true
                 switch period {
                 case .week:
-                    guard checkIns.count >= habit.nDaysPerWeek else { return false }
+                    let owed = quota(habit.nDaysPerWeek, lessRestDaysIn: range, from: restDays)
+                    guard checkIns.count >= owed else { return false }
                 case .month:
                     for week in wholeWeeks(in: range, calendar: calendar) where week.upperBound <= now {
                         let met = checkIns.count { week.contains($0.date) }
-                        guard met >= habit.nDaysPerWeek else { return false }
+                        let owed = quota(habit.nDaysPerWeek, lessRestDaysIn: week, from: restDays)
+                        guard met >= owed else { return false }
                     }
                 }
 
             case .nDaysEachMonth:
                 guard period == .month else { continue }
                 judgedAnything = true
-                guard checkIns.count >= habit.nDaysPerMonth else { return false }
+                let owed = quota(habit.nDaysPerMonth, lessRestDaysIn: range, from: restDays)
+                guard checkIns.count >= owed else { return false }
             }
         }
 
         return judgedAnything
+    }
+
+    /// What a quota habit owes over `range` once the days taken off inside it are deducted.
+    /// A habit asking for five days a week owes four in a week with one rest day. Never
+    /// negative: a period made entirely of rest days owes nothing.
+    private func quota(_ target: Int, lessRestDaysIn range: ClosedRange<Date>, from restDays: Set<Date>) -> Int {
+        guard !restDays.isEmpty else { return target }
+        let resting = restDays.count { range.contains($0) }
+        return max(0, target - resting)
     }
 
     /// The days inside `range` on which a fixed-schedule habit came due. Empty for quota

@@ -21,6 +21,8 @@ class UserStatsViewModel {
     @ObservationIgnored
     @FetchAll(Achievement.all, animation: .default) var allAchievements
     @ObservationIgnored
+    @FetchAll(SkippedDay.all, animation: .default) var allSkippedDays
+    @ObservationIgnored
     @Dependency(\.defaultDatabase) var database
     @ObservationIgnored
     @Dependency(\.themeManager) var themeManager
@@ -43,6 +45,7 @@ class UserStatsViewModel {
         earliestCheckIn.map { DateFormatter.mediumDate.string(from: $0.date) }
     }
     var categoryStats: [HabitCategory: Int] { calculateCategoryStats() }
+    var totalRestDays: Int { allSkippedDays.count }
     
     /// Reading this recomputes the score from every habit, achievement and check-in — so take
     /// one breakdown and read the parts you need off it, rather than asking once per value.
@@ -55,18 +58,25 @@ class UserStatsViewModel {
         Set(allCheckIns.map { calendar.startOfDay(for: $0.date) })
     }
 
+    /// The days off that count for the overall streak — the ones taken from every habit at
+    /// once. A rest day from a single habit says nothing about whether the user showed up
+    /// that day, and several of them did.
+    private func restDays(_ calendar: Calendar) -> Set<Date> {
+        RestDays(allSkippedDays, in: calendar).everyHabit
+    }
+
     private func calculateTotalDaysActive() -> Int {
         activeDays(Calendar.current).count
     }
 
     private func calculateLongestStreak() -> Int {
         let calendar = Calendar.current
-        return calendar.longestDayStreak(in: activeDays(calendar))
+        return calendar.longestDayStreak(in: activeDays(calendar), skipping: restDays(calendar))
     }
 
     private func calculateCurrentStreak() -> Int {
         let calendar = Calendar.current
-        return calendar.currentDayStreak(in: activeDays(calendar))
+        return calendar.currentDayStreak(in: activeDays(calendar), skipping: restDays(calendar))
     }
     
     private func findEarliestCheckIn() -> CheckIn? {
@@ -99,6 +109,8 @@ class UserStatsViewModel {
             daysByHabit[checkIn.habitID, default: []].insert(calendar.startOfDay(for: checkIn.date))
         }
 
+        let restDays = RestDays(allSkippedDays, in: calendar)
+
         var best: HabitInsight?
         var mostConsistent: HabitInsight?
         for habit in allHabits {
@@ -106,7 +118,7 @@ class UserStatsViewModel {
                 best = HabitInsight(habit: habit, value: count)
             }
             if let days = daysByHabit[habit.id] {
-                let streak = calendar.longestDayStreak(in: days)
+                let streak = calendar.longestDayStreak(in: days, skipping: restDays.forHabit(habit.id))
                 if streak > mostConsistent?.value ?? 0 {
                     mostConsistent = HabitInsight(habit: habit, value: streak)
                 }
@@ -175,7 +187,7 @@ struct UserStatsView: View {
                 
                 // Streak Section
                 streakSection
-                
+
                 // Habit Insights Section
                 habitInsightsSection
                 
@@ -318,11 +330,24 @@ struct UserStatsView: View {
                         .foregroundColor(viewModel.themeManager.current.textSecondary)
                 }
                 .frame(maxWidth: .infinity)
+
+                VStack(spacing: AppSpacing.small) {
+                    Text("😌")
+                        .font(.system(size: 40))
+                    Text("\(viewModel.totalRestDays)")
+                        .font(AppFont.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(viewModel.themeManager.current.primaryColor)
+                    Text(String(localized: "Rest Days"))
+                        .font(AppFont.caption)
+                        .foregroundColor(viewModel.themeManager.current.textSecondary)
+                }
+                .frame(maxWidth: .infinity)
             }
         }
         .appCardStyle()
     }
-    
+
     @ViewBuilder
     private var habitInsightsSection: some View {
         // Read once: both rows come off the same pass over the check-ins.
@@ -381,15 +406,15 @@ struct UserStatsView: View {
                             Text(category.briefTitle)
                                 .font(AppFont.body)
                                 .foregroundColor(viewModel.themeManager.current.textPrimary)
-                            
+
                             Spacer()
-                            
+
                             HStack {
                                 Text("\(count)")
                                     .font(AppFont.body)
                                     .fontWeight(.semibold)
                                     .foregroundColor(viewModel.themeManager.current.primaryColor)
-                                
+
                                 Image(systemName: "checkmark.circle.fill")
                                     .font(.headline)
                                     .foregroundColor(.green)

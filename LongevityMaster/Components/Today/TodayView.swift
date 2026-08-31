@@ -60,7 +60,33 @@ struct TodayView: View {
                         }
                         
                         Spacer()
-                        
+
+                        Button {
+                            withAnimation {
+                                viewModel.toggleRestDay()
+                            }
+                        } label: {
+                            Image(systemName: viewModel.isRestDay ? "moon.zzz.fill" : "moon.zzz")
+                                .appCircularButtonStyle()
+                        }
+                        .accessibilityLabel(
+                            viewModel.isRestDay
+                                ? Text("Rest day on. Tap to turn off.")
+                                : Text("Mark today a rest day")
+                        )
+                    }
+
+                    if viewModel.isRestDay {
+                        HStack(spacing: AppSpacing.small) {
+                            Text("😌")
+                            Text("Rest day — nothing missed today counts against your streak.")
+                                .font(AppFont.footnote)
+                                .foregroundColor(themeManager.current.textSecondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                            Spacer(minLength: 0)
+                        }
+                        .padding(.top, AppSpacing.small)
+                        .transition(.opacity)
                     }
 
                     if todayHabits.isEmpty {

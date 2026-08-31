@@ -16,6 +16,11 @@ class HabitDetailViewModel {
     @ObservationIgnored
     @FetchAll var checkIns: [CheckIn]
 
+    /// Not scoped to this habit: a day off from everything counts here too, and the table
+    /// holds a handful of rows at most.
+    @ObservationIgnored
+    @FetchAll(SkippedDay.all, animation: .default) var allSkippedDays
+
     @ObservationIgnored
     @FetchAll(Reminder.all, animation: .default) var allReminders
 
@@ -75,10 +80,18 @@ class HabitDetailViewModel {
         .userPreferred(startWeekOnMonday: startWeekOnMonday)
     }
 
+    /// The days off that count for this habit: its own, plus the days off from everything.
+    var restDays: Set<Date> {
+        RestDays(allSkippedDays, in: userCalendar).forHabit(habit.id)
+    }
+
     var todayHabit: TodayHabit {
         let calendar = Calendar.current
         let activeDays = Set(checkIns.map { calendar.startOfDay(for: $0.date) })
-        let streak = calendar.currentDayStreak(in: activeDays)
+        let streak = calendar.currentDayStreak(
+            in: activeDays,
+            skipping: RestDays(allSkippedDays, in: calendar).forHabit(habit.id)
+        )
         let streakDescription = streak > 0 ? String(localized: "🔥 \(streak)d streak") : nil
         return habit.toTodayHabit(
             isCompleted: true,
@@ -130,6 +143,9 @@ class HabitDetailViewModel {
         let date: Date?
         let isToday: Bool
         let isChecked: Bool
+        /// A day declared off. It is drawn differently and counts for neither side of the
+        /// streak — see `SkippedDay`.
+        let isRestDay: Bool
         let isCurrentMonth: Bool
     }
 
@@ -139,16 +155,26 @@ class HabitDetailViewModel {
     var calendarCells: [CalendarCell] {
         let cal = userCalendar
         let checkedDays = Set(checkIns.map { cal.startOfDay(for: $0.date) })
+        let restDays = RestDays(allSkippedDays, in: cal).forHabit(habit.id)
 
         return calendarDays(for: cal).enumerated().map { index, day in
             guard let day else {
-                return CalendarCell(id: index, date: nil, isToday: false, isChecked: false, isCurrentMonth: false)
+                return CalendarCell(
+                    id: index,
+                    date: nil,
+                    isToday: false,
+                    isChecked: false,
+                    isRestDay: false,
+                    isCurrentMonth: false
+                )
             }
+            let startOfDay = cal.startOfDay(for: day)
             return CalendarCell(
                 id: index,
                 date: day,
                 isToday: cal.isDateInToday(day),
-                isChecked: checkedDays.contains(cal.startOfDay(for: day)),
+                isChecked: checkedDays.contains(startOfDay),
+                isRestDay: restDays.contains(startOfDay),
                 isCurrentMonth: cal.isDate(day, equalTo: selectedMonth, toGranularity: .month)
             )
         }
@@ -216,7 +242,14 @@ class HabitDetailViewModel {
         } else {
             // Add check-in
             withErrorReporting {
-                try database.write { db in
+                try database.write { [habit] db in
+                    // A day cannot be both done and rested.
+                    try SkippedDay
+                        .where { $0.habitID.eq(habit.id) }
+                        .where { $0.date.between(startOfDay, and: endOfDay) }
+                        .delete()
+                        .execute(db)
+
                     let draft = CheckIn.Draft(date: day, habitID: habit.id)
                     let savedCheckIn = try CheckIn
                         .upsert { draft }
@@ -234,6 +267,41 @@ class HabitDetailViewModel {
                     await soundPlayer.playCheckinSound()
                 }
             }
+        }
+        Haptics.shared.vibrateIfEnabled()
+    }
+
+    /// Declares a day off for this habit, or takes the declaration back. A rest day and a
+    /// check-in are mutually exclusive — resting is not doing — so marking one clears the
+    /// other.
+    func toggleRestDay(for day: Date?) {
+        guard let day, isCurrentMonth(day: day) else { return }
+        let calendar = userCalendar
+        let startOfDay = day.startOfDay(for: calendar)
+        let endOfDay = day.endOfDay(for: calendar)
+        // Only this habit's own rest days are the user's to toggle here. A day off from
+        // everything is set on the Today tab and would be surprising to clear from inside one
+        // habit's calendar.
+        let existing = allSkippedDays.first {
+            $0.habitID == habit.id && $0.date >= startOfDay && $0.date <= endOfDay
+        }
+
+        withErrorReporting {
+            try database.write { [habit] db in
+                if let existing {
+                    try SkippedDay.delete(existing).execute(db)
+                } else {
+                    try CheckIn
+                        .where { $0.habitID.eq(habit.id) }
+                        .where { $0.date.between(startOfDay, and: endOfDay) }
+                        .delete()
+                        .execute(db)
+                    try SkippedDay
+                        .upsert { SkippedDay.Draft(date: day, habitID: habit.id) }
+                        .execute(db)
+                }
+            }
+            WidgetRefresher.reload()
         }
         Haptics.shared.vibrateIfEnabled()
     }
@@ -516,18 +584,38 @@ struct HabitDetailView: View {
                         day: cell.date,
                         isToday: cell.isToday,
                         isChecked: cell.isChecked,
+                        isRestDay: cell.isRestDay,
                         isCurrentMonth: cell.isCurrentMonth,
                         theme: themeManager.current
                     )
                     .onTapGesture {
                         viewModel.toggleCheckIn(for: cell.date)
                     }
+                    .onLongPressGesture {
+                        viewModel.toggleRestDay(for: cell.date)
+                    }
                 }
                 .opacity(viewModel.habit.isArchived ? 0.6 : 1.0)
                 .disabled(viewModel.habit.isArchived)
             }
+
+            restDayLegend
         }
         .appCardStyle(theme: themeManager.current)
+    }
+
+    /// The long press has nothing to advertise it, so the calendar says what it does.
+    private var restDayLegend: some View {
+        HStack(spacing: AppSpacing.small) {
+            Circle()
+                .strokeBorder(themeManager.current.secondaryGray, style: StrokeStyle(lineWidth: 1.5, dash: [3, 2]))
+                .frame(width: 14, height: 14)
+            Text("Hold a day to mark it a rest day — your streak counts straight through it.")
+                .font(AppFont.footnote)
+                .foregroundColor(themeManager.current.textSecondary)
+                .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
+        }
     }
     
     private var yearlyCalendarGrid: some View {
@@ -567,8 +655,18 @@ struct CalendarDayCell: View {
     let day: Date?
     let isToday: Bool
     let isChecked: Bool
+    var isRestDay: Bool = false
     let isCurrentMonth: Bool
     let theme: AppTheme
+
+    /// A rest day is drawn as an outline rather than a fill: it is deliberately not a
+    /// check-in, and should not read as one at a glance.
+    private var dayNumberColor: Color {
+        guard isCurrentMonth else { return theme.textSecondary }
+        if isChecked { return .white }
+        if isRestDay { return theme.textSecondary }
+        return theme.textPrimary
+    }
 
     var body: some View {
         Group {
@@ -582,9 +680,18 @@ struct CalendarDayCell: View {
                         )
                         .frame(width: 32, height: 32)
 
+                    if isRestDay, !isChecked {
+                        Circle()
+                            .strokeBorder(
+                                theme.secondaryGray,
+                                style: StrokeStyle(lineWidth: 1.5, dash: [3, 2])
+                            )
+                            .frame(width: 32, height: 32)
+                    }
+
                     Text("\(Calendar.current.component(.day, from: day))")
                         .font(.body)
-                        .foregroundColor(isCurrentMonth ? (isChecked ? .white : theme.textPrimary) : theme.textSecondary)
+                        .foregroundColor(dayNumberColor)
                 }
                 .frame(maxWidth: .infinity, minHeight: 36)
             } else {

@@ -39,6 +39,44 @@ struct CalendarStreakTests {
         #expect(calendar.consecutiveDays(endingAt: testDate("2026-08-25 23:59"), within: days, upTo: 10) == 2)
     }
 
+    // MARK: - consecutiveDays over rest days
+
+    @Test("A rest day bridges a gap instead of ending the streak")
+    func consecutiveDaysBridgesARestDay() {
+        let days = testDays(["2026-08-25", "2026-08-23", "2026-08-22"])
+        let rest = testDays(["2026-08-24"])
+        #expect(calendar.consecutiveDays(endingAt: testDate("2026-08-25"), within: days, skipping: rest, upTo: 10) == 3)
+    }
+
+    @Test("Resting does not add to the streak, it only fails to end it")
+    func restDaysAreNotCounted() {
+        let days = testDays(["2026-08-25", "2026-08-23"])
+        let rest = testDays(["2026-08-24"])
+        // Three days walked, two of them done.
+        #expect(calendar.consecutiveDays(endingAt: testDate("2026-08-25"), within: days, skipping: rest, upTo: 10) == 2)
+    }
+
+    @Test("A run of rest days bridges as one")
+    func consecutiveDaysBridgesSeveralRestDays() {
+        let days = testDays(["2026-08-25", "2026-08-21"])
+        let rest = testDays(["2026-08-24", "2026-08-23", "2026-08-22"])
+        #expect(calendar.consecutiveDays(endingAt: testDate("2026-08-25"), within: days, skipping: rest, upTo: 10) == 2)
+    }
+
+    @Test("A day simply missed still ends the streak, rest days elsewhere or not")
+    func consecutiveDaysStillBreaksOnAMissedDay() {
+        let days = testDays(["2026-08-25", "2026-08-22"])
+        let rest = testDays(["2026-08-24"])
+        // The 23rd was neither done nor rested.
+        #expect(calendar.consecutiveDays(endingAt: testDate("2026-08-25"), within: days, skipping: rest, upTo: 10) == 1)
+    }
+
+    @Test("Rest days alone are not a streak")
+    func restDaysAloneAreNotAStreak() {
+        let rest = testDays(["2026-08-25", "2026-08-24"])
+        #expect(calendar.consecutiveDays(endingAt: testDate("2026-08-25"), within: [], skipping: rest, upTo: 10) == 0)
+    }
+
     // MARK: - currentDayStreak
 
     @Test("Counts today when today is already checked in")
@@ -57,6 +95,20 @@ struct CalendarStreakTests {
     func currentStreakBreaksAfterAMissedDay() {
         let days = testDays(["2026-08-23", "2026-08-22"])
         #expect(calendar.currentDayStreak(in: days, asOf: testDate("2026-08-25 09:00")) == 0)
+    }
+
+    @Test("Yesterday off keeps the streak alive today")
+    func currentStreakSurvivesARestDay() {
+        let days = testDays(["2026-08-23", "2026-08-22"])
+        let rest = testDays(["2026-08-24"])
+        #expect(calendar.currentDayStreak(in: days, skipping: rest, asOf: testDate("2026-08-25 09:00")) == 2)
+    }
+
+    @Test("Taking today off does not put the streak in question")
+    func currentStreakSurvivesRestingToday() {
+        let days = testDays(["2026-08-24", "2026-08-23"])
+        let rest = testDays(["2026-08-25"])
+        #expect(calendar.currentDayStreak(in: days, skipping: rest, asOf: testDate("2026-08-25 09:00")) == 2)
     }
 
     @Test("A run that ended weeks ago is not the current streak")
@@ -119,5 +171,20 @@ struct CalendarStreakTests {
     func streaksSpanLeapDay() {
         let days = testDays(["2028-02-28", "2028-02-29", "2028-03-01"])
         #expect(calendar.longestDayStreak(in: days) == 3)
+    }
+
+    // MARK: - longestDayStreak over rest days
+
+    @Test("Two runs either side of a rest day are one run")
+    func longestStreakBridgesARestDay() {
+        let days = testDays(["2026-08-20", "2026-08-21", "2026-08-23", "2026-08-24"])
+        let rest = testDays(["2026-08-22"])
+        #expect(calendar.longestDayStreak(in: days, skipping: rest) == 4)
+    }
+
+    @Test("Two runs either side of a day simply missed stay two runs")
+    func longestStreakDoesNotBridgeAMissedDay() {
+        let days = testDays(["2026-08-20", "2026-08-21", "2026-08-23", "2026-08-24"])
+        #expect(calendar.longestDayStreak(in: days) == 2)
     }
 }

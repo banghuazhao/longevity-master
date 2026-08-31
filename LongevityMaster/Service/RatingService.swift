@@ -28,6 +28,9 @@ class RatingService {
     
     @ObservationIgnored
     @FetchAll(CheckIn.all, animation: .default) var allCheckIns
+
+    @ObservationIgnored
+    @FetchAll(SkippedDay.all, animation: .default) var allSkippedDays
     
     func calculateLongevityScore() -> LongevityScoreBreakdown {
         let habitsScore = calculateHabitsScore()
@@ -83,11 +86,16 @@ class RatingService {
     }
     
     private func calculateLongestStreakScore() -> Int {
-        // Longest run of consecutive days carrying a check-in against any habit. `userCalendar`
-        // builds a Calendar and reads UserDefaults on every access, so it is taken once.
+        // Longest run of consecutive days carrying a check-in against any habit, counting
+        // through days taken off from every habit. `userCalendar` builds a Calendar and reads
+        // UserDefaults on every access, so it is taken once.
         let calendar = userCalendar
         let activeDays = Set(allCheckIns.map { $0.date.startOfDay(for: calendar) })
-        return min(calendar.longestDayStreak(in: activeDays) * 2, ScoreCategory.longestStreak.maxScore)
+        let restDays = RestDays(allSkippedDays, in: calendar).everyHabit
+        return min(
+            calendar.longestDayStreak(in: activeDays, skipping: restDays) * 2,
+            ScoreCategory.longestStreak.maxScore
+        )
     }
     
     /// Takes the breakdown rather than building its own: computing one walks every habit,

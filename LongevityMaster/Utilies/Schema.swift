@@ -200,6 +200,37 @@ func appDatabase() throws -> any DatabaseWriter {
         .execute(db)
     }
 
+    // Days the user has declared off. Streaks count through these rather than breaking on
+    // them, so a deliberate rest day costs nothing.
+    migrator.registerMigration("Add skipped days") { db in
+        try #sql(
+            """
+            CREATE TABLE "skippedDays" (
+             "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+             "date" TEXT NOT NULL DEFAULT '',
+             "habitID" INTEGER REFERENCES "habits"("id") ON DELETE CASCADE
+            ) STRICT
+            """
+        )
+        .execute(db)
+
+        // Every read of this table is "which days were off", either for one habit or for all
+        // of them — the same two shapes the check-in indexes exist for.
+        try #sql(
+            """
+            CREATE INDEX IF NOT EXISTS "skippedDays_date" ON "skippedDays"("date")
+            """
+        )
+        .execute(db)
+
+        try #sql(
+            """
+            CREATE INDEX IF NOT EXISTS "skippedDays_habitID" ON "skippedDays"("habitID")
+            """
+        )
+        .execute(db)
+    }
+
     try migrator.migrate(database)
 
     return database

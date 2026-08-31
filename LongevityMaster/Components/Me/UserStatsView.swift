@@ -6,6 +6,7 @@
 //  Copyright Apps Bay Limited. All rights reserved.
 //
 
+import Charts
 import SwiftUI
 import SQLiteData
 import Dependencies
@@ -128,6 +129,55 @@ class UserStatsViewModel {
         return HabitInsights(best: best, mostConsistent: mostConsistent)
     }
     
+    /// One day of the activity chart.
+    struct DailyActivity: Identifiable {
+        var id: Date { day }
+        let day: Date
+        let count: Int
+        /// Drawn differently, so an empty bar on a day off does not read as a day missed.
+        let isRestDay: Bool
+    }
+
+    /// Check-ins per day over the last four weeks, empty days included — plotting only the
+    /// days that have data draws a run of activity that never happened.
+    var recentActivity: [DailyActivity] {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let rest = restDays(calendar)
+
+        var countsByDay: [Date: Int] = [:]
+        for checkIn in allCheckIns {
+            countsByDay[calendar.startOfDay(for: checkIn.date), default: 0] += 1
+        }
+
+        return (0 ..< 28).reversed().compactMap { daysAgo in
+            guard let day = calendar.date(byAdding: .day, value: -daysAgo, to: today) else { return nil }
+            return DailyActivity(
+                day: day,
+                count: countsByDay[day] ?? 0,
+                isRestDay: rest.contains(day)
+            )
+        }
+    }
+
+    /// One bar of the category chart.
+    struct CategoryTotal: Identifiable {
+        var id: Int { category.rawValue }
+        let category: HabitCategory
+        let count: Int
+    }
+
+    /// Biggest first, and only the categories the user actually has check-ins in.
+    var categoryTotals: [CategoryTotal] {
+        let stats = categoryStats
+        return HabitCategory.allCases
+            .compactMap { category in
+                guard let count = stats[category], count > 0 else { return nil }
+                return CategoryTotal(category: category, count: count)
+            }
+            .sorted { $0.count > $1.count }
+    }
+
     private func calculateCategoryStats() -> [HabitCategory: Int] {
         // Tallied in one pass. Filtering the whole check-in table once per habit meant every
         // habit walked every check-in.
@@ -188,6 +238,9 @@ struct UserStatsView: View {
                 // Streak Section
                 streakSection
 
+                // Activity Section
+                activitySection
+                
                 // Habit Insights Section
                 habitInsightsSection
                 
@@ -348,6 +401,63 @@ struct UserStatsView: View {
         .appCardStyle()
     }
 
+    private var activitySection: some View {
+        let theme = viewModel.themeManager.current
+
+        return VStack(alignment: .leading, spacing: AppSpacing.medium) {
+            Text(String(localized: "Last 4 Weeks"))
+                .appSectionHeader(theme: theme)
+
+            Chart {
+                ForEach(viewModel.recentActivity) { day in
+                    BarMark(
+                        x: .value(String(localized: "Day"), day.day, unit: .day),
+                        y: .value(String(localized: "Check-ins"), day.count)
+                    )
+                    .foregroundStyle(day.isRestDay ? theme.secondaryGray : theme.primaryColor)
+                    .cornerRadius(2)
+                }
+
+                // A rest day usually has no check-ins, and a bar of height zero is invisible —
+                // which would leave the chart unable to tell a day off from a day missed, the
+                // one distinction it is here to draw. A marker on the baseline says "nothing
+                // here on purpose" without claiming a count the day did not have.
+                ForEach(viewModel.recentActivity.filter(\.isRestDay)) { day in
+                    PointMark(
+                        x: .value(String(localized: "Day"), day.day, unit: .day),
+                        y: .value(String(localized: "Check-ins"), 0)
+                    )
+                    .symbol(.square)
+                    .symbolSize(30)
+                    .foregroundStyle(theme.secondaryGray)
+                }
+            }
+            .chartXAxis {
+                // A label per day is unreadable at this width; a week apart is the most that
+                // fits and is what the eye is looking for anyway.
+                AxisMarks(values: .stride(by: .day, count: 7)) { _ in
+                    AxisGridLine()
+                    AxisValueLabel(format: .dateTime.month(.abbreviated).day())
+                }
+            }
+            .chartYAxis {
+                AxisMarks(position: .leading)
+            }
+            .frame(height: 140)
+
+            HStack(spacing: AppSpacing.small) {
+                Circle()
+                    .fill(theme.secondaryGray)
+                    .frame(width: 8, height: 8)
+                Text("Grey marks are rest days.")
+                    .font(AppFont.footnote)
+                    .foregroundColor(theme.textSecondary)
+                Spacer(minLength: 0)
+            }
+        }
+        .appCardStyle()
+    }
+    
     @ViewBuilder
     private var habitInsightsSection: some View {
         // Read once: both rows come off the same pass over the check-ins.
@@ -398,31 +508,34 @@ struct UserStatsView: View {
             Text(String(localized: "Category Breakdown"))
                 .appSectionHeader(theme: viewModel.themeManager.current)
             
-            VStack(spacing: AppSpacing.small) {
-                ForEach(HabitCategory.allCases, id: \.self) { category in
-                    let count = viewModel.categoryStats[category] ?? 0
-                    if count > 0 {
-                        HStack {
-                            Text(category.briefTitle)
-                                .font(AppFont.body)
-                                .foregroundColor(viewModel.themeManager.current.textPrimary)
-
-                            Spacer()
-
-                            HStack {
-                                Text("\(count)")
-                                    .font(AppFont.body)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(viewModel.themeManager.current.primaryColor)
-
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.headline)
-                                    .foregroundColor(.green)
-                            }
-                        }
-                        .padding(.vertical, 4)
+            let totals = viewModel.categoryTotals
+            if totals.isEmpty {
+                Text("No check-ins yet.")
+                    .font(AppFont.body)
+                    .foregroundColor(viewModel.themeManager.current.textSecondary)
+            } else {
+                Chart(totals) { total in
+                    BarMark(
+                        x: .value(String(localized: "Check-ins"), total.count),
+                        y: .value(String(localized: "Category"), total.category.briefTitle)
+                    )
+                    .foregroundStyle(viewModel.themeManager.current.primaryColor)
+                    .cornerRadius(4)
+                    .annotation(position: .trailing) {
+                        Text("\(total.count)")
+                            .font(AppFont.caption)
+                            .foregroundColor(viewModel.themeManager.current.textSecondary)
                     }
                 }
+                .chartXAxis(.hidden)
+                .chartYAxis {
+                    AxisMarks(position: .leading) { _ in
+                        AxisValueLabel()
+                    }
+                }
+                // Grows with the number of categories rather than squashing them into a
+                // fixed box: five rows in the space of two is unreadable.
+                .frame(height: CGFloat(totals.count) * 34 + 16)
             }
         }
         .appCardStyle()

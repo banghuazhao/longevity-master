@@ -1626,6 +1626,16 @@
         }
       }
     },
+    "Day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日期"
+          }
+        }
+      }
+    },
     "Days Active" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2187,6 +2197,16 @@
         }
       }
     },
+    "Grey marks are rest days." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "灰色标记表示休息日。"
+          }
+        }
+      }
+    },
     "Habit" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2403,6 +2423,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "语言"
+          }
+        }
+      }
+    },
+    "Last 4 Weeks" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近四周"
           }
         }
       }
@@ -2854,6 +2884,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今天没有习惯"
+          }
+        }
+      }
+    },
+    "No check-ins yet." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没有打卡记录。"
           }
         }
       }

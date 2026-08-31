@@ -12,6 +12,7 @@ struct LongevityMasterApp: App {
     @Dependency(\.achievementService) private var achievementService
     @Dependency(\.purchaseManager) private var purchaseManager
     @Dependency(\.consentManager) private var consentManager
+    @Dependency(\.notificationService) private var notificationService
     @StateObject private var openAd = OpenAd()
     @Environment(\.scenePhase) private var scenePhase
 
@@ -54,6 +55,9 @@ struct LongevityMasterApp: App {
                 .onChange(of: scenePhase) { _, newPhase in
                     if newPhase == .active {
                         Task { await purchaseManager.checkPurchaseStatus() }
+                        // A new day, or a check-in made from the widget while the app was
+                        // away, changes what the reminders still have to ask for.
+                        Task { await notificationService.syncAllReminders() }
                         if !purchaseManager.isPremiumUserPurchased {
                             openAd.tryToPresentAd()
                         }
@@ -66,8 +70,8 @@ struct LongevityMasterApp: App {
     }
     
     private func requestNotificationPermissions() async {
-        @Dependency(\.notificationService) var notificationService
         await notificationService.requestPermission()
+        await notificationService.syncAllReminders()
         await notificationService.printAllNotifications()
     }
 }

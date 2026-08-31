@@ -151,16 +151,15 @@ func appDatabase() throws -> any DatabaseWriter {
         }
     #endif
     
+    // Inserts the row only. Registering its notification is deliberately left to
+    // `syncAllReminders()` at launch: a detached Task started here outlives the migration it
+    // was written in and races every migration registered after it — it was reading a table
+    // two migrations further down before that table existed.
     migrator.registerMigration("Add default daily reminder") { db in
         let defaultTime = Calendar.current.date(from: DateComponents(hour: 20, minute: 0)) ?? Date()
         var defaultReminder = Reminder.Draft()
         defaultReminder.time = defaultTime
-        let reminder = try Reminder.upsert { defaultReminder }.returning(\.self).fetchOne(db)
-        if let reminder {
-            Task {
-                await NotificationService.shared.scheduleReminder(reminder)
-            }
-        }
+        try Reminder.upsert { defaultReminder }.execute(db)
     }
     
     migrator.registerMigration("Add achievements") { db in

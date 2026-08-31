@@ -268,6 +268,7 @@ class HabitDetailViewModel {
                 }
             }
         }
+        Task { await notificationService.syncAllReminders() }
         Haptics.shared.vibrateIfEnabled()
     }
 
@@ -302,6 +303,7 @@ class HabitDetailViewModel {
                 }
             }
             WidgetRefresher.reload()
+            Task { await notificationService.syncAllReminders() }
         }
         Haptics.shared.vibrateIfEnabled()
     }

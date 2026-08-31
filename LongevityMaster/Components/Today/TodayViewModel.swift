@@ -105,6 +105,7 @@ class TodayViewModel {
                 }
             }
             WidgetRefresher.reload()
+            Task { await notificationService.syncAllReminders() }
         }
     }
 
@@ -211,6 +212,7 @@ class TodayViewModel {
                 }
             }
             WidgetRefresher.reload()
+            Task { await notificationService.syncAllReminders() }
         }
     }
 

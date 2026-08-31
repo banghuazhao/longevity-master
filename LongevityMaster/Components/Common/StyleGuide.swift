@@ -107,6 +107,14 @@ enum ThemeColor: String, CaseIterable {
             return Color(red: 0.68, green: 0.45, blue: 1.0) // #AD5CFF
         }
     }
+
+    /// `primaryColor` packed as 0xRRGGBBAA, for the widget — which cannot resolve a
+    /// `ThemeColor` of its own and so is handed the finished colour through the App Group.
+    /// Derived from `primaryColor` rather than written out a second time, so the two cannot
+    /// drift apart.
+    var primaryColorHex: Int {
+        primaryColor.hexIntWithAlpha
+    }
 }
 
 // MARK: - Base Theme
@@ -188,6 +196,15 @@ class ThemeManager: ObservableObject {
         $selectedThemeColor.withLock{
             $0 = themeColorName
         }
+        mirrorAccentColorToWidget()
+        WidgetRefresher.reload()
+    }
+
+    /// The widget draws in its own process and cannot see the app's defaults, so the colour
+    /// the theme resolves to is mirrored into the shared container for it to read.
+    func mirrorAccentColorToWidget() {
+        let themeColor = ThemeColor(rawValue: selectedThemeColor) ?? .default
+        AppGroup.mirrorAccentColor(hex: themeColor.primaryColorHex)
     }
 
     func updateAppearanceMode(_ mode: AppearanceMode) {

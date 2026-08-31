@@ -21,9 +21,10 @@ struct TodayHabitsWidget: Widget {
 }
 
 enum WidgetTheme {
-    /// Matches the app's default orange (#FF772F). The widget cannot read the user's chosen
-    /// theme colour, which lives in the app's own defaults.
-    static let accent = Color(red: 1.0, green: 0.47, blue: 0.18)
+    /// The theme colour the user picked in the app. It is stored there as a theme name this
+    /// process cannot resolve, so the app mirrors the resolved colour into the App Group and
+    /// the widget reads it back from there.
+    static var accent: Color { Color(widgetHex: AppGroup.accentColorHex) }
     static let background = Color(.systemBackground)
 }
 

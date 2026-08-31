@@ -41,4 +41,26 @@ enum AppGroup {
         guard let defaults, defaults.object(forKey: startWeekOnMondayKey) != nil else { return true }
         return defaults.bool(forKey: startWeekOnMondayKey)
     }
+
+    // MARK: - Accent colour
+
+    private static let accentColorHexKey = "accentColorHex"
+
+    /// The app's default orange (#FF772F), for a widget added before the app has mirrored
+    /// anything.
+    private static let defaultAccentColorHex = 0xFF772FFF
+
+    /// The user's chosen theme is stored as a theme *name* the widget target has no way to
+    /// resolve — `ThemeColor` lives in the app. So the app resolves it and mirrors the
+    /// finished colour, packed as 0xRRGGBBAA, which the widget can render on its own.
+    static func mirrorAccentColor(hex: Int) {
+        defaults?.set(hex, forKey: accentColorHexKey)
+    }
+
+    static var accentColorHex: Int {
+        guard let defaults,
+              defaults.object(forKey: accentColorHexKey) != nil
+        else { return defaultAccentColorHex }
+        return defaults.integer(forKey: accentColorHexKey)
+    }
 }

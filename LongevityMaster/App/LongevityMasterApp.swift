@@ -20,6 +20,7 @@ struct LongevityMasterApp: App {
         // consent has resolved, so no ad request can precede the user's answer.
         AppearanceMode.migrateFromLegacyDarkModeFlag()
         AppGroup.mirrorStartWeekOnMondayFromAppDefaults()
+        ThemeManager.shared.mirrorAccentColorToWidget()
         prepareDependencies {
             $0.defaultDatabase = try! appDatabase()
         }

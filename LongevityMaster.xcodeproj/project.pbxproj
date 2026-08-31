@@ -92,6 +92,7 @@
 				Config/Debug.xcconfig,
 				Config/Release.xcconfig,
 				"LongevityMaster-Info.plist",
+				Modules/MoreApps,
 			);
 			target = 993A34212DEB1031002CEA39 /* LongevityMaster */;
 		};
@@ -417,7 +418,7 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = LongevityWidget/LongevityWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.4.0.1;
+				CURRENT_PROJECT_VERSION = 1.5.0.1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LongevityWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Longevity Master";
@@ -427,7 +428,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appsbayarea.longevityMaster.LongevityWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -579,7 +580,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LongevityMaster/LongevityMaster.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.4.0.1;
+				CURRENT_PROJECT_VERSION = 1.5.0.1;
 				DEVELOPMENT_ASSET_PATHS = "\"LongevityMaster/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -596,7 +597,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appsbayarea.longevityMaster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -614,7 +615,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LongevityMaster/LongevityMaster.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.4.0.1;
+				CURRENT_PROJECT_VERSION = 1.5.0.1;
 				DEVELOPMENT_ASSET_PATHS = "\"LongevityMaster/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -631,7 +632,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appsbayarea.longevityMaster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -682,7 +683,7 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = LongevityWidget/LongevityWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.4.0.1;
+				CURRENT_PROJECT_VERSION = 1.5.0.1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LongevityWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Longevity Master";
@@ -692,7 +693,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appsbayarea.longevityMaster.LongevityWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;

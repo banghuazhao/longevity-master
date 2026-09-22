@@ -9,6 +9,7 @@ import SwiftUINavigation
 
 struct TodayView: View {
     @State var viewModel = TodayViewModel()
+    @State private var programsViewModel = ProgramsViewModel()
 
     @Environment(\.scenePhase) private var scenePhase
     @Dependency(\.themeManager) var themeManager
@@ -88,6 +89,8 @@ struct TodayView: View {
                         .padding(.top, AppSpacing.small)
                         .transition(.opacity)
                     }
+
+                    ProgramsTodaySection(viewModel: programsViewModel)
 
                     if todayHabits.isEmpty {
                         EmptyStateView(

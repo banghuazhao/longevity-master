@@ -192,6 +192,7 @@ class HabitsListViewModel {
 
 struct HabitsListView: View {
     @State var viewModel = HabitsListViewModel()
+    @Dependency(\.themeManager) private var themeManager
 
     var body: some View {
         // Read once. Every access filters and sorts the whole list, and the body asks twice.
@@ -200,6 +201,9 @@ struct HabitsListView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 16) {
+                    programsLink
+                        .padding(.horizontal)
+
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 12) {
                             // All categories option
@@ -322,6 +326,31 @@ struct HabitsListView: View {
                 HabitDetailView(viewModel: habitDetailViewModel)
             }
         }
+    }
+
+    private var programsLink: some View {
+        NavigationLink {
+            ProgramsView()
+        } label: {
+            HStack(spacing: AppSpacing.smallMedium) {
+                Text("🗺️")
+                    .font(.system(size: 28))
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Programs")
+                        .font(AppFont.headline)
+                        .foregroundStyle(themeManager.current.textPrimary)
+                    Text("Guided plans for strength, sleep, diet and more")
+                        .font(AppFont.footnote)
+                        .foregroundStyle(themeManager.current.textSecondary)
+                }
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(themeManager.current.textSecondary)
+            }
+            .appCardStyle(theme: themeManager.current)
+        }
+        .buttonStyle(.plain)
     }
 }
 

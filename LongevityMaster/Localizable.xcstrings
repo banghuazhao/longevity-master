@@ -48,6 +48,38 @@
         }
       }
     },
+    "%@ Your “%@” program starts today." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ Your “%2$@” program starts today."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 你的「%2$@」计划今天开始。"
+          }
+        }
+      }
+    },
+    "%@ · %lld%% on track" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$lld%% on track"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · 完成度 %2$lld%%"
+          }
+        }
+      }
+    },
     "%lld" : {
       "localizations" : {
         "zh-Hans" : {
@@ -128,6 +160,48 @@
         }
       }
     },
+    "%lld days in a row of “%@” with Longevity Master 🔥" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld days in a row of “%2$@” with Longevity Master 🔥"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我已在 Longevity Master 连续 %1$lld 天坚持「%2$@」🔥"
+          }
+        }
+      }
+    },
+    "%lld days · %lld habits" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld days · %2$lld habits"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld 天 · %2$lld 个习惯"
+          }
+        }
+      }
+    },
+    "%lld habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 个习惯"
+          }
+        }
+      }
+    },
     "%lld of %lld unlocked" : {
       "localizations" : {
         "en" : {
@@ -181,6 +255,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld%%"
+          }
+        }
+      }
+    },
+    "%lld%% on track" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成度 %lld%%"
           }
         }
       }
@@ -363,6 +447,16 @@
         }
       }
     },
+    "15–20 minutes at around 80 °C. Frequent sauna use is linked to lower cardiovascular and all-cause mortality." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在约 80 °C 下蒸 15–20 分钟。经常蒸桑拿与更低的心血管及全因死亡率相关。"
+          }
+        }
+      }
+    },
     "2 points per anti-aging rating point. Each habit has a rating from 1-5. Maximum 300 points." : {
       "localizations" : {
         "zh-Hans" : {
@@ -393,6 +487,26 @@
         }
       }
     },
+    "20 minutes with bands: rows, presses, squats and pull-aparts. Strength training you can do anywhere." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用弹力带练 20 分钟：划船、推举、深蹲和拉伸。随时随地都能做的力量训练。"
+          }
+        }
+      }
+    },
+    "20-20-20 eye breaks" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "20-20-20 护眼休息"
+          }
+        }
+      }
+    },
     "200-299 points" : {
       "localizations" : {
         "zh-Hans" : {
@@ -403,12 +517,122 @@
         }
       }
     },
+    "3 sets of 10 per leg. Builds single-leg strength and balance." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每条腿 3 组，每组 10 次。锻炼单腿力量和平衡。"
+          }
+        }
+      }
+    },
+    "3 sets of 10–15 bodyweight or goblet squats. Strong legs keep you independent as you age." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "徒手或高脚杯深蹲 3 组，每组 10–15 次。强壮的双腿让你老了也能自理。"
+          }
+        }
+      }
+    },
+    "3 sets of 15. Strengthens the hips and eases lower-back pain from sitting." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3 组，每组 15 次。强化髋部，缓解久坐引起的腰痛。"
+          }
+        }
+      }
+    },
+    "3 sets of 20. Strong calves support balance and circulation." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3 组，每组 20 次。强壮的小腿有助于平衡和血液循环。"
+          }
+        }
+      }
+    },
+    "3 sets, as many as you can with good form. Push-up capacity is linked to lower cardiovascular risk." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "做 3 组，每组在姿势标准的前提下尽量多做。俯卧撑能力与更低的心血管风险相关。"
+          }
+        }
+      }
+    },
+    "30 minutes of reading a day. Book readers lived about two years longer in a 12-year study." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天读书 30 分钟。一项 12 年的研究中，读书的人多活了约两年。"
+          }
+        }
+      }
+    },
     "300-399 points" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "300-399 分"
+          }
+        }
+      }
+    },
+    "30–60 minutes a week of muscle-strengthening activity was associated with a 10–20% lower risk of death from all causes." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周 30–60 分钟的力量训练与全因死亡风险降低 10–20% 相关。"
+          }
+        }
+      }
+    },
+    "30–60 minutes at a pace where you can still talk: cycling, jogging or rowing. Builds the aerobic base behind healthy aging." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以还能说话的强度骑车、慢跑或划船 30–60 分钟。打下健康老化所需的有氧基础。"
+          }
+        }
+      }
+    },
+    "3–4 week plans for strength, sleep, diet and more." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为期 3–4 周的力量、睡眠、饮食等计划。"
+          }
+        }
+      }
+    },
+    "3–5 sets of 15 swings. Builds hip power and gets your heart rate up at the same time." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3–5 组，每组 15 次。锻炼髋部爆发力，同时提升心率。"
+          }
+        }
+      }
+    },
+    "4 × 4 minutes hard with 3 minutes easy in between. Raises VO2 max, one of the strongest predictors of longevity." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4 组 × 4 分钟高强度，中间 3 分钟轻松恢复。提升最大摄氧量——预测长寿最有力的指标之一。"
           }
         }
       }
@@ -433,6 +657,16 @@
         }
       }
     },
+    "5 minutes of slow breathing — in for 4, hold for 4, out for 6. Calms the nervous system and lowers blood pressure." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "慢呼吸 5 分钟——吸气 4 秒、屏息 4 秒、呼气 6 秒。平复神经系统，降低血压。"
+          }
+        }
+      }
+    },
     "5-Star Habits" : {
       "localizations" : {
         "zh-Hans" : {
@@ -449,6 +683,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "500-599 分"
+          }
+        }
+      }
+    },
+    "5–10 minutes of skipping. Cardio that also loads your bones." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跳绳 5–10 分钟。既是有氧运动，又能给骨骼适当负荷。"
           }
         }
       }
@@ -503,6 +747,26 @@
         }
       }
     },
+    "A Mediterranean diet with extra olive oil or nuts reduced heart attacks, strokes and cardiovascular deaths by about 30%." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "额外添加橄榄油或坚果的地中海饮食让心脏病发作、中风和心血管死亡减少约 30%。"
+          }
+        }
+      }
+    },
+    "A handful of nuts a day (about 28 g) was associated with a 22% lower risk of death from all causes." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天一小把坚果（约 28 克）与全因死亡风险降低 22% 相关。"
+          }
+        }
+      }
+    },
     "A healthy outside starts from the inside." : {
       "localizations" : {
         "zh-Hans" : {
@@ -513,12 +777,62 @@
         }
       }
     },
-    "Achievement Unlocked!" : {
+    "A language, an instrument, a new skill. Challenging your brain builds cognitive reserve." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "成就解锁！"
+            "value" : "一门语言、一种乐器、一项新技能。挑战大脑能建立认知储备。"
+          }
+        }
+      }
+    },
+    "A late, heavy meal disrupts sleep and blood sugar overnight." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "太晚吃大餐会扰乱夜间睡眠和血糖。"
+          }
+        }
+      }
+    },
+    "A moderate intake of flavonoids — about 500 mg a day, from tea, berries, apples and dark chocolate — was associated with lower mortality." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "适量摄入类黄酮（每天约 500 毫克，来自茶、莓果、苹果和黑巧克力）与较低死亡率相关。"
+          }
+        }
+      }
+    },
+    "About 18 °C (65 °F), dark and quiet. Cooler rooms help you fall into deep sleep." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "约 18 °C，黑暗安静。凉爽的房间有助于进入深度睡眠。"
+          }
+        }
+      }
+    },
+    "About 60–75 minutes of moderate activity a day appeared to eliminate the higher mortality linked to long sitting." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天约 60–75 分钟中等强度活动，似乎可以抵消久坐带来的死亡风险升高。"
+          }
+        }
+      }
+    },
+    "Achievement unlocked" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "成就解锁"
           }
         }
       }
@@ -603,12 +917,42 @@
         }
       }
     },
+    "Add a third set. Rest 60–90 seconds between sets." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "增加到 3 组，组间休息 60–90 秒。"
+          }
+        }
+      }
+    },
+    "Add beans or lentils to at least four meals this week." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本周至少有四餐加入豆类或扁豆。"
+          }
+        }
+      }
+    },
     "Add to Favorites" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "添加到收藏"
+          }
+        }
+      }
+    },
+    "Add vigorous bursts — take the stairs fast and walk uphill briskly." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入高强度爆发——快速爬楼梯、快步上坡。"
           }
         }
       }
@@ -673,12 +1017,82 @@
         }
       }
     },
+    "Aim for 2 hours a week in parks, woods or by water — the threshold linked to better health and wellbeing." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周争取在公园、树林或水边待 2 小时——这是与更好健康状况相关的门槛。"
+          }
+        }
+      }
+    },
+    "Aim for roughly 1.2–1.6 g of protein per kg of body weight a day, spread across meals, to keep muscle as you age." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天每公斤体重约摄入 1.2–1.6 克蛋白质，分配到各餐，随年龄增长保住肌肉。"
+          }
+        }
+      }
+    },
+    "Alcohol raises the risk of cancer and heart disease at any amount. The fewer drinks, the better." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "饮酒无论多少都会增加癌症和心脏病风险。喝得越少越好。"
+          }
+        }
+      }
+    },
+    "Alcohol-free day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无酒精日"
+          }
+        }
+      }
+    },
     "All" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "全部"
+          }
+        }
+      }
+    },
+    "All programs" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部计划"
+          }
+        }
+      }
+    },
+    "An orange, grapefruit or kiwi supplies vitamin C and flavonoids, two of the body's key dietary antioxidants." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一个橙子、西柚或猕猴桃就能提供维生素 C 和类黄酮，两种重要的膳食抗氧化物。"
+          }
+        }
+      }
+    },
+    "Anchor your body clock" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "校准你的生物钟"
           }
         }
       }
@@ -699,6 +1113,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "抗衰老评分"
+          }
+        }
+      }
+    },
+    "Anti-aging rating %lld of 5" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抗衰老评分 %lld / 5"
+          }
+        }
+      }
+    },
+    "Antioxidant Plate" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抗氧化餐盘"
+          }
+        }
+      }
+    },
+    "Antioxidants from whole foods — not pills — are what is linked to healthier aging. For three weeks, add color, polyphenols and healthy fats to every day." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与健康老化相关的是来自天然食物的抗氧化物，而不是药片。在三周里，每天为餐桌增添色彩、多酚和健康脂肪。"
           }
         }
       }
@@ -833,12 +1277,52 @@
         }
       }
     },
+    "Avoid ultra-processed food" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "远离超加工食品"
+          }
+        }
+      }
+    },
+    "Balance and strength for healthy aging" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为健康老去练平衡与力量"
+          }
+        }
+      }
+    },
     "Balance high-impact habits with sustainable ones" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "平衡高影响力习惯与可持续习惯"
+          }
+        }
+      }
+    },
+    "Balance on each leg for 30 seconds, e.g. while brushing your teeth. Being unable to stand 10 seconds on one leg is linked to higher mortality in midlife." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每条腿各站 30 秒，比如刷牙时练习。中年时无法单腿站立 10 秒与更高的死亡率相关。"
+          }
+        }
+      }
+    },
+    "Beans, lentils and chickpeas are a daily staple in every Blue Zone — rich in fiber, plant protein and polyphenols." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "豆类、扁豆和鹰嘴豆是每个长寿蓝区的日常主食——富含膳食纤维、植物蛋白和多酚。"
           }
         }
       }
@@ -883,12 +1367,32 @@
         }
       }
     },
+    "Break up long sitting with 2–3 minutes of standing or walking each hour. Long sitting is linked to higher mortality." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每小时站立或走动 2–3 分钟，打断久坐。久坐与更高的死亡率相关。"
+          }
+        }
+      }
+    },
     "Brisk walking" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "快步走"
+          }
+        }
+      }
+    },
+    "Broccoli, cabbage, cauliflower and Brussels sprouts contain sulforaphane, which switches on the body's own antioxidant defenses." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "西兰花、卷心菜、花椰菜和抱子甘蓝含有萝卜硫素，能激活身体自身的抗氧化防御。"
           }
         }
       }
@@ -909,6 +1413,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "建立一致性"
+          }
+        }
+      }
+    },
+    "Build habits for a longer, healthier life" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "养成好习惯，活得更久更健康"
           }
         }
       }
@@ -943,12 +1457,82 @@
         }
       }
     },
+    "Build muscle that lasts" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "练出持久的肌肉"
+          }
+        }
+      }
+    },
+    "Building a habit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在养成习惯"
+          }
+        }
+      }
+    },
+    "Calf raises" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提踵"
+          }
+        }
+      }
+    },
+    "Call a friend or family member" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "给亲友打电话"
+          }
+        }
+      }
+    },
+    "Calm Mind" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平静心灵"
+          }
+        }
+      }
+    },
     "Cancel" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "取消"
+          }
+        }
+      }
+    },
+    "Cardio Base" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有氧基础"
+          }
+        }
+      }
+    },
+    "Cardiorespiratory fitness is one of the strongest predictors of how long you live. This plan combines easy Zone 2 sessions, daily steps and one hard interval workout a week." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心肺耐力是预测寿命最有力的指标之一。这个计划结合轻松的二区有氧、每日步数和每周一次高强度间歇训练。"
           }
         }
       }
@@ -1023,6 +1607,16 @@
         }
       }
     },
+    "Chair stands" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "坐站练习"
+          }
+        }
+      }
+    },
     "Change" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1054,6 +1648,16 @@
         }
       }
     },
+    "Check blood pressure" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "测血压"
+          }
+        }
+      }
+    },
     "Check in consistently to reach milestone achievements" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1080,26 +1684,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "无需打开应用，即可勾选今天的习惯。"
-          }
-        }
-      }
-    },
-    "Check out my longevity rating from Longevity Master!" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "去看看我从抗衰习惯家得出的长寿评分！"
-          }
-        }
-      }
-    },
-    "Check out this achievement I unlocked in LongevityMaster!" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "看看我在 LongevityMaster 中解锁的成就！"
           }
         }
       }
@@ -1154,6 +1738,16 @@
         }
       }
     },
+    "Choose 70% cocoa or higher for flavanols. Keep it to a small square — the benefit disappears in a whole bar." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择可可含量 70% 以上的黑巧克力获取黄烷醇。只吃一小块——吃一整板好处就没了。"
+          }
+        }
+      }
+    },
     "Choose Habit Icon" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1194,6 +1788,16 @@
         }
       }
     },
+    "Choose whole grains" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择全谷物"
+          }
+        }
+      }
+    },
     "Choose your avatar" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1204,12 +1808,42 @@
         }
       }
     },
+    "Chronic stress and loneliness wear the body down as surely as a poor diet. Three weeks of small daily practices to calm the mind and strengthen your relationships." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "慢性压力和孤独对身体的消耗不亚于糟糕的饮食。用三周的日常小练习，让内心平静、关系更紧密。"
+          }
+        }
+      }
+    },
     "Close the app and open it again to finish changing the language." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "请关闭并重新打开应用以完成语言切换。"
+          }
+        }
+      }
+    },
+    "Close your eyes for a few seconds while balancing, next to something you can grab." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在能随手扶住的东西旁边，闭眼保持平衡几秒钟。"
+          }
+        }
+      }
+    },
+    "Cold shower" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "冷水澡"
           }
         }
       }
@@ -1525,16 +2159,6 @@
         }
       }
     },
-    "Consume a 4-6 oz portion of salmon for omega-3 fatty acids." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "食用 4-6 盎司的三文鱼以获取欧米伽-3 脂肪酸。"
-          }
-        }
-      }
-    },
     "Consume a 4–6 oz portion of salmon for omega-3 fatty acids." : {
       "localizations" : {
         "zh-Hans" : {
@@ -1561,6 +2185,56 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "继续"
+          }
+        }
+      }
+    },
+    "Cook and dress salads with extra virgin olive oil. Its polyphenols are antioxidant and anti-inflammatory; about half a tablespoon a day is linked to lower mortality." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用特级初榨橄榄油烹饪和拌沙拉。其中的多酚具有抗氧化和抗炎作用；每天约半汤匙与较低死亡率相关。"
+          }
+        }
+      }
+    },
+    "Cook from whole ingredients. Diets high in ultra-processed food are linked to higher mortality." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用天然食材做饭。大量摄入超加工食品与更高的死亡率相关。"
+          }
+        }
+      }
+    },
+    "Cook with herbs and spices" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用香草和香料烹饪"
+          }
+        }
+      }
+    },
+    "Cook with olive oil and aim for five different colors on your plates each day." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用橄榄油烹饪，争取每天餐盘里有五种不同颜色。"
+          }
+        }
+      }
+    },
+    "Cooked tomatoes are rich in lycopene, an antioxidant carotenoid that is better absorbed with a little olive oil." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "熟番茄富含番茄红素，这种抗氧化类胡萝卜素搭配少量橄榄油更易吸收。"
           }
         }
       }
@@ -1605,6 +2279,26 @@
         }
       }
     },
+    "Dance to a few songs. Combines cardio, balance and memory." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟着几首歌跳跳舞。兼顾有氧、平衡和记忆力。"
+          }
+        }
+      }
+    },
+    "Dancing" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跳舞"
+          }
+        }
+      }
+    },
     "Dark" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1636,6 +2330,38 @@
         }
       }
     },
+    "Day %lld of %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Day %1$lld of %2$lld"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第 %1$lld 天 / 共 %2$lld 天"
+          }
+        }
+      }
+    },
+    "Day %lld of the “%@” program in Longevity Master 💪" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Day %1$lld of the “%2$@” program in Longevity Master 💪"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我在 Longevity Master 进行「%2$@」计划的第 %1$lld 天 💪"
+          }
+        }
+      }
+    },
     "Days Active" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1662,6 +2388,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每周指定日"
+          }
+        }
+      }
+    },
+    "Dead hang" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "悬垂"
+          }
+        }
+      }
+    },
+    "Deadlifts" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "硬拉"
+          }
+        }
+      }
+    },
+    "Deep breathing" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深呼吸"
           }
         }
       }
@@ -1806,6 +2562,16 @@
         }
       }
     },
+    "Each evening, write down three things you are grateful for." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每晚写下三件让你感恩的事。"
+          }
+        }
+      }
+    },
     "Early Bird" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1836,6 +2602,26 @@
         }
       }
     },
+    "Eat a square of dark chocolate" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吃一小块黑巧克力"
+          }
+        }
+      }
+    },
+    "Eat beans or lentils" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吃豆类或扁豆"
+          }
+        }
+      }
+    },
     "Eat berries" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1846,12 +2632,82 @@
         }
       }
     },
+    "Eat citrus fruit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吃柑橘类水果"
+          }
+        }
+      }
+    },
+    "Eat cooked tomatoes" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吃熟番茄"
+          }
+        }
+      }
+    },
+    "Eat cruciferous vegetables" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吃十字花科蔬菜"
+          }
+        }
+      }
+    },
+    "Eat dark leafy greens" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吃深色绿叶菜"
+          }
+        }
+      }
+    },
+    "Eat fermented foods" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吃发酵食品"
+          }
+        }
+      }
+    },
+    "Eat fish twice, and a handful of nuts most days." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吃两次鱼，大多数日子吃一小把坚果。"
+          }
+        }
+      }
+    },
     "Eat kale" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "吃羽衣甘蓝"
+          }
+        }
+      }
+    },
+    "Eat more color every day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天多吃点颜色"
           }
         }
       }
@@ -1872,6 +2728,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "吃三文鱼"
+          }
+        }
+      }
+    },
+    "Eat the rainbow" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吃出彩虹色"
+          }
+        }
+      }
+    },
+    "Eating up to 800 g of fruit and vegetables a day was associated with a 31% lower risk of premature death." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天吃到 800 克果蔬与过早死亡风险降低 31% 相关。"
           }
         }
       }
@@ -1926,6 +2802,16 @@
         }
       }
     },
+    "Even 5–10 minutes a day of running is linked to a lower risk of death from all causes." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "哪怕每天只跑 5–10 分钟，也与更低的全因死亡风险相关。"
+          }
+        }
+      }
+    },
     "Every %@ of month" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1942,6 +2828,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每周的 %@"
+          }
+        }
+      }
+    },
+    "Every 20 minutes of screen time, look at something 20 feet (6 m) away for 20 seconds." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每看屏幕 20 分钟，就看 6 米外的东西 20 秒。"
           }
         }
       }
@@ -1966,12 +2862,42 @@
         }
       }
     },
+    "Exercise programs that train balance and everyday movement reduced the rate of falls by about 24%." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "训练平衡和日常动作的运动计划让跌倒发生率降低约 24%。"
+          }
+        }
+      }
+    },
     "Expert" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "专家"
+          }
+        }
+      }
+    },
+    "Falls are a leading cause of injury as we get older, and many are preventable. This plan trains balance and leg strength — the two things that keep you on your feet." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跌倒是年龄增长后受伤的主要原因之一，而很多跌倒是可以预防的。这个计划训练平衡和腿部力量——让你站得稳的两大关键。"
+          }
+        }
+      }
+    },
+    "Farmer's carry" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "农夫行走"
           }
         }
       }
@@ -2006,12 +2932,42 @@
         }
       }
     },
+    "Fill half your plate with vegetables and fruit of different colors. Each color brings different antioxidants — carotenoids, anthocyanins, flavonoids." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "让不同颜色的蔬果占满半个餐盘。每种颜色带来不同的抗氧化物——类胡萝卜素、花青素、类黄酮。"
+          }
+        }
+      }
+    },
     "Filter By" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "按条件筛选"
+          }
+        }
+      }
+    },
+    "Finish eating 3 hours before bed" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睡前 3 小时吃完饭"
+          }
+        }
+      }
+    },
+    "Finish with 30–60 seconds of cold water. May boost alertness and mood; long-term evidence is still limited." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "洗澡最后冲 30–60 秒冷水。可能提神、改善情绪；长期证据仍然有限。"
           }
         }
       }
@@ -2052,6 +3008,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "健身狂热者"
+          }
+        }
+      }
+    },
+    "Fix your wake-up time, weekends included, and get outside within an hour of waking." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "固定起床时间（周末也一样），起床后一小时内到户外去。"
           }
         }
       }
@@ -2106,6 +3072,26 @@
         }
       }
     },
+    "Four weeks to build a simple, lasting strength habit with moves you can do at home. Muscle protects your joints, bones and blood sugar as you age — and it is never too late to build it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用四周时间，靠在家就能做的动作养成简单而持久的力量训练习惯。随着年龄增长，肌肉保护着你的关节、骨骼和血糖——而且什么时候开始都不晚。"
+          }
+        }
+      }
+    },
+    "Free on the\nApp Store" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Store\n免费下载"
+          }
+        }
+      }
+    },
     "Frequency" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2126,12 +3112,42 @@
         }
       }
     },
+    "General wellness information, not medical advice. Check with your doctor before starting a new exercise or diet program, especially if you have a health condition." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以上为一般健康信息，不构成医疗建议。开始新的运动或饮食计划前，请先咨询医生，尤其是有健康问题时。"
+          }
+        }
+      }
+    },
     "Get Started" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "开始使用"
+          }
+        }
+      }
+    },
+    "Get morning sunlight" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "晒晒早晨的阳光"
+          }
+        }
+      }
+    },
+    "Get out into nature, and call someone you care about." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "走进大自然，并给你在乎的人打个电话。"
           }
         }
       }
@@ -2156,12 +3172,42 @@
         }
       }
     },
+    "Glute bridges" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "臀桥"
+          }
+        }
+      }
+    },
+    "Go hiking" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "去徒步"
+          }
+        }
+      }
+    },
     "Go to Settings" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "前往设置"
+          }
+        }
+      }
+    },
+    "Go to bed when you feel sleepy. With a fixed wake time, bedtime settles on its own." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "困了再上床。起床时间固定后，入睡时间会自然稳定下来。"
           }
         }
       }
@@ -2203,6 +3249,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "灰色标记表示休息日。"
+          }
+        }
+      }
+    },
+    "Guided plans for strength, sleep, diet and more" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "力量、睡眠、饮食等引导计划"
+          }
+        }
+      }
+    },
+    "Guided plans that bundle a few proven habits for three or four weeks, with a focus for each week and the research behind them." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "引导计划把几个有科学依据的习惯组合起来，坚持三到四周，每周有明确重点，并附上背后的研究。"
+          }
+        }
+      }
+    },
+    "HIIT intervals" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HIIT 间歇训练"
           }
         }
       }
@@ -2287,6 +3363,16 @@
         }
       }
     },
+    "Hang from a bar for 30–60 seconds. Builds grip strength and decompresses the shoulders and spine." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "双手吊在单杠上 30–60 秒。增强握力，放松肩部和脊柱。"
+          }
+        }
+      }
+    },
     "Health Guardian" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2317,6 +3403,16 @@
         }
       }
     },
+    "Help someone" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "帮助他人"
+          }
+        }
+      }
+    },
     "High Impact" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2327,12 +3423,62 @@
         }
       }
     },
+    "High-dose antioxidant supplements such as beta-carotene and vitamin E did not lower mortality and may raise it. Get your antioxidants from food." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "β-胡萝卜素、维生素 E 等高剂量抗氧化补充剂并未降低死亡率，甚至可能升高。请从食物中获取抗氧化物。"
+          }
+        }
+      }
+    },
+    "Hinge at the hips to lift a barbell, kettlebell or dumbbells. Trains the back, glutes and hamstrings — the muscles that protect your spine." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以髋为轴举起杠铃、壶铃或哑铃。锻炼背部、臀部和腘绳肌——保护脊柱的肌肉。"
+          }
+        }
+      }
+    },
+    "Hold 30–60 seconds, 3 times. A strong core protects the lower back." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持 30–60 秒，做 3 次。强壮的核心保护下背部。"
+          }
+        }
+      }
+    },
     "Hold a day to mark it a rest day — your streak counts straight through it." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "长按某一天可将其标记为休息日 —— 连续记录会直接跨过这一天。"
+          }
+        }
+      }
+    },
+    "Hold for 30–60 seconds, 3 times. Isometric exercise like this lowers resting blood pressure." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持 30–60 秒，做 3 次。这类等长训练能降低静息血压。"
+          }
+        }
+      }
+    },
+    "Hold on to a counter while you practise standing on one leg." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "扶着台面练习单腿站立。"
           }
         }
       }
@@ -2357,6 +3503,42 @@
         }
       }
     },
+    "How regular people's sleep was predicted their mortality risk more strongly than how long they slept." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睡眠是否规律比睡了多久更能预测死亡风险。"
+          }
+        }
+      }
+    },
+    "I just finished the %lld-day “%@” program in Longevity Master 🎉" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "I just finished the %1$lld-day “%2$@” program in Longevity Master 🎉"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我刚在 Longevity Master 完成了为期 %1$lld 天的「%2$@」计划 🎉"
+          }
+        }
+      }
+    },
+    "I just unlocked “%@” in Longevity Master 🏆" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我刚在 Longevity Master 解锁了「%@」成就 🏆"
+          }
+        }
+      }
+    },
     "Improve flexibility and reduce stress." : {
       "localizations" : {
         "zh-Hans" : {
@@ -2373,6 +3555,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "改善心血管健康并减轻压力。"
+          }
+        }
+      }
+    },
+    "In a large randomized trial, a Mediterranean diet cut heart attacks, strokes and cardiovascular deaths by about 30%. It is less a diet than a way of cooking: olive oil, legumes, fish, nuts and whole grains." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在一项大型随机试验中，地中海饮食让心脏病发作、中风和心血管死亡减少约 30%。与其说是节食，不如说是一种烹饪方式：橄榄油、豆类、鱼、坚果和全谷物。"
+          }
+        }
+      }
+    },
+    "In progress" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "进行中"
           }
         }
       }
@@ -2407,6 +3609,76 @@
         }
       }
     },
+    "Journal" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写日记"
+          }
+        }
+      }
+    },
+    "Jump rope" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跳绳"
+          }
+        }
+      }
+    },
+    "Keep Zone 2 truly easy — you should be able to hold a conversation." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "二区有氧要真正轻松——你应该还能正常说话。"
+          }
+        }
+      }
+    },
+    "Keep it going. Fitness gained in four weeks is kept by doing a little less, not by stopping." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "坚持下去。四周练出的体能，靠少练一点来保持，而不是停下来。"
+          }
+        }
+      }
+    },
+    "Keep the bedroom cool and dark" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持卧室凉爽黑暗"
+          }
+        }
+      }
+    },
+    "Keep the same wake time every day, weekends included. Sleep regularity predicts mortality better than sleep length." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天同一时间起床，周末也不例外。睡眠规律比睡眠时长更能预测死亡风险。"
+          }
+        }
+      }
+    },
+    "Kettlebell swings" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "壶铃摆荡"
+          }
+        }
+      }
+    },
     "Key Statistics" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2427,6 +3699,16 @@
         }
       }
     },
+    "Last %lld days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近 %lld 天"
+          }
+        }
+      }
+    },
     "Last 4 Weeks" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2437,12 +3719,62 @@
         }
       }
     },
+    "Learn something new" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "学点新东西"
+          }
+        }
+      }
+    },
+    "Learn the moves. Do 2 sets of each with good form, stopping a few reps short of failure." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "学会动作。每个动作做 2 组，保持标准姿势，离力竭还差几次时停下。"
+          }
+        }
+      }
+    },
+    "Leave Program" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "退出计划"
+          }
+        }
+      }
+    },
+    "Leave “%@”?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "退出「%@」？"
+          }
+        }
+      }
+    },
     "Legend" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "传奇"
+          }
+        }
+      }
+    },
+    "Less stress, more connection" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更少压力，更多联结"
           }
         }
       }
@@ -2463,6 +3795,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已锁定"
+          }
+        }
+      }
+    },
+    "Long hours of sitting are linked to higher mortality, but the fix does not need a gym. Small, frequent bursts of movement through the day add up." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长时间久坐与更高的死亡率相关，但解决办法不需要健身房。一天中频繁的小活动会积少成多。"
           }
         }
       }
@@ -2507,6 +3849,36 @@
         }
       }
     },
+    "Low cardiorespiratory fitness carried a higher mortality risk than smoking or diabetes, and the benefit of higher fitness showed no upper limit." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心肺耐力低带来的死亡风险高于吸烟或糖尿病，而且体能越高收益越大，看不到上限。"
+          }
+        }
+      }
+    },
+    "Lunges" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "弓步蹲"
+          }
+        }
+      }
+    },
+    "Made for desk days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "专为久坐上班族设计"
+          }
+        }
+      }
+    },
     "Maintain a 100-day streak" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2547,22 +3919,42 @@
         }
       }
     },
-    "Maintain a consistent sleep schedule with 7-9 hours of rest." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保持规律的睡眠时间，每晚休息 7-9 小时。"
-          }
-        }
-      }
-    },
     "Maintain good posture to reduce back and neck strain." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "保持良好姿势以减少背部和颈部压力。"
+          }
+        }
+      }
+    },
+    "Make half your plate vegetables at lunch and dinner, with something cruciferous most days." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "午餐和晚餐让蔬菜占半盘，大多数日子吃点十字花科蔬菜。"
+          }
+        }
+      }
+    },
+    "Make it harder: lower slowly over 3 seconds, or add weight." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加大难度：用 3 秒慢慢下放，或增加负重。"
+          }
+        }
+      }
+    },
+    "Make the intervals count: the last minute of each 4-minute effort should feel hard." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "让间歇训练有效：每段 4 分钟冲刺的最后一分钟应该感觉吃力。"
           }
         }
       }
@@ -2627,12 +4019,42 @@
         }
       }
     },
+    "Measure at home at the same time of day. High blood pressure is the leading preventable risk for heart disease and stroke." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天同一时间在家测量。高血压是心脏病和中风最主要的可预防风险因素。"
+          }
+        }
+      }
+    },
     "Meditate" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "冥想"
+          }
+        }
+      }
+    },
+    "Mediterranean Month" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地中海饮食月"
+          }
+        }
+      }
+    },
+    "Men who could do more than 40 push-ups had 96% fewer cardiovascular events over 10 years than those who managed fewer than 10." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "能做 40 个以上俯卧撑的男性，10 年内心血管事件比做不到 10 个的人少 96%。"
           }
         }
       }
@@ -2647,12 +4069,32 @@
         }
       }
     },
+    "Middle-aged and older adults who could not stand on one leg for 10 seconds had an 84% higher risk of death over the next 7 years." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法单腿站立 10 秒的中老年人，在之后 7 年的死亡风险高出 84%。"
+          }
+        }
+      }
+    },
     "Milestone Reacher" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "里程碑达成者"
+          }
+        }
+      }
+    },
+    "Mindfulness meditation programs brought moderate improvements in anxiety, depression and pain." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正念冥想课程对焦虑、抑郁和疼痛有中等程度的改善。"
           }
         }
       }
@@ -2728,6 +4170,36 @@
         }
       }
     },
+    "More daily steps meant lower mortality, levelling off at about 6,000–8,000 steps for adults over 60 and 8,000–10,000 for younger adults." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日步数越多死亡率越低，60 岁以上人群约在 6,000–8,000 步趋于平稳，更年轻的成年人约在 8,000–10,000 步。"
+          }
+        }
+      }
+    },
+    "More than half a tablespoon of olive oil a day was associated with 19% lower all-cause mortality." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天摄入超过半汤匙橄榄油与全因死亡率降低 19% 相关。"
+          }
+        }
+      }
+    },
+    "Mortality risk keeps falling up to about 8,000–10,000 steps a day." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日步数达到约 8,000–10,000 步之前，死亡风险会持续下降。"
+          }
+        }
+      }
+    },
     "Most Consistent" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2748,22 +4220,12 @@
         }
       }
     },
-    "My Longevity Rating" : {
+    "Move More, Sit Less" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "我的长寿评分"
-          }
-        }
-      }
-    },
-    "My Longevity Rating - Loading..." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "我的长寿评分 - 加载中..."
+            "value" : "多动少坐"
           }
         }
       }
@@ -2774,6 +4236,32 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "我的统计"
+          }
+        }
+      }
+    },
+    "My longevity rating" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的长寿评级"
+          }
+        }
+      }
+    },
+    "My longevity rating is %@ (%@) in Longevity Master 💪" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "My longevity rating is %1$@ (%2$@) in Longevity Master 💪"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我在 Longevity Master 的长寿评级是 %1$@（%2$@）💪"
           }
         }
       }
@@ -2928,6 +4416,26 @@
         }
       }
     },
+    "No screens before bed" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睡前不看屏幕"
+          }
+        }
+      }
+    },
+    "Not smoking is the single biggest thing you can do for a longer life. Quitting at any age helps." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不吸烟是你能为长寿做的最重要的一件事。任何年龄戒烟都有益。"
+          }
+        }
+      }
+    },
     "Nothing scheduled today. Enjoy the rest." : {
       "localizations" : {
         "zh-Hans" : {
@@ -3018,6 +4526,36 @@
         }
       }
     },
+    "Past results" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "历史成绩"
+          }
+        }
+      }
+    },
+    "People who spent at least 120 minutes a week in nature were more likely to report good health and wellbeing." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周在大自然中至少待 120 分钟的人，更可能报告身体健康、心情良好。"
+          }
+        }
+      }
+    },
+    "People with stronger social relationships had a 50% greater likelihood of survival." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "社会关系更紧密的人存活可能性高出 50%。"
+          }
+        }
+      }
+    },
     "Perfect Month" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3044,6 +4582,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择应用显示的语言，或跟随设备的语言设置。"
+          }
+        }
+      }
+    },
+    "Plank" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平板支撑"
+          }
+        }
+      }
+    },
+    "Play a racket sport" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打球拍类运动"
           }
         }
       }
@@ -3148,6 +4706,26 @@
         }
       }
     },
+    "Program completed" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "计划完成"
+          }
+        }
+      }
+    },
+    "Programs" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "计划"
+          }
+        }
+      }
+    },
     "Progress" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3168,12 +4746,62 @@
         }
       }
     },
+    "Protein at every meal" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每餐都有蛋白质"
+          }
+        }
+      }
+    },
+    "Pull-ups or rows" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "引体向上或划船"
+          }
+        }
+      }
+    },
     "Purple" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "紫色"
+          }
+        }
+      }
+    },
+    "Push-ups" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "俯卧撑"
+          }
+        }
+      }
+    },
+    "Put phones and screens away an hour before bed to help you fall asleep sooner." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睡前一小时放下手机和屏幕，帮助更快入睡。"
+          }
+        }
+      }
+    },
+    "Raise your fitness, add years" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提升体能，延长寿命"
           }
         }
       }
@@ -3218,12 +4846,42 @@
         }
       }
     },
+    "Read a book" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "读书"
+          }
+        }
+      }
+    },
     "Recent" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "最近"
+          }
+        }
+      }
+    },
+    "Regular, sufficient sleep repairs the brain and body every night. Three weeks of anchoring your body clock can change how you sleep for good." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "规律而充足的睡眠每晚都在修复大脑和身体。用三周校准生物钟，可以长久改善你的睡眠。"
+          }
+        }
+      }
+    },
+    "Regularly sleeping less than 6 hours a night was associated with a 12% higher risk of death." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长期每晚睡眠少于 6 小时与死亡风险升高 12% 相关。"
           }
         }
       }
@@ -3268,12 +4926,32 @@
         }
       }
     },
+    "Replace butter and other cooking fats with extra virgin olive oil." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用特级初榨橄榄油代替黄油和其他烹饪油脂。"
+          }
+        }
+      }
+    },
     "Replace low-impact habits with higher-rated ones" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "用更高评分的习惯替换低影响力习惯"
+          }
+        }
+      }
+    },
+    "Replace soda and juice with water, tea or coffee. Sugary drinks are linked to diabetes, heart disease and faster aging." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用水、茶或咖啡代替汽水和果汁。含糖饮料与糖尿病、心脏病和加速衰老相关。"
           }
         }
       }
@@ -3304,6 +4982,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重置为默认"
+          }
+        }
+      }
+    },
+    "Resistance band workout" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "弹力带训练"
           }
         }
       }
@@ -3348,6 +5036,26 @@
         }
       }
     },
+    "Running" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跑步"
+          }
+        }
+      }
+    },
+    "SPF 30+ on face and hands every morning. In a randomized trial, daily sunscreen slowed visible skin aging." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天早上在脸和手上涂 SPF 30+ 防晒。一项随机试验显示，每天防晒能减缓肉眼可见的皮肤老化。"
+          }
+        }
+      }
+    },
     "Sample Button" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3364,6 +5072,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "示例卡片"
+          }
+        }
+      }
+    },
+    "Sauna session" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "蒸桑拿"
           }
         }
       }
@@ -3418,6 +5136,16 @@
         }
       }
     },
+    "Scored on habits, anti-aging impact, consistency and streaks." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据习惯、抗衰老效果、坚持度和连续天数评分。"
+          }
+        }
+      }
+    },
     "Select habits that interest you. You can always add more later!" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3448,12 +5176,32 @@
         }
       }
     },
+    "Set a timer: stand or walk for 2–3 minutes every hour." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设个定时器：每小时站起来或走动 2–3 分钟。"
+          }
+        }
+      }
+    },
     "Settings" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "设置"
+          }
+        }
+      }
+    },
+    "Share" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享"
           }
         }
       }
@@ -3488,12 +5236,42 @@
         }
       }
     },
+    "Share Progress" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享进度"
+          }
+        }
+      }
+    },
+    "Share Result" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享成绩"
+          }
+        }
+      }
+    },
     "Share Your Progress" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "分享您的进度"
+          }
+        }
+      }
+    },
+    "Short light walks that break up sitting lowered blood sugar after meals." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用短时间轻松步行打断久坐，可以降低餐后血糖。"
           }
         }
       }
@@ -3518,12 +5296,12 @@
         }
       }
     },
-    "Sleep 7-9 hours" : {
+    "Skip sugary drinks" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "睡眠 7-9 小时"
+            "value" : "不喝含糖饮料"
           }
         }
       }
@@ -3538,12 +5316,32 @@
         }
       }
     },
+    "Sleep Reset" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睡眠重启"
+          }
+        }
+      }
+    },
     "Sleep Specialist" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "睡眠专家"
+          }
+        }
+      }
+    },
+    "Slow, flowing movements that improve balance, cut fall risk and calm the mind." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "缓慢流畅的动作，改善平衡、降低跌倒风险、让心平静。"
           }
         }
       }
@@ -3578,6 +5376,96 @@
         }
       }
     },
+    "Spend 10 minutes outside within an hour of waking. Morning light sets your body clock and improves sleep at night." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起床后一小时内到户外待 10 分钟。早晨的光能校准生物钟，改善夜间睡眠。"
+          }
+        }
+      }
+    },
+    "Spend time in nature" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "亲近大自然"
+          }
+        }
+      }
+    },
+    "Spinach, arugula and chard provide folate, lutein and nitrates that support the brain, eyes and blood vessels." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "菠菜、芝麻菜和甜菜叶提供叶酸、叶黄素和硝酸盐，有益大脑、眼睛和血管。"
+          }
+        }
+      }
+    },
+    "Squats" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深蹲"
+          }
+        }
+      }
+    },
+    "Stand on one leg" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "单腿站立"
+          }
+        }
+      }
+    },
+    "Stand up every hour" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每小时站起来"
+          }
+        }
+      }
+    },
+    "Stand up from a chair and sit back down 10 times without using your hands. Keeps getting up easy at any age." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不用手扶，从椅子上站起再坐下，重复 10 次。让你在任何年龄都能轻松起身。"
+          }
+        }
+      }
+    },
+    "Start Again" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再来一次"
+          }
+        }
+      }
+    },
+    "Start Program" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始计划"
+          }
+        }
+      }
+    },
     "Start Your Journey" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3604,6 +5492,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "开始签到以跟踪您的习惯！"
+          }
+        }
+      }
+    },
+    "Start each morning with 5 minutes of meditation or slow breathing." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天早上先做 5 分钟冥想或慢呼吸。"
+          }
+        }
+      }
+    },
+    "Start with a program" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从一个计划开始"
+          }
+        }
+      }
+    },
+    "Start with breakfast: berries in yogurt or oats, and green tea instead of a second coffee." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从早餐开始：酸奶或燕麦里加莓果，用绿茶代替第二杯咖啡。"
           }
         }
       }
@@ -3658,6 +5576,46 @@
         }
       }
     },
+    "Stay smoke-free" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "远离烟草"
+          }
+        }
+      }
+    },
+    "Steady & Strong" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "稳健有力"
+          }
+        }
+      }
+    },
+    "Stop caffeine after 2 PM and put screens away an hour before bed." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下午 2 点后不摄入咖啡因，睡前一小时放下屏幕。"
+          }
+        }
+      }
+    },
+    "Stop eating at 80% full" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吃到八分饱"
+          }
+        }
+      }
+    },
     "Streak Goal" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3688,12 +5646,42 @@
         }
       }
     },
+    "Strength Foundations" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "力量基础"
+          }
+        }
+      }
+    },
     "Strength training" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "力量训练"
+          }
+        }
+      }
+    },
+    "Stretch your Zone 2 sessions to 40–45 minutes." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把二区有氧延长到 40–45 分钟。"
+          }
+        }
+      }
+    },
+    "Strong relationships are linked to a 50% higher chance of survival — as strong an effect as quitting smoking." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "紧密的人际关系与存活几率高出 50% 相关——效果堪比戒烟。"
           }
         }
       }
@@ -3728,6 +5716,26 @@
         }
       }
     },
+    "Swap refined grains for whole grains, and keep the rest going." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用全谷物代替精制谷物，其他习惯继续保持。"
+          }
+        }
+      }
+    },
+    "Swap white rice, bread and pasta for whole-grain versions. Higher fiber intake is linked to lower mortality and heart disease." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把白米饭、面包和意面换成全谷物版本。更多的膳食纤维与更低的死亡率和心脏病风险相关。"
+          }
+        }
+      }
+    },
     "Swimming" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3738,22 +5746,22 @@
         }
       }
     },
-    "Swimming improves cardiovascular health, builds muscle strength, reduces stress, enhances flexibility, and is low-impact, suitable for all ages." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "游泳改善心血管健康，增强肌肉力量，减轻压力，增加灵活性，且低冲击，适合所有年龄段。"
-          }
-        }
-      }
-    },
     "System" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "跟随系统"
+          }
+        }
+      }
+    },
+    "Tai chi" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "太极"
           }
         }
       }
@@ -3818,6 +5826,26 @@
         }
       }
     },
+    "Tennis, badminton or pickleball. Social sports are linked to the longest life expectancy of any activity studied." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "网球、羽毛球或匹克球。在已研究的运动中，这类社交型运动与最长的预期寿命相关。"
+          }
+        }
+      }
+    },
+    "Test yourself: count your best set of push-ups and squats and compare with week 1." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "测试自己：记录俯卧撑和深蹲的最好一组，与第 1 周对比。"
+          }
+        }
+      }
+    },
     "Thank you for supporting Longevity Master!" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3828,12 +5856,32 @@
         }
       }
     },
+    "The Okinawan habit of hara hachi bu: stop eating when you feel about 80% full." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "冲绳人的「腹八分」习惯：感觉八分饱时就停下。"
+          }
+        }
+      }
+    },
     "The app stays in its current language until you close and reopen it." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "应用会保持当前语言，直到你关闭并重新打开它。"
+          }
+        }
+      }
+    },
+    "The best-studied way to eat" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "研究最充分的饮食方式"
           }
         }
       }
@@ -3854,6 +5902,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "尝试与成功之间只差一点点努力！"
+          }
+        }
+      }
+    },
+    "The evidence" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "科学依据"
           }
         }
       }
@@ -3958,12 +6016,42 @@
         }
       }
     },
+    "Three 1-minute bursts of vigorous activity in daily life — climb stairs fast, walk uphill briskly, carry heavy shopping." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在日常生活中做三次 1 分钟的高强度活动——快速爬楼梯、快步上坡、提重物购物。"
+          }
+        }
+      }
+    },
+    "Three 1–2 minute bursts of vigorous activity a day were associated with up to 40% lower all-cause mortality." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天三次 1–2 分钟的高强度活动与全因死亡率最多降低 40% 相关。"
+          }
+        }
+      }
+    },
     "Time" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "时间"
+          }
+        }
+      }
+    },
+    "Time your one-leg stand and count your chair stands, and compare with week 1." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录单腿站立时间和坐站次数，与第 1 周对比。"
           }
         }
       }
@@ -4098,6 +6186,26 @@
         }
       }
     },
+    "Try a guided program" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "试试引导计划"
+          }
+        }
+      }
+    },
+    "Try balancing without holding on, and do chair stands slowly." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尝试不扶东西保持平衡，并慢慢做坐站练习。"
+          }
+        }
+      }
+    },
     "Try different habit categories for variety achievements" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4114,6 +6222,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "尝试来自不同类别的习惯以获得多样性"
+          }
+        }
+      }
+    },
+    "Turmeric, ginger, cinnamon, oregano and rosemary are among the most concentrated sources of polyphenol antioxidants." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "姜黄、生姜、肉桂、牛至和迷迭香是多酚类抗氧化物最集中的来源之一。"
           }
         }
       }
@@ -4218,6 +6336,26 @@
         }
       }
     },
+    "Use a bar, rings or a resistance band. Pulling balances all the pushing and sitting we do and supports posture." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用单杠、吊环或弹力带。拉的动作能平衡日常的推和久坐，改善体态。"
+          }
+        }
+      }
+    },
+    "Use extra virgin olive oil" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用特级初榨橄榄油"
+          }
+        }
+      }
+    },
     "Use reminders to never miss a day" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4248,6 +6386,36 @@
         }
       }
     },
+    "Vigorous bursts" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高强度爆发"
+          }
+        }
+      }
+    },
+    "Volunteer, lend a hand or do a kind act. A sense of purpose is linked to lower mortality." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "做志愿者、搭把手或做件善事。人生目标感与较低的死亡率相关。"
+          }
+        }
+      }
+    },
+    "Wake up at the same time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "固定时间起床"
+          }
+        }
+      }
+    },
     "Walk 30 minutes at moderate pace." : {
       "localizations" : {
         "zh-Hans" : {
@@ -4258,12 +6426,82 @@
         }
       }
     },
+    "Walk 30–40 m holding heavy weights at your sides. Grip strength is one of the strongest predictors of healthy aging." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "双手提重物走 30–40 米。握力是预测健康老化最有力的指标之一。"
+          }
+        }
+      }
+    },
+    "Walk 8,000 steps" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "走 8000 步"
+          }
+        }
+      }
+    },
+    "Walk for 10 minutes after your biggest meal." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在一天中最丰盛的一餐后走 10 分钟。"
+          }
+        }
+      }
+    },
     "Walk for 10–15 minutes after meals to support digestion and blood sugar control." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "饭后步行 10-15 分钟以支持消化和血糖控制。"
+          }
+        }
+      }
+    },
+    "Walking on hills and trails builds leg strength and endurance — and gets you into nature." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在山丘和小径上行走能增强腿部力量和耐力，还能亲近大自然。"
+          }
+        }
+      }
+    },
+    "Wall sit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "靠墙静蹲"
+          }
+        }
+      }
+    },
+    "Wear sunscreen" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "涂防晒霜"
+          }
+        }
+      }
+    },
+    "Week %lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第 %lld 周"
           }
         }
       }
@@ -4298,6 +6536,16 @@
         }
       }
     },
+    "Week by week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周安排"
+          }
+        }
+      }
+    },
     "Welcome to Longevity Master" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4318,12 +6566,32 @@
         }
       }
     },
+    "What you'll do" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你要做的"
+          }
+        }
+      }
+    },
     "Write 3 things you're grateful for daily." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "每天写下 3 件您感恩的事情。"
+          }
+        }
+      }
+    },
+    "Write for 10 minutes about your day or what's on your mind. Helps process stress." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "花 10 分钟写写今天或心里的想法，有助于消化压力。"
           }
         }
       }
@@ -4349,6 +6617,16 @@
         }
       }
     },
+    "Yogurt, kefir, kimchi or sauerkraut. Fermented foods increase gut microbiome diversity and lower inflammation markers." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "酸奶、开菲尔、泡菜或酸菜。发酵食品能增加肠道菌群多样性，降低炎症指标。"
+          }
+        }
+      }
+    },
     "You are now Premium user!" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4365,6 +6643,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您今天没有安排任何习惯。创建一些习惯，开启您的旅程吧！"
+          }
+        }
+      }
+    },
+    "You kept %lld%% of the plan over %lld days." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You kept %1$lld%% of the plan over %2$lld days."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 %2$lld 天里，你完成了计划的 %1$lld%%。"
           }
         }
       }
@@ -4429,6 +6723,16 @@
         }
       }
     },
+    "Your habits and their check-ins stay. Only the program's progress is removed." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的习惯和打卡记录都会保留，只移除这个计划的进度。"
+          }
+        }
+      }
+    },
     "Your health is an investment, not an expense." : {
       "localizations" : {
         "zh-Hans" : {
@@ -4445,6 +6749,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您的评分基于您在多个维度的整体健康和保健习惯计算。专注于在所有类别中建立一致的习惯以提高您的评分！"
+          }
+        }
+      }
+    },
+    "Zone 2 cardio" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "二区有氧"
           }
         }
       }
@@ -4469,6 +6783,26 @@
         }
       }
     },
+    "best streak" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最长连续"
+          }
+        }
+      }
+    },
+    "check-ins" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次打卡"
+          }
+        }
+      }
+    },
     "complete" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4485,6 +6819,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一致性"
+          }
+        }
+      }
+    },
+    "day streak" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天连续"
           }
         }
       }
@@ -4549,6 +6893,26 @@
         }
       }
     },
+    "of 1200 points" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/ 1200 分"
+          }
+        }
+      }
+    },
+    "on track" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成度"
+          }
+        }
+      }
+    },
     "out of 30" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4575,6 +6939,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分"
+          }
+        }
+      }
+    },
+    "points to %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分升至 %@"
           }
         }
       }
@@ -4675,6 +7049,16 @@
         }
       }
     },
+    "🎉 Program completed" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🎉 计划完成"
+          }
+        }
+      }
+    },
     "🏋️ Exercise" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4698,6 +7082,16 @@
     "🔥" : {
       "shouldTranslate" : false
     },
+    "🔥 %lld-day streak" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🔥 连续 %lld 天"
+          }
+        }
+      }
+    },
     "🔥 %lldd streak" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4717,6 +7111,9 @@
           }
         }
       }
+    },
+    "🗺️" : {
+      "shouldTranslate" : false
     },
     "😌" : {
       "shouldTranslate" : false

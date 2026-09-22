@@ -8,6 +8,8 @@
 	<string>$(bannerViewAdUnitID)</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>Longevity Master uses your device's advertising identifier to choose which ads appear in the app — for example, showing you fitness gear or healthy meal-kit ads instead of ads picked at random. You can use every habit and reminder feature if you decline.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Longevity Master saves the share cards you make to your photo library when you choose Save Image.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>ITSAppUsesNonExemptEncryption</key>

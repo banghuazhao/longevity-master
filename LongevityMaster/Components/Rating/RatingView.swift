@@ -26,13 +26,11 @@ struct RatingView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    ShareLink(
-                        item: viewModel.createShareText(),
-                        subject: Text(String(localized: "My Longevity Rating")),
-                        message: Text(String(localized: "Check out my longevity rating from Longevity Master!"))
-                    ) {
-                        Image(systemName: "square.and.arrow.up")
-                            .appToolbarCircularButtonStyle()
+                    if let breakdown = viewModel.scoreBreakdown {
+                        ShareCardLink(content: .rating(breakdown)) {
+                            Image(systemName: "square.and.arrow.up")
+                                .appToolbarCircularButtonStyle()
+                        }
                     }
                 }
             }

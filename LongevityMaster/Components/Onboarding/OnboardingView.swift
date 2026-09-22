@@ -13,6 +13,9 @@ class OnboardingViewModel {
     @Dependency(\.defaultDatabase) var database
     
     var selectedHabits: Set<Habit.Draft> = []
+    /// A program picked as the starting point. Picking one selects its habits; finishing
+    /// onboarding enrolls the user in it.
+    var selectedProgram: Program?
     var currentStep: OnboardingStep = .welcome
     var selectedCategory: HabitCategory? = nil
     
@@ -44,6 +47,22 @@ class OnboardingViewModel {
     func isHabitSelected(_ habit: Habit.Draft) -> Bool {
         selectedHabits.contains(habit)
     }
+
+    /// One program at a time: picking another swaps its habits in for the previous one's.
+    /// Habits the user ticked by hand stay ticked unless they came with the program.
+    func toggleProgram(_ program: Program) {
+        withAnimation {
+            if let previous = selectedProgram {
+                selectedHabits.subtract(previous.habits)
+            }
+            if selectedProgram?.id == program.id {
+                selectedProgram = nil
+            } else {
+                selectedProgram = program
+                selectedHabits.formUnion(program.habits)
+            }
+        }
+    }
     
     func selectCategory(_ category: HabitCategory?) {
         withAnimation {
@@ -71,12 +90,17 @@ class OnboardingViewModel {
     
     func completeOnboarding() async {
         await withErrorReporting {
-            try await database.write { [selectedHabits] db in
+            try await database.write { [selectedHabits, selectedProgram] db in
                 for habitDraft in selectedHabits {
                     _ = try Habit
                         .upsert { habitDraft }
                         .returning { $0 }
                         .fetchOne(db)
+                }
+                // After the habits, so the program finds them by name instead of adding its
+                // own copies.
+                if let selectedProgram {
+                    try ProgramEnrollments.start(selectedProgram, on: Date(), in: db)
                 }
             }
         }
@@ -165,6 +189,27 @@ struct OnboardingView: View {
             }
             .padding()
             
+            // Programs
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Start with a program")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 10) {
+                        ForEach(ProgramsDataStore.all) { program in
+                            OnboardingProgramChip(
+                                program: program,
+                                isSelected: viewModel.selectedProgram?.id == program.id,
+                                onToggle: { viewModel.toggleProgram(program) }
+                            )
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+            }
+            .padding(.bottom, 12)
+
             // Category filter
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
@@ -253,7 +298,13 @@ struct OnboardingView: View {
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
                     }
-                        
+
+                    if let program = viewModel.selectedProgram {
+                        Text("\(program.icon) Your “\(program.title)” program starts today.")
+                            .font(.body.weight(.semibold))
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                    }
                 }
             }
             
@@ -338,3 +389,46 @@ struct OnboardingHabitCard: View {
 #Preview {
     OnboardingView()
 } 
+
+struct OnboardingProgramChip: View {
+    let program: Program
+    let isSelected: Bool
+    let onToggle: () -> Void
+
+    @Dependency(\.themeManager) var themeManager
+
+    var body: some View {
+        Button(action: {
+            Haptics.shared.vibrateIfEnabled()
+            onToggle()
+        }) {
+            HStack(spacing: 8) {
+                Text(program.icon)
+                    .font(.title3)
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(program.title)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(.primary)
+                    Text("\(program.durationDays) days · \(program.habits.count) habits")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+                if isSelected {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(themeManager.current.primaryColor)
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(isSelected ? themeManager.current.primaryColor.opacity(0.12) : Color(hex: program.color).opacity(0.35))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 14)
+                    .stroke(isSelected ? themeManager.current.primaryColor : Color.clear, lineWidth: 2)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}

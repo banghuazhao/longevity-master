@@ -100,6 +100,25 @@ class HabitDetailViewModel {
         )
     }
 
+    /// The habit's streak card: the same streak the tile above shows, plus the best run and
+    /// the last four weeks, which is what makes a streak worth posting.
+    var shareCard: ShareCardContent {
+        let calendar = Calendar.current
+        let activeDays = Set(checkIns.map { calendar.startOfDay(for: $0.date) })
+        let rest = RestDays(allSkippedDays, in: calendar).forHabit(habit.id)
+        let today = calendar.startOfDay(for: Date())
+        let recentDays = (0..<28).reversed().compactMap { daysAgo in
+            calendar.date(byAdding: .day, value: -daysAgo, to: today).map(activeDays.contains)
+        }
+        return .habit(
+            habit,
+            currentStreak: calendar.currentDayStreak(in: activeDays, skipping: rest),
+            bestStreak: calendar.longestDayStreak(in: activeDays, skipping: rest),
+            totalCheckIns: activeDays.count,
+            recentDays: recentDays
+        )
+    }
+
     var reminders: [Reminder.Draft] {
         allReminders.filter { $0.habitID == habit.id }.map(Reminder.Draft.init)
     }
@@ -505,6 +524,11 @@ struct HabitDetailView: View {
         .background(themeManager.current.background.ignoresSafeArea())
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
+                ShareCardLink(content: viewModel.shareCard) {
+                    Image(systemName: "square.and.arrow.up")
+                        .appToolbarCircularButtonStyle()
+                }
+
                 Button {
                     viewModel.onTapDeleteHabit()
                 } label: {
@@ -885,11 +909,7 @@ struct HabitAchievementRowView: View {
             Spacer()
             
             HStack(spacing: 8) {
-                ShareLink(
-                    item: createAchievementShareText(achievement),
-                    subject: Text("Achievement Unlocked!"),
-                    message: Text("Check out this achievement I unlocked in LongevityMaster!")
-                ) {
+                ShareCardLink(content: .achievement(achievement)) {
                     Image(systemName: "square.and.arrow.up")
                         .font(.caption)
                         .foregroundColor(themeManager.current.primaryColor)
@@ -906,24 +926,6 @@ struct HabitAchievementRowView: View {
             RoundedRectangle(cornerRadius: 8)
                 .fill(themeManager.current.card)
         )
-    }
-    
-    func createAchievementShareText(_ achievement: Achievement) -> String {
-        let appName = "LongevityMaster"
-        let appStoreURL = "https://apps.apple.com/app/id\(Constants.AppID.longevityMasterID)"
-        
-        var shareText = "🎉 Achievement Unlocked! 🎉\n\n"
-        shareText += "🏆 \(achievement.title)\n"
-        shareText += "📝 \(achievement.description)\n\n"
-        
-        if let unlockDate = achievement.unlockedDate {
-            shareText += "📅 Unlocked on \(DateFormatter.mediumDate.string(from: unlockDate))\n\n"
-        }
-        
-        shareText += "💪 Keep building healthy habits with \(appName)!\n"
-        shareText += "📱 Download: \(appStoreURL)"
-        
-        return shareText
     }
 }
 

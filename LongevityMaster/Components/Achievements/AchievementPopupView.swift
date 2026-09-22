@@ -67,11 +67,7 @@ struct AchievementPopupView: View {
                 .opacity(animationOpacity)
                 
                 // Share button
-                ShareLink(
-                    item: createAchievementShareText(achievement),
-                    subject: Text(String(localized: "Achievement Unlocked!")),
-                    message: Text(String(localized: "Check out this achievement I unlocked in LongevityMaster!"))
-                ) {
+                ShareCardLink(content: .achievement(achievement)) {
                     HStack {
                         Image(systemName: "square.and.arrow.up")
                         Text(String(localized: "Share Achievement"))
@@ -160,24 +156,6 @@ struct AchievementPopupView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             isPresented = false
         }
-    }
-    
-    private func createAchievementShareText(_ achievement: Achievement) -> String {
-        let appName = "LongevityMaster"
-        let appStoreURL = "https://apps.apple.com/app/id\(Constants.AppID.longevityMasterID)"
-        
-        var shareText = "🎉 Achievement Unlocked! 🎉\n\n"
-        shareText += "🏆 \(achievement.title)\n"
-        shareText += "📝 \(achievement.description)\n\n"
-        
-        if let unlockDate = achievement.unlockedDate {
-            shareText += "📅 Unlocked on \(DateFormatter.mediumDate.string(from: unlockDate))\n\n"
-        }
-        
-        shareText += "💪 Keep building healthy habits with \(appName)!\n"
-        shareText += "📱 Download: \(appStoreURL)"
-        
-        return shareText
     }
 }
 

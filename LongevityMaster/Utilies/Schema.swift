@@ -146,7 +146,7 @@ func appDatabase() throws -> any DatabaseWriter {
     #if DEBUG
         migrator.registerMigration("Seed database") { db in
             try db.seed {
-                HabitsDataStore.all
+                HabitsDataStore.debugSeed
             }
         }
     #endif
@@ -225,6 +225,47 @@ func appDatabase() throws -> any DatabaseWriter {
         try #sql(
             """
             CREATE INDEX IF NOT EXISTS "skippedDays_habitID" ON "skippedDays"("habitID")
+            """
+        )
+        .execute(db)
+    }
+
+    // Guided programs. The programs themselves are defined in code; these record which ones
+    // the user started, and which of their habits each one is tracking.
+    migrator.registerMigration("Add programs") { db in
+        try #sql(
+            """
+            CREATE TABLE "programEnrollments" (
+             "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+             "programID" TEXT NOT NULL DEFAULT '',
+             "startDate" TEXT NOT NULL DEFAULT '',
+             "isArchived" INTEGER NOT NULL DEFAULT 0
+            ) STRICT
+            """
+        )
+        .execute(db)
+
+        try #sql(
+            """
+            CREATE TABLE "programHabits" (
+             "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+             "enrollmentID" INTEGER NOT NULL REFERENCES "programEnrollments"("id") ON DELETE CASCADE,
+             "habitID" INTEGER NOT NULL REFERENCES "habits"("id") ON DELETE CASCADE
+            ) STRICT
+            """
+        )
+        .execute(db)
+
+        try #sql(
+            """
+            CREATE INDEX IF NOT EXISTS "programHabits_enrollmentID" ON "programHabits"("enrollmentID")
+            """
+        )
+        .execute(db)
+
+        try #sql(
+            """
+            CREATE INDEX IF NOT EXISTS "programHabits_habitID" ON "programHabits"("habitID")
             """
         )
         .execute(db)

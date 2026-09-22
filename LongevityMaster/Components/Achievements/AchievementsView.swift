@@ -143,24 +143,6 @@ class AchievementsViewModel {
             return min(Double(index.totalCheckIns) / Double(target), 1.0)
         }
     }
-
-    func createAchievementShareText(_ achievement: Achievement) -> String {
-        let appName = "LongevityMaster"
-        let appStoreURL = "https://apps.apple.com/app/id\(Constants.AppID.longevityMasterID)"
-        
-        var shareText = "🎉 Achievement Unlocked! 🎉\n\n"
-        shareText += "🏆 \(achievement.title)\n"
-        shareText += "📝 \(achievement.description)\n\n"
-        
-        if let unlockDate = achievement.unlockedDate {
-            shareText += "📅 Unlocked on \(DateFormatter.mediumDate.string(from: unlockDate))\n\n"
-        }
-        
-        shareText += "💪 Keep building healthy habits with \(appName)!\n"
-        shareText += "📱 Download: \(appStoreURL)"
-        
-        return shareText
-    }
 }
 
 struct AchievementsView: View {
@@ -235,8 +217,7 @@ struct AchievementsView: View {
                         ForEach(achievementsToShow) { achievement in
                             AchievementRowView(
                                 achievement: achievement,
-                                progress: progressByAchievement[achievement.id] ?? 0,
-                                shareText: viewModel.createAchievementShareText(achievement)
+                                progress: progressByAchievement[achievement.id] ?? 0
                             )
                         }
                     }
@@ -267,7 +248,6 @@ struct AchievementsView: View {
 struct AchievementRowView: View {
     let achievement: Achievement
     let progress: Double
-    let shareText: String
     
     var body: some View {
         HStack(spacing: 16) {
@@ -305,11 +285,7 @@ struct AchievementRowView: View {
                     
                     if achievement.isUnlocked {
                         HStack(spacing: 8) {
-                            ShareLink(
-                                item: shareText,
-                                subject: Text("Achievement Unlocked!"),
-                                message: Text("Check out this achievement I unlocked in LongevityMaster!")
-                            ) {
+                            ShareCardLink(content: .achievement(achievement)) {
                                 Image(systemName: "square.and.arrow.up")
                                     .foregroundColor(.blue)
                                     .font(.caption)

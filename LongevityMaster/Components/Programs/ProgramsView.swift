@@ -6,59 +6,154 @@
 import SQLiteData
 import SwiftUI
 
-/// Every program, with the ones the user is following at the top.
+/// The Programs tab: programs under way, the user's own, and the guided ones.
 struct ProgramsView: View {
     @State var viewModel = ProgramsViewModel()
+    @State private var form: CustomProgramFormModel?
+    @State private var programToDelete: Program?
 
     @Dependency(\.themeManager) private var themeManager
 
     var body: some View {
         let enrolled = viewModel.enrolled
         let current = enrolled.filter { !$0.enrollment.isArchived && !$0.progress.isFinished }
+        let custom = viewModel.customPrograms
 
-        ScrollView {
-            VStack(alignment: .leading, spacing: AppSpacing.medium) {
-                Text("Guided plans that bundle a few proven habits for three or four weeks, with a focus for each week and the research behind them.")
-                    .font(AppFont.subheadline)
-                    .foregroundStyle(themeManager.current.textSecondary)
-                    .fixedSize(horizontal: false, vertical: true)
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: AppSpacing.medium) {
+                    Text("A program bundles a few habits for a set number of weeks, with a goal for each week. Follow a guided one backed by research, or make your own.")
+                        .font(AppFont.subheadline)
+                        .foregroundStyle(themeManager.current.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
 
-                if !current.isEmpty {
-                    Text("In progress")
-                        .font(AppFont.headline)
-                        .padding(.top, AppSpacing.small)
+                    if !current.isEmpty {
+                        sectionHeader("In progress")
 
-                    ForEach(current) { enrolled in
-                        NavigationLink {
-                            ProgramDetailView(program: enrolled.program, viewModel: viewModel)
-                        } label: {
-                            ProgramProgressCard(enrolled: enrolled)
+                        ForEach(current) { enrolled in
+                            NavigationLink {
+                                ProgramDetailView(program: enrolled.program, viewModel: viewModel)
+                            } label: {
+                                ProgramProgressCard(enrolled: enrolled)
+                            }
+                            .buttonStyle(.plain)
                         }
-                        .buttonStyle(.plain)
+                    }
+
+                    sectionHeader("My programs")
+
+                    if custom.isEmpty {
+                        createCard
+                    } else {
+                        ForEach(custom) { program in
+                            programLink(program, isActive: viewModel.active(program, in: enrolled) != nil)
+                                .contextMenu {
+                                    Button {
+                                        edit(program)
+                                    } label: {
+                                        Label("Edit Program", systemImage: "pencil")
+                                    }
+                                    Button(role: .destructive) {
+                                        programToDelete = program
+                                    } label: {
+                                        Label("Delete Program", systemImage: "trash")
+                                    }
+                                }
+                        }
+                    }
+
+                    sectionHeader("Guided programs")
+
+                    ForEach(ProgramsDataStore.all) { program in
+                        programLink(program, isActive: viewModel.active(program, in: enrolled) != nil)
                     }
                 }
-
-                Text("All programs")
-                    .font(AppFont.headline)
-                    .padding(.top, AppSpacing.small)
-
-                ForEach(ProgramsDataStore.all) { program in
-                    NavigationLink {
-                        ProgramDetailView(program: program, viewModel: viewModel)
+                .padding()
+            }
+            .appBackground()
+            .navigationTitle("Programs")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        form = CustomProgramFormModel()
                     } label: {
-                        ProgramCard(
-                            program: program,
-                            isActive: viewModel.active(program, in: enrolled) != nil
-                        )
+                        Image(systemName: "plus")
+                            .appToolbarCircularButtonStyle()
                     }
-                    .buttonStyle(.plain)
+                    .accessibilityLabel(Text("New Program"))
                 }
             }
-            .padding()
+            .sheet(item: $form) { model in
+                CustomProgramFormView(model: model)
+            }
+            .confirmationDialog(
+                programToDelete.map { "Delete “\($0.title)”?" } ?? "",
+                isPresented: Binding(
+                    get: { programToDelete != nil },
+                    set: { if !$0 { programToDelete = nil } }
+                ),
+                titleVisibility: .visible,
+                presenting: programToDelete
+            ) { program in
+                Button("Delete Program", role: .destructive) {
+                    viewModel.delete(program)
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: { _ in
+                Text("Your habits and their check-ins stay. The program and its progress are removed.")
+            }
         }
-        .appBackground()
-        .navigationTitle("Programs")
-        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func programLink(_ program: Program, isActive: Bool) -> some View {
+        NavigationLink {
+            ProgramDetailView(program: program, viewModel: viewModel)
+        } label: {
+            ProgramCard(program: program, isActive: isActive)
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func edit(_ program: Program) {
+        guard let row = viewModel.customRow(for: program) else { return }
+        form = CustomProgramFormModel(program: row)
+    }
+
+    private func sectionHeader(_ title: LocalizedStringKey) -> some View {
+        Text(title)
+            .font(AppFont.headline)
+            .padding(.top, AppSpacing.small)
+    }
+
+    private var createCard: some View {
+        Button {
+            form = CustomProgramFormModel()
+        } label: {
+            HStack(spacing: AppSpacing.medium) {
+                Image(systemName: "plus")
+                    .font(.title2.weight(.semibold))
+                    .foregroundStyle(themeManager.current.primaryColor)
+                    .frame(width: 56, height: 56)
+                    .background(themeManager.current.primaryColor.opacity(0.12), in: RoundedRectangle(cornerRadius: 16))
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Create your own")
+                        .font(AppFont.headline)
+                        .foregroundStyle(themeManager.current.textPrimary)
+                    Text("Pick habits, set a length and weekly goals, and track it like any program.")
+                        .font(AppFont.footnote)
+                        .foregroundStyle(themeManager.current.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 0)
+            }
+            .padding(AppSpacing.medium)
+            .background(
+                RoundedRectangle(cornerRadius: AppCornerRadius.card)
+                    .strokeBorder(themeManager.current.primaryColor.opacity(0.5), style: StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
+            )
+        }
+        .buttonStyle(.plain)
     }
 }
 
@@ -182,7 +277,7 @@ struct ProgramProgressCard: View {
             ProgressView(value: progress.fractionElapsed)
                 .tint(themeManager.current.primaryColor)
 
-            if let focus = enrolled.program.weeklyFocus[safe: enrolled.currentWeek - 1] {
+            if let focus = enrolled.program.weeklyFocus[safe: enrolled.currentWeek - 1], !focus.isEmpty {
                 HStack(alignment: .top, spacing: 6) {
                     Text("Week \(enrolled.currentWeek)")
                         .font(AppFont.footnote.weight(.semibold))
@@ -208,7 +303,5 @@ extension Array {
     let _ = prepareDependencies {
         $0.defaultDatabase = try! appDatabase()
     }
-    NavigationStack {
-        ProgramsView()
-    }
+    ProgramsView()
 }

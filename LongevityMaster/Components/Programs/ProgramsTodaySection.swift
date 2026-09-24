@@ -11,8 +11,9 @@ import SwiftUI
 struct ProgramsTodaySection: View {
     let viewModel: ProgramsViewModel
 
-    /// Once dismissed, the invitation stays gone; programs are still a tap away in Habits.
+    /// Once dismissed, the invitation stays gone; programs have their own tab.
     @AppStorage("hideProgramsInvitation") private var hideInvitation = false
+    @Environment(\.selectTab) private var selectTab
 
     @Dependency(\.themeManager) private var themeManager
 
@@ -92,8 +93,8 @@ struct ProgramsTodaySection: View {
     }
 
     private var invitation: some View {
-        NavigationLink {
-            ProgramsView(viewModel: viewModel)
+        Button {
+            selectTab(.programs)
         } label: {
             HStack(spacing: AppSpacing.smallMedium) {
                 Text("🗺️")

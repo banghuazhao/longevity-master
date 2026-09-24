@@ -143,23 +143,7 @@ enum ProgramEnrollments {
         on date: Date,
         in db: Database
     ) throws -> ProgramEnrollment {
-        var habitIDs: [Habit.ID] = []
-        for draft in program.habits {
-            let matches = try Habit.where { $0.name.eq(draft.name) }.fetchAll(db)
-            if let existing = matches.first(where: { !$0.isArchived }) ?? matches.first {
-                if existing.isArchived {
-                    var restored = existing
-                    restored.isArchived = false
-                    try Habit.update(restored).execute(db)
-                }
-                habitIDs.append(existing.id)
-            } else {
-                let created = try Habit.upsert { draft }.returning(\.self).fetchOne(db)
-                if let created {
-                    habitIDs.append(created.id)
-                }
-            }
-        }
+        let habitIDs = try resolveHabits(program.habits, in: db)
 
         let saved = try ProgramEnrollment
             .upsert { ProgramEnrollment.Draft(programID: program.id, startDate: date) }
@@ -175,6 +159,29 @@ enum ProgramEnrollments {
                 .execute(db)
         }
         return enrollment
+    }
+
+    /// The user's habit for each draft: an existing one of the same name, restored from the
+    /// archive if need be, or a new one.
+    static func resolveHabits(_ drafts: [Habit.Draft], in db: Database) throws -> [Habit.ID] {
+        var habitIDs: [Habit.ID] = []
+        for draft in drafts {
+            let matches = try Habit.where { $0.name.eq(draft.name) }.fetchAll(db)
+            if let existing = matches.first(where: { !$0.isArchived }) ?? matches.first {
+                if existing.isArchived {
+                    var restored = existing
+                    restored.isArchived = false
+                    try Habit.update(restored).execute(db)
+                }
+                habitIDs.append(existing.id)
+            } else {
+                let created = try Habit.upsert { draft }.returning(\.self).fetchOne(db)
+                if let created {
+                    habitIDs.append(created.id)
+                }
+            }
+        }
+        return habitIDs
     }
 
     /// Stops following a program. Its habits stay: by now they are the user's own.
@@ -193,4 +200,77 @@ enum ProgramEnrollments {
 
 enum ProgramEnrollmentError: Error {
     case notSaved
+}
+
+/// Saving and deleting the programs users make themselves.
+enum CustomPrograms {
+    /// Saves `draft` — new, or an edit of an existing program — and returns it.
+    ///
+    /// Editing a program that is under way carries the change to its habits into the run:
+    /// a habit added to the plan starts being tracked, and one taken out stops. Habits are
+    /// told apart by name, and only the ones whose names actually left the plan are dropped,
+    /// so a habit the user renamed since starting stays counted.
+    @discardableResult
+    static func save(_ draft: CustomProgram.Draft, in db: Database) throws -> CustomProgram {
+        let previousNames: Set<String>
+        if let id = draft.id, let previous = try CustomProgram.find(id).fetchOne(db) {
+            previousNames = Set(previous.habits.map(\.name))
+        } else {
+            previousNames = []
+        }
+
+        guard let saved = try CustomProgram.upsert { draft }.returning(\.self).fetchOne(db) else {
+            throw ProgramEnrollmentError.notSaved
+        }
+        guard draft.id != nil else { return saved }
+
+        let currentNames = Set(saved.habits.map(\.name))
+        let removed = previousNames.subtracting(currentNames)
+        let added = saved.habits.filter { !previousNames.contains($0.name) }.map(\.draft)
+        guard !removed.isEmpty || !added.isEmpty else { return saved }
+
+        // Runs still under way, by the same day count `ProgramProgress` uses to call one
+        // finished.
+        let program = Program(custom: saved)
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let runs = try ProgramEnrollment
+            .where { $0.programID.eq(program.id) && !$0.isArchived }
+            .fetchAll(db)
+            .filter { enrollment in
+                let start = calendar.startOfDay(for: enrollment.startDate)
+                let elapsed = calendar.dateComponents([.day], from: start, to: today).day ?? 0
+                return elapsed < program.durationDays
+            }
+        guard !runs.isEmpty else { return saved }
+
+        let addedIDs = try ProgramEnrollments.resolveHabits(added, in: db)
+        for run in runs {
+            let linked = try ProgramHabit.where { $0.enrollmentID.eq(run.id) }.fetchAll(db)
+            let linkedHabits = try Habit.where { $0.id.in(linked.map(\.habitID)) }.fetchAll(db)
+            let dropped = Set(linkedHabits.filter { removed.contains($0.name) }.map(\.id))
+            if !dropped.isEmpty {
+                try ProgramHabit
+                    .where { $0.enrollmentID.eq(run.id) && $0.habitID.in(Array(dropped)) }
+                    .delete()
+                    .execute(db)
+            }
+            let alreadyLinked = Set(linked.map(\.habitID))
+            for habitID in addedIDs where !alreadyLinked.contains(habitID) {
+                try ProgramHabit
+                    .upsert { ProgramHabit.Draft(enrollmentID: run.id, habitID: habitID) }
+                    .execute(db)
+            }
+        }
+        return saved
+    }
+
+    /// Deletes the program and every run of it. The habits it added stay.
+    static func delete(_ id: CustomProgram.ID, in db: Database) throws {
+        try ProgramEnrollment
+            .where { $0.programID.eq(Program.id(forCustom: id)) }
+            .delete()
+            .execute(db)
+        try CustomProgram.where { $0.id.eq(id) }.delete().execute(db)
+    }
 }

@@ -9,12 +9,29 @@ import SwiftUI
 /// One program: what it asks of you, week by week, and the studies behind it — and, once
 /// started, how it is going.
 struct ProgramDetailView: View {
-    let program: Program
     let viewModel: ProgramsViewModel
+    private let programID: String
+    /// What was tapped, for the moment a program being deleted is already gone from the
+    /// database but the page has not yet been dismissed.
+    private let openedProgram: Program
 
     @State private var isConfirmingLeave = false
+    @State private var isConfirmingDelete = false
+    @State private var form: CustomProgramFormModel?
 
+    @Environment(\.dismiss) private var dismiss
     @Dependency(\.themeManager) private var themeManager
+
+    init(program: Program, viewModel: ProgramsViewModel) {
+        self.viewModel = viewModel
+        self.programID = program.id
+        self.openedProgram = program
+    }
+
+    /// Read afresh each time, so an edit to the user's own program shows straight away.
+    private var program: Program {
+        viewModel.program(id: programID) ?? openedProgram
+    }
 
     var body: some View {
         let enrolled = viewModel.enrolled
@@ -31,14 +48,20 @@ struct ProgramDetailView: View {
                     completedSection(latest)
                 }
 
-                Text(program.summary)
-                    .font(AppFont.body)
-                    .foregroundStyle(themeManager.current.textPrimary)
-                    .fixedSize(horizontal: false, vertical: true)
+                if !program.summary.isEmpty {
+                    Text(program.summary)
+                        .font(AppFont.body)
+                        .foregroundStyle(themeManager.current.textPrimary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
 
                 habitsSection
-                weeksSection(currentWeek: active?.currentWeek)
-                evidenceSection
+                if program.weeklyFocus.contains(where: { !$0.isEmpty }) {
+                    weeksSection(currentWeek: active?.currentWeek)
+                }
+                if !program.sources.isEmpty {
+                    evidenceSection
+                }
 
                 if !finished.isEmpty {
                     pastResultsSection(finished)
@@ -61,32 +84,68 @@ struct ProgramDetailView: View {
         .navigationTitle(program.title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            if let active {
+            if active != nil || program.isCustom {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
-                        Button(role: .destructive) {
-                            isConfirmingLeave = true
-                        } label: {
-                            Label("Leave Program", systemImage: "xmark.circle")
+                        if program.isCustom {
+                            Button {
+                                if let row = viewModel.customRow(for: program) {
+                                    form = CustomProgramFormModel(program: row)
+                                }
+                            } label: {
+                                Label("Edit Program", systemImage: "pencil")
+                            }
+                        }
+                        if active != nil {
+                            Button(role: .destructive) {
+                                isConfirmingLeave = true
+                            } label: {
+                                Label("Leave Program", systemImage: "xmark.circle")
+                            }
+                        }
+                        if program.isCustom {
+                            Button(role: .destructive) {
+                                isConfirmingDelete = true
+                            } label: {
+                                Label("Delete Program", systemImage: "trash")
+                            }
                         }
                     } label: {
                         Image(systemName: "ellipsis")
                             .appToolbarCircularButtonStyle()
                     }
-                    .confirmationDialog(
-                        "Leave “\(program.title)”?",
-                        isPresented: $isConfirmingLeave,
-                        titleVisibility: .visible
-                    ) {
-                        Button("Leave Program", role: .destructive) {
-                            viewModel.leave(active)
-                        }
-                        Button("Cancel", role: .cancel) {}
-                    } message: {
-                        Text("Your habits and their check-ins stay. Only the program's progress is removed.")
-                    }
                 }
             }
+        }
+        .confirmationDialog(
+            "Leave “\(program.title)”?",
+            isPresented: $isConfirmingLeave,
+            titleVisibility: .visible
+        ) {
+            Button("Leave Program", role: .destructive) {
+                if let active {
+                    viewModel.leave(active)
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Your habits and their check-ins stay. Only the program's progress is removed.")
+        }
+        .confirmationDialog(
+            "Delete “\(program.title)”?",
+            isPresented: $isConfirmingDelete,
+            titleVisibility: .visible
+        ) {
+            Button("Delete Program", role: .destructive) {
+                viewModel.delete(program)
+                dismiss()
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Your habits and their check-ins stay. The program and its progress are removed.")
+        }
+        .sheet(item: $form) { model in
+            CustomProgramFormView(model: model)
         }
     }
 
@@ -174,6 +233,7 @@ struct ProgramDetailView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .appCardStyle(theme: themeManager.current)
     }
 
@@ -181,7 +241,7 @@ struct ProgramDetailView: View {
         VStack(alignment: .leading, spacing: AppSpacing.smallMedium) {
             sectionTitle("Week by week", systemImage: "calendar")
 
-            ForEach(Array(program.weeklyFocus.enumerated()), id: \.offset) { index, focus in
+            ForEach(Array(program.weeklyFocus.enumerated()).filter { !$0.element.isEmpty }, id: \.offset) { index, focus in
                 let week = index + 1
                 let isCurrent = week == currentWeek
                 HStack(alignment: .top, spacing: AppSpacing.smallMedium) {
@@ -204,6 +264,7 @@ struct ProgramDetailView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .appCardStyle(theme: themeManager.current)
     }
 
@@ -237,6 +298,7 @@ struct ProgramDetailView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .appCardStyle(theme: themeManager.current)
     }
 
@@ -263,6 +325,7 @@ struct ProgramDetailView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .appCardStyle(theme: themeManager.current)
     }
 

@@ -271,6 +271,27 @@ func appDatabase() throws -> any DatabaseWriter {
         .execute(db)
     }
 
+    // Programs the user makes. Their habits are stored as JSON snapshots, not references:
+    // a program is a plan to start (and start again), and starting it adds or reuses habits
+    // the same way a guided program does.
+    migrator.registerMigration("Add custom programs") { db in
+        try #sql(
+            """
+            CREATE TABLE "customPrograms" (
+             "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+             "title" TEXT NOT NULL DEFAULT '',
+             "icon" TEXT NOT NULL DEFAULT '',
+             "color" INTEGER NOT NULL DEFAULT 0,
+             "durationDays" INTEGER NOT NULL DEFAULT 21,
+             "summary" TEXT NOT NULL DEFAULT '',
+             "weeklyFocus" TEXT NOT NULL DEFAULT '[]',
+             "habits" TEXT NOT NULL DEFAULT '[]'
+            ) STRICT
+            """
+        )
+        .execute(db)
+    }
+
     try migrator.migrate(database)
 
     return database

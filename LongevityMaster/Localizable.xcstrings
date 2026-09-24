@@ -807,6 +807,16 @@
         }
       }
     },
+    "A program bundles a few habits for a set number of weeks, with a goal for each week. Follow a guided one backed by research, or make your own." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "计划把几个习惯组合在一起，坚持固定的几周，每周都有目标。可以跟随有科学依据的引导计划，也可以自己制定。"
+          }
+        }
+      }
+    },
     "About 18 °C (65 °F), dark and quiet. Cooler rooms help you fall into deep sleep." : {
       "localizations" : {
         "zh-Hans" : {
@@ -888,6 +898,16 @@
       }
     },
     "Add Habit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加习惯"
+          }
+        }
+      }
+    },
+    "Add Habits" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1063,16 +1083,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "全部"
-          }
-        }
-      }
-    },
-    "All programs" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "全部计划"
           }
         }
       }
@@ -1624,6 +1634,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "更改"
+          }
+        }
+      }
+    },
+    "Change icon" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更换图标"
           }
         }
       }
@@ -2259,6 +2279,16 @@
         }
       }
     },
+    "Create your own" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自己制定"
+          }
+        }
+      }
+    },
     "Current Streak" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2442,12 +2472,32 @@
         }
       }
     },
+    "Delete Program" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除计划"
+          }
+        }
+      }
+    },
     "Delete ‘%@’?" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "删除 '%@'？"
+          }
+        }
+      }
+    },
+    "Delete “%@”?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除「%@」？"
           }
         }
       }
@@ -2768,6 +2818,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "编辑习惯"
+          }
+        }
+      }
+    },
+    "Edit Program" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑计划"
           }
         }
       }
@@ -3253,22 +3313,12 @@
         }
       }
     },
-    "Guided plans for strength, sleep, diet and more" : {
+    "Guided programs" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "力量、睡眠、饮食等引导计划"
-          }
-        }
-      }
-    },
-    "Guided plans that bundle a few proven habits for three or four weeks, with a focus for each week and the research behind them." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "引导计划把几个有科学依据的习惯组合起来，坚持三到四周，每周有明确重点，并附上背后的研究。"
+            "value" : "引导计划"
           }
         }
       }
@@ -3765,6 +3815,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "传奇"
+          }
+        }
+      }
+    },
+    "Length" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时长"
           }
         }
       }
@@ -4266,6 +4326,26 @@
         }
       }
     },
+    "My program" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的计划"
+          }
+        }
+      }
+    },
+    "My programs" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的计划"
+          }
+        }
+      }
+    },
     "Name" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4302,6 +4382,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新习惯"
+          }
+        }
+      }
+    },
+    "New Program" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新建计划"
           }
         }
       }
@@ -4516,6 +4606,16 @@
         }
       }
     },
+    "Optional. A short goal for each week, shown on Today while the program runs." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可选。为每周写一个简短目标，计划进行期间会显示在「今天」页。"
+          }
+        }
+      }
+    },
     "Others" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4572,6 +4672,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "完美一周"
+          }
+        }
+      }
+    },
+    "Pick habits, set a length and weekly goals, and track it like any program." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "挑选习惯，设定时长和每周目标，像其他计划一样追踪进度。"
           }
         }
       }
@@ -4712,6 +4822,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "计划完成"
+          }
+        }
+      }
+    },
+    "Program name" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "计划名称"
           }
         }
       }
@@ -5506,6 +5626,16 @@
         }
       }
     },
+    "Start today" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天开始"
+          }
+        }
+      }
+    },
     "Start with a program" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5562,6 +5692,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "开始旅程"
+          }
+        }
+      }
+    },
+    "Starting the program adds any of these you don't already track." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始计划时，会自动添加你还没有的习惯。"
           }
         }
       }
@@ -6506,6 +6646,16 @@
         }
       }
     },
+    "Week %lld focus" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第 %lld 周目标"
+          }
+        }
+      }
+    },
     "Week Start" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6562,6 +6712,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "欢迎您，高级用户！"
+          }
+        }
+      }
+    },
+    "What is it for? (optional)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这个计划的目的是什么？（可选）"
           }
         }
       }
@@ -6723,12 +6883,32 @@
         }
       }
     },
+    "Your habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的习惯"
+          }
+        }
+      }
+    },
     "Your habits and their check-ins stay. Only the program's progress is removed." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的习惯和打卡记录都会保留，只移除这个计划的进度。"
+          }
+        }
+      }
+    },
+    "Your habits and their check-ins stay. The program and its progress are removed." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的习惯和打卡记录都会保留，只删除这个计划及其进度。"
           }
         }
       }

@@ -76,8 +76,23 @@ struct LongevityMasterApp: App {
     }
 }
 
+/// The app's tabs, so a screen can send the user to another one.
+enum AppTab: Hashable {
+    case today
+    case habits
+    case programs
+    case rating
+    case me
+}
+
+extension EnvironmentValues {
+    /// Switches to another tab. A no-op outside `RootView`, such as in previews.
+    @Entry var selectTab: (AppTab) -> Void = { _ in }
+}
+
 struct RootView: View {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
+    @State private var selectedTab: AppTab = .today
     @Dependency(\.themeManager) private var themeManager
     @Environment(\.colorScheme) private var colorScheme
 
@@ -92,6 +107,7 @@ struct RootView: View {
             }
             .background(themeManager.current.background)
             .tint(themeManager.current.primaryColor)
+            .environment(\.selectTab) { selectedTab = $0 }
 
             // Onboarding overlay
             Color.clear
@@ -110,26 +126,32 @@ struct RootView: View {
 
     @available(iOS 18.0, *)
     var tabView18: some View {
-        TabView {
-            Tab {
+        TabView(selection: $selectedTab) {
+            Tab(value: AppTab.today) {
                 TodayView()
             } label: {
                 Label("Today", systemImage: "calendar")
             }
             
-            Tab {
+            Tab(value: AppTab.habits) {
                 HabitsListView()
             } label: {
                 Label("Habits", systemImage: "list.bullet")
             }
+
+            Tab(value: AppTab.programs) {
+                ProgramsView()
+            } label: {
+                Label("Programs", systemImage: "map.fill")
+            }
             
-            Tab {
+            Tab(value: AppTab.rating) {
                 RatingView()
             } label: {
                 Label("Rating", systemImage: "star.fill")
             }
             
-            Tab {
+            Tab(value: AppTab.me) {
                 MeView()
             } label: {
                 Label("Me", systemImage: "person.fill")
@@ -138,27 +160,36 @@ struct RootView: View {
     }
     
     var tabView: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             TodayView()
                 .tabItem{
                     Label("Today", systemImage: "calendar")
                 }
+                .tag(AppTab.today)
             
             HabitsListView()
                 .tabItem{
                     Label("Habits", systemImage: "list.bullet")
                 }
-            
+                .tag(AppTab.habits)
+
+            ProgramsView()
+                .tabItem{
+                    Label("Programs", systemImage: "map.fill")
+                }
+                .tag(AppTab.programs)
             
             RatingView()
                 .tabItem{
                     Label("Rating", systemImage: "star.fill")
                 }
+                .tag(AppTab.rating)
             
             MeView()
                 .tabItem{
                     Label("Me", systemImage: "person.fill")
                 }
+                .tag(AppTab.me)
         }
     }
 }

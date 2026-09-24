@@ -220,3 +220,114 @@ struct ProgramEnrollmentTests {
         }
     }
 }
+
+@Suite("Custom programs")
+struct CustomProgramTests {
+    private func draft(_ habits: [Habit.Draft], title: String = "Mine", days: Int = 14) -> CustomProgram.Draft {
+        var draft = CustomProgram.Draft()
+        draft.title = title
+        draft.durationDays = days
+        draft.habits = habits.map(ProgramHabitTemplate.init)
+        return draft
+    }
+
+    private func linkedNames(_ enrollment: ProgramEnrollment.ID, in database: any DatabaseWriter) async throws -> Set<String> {
+        try await database.read { db in
+            let links = try ProgramHabit.where { $0.enrollmentID.eq(enrollment) }.fetchAll(db)
+            let habits = try Habit.where { $0.id.in(links.map(\.habitID)) }.fetchAll(db)
+            return Set(habits.map(\.name))
+        }
+    }
+
+    @Test("A habit template survives the trip through JSON")
+    func templateRoundTrip() throws {
+        let original = HabitsDataStore.standUpHourly
+        let template = ProgramHabitTemplate(original)
+        let decoded = try JSONDecoder().decode(ProgramHabitTemplate.self, from: JSONEncoder().encode(template))
+        #expect(decoded.draft == original)
+    }
+
+    @Test("A custom program's id is told apart from the guided ones")
+    func customIDs() {
+        let row = CustomProgram(id: 7, title: "Mine", durationDays: 10)
+        let program = Program(custom: row)
+        #expect(program.id == Program.id(forCustom: 7))
+        #expect(program.customID == 7)
+        #expect(program.isCustom)
+        #expect(ProgramsDataStore.all.allSatisfy { !$0.isCustom })
+    }
+
+    @Test("Starting a saved program adds its habits and tracks them")
+    func saveAndStart() async throws {
+        try await withTestDatabase { database in
+            let enrollment = try await database.write { db in
+                let saved = try CustomPrograms.save(draft([HabitsDataStore.squats, HabitsDataStore.plank]), in: db)
+                return try ProgramEnrollments.start(Program(custom: saved), on: Date(), in: db)
+            }
+            #expect(try await linkedNames(enrollment.id, in: database) == ["Squats", "Plank"])
+            #expect(enrollment.programID.hasPrefix("custom-"))
+        }
+    }
+
+    @Test("Editing a program under way tracks added habits and drops removed ones")
+    func editingSyncsTheRun() async throws {
+        try await withTestDatabase { database in
+            let (saved, enrollment) = try await database.write { db in
+                let saved = try CustomPrograms.save(draft([HabitsDataStore.squats, HabitsDataStore.plank]), in: db)
+                return (saved, try ProgramEnrollments.start(Program(custom: saved), on: Date(), in: db))
+            }
+
+            var edited = CustomProgram.Draft(saved)
+            edited.habits = [HabitsDataStore.squats, HabitsDataStore.pushUps].map(ProgramHabitTemplate.init)
+            try await database.write { db in
+                try CustomPrograms.save(edited, in: db)
+            }
+
+            #expect(try await linkedNames(enrollment.id, in: database) == ["Squats", "Push-ups"])
+            // The dropped habit is the user's now; only the program stops counting it.
+            let plank = try await database.read { db in
+                try Habit.where { $0.name.eq("Plank") }.fetchAll(db)
+            }
+            #expect(plank.count == 1)
+        }
+    }
+
+    @Test("Editing leaves a finished run as it was")
+    func finishedRunsAreLeftAlone() async throws {
+        try await withTestDatabase { database in
+            let longAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
+            let (saved, enrollment) = try await database.write { db in
+                let saved = try CustomPrograms.save(draft([HabitsDataStore.squats], days: 7), in: db)
+                return (saved, try ProgramEnrollments.start(Program(custom: saved), on: longAgo, in: db))
+            }
+
+            var edited = CustomProgram.Draft(saved)
+            edited.habits.append(ProgramHabitTemplate(HabitsDataStore.pushUps))
+            try await database.write { db in
+                try CustomPrograms.save(edited, in: db)
+            }
+
+            #expect(try await linkedNames(enrollment.id, in: database) == ["Squats"])
+        }
+    }
+
+    @Test("Deleting a program removes its runs but keeps the habits")
+    func deleteKeepsHabits() async throws {
+        try await withTestDatabase { database in
+            let saved = try await database.write { db in
+                let saved = try CustomPrograms.save(draft([HabitsDataStore.squats]), in: db)
+                try ProgramEnrollments.start(Program(custom: saved), on: Date(), in: db)
+                return saved
+            }
+            try await database.write { db in
+                try CustomPrograms.delete(saved.id, in: db)
+            }
+            let (programs, enrollments, habits) = try await database.read { db in
+                (try CustomProgram.all.fetchAll(db), try ProgramEnrollment.all.fetchAll(db), try Habit.all.fetchAll(db))
+            }
+            #expect(programs.isEmpty)
+            #expect(enrollments.isEmpty)
+            #expect(habits.map(\.name) == ["Squats"])
+        }
+    }
+}

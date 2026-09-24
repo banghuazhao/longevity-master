@@ -41,6 +41,10 @@ final class ProgramsViewModel {
     var programHabits
 
     @ObservationIgnored
+    @FetchAll(CustomProgram.order { $0.id.desc() }, animation: .default)
+    var customProgramRows
+
+    @ObservationIgnored
     @FetchAll(Habit.all, animation: .default)
     var habits
 
@@ -65,16 +69,44 @@ final class ProgramsViewModel {
         .userPreferred(startWeekOnMonday: startWeekOnMonday)
     }
 
-    /// Every enrollment whose program still ships with the app, newest first.
+    /// The user's own programs, newest first.
+    var customPrograms: [Program] {
+        customProgramRows.map(Program.init(custom:))
+    }
+
+    /// A guided program or one of the user's, by the id an enrollment records.
+    func program(id: String) -> Program? {
+        if let program = ProgramsDataStore.program(id: id) {
+            return program
+        }
+        return customProgramRows
+            .first { Program.id(forCustom: $0.id) == id }
+            .map(Program.init(custom:))
+    }
+
+    /// The stored row behind a custom program, for editing it.
+    func customRow(for program: Program) -> CustomProgram? {
+        guard let customID = program.customID else { return nil }
+        return customProgramRows.first { $0.id == customID }
+    }
+
+    /// Every enrollment whose program still exists — shipped with the app, or the user's own —
+    /// newest first.
     var enrolled: [Enrolled] {
         let calendar = userCalendar
         let restDays = RestDays(skippedDays, in: calendar)
         let habitsByID = Dictionary(uniqueKeysWithValues: habits.map { ($0.id, $0) })
         let habitIDsByEnrollment = Dictionary(grouping: programHabits, by: \.enrollmentID)
         let now = Date()
+        let customByID = Dictionary(
+            uniqueKeysWithValues: customProgramRows.map { (Program.id(forCustom: $0.id), Program(custom: $0)) }
+        )
 
         return enrollments.compactMap { enrollment in
-            guard let program = ProgramsDataStore.program(id: enrollment.programID) else { return nil }
+            guard
+                let program = ProgramsDataStore.program(id: enrollment.programID)
+                    ?? customByID[enrollment.programID]
+            else { return nil }
             let habits = (habitIDsByEnrollment[enrollment.id] ?? []).compactMap { habitsByID[$0.habitID] }
             let progress = ProgramProgress.make(
                 durationDays: program.durationDays,
@@ -118,6 +150,15 @@ final class ProgramsViewModel {
         withErrorReporting {
             try database.write { db in
                 try ProgramEnrollments.leave(enrolled.id, in: db)
+            }
+        }
+    }
+
+    func delete(_ program: Program) {
+        guard let customID = program.customID else { return }
+        withErrorReporting {
+            try database.write { db in
+                try CustomPrograms.delete(customID, in: db)
             }
         }
     }

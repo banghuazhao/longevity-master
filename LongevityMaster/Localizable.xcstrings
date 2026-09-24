@@ -101,6 +101,7 @@
       }
     },
     "%lld day" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2418,6 +2419,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每周指定日"
+          }
+        }
+      }
+    },
+    "Days per month" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每月天数"
+          }
+        }
+      }
+    },
+    "Days per week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周天数"
           }
         }
       }

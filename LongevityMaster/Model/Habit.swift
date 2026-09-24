@@ -76,8 +76,8 @@ enum HabitFrequency: Int, QueryBindable {
         .nDaysEachMonth,
     ]
 
-    /// Kept short: this is the label of a menu picker sitting beside "Frequency", and anything
-    /// longer wraps onto a second line and collides with the day selector underneath.
+    /// Kept short: this is the label of a menu picker sharing a row with "Frequency", and the
+    /// picker takes its full natural width, so a longer title squeezes that label.
     var title: String {
         switch self {
         case .fixedDaysInWeek: return String(localized: "Days of Week")

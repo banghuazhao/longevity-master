@@ -297,6 +297,7 @@ struct HabitFormView: View {
                             }
                             .pickerStyle(.menu)
                             .tint(themeManager.current.primaryColor)
+                            .fixedSize()
                         }
                         Divider()
                         HStack {
@@ -335,10 +336,13 @@ struct HabitFormView: View {
                                         .tag(habitFrequency.rawValue)
                                 }
                             }
+                            .pickerStyle(.menu)
                             .tint(themeManager.current.primaryColor)
-                            // A translation long enough to wrap would spill over the day
-                            // selector below; truncate rather than grow downwards.
-                            .lineLimit(1)
+                            // Left flexible, the HStack splits the free width between the
+                            // menu and the Spacer, so "Times a Month" wrapped onto two lines
+                            // and spilled over the day grid below. The menu's label is drawn
+                            // by UIKit, which ignores .lineLimit; give it its natural width.
+                            .fixedSize()
                         }
                         switch viewModel.habit.frequency {
                         case .fixedDaysInWeek:
@@ -407,23 +411,25 @@ struct HabitFormView: View {
                                 }
                             }
                         case .nDaysEachWeek:
+                            Divider()
+                            // Labelled so the count reads as its own setting, not as a second
+                            // picker stacked under the frequency one.
                             HStack {
+                                Text("Days per week")
+                                    .foregroundColor(themeManager.current.textPrimary)
                                 Spacer()
-                                Picker("", selection: Binding(
+                                Picker("Days per week", selection: Binding(
                                     get: { viewModel.habit.nDaysPerWeek },
                                     set: { viewModel.onSelectNDays($0) }
                                 )) {
                                     ForEach(1 ... 7, id: \ .self) { nDays in
-                                        if nDays == 1 {
-                                            Text("\(nDays) day")
-                                                .tag(nDays)
-                                        } else {
-                                            Text("\(nDays) days")
-                                                .tag(nDays)
-                                        }
+                                        Text("\(nDays)")
+                                            .tag(nDays)
                                     }
                                 }
+                                .pickerStyle(.menu)
                                 .tint(themeManager.current.primaryColor)
+                                .fixedSize()
                             }
                             HStack {
                                 Image(systemName: "info.circle.fill")
@@ -440,23 +446,23 @@ struct HabitFormView: View {
                                 }
                             }
                         case .nDaysEachMonth:
+                            Divider()
                             HStack {
+                                Text("Days per month")
+                                    .foregroundColor(themeManager.current.textPrimary)
                                 Spacer()
-                                Picker("", selection: Binding(
+                                Picker("Days per month", selection: Binding(
                                     get: { viewModel.habit.nDaysPerMonth },
                                     set: { viewModel.onSelectNDays($0) }
                                 )) {
                                     ForEach(1 ... 28, id: \ .self) { nDays in
-                                        if nDays == 1 {
-                                            Text("\(nDays) day")
-                                                .tag(nDays)
-                                        } else {
-                                            Text("\(nDays) days")
-                                                .tag(nDays)
-                                        }
+                                        Text("\(nDays)")
+                                            .tag(nDays)
                                     }
                                 }
+                                .pickerStyle(.menu)
                                 .tint(themeManager.current.primaryColor)
+                                .fixedSize()
                             }
                             HStack {
                                 Image(systemName: "info.circle.fill")

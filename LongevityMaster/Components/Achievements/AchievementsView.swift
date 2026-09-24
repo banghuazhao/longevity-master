@@ -276,7 +276,7 @@ struct AchievementRowView: View {
             // Achievement details
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
-                    Text(achievement.title)
+                    Text(achievement.localizedTitle)
                         .font(.headline)
                         .fontWeight(.semibold)
                         .foregroundColor(achievement.isUnlocked ? .primary : .secondary)
@@ -298,7 +298,7 @@ struct AchievementRowView: View {
                     }
                 }
                 
-                Text(achievement.description)
+                Text(achievement.localizedDescription)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .lineLimit(2)

@@ -20,6 +20,50 @@ class TodayViewModel {
 
     var selectedDate: Date = Date()
 
+    /// The day it was when the screen last caught up with the clock. iOS keeps the app in
+    /// memory for days, so without this "Today" went on showing — and checking in on — the
+    /// day the screen was first built.
+    @ObservationIgnored
+    private var lastSeenNow = Date()
+
+    /// Brings the screen up to date after the clock has moved on: back from the background, or
+    /// past midnight while open. Someone looking at today stays on today; someone who had
+    /// gone back to an earlier day to fill it in is left there.
+    func catchUpWithClock(now: Date = Date()) {
+        let caughtUp = Self.selectedDate(
+            afterClockMovesFrom: lastSeenNow,
+            to: now,
+            selected: selectedDate,
+            calendar: userCalendar
+        )
+        lastSeenNow = now
+        if caughtUp != selectedDate {
+            withAnimation {
+                selectedDate = caughtUp
+            }
+        }
+    }
+
+    static func selectedDate(
+        afterClockMovesFrom lastSeen: Date,
+        to now: Date,
+        selected: Date,
+        calendar: Calendar
+    ) -> Date {
+        if calendar.isDate(selected, inSameDayAs: lastSeen) && !calendar.isDate(lastSeen, inSameDayAs: now) {
+            return now
+        }
+        if selected > now.endOfDay(for: calendar) {
+            return now
+        }
+        return selected
+    }
+
+    /// Nothing can be done, or rested, ahead of time.
+    private var isSelectedDateInFuture: Bool {
+        selectedDate > Date().endOfDay(for: userCalendar)
+    }
+
     @CasePathable
     enum Route {
         case createHabit(HabitFormViewModel)
@@ -86,6 +130,7 @@ class TodayViewModel {
     /// list and can still be checked in — a rest day removes the obligation, not the option —
     /// but a day missed on one costs no streak.
     func toggleRestDay() {
+        guard !isSelectedDateInFuture else { return }
         let calendar = userCalendar
         let startOfDay = selectedDate.startOfDay(for: calendar)
         let endOfDay = selectedDate.endOfDay(for: calendar)
@@ -164,6 +209,7 @@ class TodayViewModel {
     }
 
     func onTapHabitItem(_ todayHabit: TodayHabit) {
+        guard !isSelectedDateInFuture else { return }
         Haptics.shared.vibrateIfEnabled()
         withErrorReporting {
             if todayHabit.isCompleted {
@@ -197,7 +243,11 @@ class TodayViewModel {
                         .delete()
                         .execute(db)
 
-                    let checkIn = CheckIn.Draft(date: selectedDate, habitID: todayHabit.habit.id)
+                    // Today's check-in carries the time it was made, which the early-bird and
+                    // night-owl achievements judge; an earlier day keeps the date it was filed on.
+                    let now = Date()
+                    let checkInDate = userCalendar.isDate(selectedDate, inSameDayAs: now) ? now : selectedDate
+                    let checkIn = CheckIn.Draft(date: checkInDate, habitID: todayHabit.habit.id)
                     let savedCheckIn = try CheckIn.upsert { checkIn }.returning(\.self).fetchOne(db)
 
                     // Check for achievements after adding check-in

@@ -65,7 +65,7 @@ enum AchievementType: Int, Codable, QueryBindable {
     }
 }
 
-struct AchievementCriteria: Codable {
+struct AchievementCriteria: Codable, Hashable {
     var targetValue: Int
     var timeFrame: TimeFrame?
     var category: HabitCategory?
@@ -358,3 +358,36 @@ struct AchievementDefinitions {
         )
     ]
 } 
+
+// MARK: - Showing an achievement in the current language
+
+extension Achievement {
+    /// Achievements are stored with the text they were first written with, in whatever
+    /// language the app was running then — and the language picker can change that since. So
+    /// the text shown comes from the definitions, which are always in the current language.
+    var localizedTitle: String {
+        AchievementDefinitions.definition(type: type, criteria: criteria)?.title ?? title
+    }
+
+    var localizedDescription: String {
+        AchievementDefinitions.definition(type: type, criteria: criteria)?.description ?? description
+    }
+}
+
+extension AchievementDefinitions {
+    private struct Key: Hashable {
+        let type: AchievementType
+        let criteria: AchievementCriteria
+    }
+
+    private static let byKey = Dictionary(
+        all.map { (Key(type: $0.type, criteria: $0.criteria), $0) },
+        uniquingKeysWith: { first, _ in first }
+    )
+
+    /// The definition an achievement was created from. A type and its criteria identify one
+    /// uniquely; the tests hold the definitions to that.
+    static func definition(type: AchievementType, criteria: AchievementCriteria) -> Achievement.Draft? {
+        byKey[Key(type: type, criteria: criteria)]
+    }
+}

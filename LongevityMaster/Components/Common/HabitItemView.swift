@@ -8,6 +8,9 @@ import SwiftUI
 
 struct HabitItemView: View {
     let todayHabit: TodayHabit
+    /// Off where the tile only shows the habit — the habit's own page — rather than a day's
+    /// check-in to toggle.
+    var isCheckIn = true
     let onTap: () -> Void
 
     var body: some View {
@@ -61,8 +64,23 @@ struct HabitItemView: View {
                 .padding(.all, 10)
             }
             .frame(width: 160, height: 90)
+            // Done is also shown by a mark, not the fill colour alone, which some people
+            // cannot tell apart.
+            .overlay(alignment: .topTrailing) {
+                if isCheckIn && todayHabit.isCompleted {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(.white, todayHabit.habit.borderColor)
+                        .padding(6)
+                        .accessibilityHidden(true)
+                }
+            }
         }
         .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(isCheckIn && todayHabit.isCompleted ? .isSelected : [])
+        .accessibilityValue(isCheckIn ? (todayHabit.isCompleted ? Text("Done") : Text("Not done")) : Text(""))
+        .accessibilityHint(isCheckIn ? (todayHabit.isCompleted ? Text("Double-tap to undo the check-in") : Text("Double-tap to check in")) : Text(""))
     }
 }
 

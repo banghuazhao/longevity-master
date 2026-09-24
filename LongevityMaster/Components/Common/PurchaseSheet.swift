@@ -126,6 +126,7 @@ struct PurchaseSheet: View {
                         
                         Button("Contact Support") {
                             if let url = URL(string: "https://apps-bay.github.io/Apps-Bay-Website/contact/") {
+                                AppOpenAdPolicy.skipNextReturn()
                                 UIApplication.shared.open(url)
                             }
                         }
@@ -133,6 +134,7 @@ struct PurchaseSheet: View {
                         
                         Button("Privacy Policy") {
                             if let url = URL(string: "https://apps-bay.github.io/Apps-Bay-Website/privacy/") {
+                                AppOpenAdPolicy.skipNextReturn()
                                 UIApplication.shared.open(url)
                             }
                         }

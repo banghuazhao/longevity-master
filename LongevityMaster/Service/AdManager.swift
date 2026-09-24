@@ -18,7 +18,6 @@ final class OpenAd: NSObject, ObservableObject, FullScreenContentDelegate {
     var appOpenAd: AppOpenAd?
     var loadTime = Date()
     var appHasEnterBackgroundBefore = false
-    var bypassAdThisTime = false
 
     func requestAppOpenAd() {
         guard AdManager.canRequestAds else { return }
@@ -40,25 +39,41 @@ final class OpenAd: NSObject, ObservableObject, FullScreenContentDelegate {
         )
     }
 
+    /// Called as the app comes back to the foreground. Whether the ad actually shows is up to
+    /// `AppOpenAdPolicy`, and it never shows over a sheet the user has open.
     func tryToPresentAd() {
         guard AdManager.canRequestAds else { return }
-        if let gOpenAd = appOpenAd, wasLoadTimeLessThanNHoursAgo(thresholdN: 4) {
-            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-            let window = windowScene?.windows.first
-            if bypassAdThisTime {
-                bypassAdThisTime = false
-                return
-            }
-            if appHasEnterBackgroundBefore {
-                debugLog("[DEBUG] Presenting App Open Ad")
-                gOpenAd.present(from: (window?.rootViewController)!)
-            } else {
-                debugLog("[DEBUG] appHasEnterBackgroundBefore is false, not presenting ad")
-            }
-        } else {
+        guard let ad = appOpenAd, wasLoadTimeLessThanNHoursAgo(thresholdN: 4) else {
             debugLog("[DEBUG] No ad loaded or ad expired, requesting new ad")
             requestAppOpenAd()
+            return
         }
+        guard appHasEnterBackgroundBefore else {
+            debugLog("[DEBUG] appHasEnterBackgroundBefore is false, not presenting ad")
+            return
+        }
+        // A tapped reminder reports itself just after the app becomes active, so give it a
+        // moment to register before deciding.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            guard AppOpenAdPolicy.shouldPresent(), let presenter = Self.idlePresenter() else {
+                debugLog("[DEBUG] App open ad held back")
+                return
+            }
+            debugLog("[DEBUG] Presenting App Open Ad")
+            ad.present(from: presenter)
+        }
+    }
+
+    /// The root screen, if nothing is presented over it. Presenting from under an open sheet
+    /// only fails, and interrupting one — a form half filled in, a share in progress — is
+    /// worse than skipping the ad.
+    private static func idlePresenter() -> UIViewController? {
+        let scene = UIApplication.shared.connectedScenes
+            .first { $0.activationState == .foregroundActive } as? UIWindowScene
+        guard let root = scene?.keyWindow?.rootViewController,
+              root.presentedViewController == nil
+        else { return nil }
+        return root
     }
 
     func wasLoadTimeLessThanNHoursAgo(thresholdN: Int) -> Bool {
@@ -72,6 +87,10 @@ final class OpenAd: NSObject, ObservableObject, FullScreenContentDelegate {
     func ad(_ ad: FullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
         debugLog("[OPEN AD] Failed to present: \(error)")
         requestAppOpenAd()
+    }
+
+    func adWillPresentFullScreenContent(_ ad: FullScreenPresentingAd) {
+        AppOpenAdPolicy.recordShown()
     }
 
     func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) {

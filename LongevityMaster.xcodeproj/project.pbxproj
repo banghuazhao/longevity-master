@@ -13,6 +13,7 @@
 		39C9F829B90B972D0E594D77 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333F8B25C188559D63963815 /* Color+Extensions.swift */; };
 		41449E722E166E9B00DEB393 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41449E712E166E9B00DEB393 /* StoreKit.framework */; };
 		41FFF2722E14E9FC004ACA97 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 41FFF2712E14E9FC004ACA97 /* GoogleMobileAds */; };
+		5A1C0F3E9B7D4E2A8C6B1D01 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5A1C0F3E9B7D4E2A8C6B1D00 /* PrivacyInfo.xcprivacy */; };
 		68366BDAAC253E15C09CB8FD /* WidgetDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C8D913018BDA3DB18C7BB9 /* WidgetDatabase.swift */; };
 		7D0620E0F7A1A291F5702E8A /* CheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958AA33B7C8D73DA90D57F62 /* CheckIn.swift */; };
 		8649891FA8AB7472400BE5F3 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7FE51B26A0316031164714D1 /* Localizable.xcstrings */; };
@@ -71,6 +72,7 @@
 		41449E712E166E9B00DEB393 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4C7C9D3C8F803CEDB464A520 /* LongevityWidget.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; name = LongevityWidget.entitlements; path = LongevityWidget/LongevityWidget.entitlements; sourceTree = SOURCE_ROOT; };
 		52CFB31F205A20A74CE25892 /* Date+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Date+Extension.swift"; path = "LongevityMaster/Utilies/Extension/Date+Extension.swift"; sourceTree = SOURCE_ROOT; };
+		5A1C0F3E9B7D4E2A8C6B1D00 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = LongevityWidget/PrivacyInfo.xcprivacy; sourceTree = SOURCE_ROOT; };
 		67C223FAEE8C243F53AF5759 /* TodayHabitsProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TodayHabitsProvider.swift; path = LongevityWidget/TodayHabitsProvider.swift; sourceTree = SOURCE_ROOT; };
 		7F7DDAE6F234D511053781F3 /* HabitSchedule.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HabitSchedule.swift; path = LongevityMaster/Service/HabitSchedule.swift; sourceTree = SOURCE_ROOT; };
 		7FE51B26A0316031164714D1 /* Localizable.xcstrings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = LongevityMaster/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
@@ -166,6 +168,7 @@
 				E6C8D913018BDA3DB18C7BB9 /* WidgetDatabase.swift */,
 				CBA5572CC9C6C4BDF08045AB /* Info.plist */,
 				4C7C9D3C8F803CEDB464A520 /* LongevityWidget.entitlements */,
+				5A1C0F3E9B7D4E2A8C6B1D00 /* PrivacyInfo.xcprivacy */,
 			);
 			name = LongevityWidget;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8649891FA8AB7472400BE5F3 /* Localizable.xcstrings in Resources */,
+				5A1C0F3E9B7D4E2A8C6B1D01 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -591,7 +595,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -626,7 +630,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

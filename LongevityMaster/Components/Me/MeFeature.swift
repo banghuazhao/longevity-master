@@ -167,7 +167,8 @@ struct MeView: View {
             Text(String(localized: "Others"))
                 .appSectionHeader(theme: themeManager.current)
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: AppSpacing.large) {
-                NavigationLink(destination: MoreAppsView()) {
+                // The package opens the App Store itself, out of reach of the app's `openURL`.
+                NavigationLink(destination: MoreAppsView().onAppear { AppOpenAdPolicy.skipNextReturn() }) {
                     moreItem(icon: "storefront", title: String(localized: "More Apps"))
                 }
                 if let url = URL(string: "https://itunes.apple.com/app/id\(Constants.AppID.longevityMasterID)?action=write-review") {
@@ -187,6 +188,7 @@ struct MeView: View {
                     ShareLink(item: appURL) {
                         moreItem(icon: "square.and.arrow.up", title: String(localized: "Share App"))
                     }
+                    .simultaneousGesture(TapGesture().onEnded { AppOpenAdPolicy.skipNextReturn() })
                 }
                 NavigationLink(destination: LanguageView()) {
                     moreItem(icon: "globe", title: String(localized: "Language"))

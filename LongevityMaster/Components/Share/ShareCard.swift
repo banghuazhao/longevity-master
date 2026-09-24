@@ -35,6 +35,14 @@ struct ShareCardContent: Hashable {
     static var appStoreURL: String {
         "https://apps.apple.com/app/id\(Constants.AppID.longevityMasterID)"
     }
+
+    /// The name the app goes by in the current language — 抗衰习惯家 in Chinese — which is
+    /// what someone who sees the card will search the App Store for.
+    static var appName: String {
+        Bundle.main.localizedInfoDictionary?["CFBundleDisplayName"] as? String
+            ?? Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
+            ?? "Longevity Master"
+    }
 }
 
 // MARK: - Cards
@@ -44,10 +52,10 @@ extension ShareCardContent {
         ShareCardContent(
             eyebrow: String(localized: "Achievement unlocked"),
             badge: .emoji(achievement.icon),
-            headline: achievement.title,
-            detail: achievement.description,
+            headline: achievement.localizedTitle,
+            detail: achievement.localizedDescription,
             date: achievement.unlockedDate ?? Date(),
-            message: String(localized: "I just unlocked “\(achievement.title)” in Longevity Master 🏆") + "\n" + appStoreURL
+            message: String(localized: "I just unlocked “\(achievement.localizedTitle)” in Longevity Master 🏆") + "\n" + appStoreURL
         )
     }
 
@@ -268,7 +276,7 @@ struct ShareCardView: View {
                 .frame(width: 42, height: 42)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             VStack(alignment: .leading, spacing: 2) {
-                Text(verbatim: "Longevity Master")
+                Text(verbatim: ShareCardContent.appName)
                     .font(.system(size: 15, weight: .bold))
                     .foregroundStyle(Color(red: 0.11, green: 0.11, blue: 0.12))
                 Text("Build habits for a longer, healthier life")

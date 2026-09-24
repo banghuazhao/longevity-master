@@ -52,8 +52,8 @@ class NotificationService {
         removeReminder(reminder)
 
         let content = UNMutableNotificationContent()
-        content.title = reminder.title
-        content.body = reminder.body
+        content.title = reminder.displayTitle
+        content.body = reminder.displayBody
         content.sound = .default
 
         let calendar = Calendar.current
@@ -132,9 +132,9 @@ class NotificationService {
     /// anything left to do about it today.
     ///
     /// A repeating calendar trigger cannot skip a single occurrence, so a slot still ahead of
-    /// the user today that they have already satisfied is registered as a one-off at its
-    /// *next* occurrence instead. That is the difference between a reminder that congratulates
-    /// you at 8pm for something you did at 7am and one that stays quiet.
+    /// the user today that they have already satisfied is re-registered around today instead.
+    /// That is the difference between a reminder that congratulates you at 8pm for something
+    /// you did at 7am and one that stays quiet — without going quiet for good.
     static func requests(
         notificationID: String,
         time: DateComponents,
@@ -172,7 +172,7 @@ class NotificationService {
             }
         }
 
-        return slots.compactMap { slot in
+        return slots.flatMap { slot -> [ReminderRequest] in
             let id = notificationID + slot.suffix
 
             // Only a slot that is both still ahead today and already settled needs stepping
@@ -181,19 +181,48 @@ class NotificationService {
                   let nextFire = calendar.nextDate(after: now, matching: slot.components, matchingPolicy: .nextTime),
                   calendar.isDate(nextFire, inSameDayAs: now)
             else {
-                return ReminderRequest(id: id, trigger: .repeating(slot.components))
+                return [ReminderRequest(id: id, trigger: .repeating(slot.components))]
             }
 
+            // A daily slot stepped over with a single one-off would go quiet for good once that
+            // one-off fired, since nothing re-registers it until the app is next opened — and
+            // the people who stop opening the app are the ones a reminder is for. So it becomes
+            // the other six weekdays, still repeating, plus a one-off for this weekday next week.
+            // Opening the app on any later day collapses it back to one daily request.
+            if slot.components.weekday == nil, slot.components.day == nil {
+                let today = calendar.component(.weekday, from: now)
+                var requests = (1...7).filter { $0 != today }.map { weekday in
+                    var components = slot.components
+                    components.weekday = weekday
+                    return ReminderRequest(id: "\(notificationID)-w\(weekday)", trigger: .repeating(components))
+                }
+                var thisWeekday = slot.components
+                thisWeekday.weekday = today
+                if let nextWeek = calendar.nextDate(
+                    after: now.endOfDay(for: calendar),
+                    matching: thisWeekday,
+                    matchingPolicy: .nextTime
+                ) {
+                    requests.append(ReminderRequest(
+                        id: "\(notificationID)-w\(today)",
+                        trigger: .once(calendar.dateComponents([.year, .month, .day, .hour, .minute], from: nextWeek))
+                    ))
+                }
+                return requests
+            }
+
+            // A slot on particular days only loses this one occurrence; the others keep
+            // repeating on their own.
             guard let following = calendar.nextDate(
                 after: now.endOfDay(for: calendar),
                 matching: slot.components,
                 matchingPolicy: .nextTime
-            ) else { return nil }
+            ) else { return [] }
 
-            return ReminderRequest(
+            return [ReminderRequest(
                 id: id,
                 trigger: .once(calendar.dateComponents([.year, .month, .day, .hour, .minute], from: following))
-            )
+            )]
         }
     }
 
@@ -338,4 +367,22 @@ extension DependencyValues {
 
 private enum NotificationServiceKey: DependencyKey {
     static let liveValue = NotificationService.shared
+}
+
+/// Tapping a reminder brings someone into the app to check in. Greeting them with an ad is the
+/// quickest way to teach them to stop tapping, so a tap holds the next app-open ad back.
+///
+/// Only the tap is handled. Reminders that arrive while the app is open are left as iOS shows
+/// them by default — not at all — which is how the app has always behaved.
+final class ReminderTapObserver: NSObject, UNUserNotificationCenterDelegate {
+    static let shared = ReminderTapObserver()
+
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        AppOpenAdPolicy.skipNextReturn()
+        completionHandler()
+    }
 }

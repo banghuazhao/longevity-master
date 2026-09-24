@@ -107,6 +107,7 @@ class OnboardingViewModel {
         
         // Mark onboarding as completed
         UserDefaults.standard.set(true, forKey: "hasCompletedOnboarding")
+        AppOpenAdPolicy.recordOnboardingCompleted()
     }
 }
 

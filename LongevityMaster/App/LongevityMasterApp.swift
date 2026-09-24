@@ -6,6 +6,7 @@
 import SQLiteData
 import SwiftUI
 import GoogleMobileAds
+import UserNotifications
 
 @main
 struct LongevityMasterApp: App {
@@ -25,6 +26,8 @@ struct LongevityMasterApp: App {
         prepareDependencies {
             $0.defaultDatabase = try! appDatabase()
         }
+        // Set before launch finishes, so a reminder that launched the app is seen too.
+        UNUserNotificationCenter.current().delegate = ReminderTapObserver.shared
         WidgetRefresher.reload()
     }
 
@@ -108,6 +111,12 @@ struct RootView: View {
             .background(themeManager.current.background)
             .tint(themeManager.current.primaryColor)
             .environment(\.selectTab) { selectedTab = $0 }
+            // Every SwiftUI link and `openURL` call leaves the app on purpose — a study, an
+            // email, the App Store — so the ad stays away when the user comes back.
+            .environment(\.openURL, OpenURLAction { _ in
+                AppOpenAdPolicy.skipNextReturn()
+                return .systemAction
+            })
 
             // Onboarding overlay
             Color.clear

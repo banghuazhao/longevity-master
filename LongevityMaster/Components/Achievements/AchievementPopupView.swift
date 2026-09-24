@@ -52,13 +52,13 @@ struct AchievementPopupView: View {
                 
                 // Achievement details
                 VStack(spacing: 12) {
-                    Text(achievement.title)
+                    Text(achievement.localizedTitle)
                         .font(.title3)
                         .fontWeight(.semibold)
                         .foregroundColor(.primary)
                         .multilineTextAlignment(.center)
                     
-                    Text(achievement.description)
+                    Text(achievement.localizedDescription)
                         .font(.body)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)

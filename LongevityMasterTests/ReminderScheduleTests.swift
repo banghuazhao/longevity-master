@@ -45,15 +45,34 @@ struct ReminderScheduleTests {
         ])
     }
 
-    @Test("Already done, and tonight's slot still ahead: it fires tomorrow instead")
+    @Test("Already done, and tonight's slot still ahead: every other day keeps repeating")
     func settledTodayStepsOverTonight() {
         let result = requests(isSatisfiedToday: true)
-        #expect(result.count == 1)
-        #expect(result.first?.id == "reminder_1")
+        #expect(result.count == 7)
+
+        // Tuesday is weekday 3; it comes back once, a week on.
+        let tuesday = result.first { $0.id == "reminder_1-w3" }
         #expect(
-            result.first?.trigger
-                == .once(DateComponents(year: 2026, month: 8, day: 26, hour: 20, minute: 0))
+            tuesday?.trigger
+                == .once(DateComponents(year: 2026, month: 9, day: 1, hour: 20, minute: 0))
         )
+
+        // Tomorrow, Wednesday, fires as it always would.
+        #expect(result.contains(
+            .init(id: "reminder_1-w4", trigger: .repeating(DateComponents(hour: 20, minute: 0, weekday: 4)))
+        ))
+    }
+
+    @Test("A settled daily reminder never ends up with only one-offs")
+    func settledDailyReminderKeepsRepeating() {
+        // The bug this guards: a single one-off for tomorrow, spent once it fired, left
+        // someone who stopped opening the app with no reminders at all.
+        let result = requests(isSatisfiedToday: true)
+        let repeatingWeekdays = result.compactMap { request -> Int? in
+            if case let .repeating(components) = request.trigger { return components.weekday }
+            return nil
+        }
+        #expect(Set(repeatingWeekdays) == [1, 2, 4, 5, 6, 7])
     }
 
     @Test("Already done, but the slot has passed: nothing left to suppress")
@@ -121,10 +140,16 @@ struct ReminderScheduleTests {
 
     @Test("The ids match the ones removal clears, so nothing is left stranded")
     func idsMatchTheRemovalPattern() {
-        let result = requests(days: .weekdays([2, 4]), isSatisfiedToday: false)
         let cleared = ["reminder_1"]
             + (1 ... 7).map { "reminder_1-w\($0)" }
             + (1 ... 31).map { "reminder_1-d\($0)" }
-        #expect(result.allSatisfy { cleared.contains($0.id) })
+        let cases = [
+            requests(days: .weekdays([2, 4]), isSatisfiedToday: false),
+            requests(isSatisfiedToday: true),
+            requests(days: .monthDays([25]), isSatisfiedToday: true),
+        ]
+        for result in cases {
+            #expect(result.allSatisfy { cleared.contains($0.id) })
+        }
     }
 }

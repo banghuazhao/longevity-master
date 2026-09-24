@@ -81,6 +81,7 @@ class AppRatingService {
         let reviewURL = "https://itunes.apple.com/app/id\(appID)?action=write-review"
         
         if let url = URL(string: reviewURL) {
+            AppOpenAdPolicy.skipNextReturn()
             UIApplication.shared.open(url)
         }
     }
@@ -91,6 +92,7 @@ class AppRatingService {
         let appURL = "https://apps.apple.com/app/id\(appID)"
         
         if let url = URL(string: appURL) {
+            AppOpenAdPolicy.skipNextReturn()
             UIApplication.shared.open(url)
         }
     }

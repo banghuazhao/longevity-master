@@ -40,12 +40,14 @@
 	<key>NSPrivacyAccessedAPITypes</key>
 	<array>
 		<dict>
-			<!-- @AppStorage / @Shared(.appStorage) hold the user's own settings. -->
+			<!-- @AppStorage / @Shared(.appStorage) hold the user's own settings (CA92.1); the
+			     week start and theme colour are mirrored into the App Group for the widget (1C8F.1). -->
 			<key>NSPrivacyAccessedAPIType</key>
 			<string>NSPrivacyAccessedAPICategoryUserDefaults</string>
 			<key>NSPrivacyAccessedAPITypeReasons</key>
 			<array>
 				<string>CA92.1</string>
+				<string>1C8F.1</string>
 			</array>
 		</dict>
 		<dict>

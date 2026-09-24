@@ -171,7 +171,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "我已在 Longevity Master 连续 %1$lld 天坚持「%2$@」🔥"
+            "value" : "我已在抗衰习惯家连续 %1$lld 天坚持「%2$@」🔥"
           }
         }
       }
@@ -2387,7 +2387,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "我在 Longevity Master 进行「%2$@」计划的第 %1$lld 天 💪"
+            "value" : "我在抗衰习惯家进行「%2$@」计划的第 %1$lld 天 💪"
           }
         }
       }
@@ -2578,6 +2578,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "完成"
+          }
+        }
+      }
+    },
+    "Double-tap to check in" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻点两下以打卡"
+          }
+        }
+      }
+    },
+    "Double-tap to undo the check-in" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻点两下以撤销打卡"
           }
         }
       }
@@ -3574,7 +3594,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "我刚在 Longevity Master 完成了为期 %1$lld 天的「%2$@」计划 🎉"
+            "value" : "我刚在抗衰习惯家完成了为期 %1$lld 天的「%2$@」计划 🎉"
           }
         }
       }
@@ -3584,7 +3604,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "我刚在 Longevity Master 解锁了「%@」成就 🏆"
+            "value" : "我刚在抗衰习惯家解锁了「%@」成就 🏆"
           }
         }
       }
@@ -4321,7 +4341,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "我在 Longevity Master 的长寿评级是 %1$@（%2$@）💪"
+            "value" : "我在抗衰习惯家的长寿评级是 %1$@（%2$@）💪"
           }
         }
       }
@@ -4476,6 +4496,16 @@
         }
       }
     },
+    "No days set" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未设置日期"
+          }
+        }
+      }
+    },
     "No habits yet" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4512,6 +4542,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "睡前不看屏幕"
+          }
+        }
+      }
+    },
+    "Not done" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未完成"
           }
         }
       }
@@ -5262,6 +5302,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "根据习惯、抗衰老效果、坚持度和连续天数评分。"
+          }
+        }
+      }
+    },
+    "See what's still on today's list." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "看看今天还有哪些习惯没完成。"
           }
         }
       }
@@ -6182,6 +6232,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "时间"
+          }
+        }
+      }
+    },
+    "Time to check in" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该打卡啦"
+          }
+        }
+      }
+    },
+    "Time to check in on your habit!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该给你的习惯打卡啦！"
           }
         }
       }

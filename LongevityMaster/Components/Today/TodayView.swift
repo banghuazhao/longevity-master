@@ -45,6 +45,7 @@ struct TodayView: View {
                                     }
                                 }
                             ),
+                            in: ...Date(),
                             displayedComponents: .date
                         )
                         .environment(\.calendar, viewModel.userCalendar)
@@ -203,7 +204,12 @@ struct TodayView: View {
             }
             .onChange(of: scenePhase) { _, newPhase in
                 guard newPhase == .active else { return }
+                viewModel.catchUpWithClock()
                 Task { await viewModel.reloadFromSharedDatabase() }
+            }
+            // Midnight, or a time-zone change, while the app is open in front of the user.
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
+                viewModel.catchUpWithClock()
             }
         }
     }

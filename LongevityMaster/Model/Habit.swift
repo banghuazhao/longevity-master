@@ -107,20 +107,20 @@ extension Habit {
     var frequencyDescription: String {
         switch frequency {
         case .fixedDaysInWeek:
-            return daysOfWeek.isEmpty ? "No days set" : String(localized: "Every \(daysOfWeekString) of week")
+            return daysOfWeek.isEmpty ? String(localized: "No days set") : String(localized: "Every \(daysOfWeekString) of week")
         case .nDaysEachWeek:
             let days = Int(frequencyDetail)
-            guard let days else { return "No days set" }
+            guard let days else { return String(localized: "No days set") }
             if days == 1 {
                 return String(localized: "1 day each week")
             } else {
                 return String(localized: "\(days) days each week")
             }
         case .fixedDaysInMonth:
-            return daysOfMonth.isEmpty ? "No days set" : String(localized: "Every \(daysOfMonthString) of month")
+            return daysOfMonth.isEmpty ? String(localized: "No days set") : String(localized: "Every \(daysOfMonthString) of month")
         case .nDaysEachMonth:
             let days = Int(frequencyDetail)
-            guard let days else { return "No days set" }
+            guard let days else { return String(localized: "No days set") }
             if days == 1 {
                 return String(localized: "1 day each month")
             } else {

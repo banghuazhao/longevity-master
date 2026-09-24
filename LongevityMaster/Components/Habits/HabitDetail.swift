@@ -439,7 +439,7 @@ struct HabitDetailView: View {
         ScrollView {
             VStack(spacing: AppSpacing.medium) {
                 // Main habit card
-                HabitItemView(todayHabit: viewModel.todayHabit, onTap: {})
+                HabitItemView(todayHabit: viewModel.todayHabit, isCheckIn: false, onTap: {})
                     .padding(.top, 8)
                     .opacity(viewModel.habit.isArchived ? 0.6 : 1.0)
 
@@ -889,12 +889,12 @@ struct HabitAchievementRowView: View {
             
             // Achievement details
             VStack(alignment: .leading, spacing: 2) {
-                Text(achievement.title)
+                Text(achievement.localizedTitle)
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundColor(themeManager.current.textPrimary)
                 
-                Text(achievement.description)
+                Text(achievement.localizedDescription)
                     .font(.caption)
                     .foregroundColor(themeManager.current.textSecondary)
                     .lineLimit(2)

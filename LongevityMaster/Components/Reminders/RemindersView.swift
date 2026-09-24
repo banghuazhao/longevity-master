@@ -131,6 +131,7 @@ class RemindersViewModel: HashableObject {
     func openSettings() {
         guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
         if UIApplication.shared.canOpenURL(url) {
+            AppOpenAdPolicy.skipNextReturn()
             UIApplication.shared.open(url)
         }
     }
@@ -212,7 +213,7 @@ struct RemindersView: View {
                         ForEach(viewModel.reminders, id: \.id) { reminder in
                             ReminderRow(
                                 time: reminder.time,
-                                title: reminder.title,
+                                title: reminder.displayTitle,
                                 onDelete: {
                                     viewModel.onTapDeleteReminder(reminder)
                                 }

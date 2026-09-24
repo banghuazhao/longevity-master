@@ -73,6 +73,8 @@ struct ShareCardSheet: View {
                         .padding()
                         .background(themeManager.current.primaryColor, in: RoundedRectangle(cornerRadius: AppCornerRadius.button))
                     }
+                    // Sharing usually means a trip to another app; no ad on the way back.
+                    .simultaneousGesture(TapGesture().onEnded { AppOpenAdPolicy.skipNextReturn() })
                     .padding(.horizontal, AppSpacing.large)
                 } else {
                     ProgressView()

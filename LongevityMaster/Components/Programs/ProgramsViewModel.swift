@@ -136,6 +136,44 @@ final class ProgramsViewModel {
         enrolled.filter { $0.program.id == program.id && $0.progress.isFinished }
     }
 
+    /// How each of a run's habits did over the run, best first — the completion screen's
+    /// breakdown, judged by the same rules as the run's overall figure.
+    func habitResults(for enrolled: Enrolled) -> [(habit: Habit, progress: ProgramProgress)] {
+        let calendar = userCalendar
+        let restDays = RestDays(skippedDays, in: calendar)
+        let now = Date()
+        return enrolled.habits
+            .map { habit in
+                (habit, ProgramProgress.make(
+                    durationDays: enrolled.program.durationDays,
+                    startDate: enrolled.enrollment.startDate,
+                    today: now,
+                    habits: [habit],
+                    checkIns: checkIns,
+                    restDays: restDays,
+                    calendar: calendar
+                ))
+            }
+            .sorted { ($0.1.adherence ?? -1) > ($1.1.adherence ?? -1) }
+    }
+
+    /// Guided programs to suggest once `finished` is over.
+    func recommendations(after finished: Enrolled) -> [Program] {
+        let enrolled = self.enrolled
+        return ProgramRecommendations.next(
+            after: finished.program,
+            activeProgramIDs: Set(enrolled.filter { !$0.progress.isFinished }.map(\.program.id)),
+            completedProgramIDs: Set(enrolled.filter(\.progress.isFinished).map(\.program.id))
+        )
+    }
+
+    /// Clears a finished run off Today and starts `next` in its place — which may be the same
+    /// program again.
+    func startNext(_ next: Program, after finished: Enrolled) {
+        archive(finished)
+        start(next)
+    }
+
     func start(_ program: Program) {
         Haptics.shared.vibrateIfEnabled()
         withErrorReporting {
@@ -151,6 +189,7 @@ final class ProgramsViewModel {
             try database.write { db in
                 try ProgramEnrollments.leave(enrolled.id, in: db)
             }
+            afterProgramsChanged()
         }
     }
 
@@ -160,6 +199,7 @@ final class ProgramsViewModel {
             try database.write { db in
                 try CustomPrograms.delete(customID, in: db)
             }
+            afterProgramsChanged()
         }
     }
 
@@ -169,6 +209,11 @@ final class ProgramsViewModel {
                 try ProgramEnrollments.archive(enrolled.id, in: db)
             }
         }
+    }
+
+    /// A run that is left or deleted must not announce its own finish later.
+    private func afterProgramsChanged() {
+        Task { await notificationService.syncProgramCompletions() }
     }
 
     /// Starting a program can add habits or bring archived ones back, which changes both the

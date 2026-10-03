@@ -103,6 +103,117 @@ class NotificationService {
                 await scheduleReminder(reminder)
             }
         }
+        await syncWeeklyReview()
+        await syncProgramCompletions()
+    }
+
+    // MARK: - Weekly review
+
+    static let weeklyReviewEnabledKey = "weeklyReviewEnabled"
+    static let weeklyReviewID = "weekly_review"
+
+    /// On unless the user turned it off in Settings.
+    static var isWeeklyReviewEnabled: Bool {
+        UserDefaults.standard.object(forKey: weeklyReviewEnabledKey) as? Bool ?? true
+    }
+
+    /// One repeating notification at 7pm on the last day of the user's week, inviting them to
+    /// look back at it. The text is deliberately free of figures: it is registered days before
+    /// it fires, and any number in it would be out of date by then. The review it opens is
+    /// worked out when it is read.
+    func syncWeeklyReview() async {
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: [Self.weeklyReviewID])
+        guard Self.isWeeklyReviewEnabled else { return }
+
+        @Dependency(\.defaultDatabase) var database
+        let hasHabits = withErrorReporting {
+            try database.read { db in
+                try Habit.where { !$0.isArchived }.fetchCount(db) > 0
+            }
+        } ?? false
+        // Nothing to look back on yet.
+        guard hasHabits else { return }
+
+        let startWeekOnMonday = UserDefaults.standard.object(forKey: "startWeekOnMonday") as? Bool ?? true
+        let calendar = Calendar.userPreferred(startWeekOnMonday: startWeekOnMonday)
+
+        let content = UNMutableNotificationContent()
+        content.title = String(localized: "Your week in review")
+        content.body = String(localized: "See how your habits went this week, and pick one to focus on next.")
+        content.sound = .default
+        content.userInfo = [AppRouter.NotificationKey.destination: AppRouter.NotificationKey.weeklyReview]
+
+        let trigger = UNCalendarNotificationTrigger(
+            dateMatching: DateComponents(hour: 19, minute: 0, weekday: WeeklyReview.lastWeekday(of: calendar)),
+            repeats: true
+        )
+        do {
+            try await center.add(UNNotificationRequest(identifier: Self.weeklyReviewID, content: content, trigger: trigger))
+        } catch {
+            debugLog("Failed to schedule weekly review: \(error)")
+        }
+    }
+
+    // MARK: - Program completion
+
+    private static let programCompletionPrefix = "program_complete_"
+
+    /// A one-off notification the morning a program is over, for each run still under way.
+    /// Re-derived from the enrollments every time, so leaving a program, or deleting the custom
+    /// program behind it, takes its notification with it.
+    func syncProgramCompletions(now: Date = Date()) async {
+        let center = UNUserNotificationCenter.current()
+        let pending = await center.pendingNotificationRequests()
+        center.removePendingNotificationRequests(
+            withIdentifiers: pending.map(\.identifier).filter { $0.hasPrefix(Self.programCompletionPrefix) }
+        )
+
+        @Dependency(\.defaultDatabase) var database
+        let runs = withErrorReporting {
+            try database.read { db in
+                (
+                    try ProgramEnrollment.where { !$0.isArchived }.fetchAll(db),
+                    try CustomProgram.all.fetchAll(db)
+                )
+            }
+        }
+        guard let runs else { return }
+        let (enrollments, customPrograms) = runs
+        let customByID = Dictionary(
+            uniqueKeysWithValues: customPrograms.map { (Program.id(forCustom: $0.id), Program(custom: $0)) }
+        )
+
+        let calendar = Calendar.current
+        for enrollment in enrollments {
+            guard let program = ProgramsDataStore.program(id: enrollment.programID) ?? customByID[enrollment.programID],
+                  let finishDay = calendar.date(byAdding: .day, value: program.durationDays, to: calendar.startOfDay(for: enrollment.startDate)),
+                  let fireDate = calendar.date(bySettingHour: 9, minute: 0, second: 0, of: finishDay),
+                  fireDate > now
+            else { continue }
+
+            let content = UNMutableNotificationContent()
+            content.title = String(localized: "🎉 Program complete")
+            content.body = String(localized: "You finished “\(program.title)”. See how you did, and what to try next.")
+            content.sound = .default
+            content.userInfo = [
+                AppRouter.NotificationKey.destination: AppRouter.NotificationKey.programCompletion,
+                AppRouter.NotificationKey.enrollmentID: enrollment.id,
+            ]
+            let trigger = UNCalendarNotificationTrigger(
+                dateMatching: calendar.dateComponents([.year, .month, .day, .hour, .minute], from: fireDate),
+                repeats: false
+            )
+            do {
+                try await center.add(UNNotificationRequest(
+                    identifier: Self.programCompletionPrefix + String(enrollment.id),
+                    content: content,
+                    trigger: trigger
+                ))
+            } catch {
+                debugLog("Failed to schedule program completion \(enrollment.id): \(error)")
+            }
+        }
     }
 
     // MARK: - Working out what to register
@@ -372,6 +483,9 @@ private enum NotificationServiceKey: DependencyKey {
 /// Tapping a reminder brings someone into the app to check in. Greeting them with an ad is the
 /// quickest way to teach them to stop tapping, so a tap holds the next app-open ad back.
 ///
+/// A weekly review or program-complete notification also says which screen to open, and the
+/// tap hands that to `AppRouter`.
+///
 /// Only the tap is handled. Reminders that arrive while the app is open are left as iOS shows
 /// them by default — not at all — which is how the app has always behaved.
 final class ReminderTapObserver: NSObject, UNUserNotificationCenterDelegate {
@@ -383,6 +497,15 @@ final class ReminderTapObserver: NSObject, UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         AppOpenAdPolicy.skipNextReturn()
+        let destination = AppRouter.destination(
+            userInfo: response.notification.request.content.userInfo,
+            deliveredAt: response.notification.date
+        )
+        if let destination {
+            Task { @MainActor in
+                AppRouter.shared.presented = destination
+            }
+        }
         completionHandler()
     }
 }

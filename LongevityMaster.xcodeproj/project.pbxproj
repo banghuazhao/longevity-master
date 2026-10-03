@@ -30,6 +30,11 @@
 		EDCF95B50BFB0B0B2D6D0510 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB626E939C1289F0A06910 /* Habit.swift */; };
 		F1AE0EBC923EA5FE2F7151A0 /* TodayHabit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9976D98A1D0124F1B025FFF /* TodayHabit.swift */; };
 		F969F23B8E1691CB1CDFF5D3 /* TodayHabitsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C223FAEE8C243F53AF5759 /* TodayHabitsProvider.swift */; };
+		8ECF797D4A3912106341D92B /* TodayProgressWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73EA12F6C09D9CE505BAF51 /* TodayProgressWidget.swift */; };
+		C5FCCC7575E0127B674BEC97 /* HabitCheckInControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC34D03C0CDB78DC01C28914 /* HabitCheckInControl.swift */; };
+		1B043D67DBE484B4CE286A6C /* HabitEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0CD61740FCC51997A00430 /* HabitEntity.swift */; };
+		7EE934DDA39E1692959CAD0D /* HabitEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0CD61740FCC51997A00430 /* HabitEntity.swift */; };
+		85E15132643067767F42D24B /* WidgetDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C8D913018BDA3DB18C7BB9 /* WidgetDatabase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +90,9 @@
 		E29FB7CF68E237AC6AA095F8 /* LongevityWidgetBundle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LongevityWidgetBundle.swift; path = LongevityWidget/LongevityWidgetBundle.swift; sourceTree = SOURCE_ROOT; };
 		E6C8D913018BDA3DB18C7BB9 /* WidgetDatabase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WidgetDatabase.swift; path = LongevityWidget/WidgetDatabase.swift; sourceTree = SOURCE_ROOT; };
 		F6DA889488E886C7C4DE79D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		E73EA12F6C09D9CE505BAF51 /* TodayProgressWidget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TodayProgressWidget.swift; path = LongevityWidget/TodayProgressWidget.swift; sourceTree = SOURCE_ROOT; };
+		DC34D03C0CDB78DC01C28914 /* HabitCheckInControl.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HabitCheckInControl.swift; path = LongevityWidget/HabitCheckInControl.swift; sourceTree = SOURCE_ROOT; };
+		7E0CD61740FCC51997A00430 /* HabitEntity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HabitEntity.swift; path = LongevityWidget/HabitEntity.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -166,6 +174,9 @@
 				67C223FAEE8C243F53AF5759 /* TodayHabitsProvider.swift */,
 				3734C129D06F73809FDC0230 /* ToggleHabitCheckInIntent.swift */,
 				E6C8D913018BDA3DB18C7BB9 /* WidgetDatabase.swift */,
+				E73EA12F6C09D9CE505BAF51 /* TodayProgressWidget.swift */,
+				DC34D03C0CDB78DC01C28914 /* HabitCheckInControl.swift */,
+				7E0CD61740FCC51997A00430 /* HabitEntity.swift */,
 				CBA5572CC9C6C4BDF08045AB /* Info.plist */,
 				4C7C9D3C8F803CEDB464A520 /* LongevityWidget.entitlements */,
 				5A1C0F3E9B7D4E2A8C6B1D00 /* PrivacyInfo.xcprivacy */,
@@ -370,6 +381,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EE934DDA39E1692959CAD0D /* HabitEntity.swift in Sources */,
+				85E15132643067767F42D24B /* WidgetDatabase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,6 +402,9 @@
 				F969F23B8E1691CB1CDFF5D3 /* TodayHabitsProvider.swift in Sources */,
 				E1E4A29CA64C336509E0D2C8 /* ToggleHabitCheckInIntent.swift in Sources */,
 				68366BDAAC253E15C09CB8FD /* WidgetDatabase.swift in Sources */,
+				8ECF797D4A3912106341D92B /* TodayProgressWidget.swift in Sources */,
+				C5FCCC7575E0127B674BEC97 /* HabitCheckInControl.swift in Sources */,
+				1B043D67DBE484B4CE286A6C /* HabitEntity.swift in Sources */,
 				EDCF95B50BFB0B0B2D6D0510 /* Habit.swift in Sources */,
 				7D0620E0F7A1A291F5702E8A /* CheckIn.swift in Sources */,
 				F1AE0EBC923EA5FE2F7151A0 /* TodayHabit.swift in Sources */,

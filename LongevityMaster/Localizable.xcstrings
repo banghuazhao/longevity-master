@@ -22,6 +22,22 @@
         }
       }
     },
+    "%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
     "%@ - %@" : {
       "localizations" : {
         "en" : {
@@ -60,6 +76,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ 你的「%2$@」计划今天开始。"
+          }
+        }
+      }
+    },
+    "%@ is already checked in for today." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天已经打过卡「%@」了。"
           }
         }
       }
@@ -193,12 +219,64 @@
         }
       }
     },
+    "%lld done · goal %lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成 %1$lld · 目标 %2$lld"
+          }
+        }
+      }
+    },
     "%lld habits" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 个习惯"
+          }
+        }
+      }
+    },
+    "%lld habits checked in" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打卡了 %lld 个习惯"
+          }
+        }
+      }
+    },
+    "%lld of %lld done. Still to go: %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld done. Still to go: %3$@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已完成 %1$lld / %2$lld。还剩：%3$@。"
+          }
+        }
+      }
+    },
+    "%lld of %lld habits done" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld habits done"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已完成 %1$lld / %2$lld 个习惯"
           }
         }
       }
@@ -235,6 +313,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "还需 %lld 分"
+          }
+        }
+      }
+    },
+    "%lld pts vs last week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "比上周变化 %lld 个百分点"
           }
         }
       }
@@ -798,6 +886,16 @@
         }
       }
     },
+    "A look back at your week, at 7pm on its last day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周最后一天晚上 7 点，回顾你的一周"
+          }
+        }
+      }
+    },
     "A moderate intake of flavonoids — about 500 mg a day, from tea, berries, apples and dark chocolate — was associated with lower mortality." : {
       "localizations" : {
         "zh-Hans" : {
@@ -814,6 +912,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "计划把几个习惯组合在一起，坚持固定的几周，每周都有目标。可以跟随有科学依据的引导计划，也可以自己制定。"
+          }
+        }
+      }
+    },
+    "A solid base. Protect one habit next week and build from there." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基础不错。下周守住一个习惯，再从那里继续。"
           }
         }
       }
@@ -1084,6 +1192,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "全部"
+          }
+        }
+      }
+    },
+    "All %lld habits done" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 个习惯全部完成"
+          }
+        }
+      }
+    },
+    "All %lld of today's habits are done. Great work!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天的 %lld 个习惯全部完成，太棒了！"
+          }
+        }
+      }
+    },
+    "All done today 🎉" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日全部完成 🎉"
           }
         }
       }
@@ -1548,6 +1686,16 @@
         }
       }
     },
+    "Carried the week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本周主力"
+          }
+        }
+      }
+    },
     "Categories" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1659,6 +1807,16 @@
         }
       }
     },
+    "Check In a Habit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打卡习惯"
+          }
+        }
+      }
+    },
     "Check a habit in or out for today." : {
       "localizations" : {
         "zh-Hans" : {
@@ -1669,12 +1827,32 @@
         }
       }
     },
+    "Check a habit in or out without opening the app." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无需打开 App，即可为习惯打卡或取消打卡。"
+          }
+        }
+      }
+    },
     "Check blood pressure" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "测血压"
+          }
+        }
+      }
+    },
+    "Check in ${habit}" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打卡${habit}"
           }
         }
       }
@@ -1739,6 +1917,42 @@
         }
       }
     },
+    "Checked In" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已打卡"
+          }
+        }
+      }
+    },
+    "Checked in %@. %lld of %lld done today." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Checked in %1$@. %2$lld of %3$lld done today."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已打卡「%1$@」。今天完成 %2$lld / %3$lld。"
+          }
+        }
+      }
+    },
+    "Checked in %@. That's everything for today. Well done!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已打卡「%@」。今天的习惯全部完成，干得好！"
+          }
+        }
+      }
+    },
     "Checkin History" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1765,6 +1979,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择可可含量 70% 以上的黑巧克力获取黄烷醇。只吃一小块——吃一整板好处就没了。"
+          }
+        }
+      }
+    },
+    "Choose Habit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择习惯"
           }
         }
       }
@@ -1809,6 +2033,16 @@
         }
       }
     },
+    "Choose a Habit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择一个习惯"
+          }
+        }
+      }
+    },
     "Choose whole grains" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1835,6 +2069,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "慢性压力和孤独对身体的消耗不亚于糟糕的饮食。用三周的日常小练习，让内心平静、关系更紧密。"
+          }
+        }
+      }
+    },
+    "Close" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭"
           }
         }
       }
@@ -2389,6 +2633,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "我在抗衰习惯家进行「%2$@」计划的第 %1$lld 天 💪"
+          }
+        }
+      }
+    },
+    "Day by day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日概况"
           }
         }
       }
@@ -2963,6 +3217,16 @@
         }
       }
     },
+    "Every week is a fresh start. Pick one small habit and begin there." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周都是新的开始。挑一个小习惯，从它开始。"
+          }
+        }
+      }
+    },
     "Exercise programs that train balance and everyday movement reduced the rate of falls by about 24%." : {
       "localizations" : {
         "zh-Hans" : {
@@ -3119,6 +3383,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "固定起床时间（周末也一样），起床后一小时内到户外去。"
+          }
+        }
+      }
+    },
+    "Focus for next week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下周重点"
+          }
+        }
+      }
+    },
+    "Focus for the rest of the week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本周剩余时间的重点"
           }
         }
       }
@@ -3494,6 +3778,16 @@
         }
       }
     },
+    "Hear how many of today's habits are done, and which are left." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "听听今天完成了多少习惯，还剩哪些。"
+          }
+        }
+      }
+    },
     "Help someone" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3594,12 +3888,32 @@
         }
       }
     },
+    "How each habit went" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "各习惯完成情况"
+          }
+        }
+      }
+    },
     "How regular people's sleep was predicted their mortality risk more strongly than how long they slept." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "睡眠是否规律比睡了多久更能预测死亡风险。"
+          }
+        }
+      }
+    },
+    "How your week went, habit by habit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逐个习惯回顾你的一周"
           }
         }
       }
@@ -3626,6 +3940,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "我刚在抗衰习惯家解锁了「%@」成就 🏆"
+          }
+        }
+      }
+    },
+    "I kept %lld%% of my habits on track this week with Longevity Master 💪" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这周我在抗衰习惯家完成了 %lld%% 的习惯计划 💪"
           }
         }
       }
@@ -3696,6 +4020,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "中级+"
+          }
+        }
+      }
+    },
+    "It may have been left or removed." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它可能已被退出或删除。"
           }
         }
       }
@@ -4060,12 +4394,32 @@
         }
       }
     },
+    "Make “%@” the one habit you protect. Tie it to something you already do every day, like your morning coffee." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把「%@」当作你要守住的那个习惯。把它和每天都会做的事绑在一起，比如早上的咖啡。"
+          }
+        }
+      }
+    },
     "Manage Consent" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "管理同意设置"
+          }
+        }
+      }
+    },
+    "Mark one of your habits as done for today." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将一个习惯标记为今日已完成。"
           }
         }
       }
@@ -4387,6 +4741,16 @@
         }
       }
     },
+    "My week in review" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的一周回顾"
+          }
+        }
+      }
+    },
     "Name" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4403,6 +4767,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "小睡 20-30 分钟以提高警觉性。"
+          }
+        }
+      }
+    },
+    "Needs attention" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要加油"
           }
         }
       }
@@ -4467,6 +4841,16 @@
         }
       }
     },
+    "Next week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一周"
+          }
+        }
+      }
+    },
     "Night Owl" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4527,6 +4911,16 @@
         }
       }
     },
+    "No habits due today" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天没有待完成的习惯"
+          }
+        }
+      }
+    },
     "No habits yet" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4567,6 +4961,16 @@
         }
       }
     },
+    "Not Yet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未完成"
+          }
+        }
+      }
+    },
     "Not done" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4587,12 +4991,42 @@
         }
       }
     },
+    "Nothing is scheduled for today." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天没有安排习惯。"
+          }
+        }
+      }
+    },
+    "Nothing scheduled today." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天没有安排。"
+          }
+        }
+      }
+    },
     "Nothing scheduled today. Enjoy the rest." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "今天没有安排，好好休息。"
+          }
+        }
+      }
+    },
+    "Nothing was due this week. Add a habit or two to get started." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本周没有需要完成的习惯。添加一两个习惯开始吧。"
           }
         }
       }
@@ -4657,6 +5091,16 @@
         }
       }
     },
+    "Open Longevity Master" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开抗衰习惯家"
+          }
+        }
+      }
+    },
     "Open Longevity Master to get started." : {
       "localizations" : {
         "zh-Hans" : {
@@ -4683,6 +5127,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "其他"
+          }
+        }
+      }
+    },
+    "Outstanding week. This is what lasting change looks like." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "出色的一周！持久的改变就是这样发生的。"
           }
         }
       }
@@ -4847,6 +5301,16 @@
         }
       }
     },
+    "Previous week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上一周"
+          }
+        }
+      }
+    },
     "Prioritize High-Impact Habits" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4877,6 +5341,16 @@
         }
       }
     },
+    "Program Complete" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "计划完成"
+          }
+        }
+      }
+    },
     "Program completed" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4893,6 +5367,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "计划名称"
+          }
+        }
+      }
+    },
+    "Program not found" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "找不到该计划"
           }
         }
       }
@@ -5187,6 +5671,16 @@
         }
       }
     },
+    "Rest day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "休息日"
+          }
+        }
+      }
+    },
     "Rest day on. Tap to turn off." : {
       "localizations" : {
         "zh-Hans" : {
@@ -5217,6 +5711,16 @@
         }
       }
     },
+    "Run %@ again" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再来一次「%@」"
+          }
+        }
+      }
+    },
     "Running" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5233,6 +5737,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每天早上在脸和手上涂 SPF 30+ 防晒。一项随机试验显示，每天防晒能减缓肉眼可见的皮肤老化。"
+          }
+        }
+      }
+    },
+    "Same as last week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与上周持平"
           }
         }
       }
@@ -5327,6 +5841,36 @@
         }
       }
     },
+    "See Results" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看成果"
+          }
+        }
+      }
+    },
+    "See how many of today's habits are done at a glance." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一眼看到今天完成了多少习惯。"
+          }
+        }
+      }
+    },
+    "See how your habits went this week, and pick one to focus on next." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "看看这周的习惯完成得怎么样，再挑一个下周重点。"
+          }
+        }
+      }
+    },
     "See what's still on today's list." : {
       "localizations" : {
         "zh-Hans" : {
@@ -5353,6 +5897,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择您喜欢的应用程序主色调"
+          }
+        }
+      }
+    },
+    "Set Habit Check-In" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置习惯打卡"
           }
         }
       }
@@ -5427,22 +5981,22 @@
         }
       }
     },
+    "Share My Week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享我的一周"
+          }
+        }
+      }
+    },
     "Share Progress" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "分享进度"
-          }
-        }
-      }
-    },
-    "Share Result" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "分享成绩"
           }
         }
       }
@@ -5637,6 +6191,16 @@
         }
       }
     },
+    "Start" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始"
+          }
+        }
+      }
+    },
     "Start Again" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5807,6 +6371,16 @@
         }
       }
     },
+    "Still ahead" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未到来"
+          }
+        }
+      }
+    },
     "Stop caffeine after 2 PM and put screens away an hour before bed." : {
       "localizations" : {
         "zh-Hans" : {
@@ -5893,6 +6467,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "紧密的人际关系与存活几率高出 50% 相关——效果堪比戒烟。"
+          }
+        }
+      }
+    },
+    "Strong week. Keep the rhythm going." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "很棒的一周，保持这个节奏。"
           }
         }
       }
@@ -6187,6 +6771,16 @@
         }
       }
     },
+    "They stay on your habit list — they're yours now." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些习惯会留在你的习惯列表里——它们已经是你的了。"
+          }
+        }
+      }
+    },
     "This Month" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6213,6 +6807,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "这是您选择的主题颜色在应用中的显示效果。"
+          }
+        }
+      }
+    },
+    "This week so far" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本周至今"
           }
         }
       }
@@ -6347,12 +6951,32 @@
         }
       }
     },
+    "Today's Habit Progress" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日习惯进度"
+          }
+        }
+      }
+    },
     "Today's Habits" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "今日习惯"
+          }
+        }
+      }
+    },
+    "Today's Progress" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日进度"
           }
         }
       }
@@ -6533,6 +7157,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已解锁 %@"
+          }
+        }
+      }
+    },
+    "Up next" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接下来"
           }
         }
       }
@@ -6787,6 +7421,26 @@
         }
       }
     },
+    "Week in review" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一周回顾"
+          }
+        }
+      }
+    },
+    "Weekly Review" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周回顾"
+          }
+        }
+      }
+    },
     "Welcome to Longevity Master" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6823,6 +7477,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你要做的"
+          }
+        }
+      }
+    },
+    "Which habit did you do?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你完成了哪个习惯？"
           }
         }
       }
@@ -6898,6 +7562,26 @@
         }
       }
     },
+    "You finished %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你完成了「%@」"
+          }
+        }
+      }
+    },
+    "You finished “%@”. See how you did, and what to try next." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你完成了「%@」。看看成果，再选下一步。"
+          }
+        }
+      }
+    },
     "You kept %lld%% of the plan over %lld days." : {
       "localizations" : {
         "en" : {
@@ -6910,6 +7594,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在 %2$lld 天里，你完成了计划的 %1$lld%%。"
+          }
+        }
+      }
+    },
+    "You kept to the plan almost every day. These habits are part of your routine now." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你几乎每天都按计划完成。这些习惯已经成为你日常的一部分。"
+          }
+        }
+      }
+    },
+    "You saw it through to the end." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你坚持到了最后。"
+          }
+        }
+      }
+    },
+    "You saw it through to the end. Run it again and see how much further you get." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你坚持到了最后。再来一次，看看能进步多少。"
+          }
+        }
+      }
+    },
+    "You stuck with it to the very end — most people stop in the first week." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你一直坚持到最后——大多数人第一周就放弃了。"
           }
         }
       }
@@ -7024,6 +7748,16 @@
         }
       }
     },
+    "Your week in review" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的一周回顾"
+          }
+        }
+      }
+    },
     "Zone 2 cardio" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7040,6 +7774,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "成就"
+          }
+        }
+      }
+    },
+    "active days" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活跃天数"
           }
         }
       }
@@ -7120,6 +7864,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "天最大"
+          }
+        }
+      }
+    },
+    "habits on track" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "达标习惯"
           }
         }
       }
@@ -7316,6 +8070,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "🎉 成就解锁！🎉"
+          }
+        }
+      }
+    },
+    "🎉 Program complete" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🎉 计划完成"
           }
         }
       }

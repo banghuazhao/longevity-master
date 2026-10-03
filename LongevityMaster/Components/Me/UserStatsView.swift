@@ -228,6 +228,8 @@ struct UserStatsView: View {
             VStack(spacing: AppSpacing.large) {
                 // Header Section
                 headerSection
+
+                weeklyReviewLink
                 
                 // Longevity Rating Section
                 longevityRatingSection
@@ -277,6 +279,36 @@ struct UserStatsView: View {
         .appCardStyle()
     }
     
+    private var weeklyReviewLink: some View {
+        let theme = viewModel.themeManager.current
+        return NavigationLink {
+            WeeklyReviewView()
+        } label: {
+            HStack(spacing: AppSpacing.medium) {
+                Image(systemName: "calendar.badge.checkmark")
+                    .font(.title2)
+                    .foregroundStyle(theme.primaryColor)
+                    .frame(width: 44, height: 44)
+                    .background(theme.primaryColor.opacity(0.12), in: RoundedRectangle(cornerRadius: 12))
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Weekly Review")
+                        .font(AppFont.headline)
+                        .foregroundStyle(theme.textPrimary)
+                    Text("How your week went, habit by habit")
+                        .font(AppFont.footnote)
+                        .foregroundStyle(theme.textSecondary)
+                }
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(theme.textSecondary)
+            }
+            .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .appCardStyle()
+    }
+
     private var longevityRatingSection: some View {
         let score = viewModel.longevityScore
 

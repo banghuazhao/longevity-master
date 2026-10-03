@@ -19,6 +19,11 @@ struct ProgramProgress: Equatable {
     /// Every check-in on the program's habits during the program, including extras beyond
     /// what was due.
     let checkInCount: Int
+    /// The two sides of `adherence`, kept so results for separate habits can be added up into
+    /// one figure — averaging the percentages would weigh a once-a-month habit the same as a
+    /// daily one.
+    var due: Double = 0
+    var credited: Double = 0
 
     var daysLeft: Int {
         max(durationDays - dayNumber, 0)
@@ -110,7 +115,9 @@ struct ProgramProgress: Equatable {
             durationDays: durationDays,
             isFinished: isFinished,
             adherence: owed > 0 ? credited / owed : nil,
-            checkInCount: checkInCount
+            checkInCount: checkInCount,
+            due: owed,
+            credited: credited
         )
     }
 

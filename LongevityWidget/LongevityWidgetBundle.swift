@@ -10,5 +10,9 @@ import SwiftUI
 struct LongevityWidgetBundle: WidgetBundle {
     var body: some Widget {
         TodayHabitsWidget()
+        TodayProgressWidget()
+        if #available(iOSApplicationExtension 18.0, *) {
+            HabitCheckInControl()
+        }
     }
 }

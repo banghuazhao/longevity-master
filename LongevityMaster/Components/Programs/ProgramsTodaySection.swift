@@ -13,6 +13,7 @@ struct ProgramsTodaySection: View {
 
     /// Once dismissed, the invitation stays gone; programs have their own tab.
     @AppStorage("hideProgramsInvitation") private var hideInvitation = false
+    @State private var results: ProgramsViewModel.Enrolled?
     @Environment(\.selectTab) private var selectTab
 
     @Dependency(\.themeManager) private var themeManager
@@ -37,6 +38,9 @@ struct ProgramsTodaySection: View {
             }
             .padding(.top, AppSpacing.medium)
             .padding(.bottom, AppSpacing.small)
+            .sheet(item: $results) { enrolled in
+                ProgramCompletionView(enrolled: enrolled, viewModel: viewModel)
+            }
         } else if viewModel.enrollments.isEmpty && !hideInvitation {
             invitation
                 .padding(.top, AppSpacing.medium)
@@ -46,24 +50,12 @@ struct ProgramsTodaySection: View {
 
     private func completedCard(_ enrolled: ProgramsViewModel.Enrolled) -> some View {
         VStack(spacing: AppSpacing.smallMedium) {
-            HStack(spacing: AppSpacing.smallMedium) {
-                ProgramIcon(program: enrolled.program, size: 44)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("🎉 Program completed")
-                        .font(AppFont.headline)
-                        .foregroundStyle(themeManager.current.textPrimary)
-                    if let percent = enrolled.progress.adherencePercent {
-                        Text("\(enrolled.program.title) · \(percent)% on track")
-                            .font(AppFont.subheadline)
-                            .foregroundStyle(themeManager.current.textSecondary)
-                    } else {
-                        Text(enrolled.program.title)
-                            .font(AppFont.subheadline)
-                            .foregroundStyle(themeManager.current.textSecondary)
-                    }
-                }
-                Spacer(minLength: 0)
+            Button {
+                results = enrolled
+            } label: {
+                completedSummary(enrolled)
             }
+            .buttonStyle(.plain)
 
             HStack(spacing: AppSpacing.smallMedium) {
                 Button {
@@ -79,8 +71,10 @@ struct ProgramsTodaySection: View {
                         .background(themeManager.current.primaryColor.opacity(0.12), in: RoundedRectangle(cornerRadius: AppCornerRadius.button))
                 }
 
-                ShareCardLink(content: enrolled.shareCard) {
-                    Label("Share", systemImage: "square.and.arrow.up")
+                Button {
+                    results = enrolled
+                } label: {
+                    Label("See Results", systemImage: "rosette")
                         .font(AppFont.subheadline.weight(.semibold))
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
@@ -90,6 +84,31 @@ struct ProgramsTodaySection: View {
             }
         }
         .appCardStyle(theme: themeManager.current)
+    }
+
+    private func completedSummary(_ enrolled: ProgramsViewModel.Enrolled) -> some View {
+        HStack(spacing: AppSpacing.smallMedium) {
+            ProgramIcon(program: enrolled.program, size: 44)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("🎉 Program completed")
+                    .font(AppFont.headline)
+                    .foregroundStyle(themeManager.current.textPrimary)
+                if let percent = enrolled.progress.adherencePercent {
+                    Text("\(enrolled.program.title) · \(percent)% on track")
+                        .font(AppFont.subheadline)
+                        .foregroundStyle(themeManager.current.textSecondary)
+                } else {
+                    Text(enrolled.program.title)
+                        .font(AppFont.subheadline)
+                        .foregroundStyle(themeManager.current.textSecondary)
+                }
+            }
+            Spacer(minLength: 0)
+            Image(systemName: "chevron.right")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(themeManager.current.textSecondary)
+        }
+        .contentShape(.rect)
     }
 
     private var invitation: some View {

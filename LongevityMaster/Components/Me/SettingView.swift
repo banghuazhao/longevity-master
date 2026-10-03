@@ -14,6 +14,7 @@ struct SettingView: View {
     @AppStorage("vibrateEnabled") private var vibrateEnabled: Bool = true
     @AppStorage(AppearanceMode.storageKey) private var appearanceMode: String = AppearanceMode.system.rawValue
     @AppStorage("motivationalQuotesEnabled") private var motivationalQuotesEnabled: Bool = true
+    @AppStorage(NotificationService.weeklyReviewEnabledKey) private var weeklyReviewEnabled: Bool = true
     @Shared(.appStorage("lastQuoteDismissedDate")) private var lastQuoteDismissedDate: Date? = nil
     @Dependency(\.themeManager) var themeManager
     @Dependency(\.consentManager) var consentManager
@@ -38,6 +39,8 @@ struct SettingView: View {
                         // shared container because it cannot see the app's own defaults.
                         AppGroup.mirrorStartWeekOnMonday(newValue)
                         WidgetRefresher.reload()
+                        // The weekly review lands on the week's last day, which just moved.
+                        Task { await NotificationService.shared.syncWeeklyReview() }
                     }
                 }
                 settingsSection(title: "Feedback") {
@@ -61,6 +64,21 @@ struct SettingView: View {
                             .foregroundColor(themeManager.current.textPrimary)
                     }
                     .toggleStyle(SwitchToggleStyle(tint: themeManager.current.primaryColor))
+
+                    Toggle(isOn: $weeklyReviewEnabled) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Weekly Review")
+                                .font(AppFont.body)
+                                .foregroundColor(themeManager.current.textPrimary)
+                            Text("A look back at your week, at 7pm on its last day")
+                                .font(AppFont.footnote)
+                                .foregroundColor(themeManager.current.textSecondary)
+                        }
+                    }
+                    .toggleStyle(SwitchToggleStyle(tint: themeManager.current.primaryColor))
+                    .onChange(of: weeklyReviewEnabled) { _, _ in
+                        Task { await NotificationService.shared.syncWeeklyReview() }
+                    }
                     
                     HStack {
                         Text("Reset Today's Motivation")

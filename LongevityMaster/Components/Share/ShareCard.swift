@@ -127,6 +127,33 @@ extension ShareCardContent {
     }
 }
 
+extension ShareCardContent {
+    static func weeklyReview(_ review: WeeklyReview) -> ShareCardContent {
+        let percent = review.adherencePercent ?? 0
+        let badge = switch review.adherence ?? 0 {
+        case 0.9...: "🏆"
+        case 0.7..<0.9: "💪"
+        default: "🌱"
+        }
+        return ShareCardContent(
+            eyebrow: String(localized: "My week in review"),
+            badge: .emoji(badge),
+            headline: WeeklyReviewView.weekRange(review),
+            detail: review.verdict,
+            stats: [
+                Stat(value: "\(percent)%", label: String(localized: "on track")),
+                Stat(value: "\(review.checkInCount)", label: String(localized: "check-ins")),
+                Stat(value: "\(review.activeDayCount)/7", label: String(localized: "active days")),
+            ],
+            // Only the days already lived: a week under way would otherwise show its future
+            // as missed.
+            recentDays: review.days.filter { !$0.isFuture }.map { $0.checkInCount > 0 },
+            date: min(Date(), review.weekEnd),
+            message: String(localized: "I kept \(percent)% of my habits on track this week with Longevity Master 💪") + "\n" + appStoreURL
+        )
+    }
+}
+
 // MARK: - Card
 
 /// The shareable image: a portrait card sized for stories and chats, in the user's theme

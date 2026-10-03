@@ -5,18 +5,32 @@
 
 import Foundation
 import SQLiteData
+import WidgetKit
 
-/// The widget's own connection to the database the app keeps in the shared App Group container.
+/// The connection everything outside the app's screens uses — the widget, Control Center and
+/// Siri — to the database the app keeps in the shared App Group container.
 ///
 /// It deliberately does not run migrations: the app owns the schema, and a widget refresh is the
 /// wrong moment to be altering tables. If the app has never launched there is nothing to read.
+///
+/// Compiled into the app as well, for the intents Siri and Shortcuts run in the app's process.
 enum WidgetDatabase {
     enum Failure: Error {
         /// No App Group container, or the app has not created its database yet.
         case unavailable
     }
 
-    private static func openDatabase() throws -> DatabasePool {
+    /// Set by the app at launch to its own open database. An intent running in the app's
+    /// process then writes through the connection the app's screens observe, so a habit checked
+    /// in by Siri ticks over on screen at once instead of on the next trip to the foreground.
+    static var inAppDatabase: (any DatabaseWriter)?
+
+    /// Set by the app to whatever else a check-in has to bring up to date — the reminders.
+    /// The widget extension has no reminders to settle and leaves it unset.
+    static var afterCheckInChange: (() -> Void)?
+
+    private static func openDatabase() throws -> any DatabaseWriter {
+        if let inAppDatabase { return inAppDatabase }
         guard let containerURL = AppGroup.containerURL else { throw Failure.unavailable }
         let url = containerURL.appending(component: "db.sqlite")
         guard FileManager.default.fileExists(atPath: url.path()) else { throw Failure.unavailable }
@@ -45,29 +59,78 @@ enum WidgetDatabase {
         )
     }
 
+    /// The habits that are not archived, favourites first — what Siri and Control Center offer
+    /// to choose from.
+    static func activeHabits() throws -> [Habit] {
+        try openDatabase().read { db in
+            try Habit.where { !$0.isArchived }.order { ($0.isFavorite.desc(), $0.name) }.fetchAll(db)
+        }
+    }
+
+    static func habits(ids: [Habit.ID]) throws -> [Habit] {
+        try openDatabase().read { db in
+            try Habit.where { $0.id.in(ids) }.fetchAll(db)
+        }
+    }
+
+    static func isCheckedIn(habitID: Habit.ID, on date: Date) throws -> Bool {
+        let (startOfDay, endOfDay) = dayBounds(of: date)
+        return try openDatabase().read { db in
+            try CheckIn
+                .where { $0.habitID.eq(habitID) }
+                .where { $0.date.between(startOfDay, and: endOfDay) }
+                .fetchCount(db) > 0
+        }
+    }
+
     /// Checks a habit in for `date`, or clears that day's check-ins if it is already done.
     /// Mirrors what tapping a habit on the Today tab does.
     static func toggleCheckIn(habitID: Habit.ID, on date: Date) throws {
-        let database = try openDatabase()
-        let calendar = Calendar.userPreferred(startWeekOnMonday: AppGroup.startWeekOnMonday)
-        let startOfDay = date.startOfDay(for: calendar)
-        let endOfDay = date.endOfDay(for: calendar)
+        let isCheckedIn = try isCheckedIn(habitID: habitID, on: date)
+        try setCheckIn(habitID: habitID, on: date, done: !isCheckedIn)
+    }
 
-        try database.write { db in
-            let existing = try CheckIn
+    /// Makes `date` checked in for the habit, or not. Asking for what is already the case
+    /// changes nothing — saying "check in Meditate" twice does not log it twice.
+    ///
+    /// - Returns: whether anything changed.
+    @discardableResult
+    static func setCheckIn(habitID: Habit.ID, on date: Date, done: Bool) throws -> Bool {
+        let (startOfDay, endOfDay) = dayBounds(of: date)
+
+        let changed = try openDatabase().write { db in
+            let today = CheckIn
                 .where { $0.habitID.eq(habitID) }
                 .where { $0.date.between(startOfDay, and: endOfDay) }
-                .fetchCount(db)
+            let existing = try today.fetchCount(db)
 
-            if existing > 0 {
-                try CheckIn
-                    .where { $0.habitID.eq(habitID) }
-                    .where { $0.date.between(startOfDay, and: endOfDay) }
-                    .delete()
-                    .execute(db)
-            } else {
+            if done, existing == 0 {
                 try CheckIn.upsert { CheckIn.Draft(date: date, habitID: habitID) }.execute(db)
+                return true
+            } else if !done, existing > 0 {
+                try today.delete().execute(db)
+                return true
             }
+            return false
         }
+        if changed {
+            didChange()
+        }
+        return changed
+    }
+
+    private static func dayBounds(of date: Date) -> (Date, Date) {
+        let calendar = Calendar.userPreferred(startWeekOnMonday: AppGroup.startWeekOnMonday)
+        return (date.startOfDay(for: calendar), date.endOfDay(for: calendar))
+    }
+
+    /// Every surface showing today's list has to redraw: the widgets, the Control Center
+    /// toggles, and — when this runs in the app — whatever `afterCheckInChange` brings along.
+    private static func didChange() {
+        WidgetCenter.shared.reloadAllTimelines()
+        if #available(iOS 18.0, *) {
+            ControlCenter.shared.reloadAllControls()
+        }
+        afterCheckInChange?()
     }
 }

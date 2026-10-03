@@ -18,6 +18,7 @@ struct ProgramDetailView: View {
     @State private var isConfirmingLeave = false
     @State private var isConfirmingDelete = false
     @State private var form: CustomProgramFormModel?
+    @State private var results: ProgramsViewModel.Enrolled?
 
     @Environment(\.dismiss) private var dismiss
     @Dependency(\.themeManager) private var themeManager
@@ -192,13 +193,18 @@ struct ProgramDetailView: View {
                     .foregroundStyle(themeManager.current.textSecondary)
                     .multilineTextAlignment(.center)
             }
-            ShareCardLink(content: latest.shareCard) {
-                Label("Share Result", systemImage: "square.and.arrow.up")
+            Button {
+                results = latest
+            } label: {
+                Label("See Results", systemImage: "rosette")
                     .appButtonStyle()
             }
         }
         .frame(maxWidth: .infinity)
         .appCardStyle(theme: themeManager.current)
+        .sheet(item: $results) { enrolled in
+            ProgramCompletionView(enrolled: enrolled, viewModel: viewModel)
+        }
     }
 
     private var habitsSection: some View {

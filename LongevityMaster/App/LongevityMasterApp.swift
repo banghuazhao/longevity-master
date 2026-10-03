@@ -26,6 +26,13 @@ struct LongevityMasterApp: App {
         prepareDependencies {
             $0.defaultDatabase = try! appDatabase()
         }
+        // Siri and Shortcuts run their intents in this process; send their writes through the
+        // connection the screens observe, and settle the reminders after them.
+        @Dependency(\.defaultDatabase) var database
+        WidgetDatabase.inAppDatabase = database
+        WidgetDatabase.afterCheckInChange = {
+            Task { await NotificationService.shared.syncAllReminders() }
+        }
         // Set before launch finishes, so a reminder that launched the app is seen too.
         UNUserNotificationCenter.current().delegate = ReminderTapObserver.shared
         WidgetRefresher.reload()
@@ -96,6 +103,7 @@ extension EnvironmentValues {
 struct RootView: View {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @State private var selectedTab: AppTab = .today
+    @State private var router = AppRouter.shared
     @Dependency(\.themeManager) private var themeManager
     @Environment(\.colorScheme) private var colorScheme
 
@@ -123,6 +131,16 @@ struct RootView: View {
                 .fullScreenCover(isPresented: .constant(!hasCompletedOnboarding)) {
                     OnboardingView()
                 }
+        }
+        .sheet(item: $router.presented) { destination in
+            switch destination {
+            case let .weeklyReview(weekOf):
+                NavigationStack {
+                    WeeklyReviewView(initialWeek: weekOf, showsCloseButton: true)
+                }
+            case let .programCompletion(enrollmentID):
+                ProgramCompletionSheet(enrollmentID: enrollmentID)
+            }
         }
         // `nil` for .system, which lets the device's own setting through.
         .preferredColorScheme(themeManager.appearanceMode.colorScheme)

@@ -1,0 +1,56 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Check in ${habit} in ${applicationName}" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在${applicationName}中打卡${habit}"
+          }
+        }
+      }
+    },
+    "Check in a habit in ${applicationName}" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在${applicationName}中打卡习惯"
+          }
+        }
+      }
+    },
+    "How am I doing in ${applicationName}" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我今天在${applicationName}完成得怎么样"
+          }
+        }
+      }
+    },
+    "Log ${habit} in ${applicationName}" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用${applicationName}记录${habit}"
+          }
+        }
+      }
+    },
+    "Show today's progress in ${applicationName}" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在${applicationName}中查看今日进度"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

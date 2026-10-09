@@ -17,6 +17,7 @@ struct HabitCardView: View {
         HStack {
             Text(habit.icon)
                 .font(.system(size: 32))
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 5) {
                 HStack {
@@ -64,6 +65,11 @@ struct HabitCardView: View {
                     }
                 }
             }
+            // Read as one sentence rather than a dozen fragments — "calendar", then five
+            // separate stars.
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(accessibilityDescription)
+            .accessibilityAddTraits(.isButton)
 
             Spacer()
 
@@ -99,6 +105,7 @@ struct HabitCardView: View {
                 Image(systemName: "ellipsis")
                     .appCircularButtonStyle()
             }
+            .accessibilityLabel(Text("Actions for \(habit.name)"))
         }
         .padding()
         .background(
@@ -122,6 +129,17 @@ struct HabitCardView: View {
                 Text("This will permanently delete the habit ‘\(habit.truncatedName)’ and all its check-in history. This action cannot be undone. Are you sure you want to proceed?")
             }
         )
+    }
+}
+
+extension HabitCardView {
+    private var accessibilityDescription: Text {
+        var parts = [habit.name]
+        if habit.isFavorite { parts.append(String(localized: "Favorite")) }
+        if habit.isArchived { parts.append(String(localized: "Archived")) }
+        parts.append(habit.frequencyDescription)
+        parts.append(String(localized: "Anti-aging rating \(habit.antiAgingRating) of 5"))
+        return Text(parts.joined(separator: ", "))
     }
 }
 

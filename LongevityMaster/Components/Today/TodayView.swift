@@ -10,6 +10,8 @@ import SwiftUINavigation
 struct TodayView: View {
     @State var viewModel = TodayViewModel()
     @State private var programsViewModel = ProgramsViewModel()
+    @State private var isReordering = false
+    @State private var isPlanningTimeOff = false
 
     @Environment(\.scenePhase) private var scenePhase
     @Dependency(\.themeManager) var themeManager
@@ -76,6 +78,16 @@ struct TodayView: View {
                                 ? Text("Rest day on. Tap to turn off.")
                                 : Text("Mark today a rest day")
                         )
+                        .contextMenu {
+                            Button {
+                                isPlanningTimeOff = true
+                            } label: {
+                                Label("Plan Time Off", systemImage: "calendar.badge.clock")
+                            }
+                        }
+                        .accessibilityAction(named: Text("Plan Time Off")) {
+                            isPlanningTimeOff = true
+                        }
                     }
 
                     if viewModel.isRestDay {
@@ -129,6 +141,7 @@ struct TodayView: View {
                                                         Image(systemName: "trash")
                                                             .appCircularButtonStyle(overrideColor: .red)
                                                     }
+                                                    .accessibilityLabel(Text("Delete \(todayHabit.habit.name)"))
                                                     .offset(x: -10, y: -10)
                                                 }
                                             }
@@ -148,6 +161,7 @@ struct TodayView: View {
                                                         RoundedRectangle(cornerRadius: 20)
                                                     )
                                             }
+                                            .accessibilityLabel(Text("Add Habit"))
                                         }
                                     }
                                     .padding(.vertical, 8)
@@ -190,6 +204,17 @@ struct TodayView: View {
                             .appToolbarRectButtonStyle()
                     }
                 }
+                if viewModel.isEditing {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button {
+                            isReordering = true
+                        } label: {
+                            Image(systemName: "arrow.up.arrow.down")
+                                .appToolbarCircularButtonStyle()
+                        }
+                        .accessibilityLabel(Text("Reorder Habits"))
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         viewModel.onTapAddHabit()
@@ -197,6 +222,20 @@ struct TodayView: View {
                         Image(systemName: "plus")
                             .appToolbarCircularButtonStyle()
                     }
+                    .accessibilityLabel(Text("Add Habit"))
+                }
+            }
+            .sheet(isPresented: $isReordering) {
+                ReorderHabitsView()
+            }
+            .sheet(isPresented: $isPlanningTimeOff) {
+                NavigationStack {
+                    TimeOffView()
+                        .toolbar {
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Done") { isPlanningTimeOff = false }
+                            }
+                        }
                 }
             }
             .onAppear {

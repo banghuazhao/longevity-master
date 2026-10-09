@@ -35,6 +35,7 @@ struct LongevityMasterApp: App {
         }
         // Set before launch finishes, so a reminder that launched the app is seen too.
         UNUserNotificationCenter.current().delegate = ReminderTapObserver.shared
+        NotificationService.registerNotificationActions()
         WidgetRefresher.reload()
     }
 
@@ -142,6 +143,9 @@ struct RootView: View {
                 ProgramCompletionSheet(enrollmentID: enrollmentID)
             }
         }
+        // Text follows the reader's size setting, up to a limit the fixed-size tiles and
+        // grids still hold together at.
+        .dynamicTypeSize(...DynamicTypeSize.xxLarge)
         // `nil` for .system, which lets the device's own setting through.
         .preferredColorScheme(themeManager.appearanceMode.colorScheme)
         // Once the preference above resolves, this is the scheme actually being rendered,

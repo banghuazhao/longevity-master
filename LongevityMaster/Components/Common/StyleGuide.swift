@@ -227,14 +227,18 @@ extension DependencyValues {
 }
 
 // MARK: - Typography
+/// Text styles rather than fixed point sizes, so the app follows the reader's Larger Text
+/// setting. Each matches its old fixed size at the default setting — which is why `caption`
+/// is the 13pt footnote style and `footnote` the 12pt caption style — so nothing moves for
+/// anyone who has not changed it. `RootView` caps how far they grow.
 struct AppFont {
-    static let largeTitle = Font.system(size: 34, weight: .bold)
-    static let title = Font.system(size: 28, weight: .semibold)
-    static let headline = Font.system(size: 17, weight: .semibold)
-    static let body = Font.system(size: 17, weight: .regular)
-    static let subheadline = Font.system(size: 15, weight: .regular)
-    static let caption = Font.system(size: 13, weight: .regular)
-    static let footnote = Font.system(size: 12, weight: .regular)
+    static let largeTitle = Font.largeTitle.weight(.bold)
+    static let title = Font.title.weight(.semibold)
+    static let headline = Font.headline
+    static let body = Font.body
+    static let subheadline = Font.subheadline
+    static let caption = Font.footnote
+    static let footnote = Font.caption
 }
 
 // MARK: - Spacing & Layout

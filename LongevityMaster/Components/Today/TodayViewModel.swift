@@ -82,12 +82,13 @@ class TodayViewModel {
             .where {
                 !$0.isArchived
             }
-            .order {
-                $0.isFavorite.desc()
-            }
         , animation: .default
     )
     var habits
+
+    @ObservationIgnored
+    @FetchAll(HabitPosition.all, animation: .default)
+    var habitPositions
 
     @ObservationIgnored
     @FetchAll(CheckIn.all, animation: .default)
@@ -183,7 +184,12 @@ class TodayViewModel {
         let restDays = RestDays(skippedDays, in: calendar)
 
         return HabitSchedule
-            .habitsDue(on: selectedDate, habits: habits, checkIns: checkIns, calendar: calendar)
+            .habitsDue(
+                on: selectedDate,
+                habits: Habit.inUserOrder(habits, positions: habitPositions),
+                checkIns: checkIns,
+                calendar: calendar
+            )
             .map { scheduled in
                 let habit = scheduled.habit
                 let checkInsForHabit = checkInsByHabit[habit.id] ?? []

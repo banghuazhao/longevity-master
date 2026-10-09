@@ -221,6 +221,9 @@ struct MeView: View {
                 NavigationLink(destination: UserStatsView()) {
                     featureItem(icon: "chart.bar.fill", title: String(localized: "My Stats"))
                 }
+                NavigationLink(destination: TimeOffView()) {
+                    featureItem(icon: "moon.zzz.fill", title: String(localized: "Time Off"))
+                }
             }
         }
         .padding(.horizontal)

@@ -45,15 +45,18 @@ enum WidgetDatabase {
     /// Habits due on `date`, in the same order and by the same rules as the app's Today tab.
     static func habitsDue(on date: Date) throws -> [ScheduledHabit] {
         let database = try openDatabase()
-        let (habits, checkIns) = try database.read { db in
+        let (habits, checkIns, positions) = try database.read { db in
             (
-                try Habit.where { !$0.isArchived }.order { $0.isFavorite.desc() }.fetchAll(db),
-                try CheckIn.all.fetchAll(db)
+                try Habit.where { !$0.isArchived }.fetchAll(db),
+                try CheckIn.all.fetchAll(db),
+                // Missing until the app has launched once since the update that added it. The
+                // habits still show, in the order they had before.
+                (try? HabitPosition.all.fetchAll(db)) ?? []
             )
         }
         return HabitSchedule.habitsDue(
             on: date,
-            habits: habits,
+            habits: Habit.inUserOrder(habits, positions: positions),
             checkIns: checkIns,
             calendar: .userPreferred(startWeekOnMonday: AppGroup.startWeekOnMonday)
         )

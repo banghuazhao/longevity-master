@@ -292,6 +292,21 @@ func appDatabase() throws -> any DatabaseWriter {
         .execute(db)
     }
 
+    // The user's own order for their habits. Its own table rather than a column on `habits`;
+    // `HabitPosition` explains why.
+    migrator.registerMigration("Add habit positions") { db in
+        try #sql(
+            """
+            CREATE TABLE "habitPositions" (
+             "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+             "habitID" INTEGER NOT NULL UNIQUE REFERENCES "habits"("id") ON DELETE CASCADE,
+             "position" INTEGER NOT NULL DEFAULT 0
+            ) STRICT
+            """
+        )
+        .execute(db)
+    }
+
     try migrator.migrate(database)
 
     return database

@@ -344,6 +344,32 @@ class HabitDetailViewModel {
         route = .deleteAlert
     }
 
+    /// The switches on this page used to change only the copy of the habit held here, so a
+    /// favourite or an archive set from a habit's own page was gone the moment it was left.
+    func setFavorite(_ isFavorite: Bool) {
+        guard habit.isFavorite != isFavorite else { return }
+        habit.isFavorite = isFavorite
+        withErrorReporting {
+            try database.write { [id = habit.id] db in
+                try Habit.find(id).update { $0.isFavorite = isFavorite }.execute(db)
+            }
+        }
+        WidgetRefresher.reload()
+    }
+
+    func setArchived(_ isArchived: Bool) {
+        guard habit.isArchived != isArchived else { return }
+        habit.isArchived = isArchived
+        withErrorReporting {
+            try database.write { [id = habit.id] db in
+                try Habit.find(id).update { $0.isArchived = isArchived }.execute(db)
+            }
+        }
+        WidgetRefresher.reload()
+        // An archived habit's reminders go quiet, and come back with it.
+        Task { await notificationService.syncAllReminders() }
+    }
+
     func deleteHabit() {
         withErrorReporting {
             notificationService.removeRemindersForHabit(habit.id)
@@ -432,6 +458,7 @@ class HabitDetailViewModel {
 
 struct HabitDetailView: View {
     @State var viewModel: HabitDetailViewModel
+    @State private var isPlanningTimeOff = false
     @Dependency(\.themeManager) var themeManager
     @Environment(\.dismiss) var dismiss
 
@@ -463,9 +490,31 @@ struct HabitDetailView: View {
                 }
 
                 VStack(spacing: AppSpacing.medium) {
-                    FavoriteToggleWithInfo(isOn: $viewModel.habit.isFavorite)
+                    FavoriteToggleWithInfo(isOn: Binding(
+                        get: { viewModel.habit.isFavorite },
+                        set: { viewModel.setFavorite($0) }
+                    ))
                     Divider()
-                    ArchivedToggleWithInfo(isOn: $viewModel.habit.isArchived)
+                    ArchivedToggleWithInfo(isOn: Binding(
+                        get: { viewModel.habit.isArchived },
+                        set: { viewModel.setArchived($0) }
+                    ))
+                    Divider()
+                    Button {
+                        isPlanningTimeOff = true
+                    } label: {
+                        HStack {
+                            Label("Plan Time Off", systemImage: "moon.zzz")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.footnote)
+                                .foregroundStyle(themeManager.current.secondaryGray)
+                                .accessibilityHidden(true)
+                        }
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(viewModel.habit.isArchived)
                 }
                 .appCardStyle(theme: themeManager.current)
 
@@ -528,6 +577,7 @@ struct HabitDetailView: View {
                     Image(systemName: "square.and.arrow.up")
                         .appToolbarCircularButtonStyle()
                 }
+                .accessibilityLabel(Text("Share"))
 
                 Button {
                     viewModel.onTapDeleteHabit()
@@ -535,6 +585,7 @@ struct HabitDetailView: View {
                     Image(systemName: "trash")
                         .appToolbarCircularButtonStyle(overrideColor: .red)
                 }
+                .accessibilityLabel(Text("Delete Habit"))
 
                 Button {
                     viewModel.onTapEditHabit()
@@ -542,12 +593,23 @@ struct HabitDetailView: View {
                     Image(systemName: "pencil")
                         .appToolbarCircularButtonStyle()
                 }
+                .accessibilityLabel(Text("Edit Habit"))
             }
         }
         .sheet(item: $viewModel.route.editHabit, id: \.self) { habitFormViewModel in
             HabitFormView(
                 viewModel: habitFormViewModel
             )
+        }
+        .sheet(isPresented: $isPlanningTimeOff) {
+            NavigationStack {
+                TimeOffView(habit: viewModel.habit)
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Done") { isPlanningTimeOff = false }
+                        }
+                    }
+            }
         }
         .sheet(item: $viewModel.route.showAchievement) { achievement in
             AchievementPopupView(
@@ -620,6 +682,21 @@ struct HabitDetailView: View {
                     .onLongPressGesture {
                         viewModel.toggleRestDay(for: cell.date)
                     }
+                    // VoiceOver read each day as a bare number, gave no hint of whether it was
+                    // done, and had no way to make the long press for a rest day.
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel(cell.date.map { Text($0, format: .dateTime.weekday(.wide).month(.wide).day()) } ?? Text(""))
+                    .accessibilityValue(
+                        cell.isChecked ? Text("Done") : cell.isRestDay ? Text("Rest day") : Text("Not done")
+                    )
+                    .accessibilityAddTraits(.isButton)
+                    .accessibilityAction {
+                        viewModel.toggleCheckIn(for: cell.date)
+                    }
+                    .accessibilityAction(named: cell.isRestDay ? Text("Remove Rest Day") : Text("Mark Rest Day")) {
+                        viewModel.toggleRestDay(for: cell.date)
+                    }
+                    .accessibilityHidden(cell.date == nil || !cell.isCurrentMonth)
                 }
                 .opacity(viewModel.habit.isArchived ? 0.6 : 1.0)
                 .disabled(viewModel.habit.isArchived)

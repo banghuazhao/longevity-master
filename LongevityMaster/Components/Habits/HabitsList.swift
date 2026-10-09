@@ -14,6 +14,9 @@ import Sharing
 class HabitsListViewModel {
     @ObservationIgnored
     @FetchAll(animation: .default) var habits: [Habit]
+
+    @ObservationIgnored
+    @FetchAll(HabitPosition.all, animation: .default) var habitPositions
     
     @ObservationIgnored
     @Dependency(\.defaultDatabase) var database
@@ -86,7 +89,7 @@ class HabitsListViewModel {
         // Apply sorting
         switch selectedSortOption {
         case .default:
-            break
+            filtered = Habit.inUserOrder(filtered, positions: habitPositions)
         case .name:
             filtered.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
         case .antiAgingRating:
@@ -149,6 +152,9 @@ class HabitsListViewModel {
                     .update(updatedHabit)
                     .execute(db)
             }
+            // An archived habit's reminders go quiet, and come back with it.
+            WidgetRefresher.reload()
+            Task { await notificationService.syncAllReminders() }
         }
     }
     
@@ -192,6 +198,7 @@ class HabitsListViewModel {
 
 struct HabitsListView: View {
     @State var viewModel = HabitsListViewModel()
+    @State private var isReordering = false
 
     var body: some View {
         // Read once. Every access filters and sorts the whole list, and the body asks twice.
@@ -287,6 +294,13 @@ struct HabitsListView: View {
                             }
                         }
                         
+                        Divider()
+                        Button {
+                            isReordering = true
+                        } label: {
+                            Label("Reorder Habits", systemImage: "arrow.up.arrow.down")
+                        }
+
                         // Reset Option
                         if viewModel.selectedFilterOption != .all || viewModel.selectedSortOption != .default {
                             Divider()
@@ -299,6 +313,7 @@ struct HabitsListView: View {
                         Image(systemName: viewModel.selectedFilterOption != .all || viewModel.selectedSortOption != .default ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
                             .appToolbarCircularButtonStyle()
                     }
+                    .accessibilityLabel(Text("Sort and Filter"))
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -308,6 +323,7 @@ struct HabitsListView: View {
                         Image(systemName: "plus")
                             .appToolbarCircularButtonStyle()
                     }
+                    .accessibilityLabel(Text("Add Habit"))
                 }
             }
             .sheet(item: $viewModel.route.createHabit, id: \.self) { habitFormViewModel in
@@ -320,6 +336,9 @@ struct HabitsListView: View {
             }
             .navigationDestination(item: $viewModel.route.habitDetail) { habitDetailViewModel in
                 HabitDetailView(viewModel: habitDetailViewModel)
+            }
+            .sheet(isPresented: $isReordering) {
+                ReorderHabitsView()
             }
         }
     }

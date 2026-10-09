@@ -51,10 +51,20 @@ class NotificationService {
         // Remove existing notifications first
         removeReminder(reminder)
 
+        // An archived habit is off the Today list, so its reminder has nothing to ask for.
+        // Unarchiving it and the next sync bring the reminder back.
+        if let habitID = reminder.habitID, habit(withID: habitID)?.isArchived == true {
+            return
+        }
+
         let content = UNMutableNotificationContent()
         content.title = reminder.displayTitle
         content.body = reminder.displayBody
         content.sound = .default
+        if let habitID = reminder.habitID {
+            content.categoryIdentifier = Self.habitReminderCategory
+            content.userInfo = [Self.habitIDKey: habitID]
+        }
 
         let calendar = Calendar.current
         let schedule = Self.requests(
@@ -105,6 +115,59 @@ class NotificationService {
         }
         await syncWeeklyReview()
         await syncProgramCompletions()
+    }
+
+    // MARK: - Mark as done
+
+    static let habitReminderCategory = "HABIT_REMINDER"
+    static let markDoneAction = "MARK_DONE"
+    static let habitIDKey = "habitID"
+
+    /// The "Mark as Done" button on a habit's reminder. Registered at every launch: the
+    /// category is looked up when a notification is shown, not when it was scheduled, and its
+    /// title has to follow the app's language.
+    static func registerNotificationActions() {
+        let markDone = UNNotificationAction(
+            identifier: markDoneAction,
+            title: String(localized: "Mark as Done"),
+            options: [],
+            icon: UNNotificationActionIcon(systemImageName: "checkmark.circle")
+        )
+        let category = UNNotificationCategory(
+            identifier: habitReminderCategory,
+            actions: [markDone],
+            intentIdentifiers: [],
+            options: []
+        )
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+    }
+
+    /// Which habit a "Mark as Done" press checks in, and for which moment. The reminder is
+    /// about the day it arrived on, so one answered after midnight still files yesterday's
+    /// check-in; answered the same day, it carries the time it was pressed, as a tap on Today
+    /// does, for the early-bird and night-owl achievements.
+    static func markDoneCheckIn(
+        userInfo: [AnyHashable: Any],
+        deliveredAt delivered: Date,
+        now: Date,
+        calendar: Calendar
+    ) -> (habitID: Habit.ID, date: Date)? {
+        guard let habitID = userInfo[habitIDKey] as? Int else { return nil }
+        let date = calendar.isDate(delivered, inSameDayAs: now) ? now : delivered
+        return (habitID, date)
+    }
+
+    /// Checks the habit in without opening the app. Only ever checks in: pressing the button on
+    /// a habit already done that day changes nothing. An archived or deleted habit is left
+    /// alone, in case the notification outlived it.
+    func markDone(habitID: Habit.ID, on date: Date) async {
+        withErrorReporting {
+            guard let habit = try WidgetDatabase.habits(ids: [habitID]).first, !habit.isArchived else { return }
+            try WidgetDatabase.setCheckIn(habitID: habit.id, on: date, done: true)
+        }
+        // Wait for the reminders to settle before the system suspends the app again; the
+        // sync `setCheckIn` starts is not awaited.
+        await syncAllReminders()
     }
 
     // MARK: - Weekly review
@@ -496,6 +559,26 @@ final class ReminderTapObserver: NSObject, UNUserNotificationCenterDelegate {
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
+        // "Mark as Done" runs in the background and never brings the app forward, so it has no
+        // ad to hold back and nothing to present.
+        if response.actionIdentifier == NotificationService.markDoneAction {
+            let checkIn = NotificationService.markDoneCheckIn(
+                userInfo: response.notification.request.content.userInfo,
+                deliveredAt: response.notification.date,
+                now: Date(),
+                calendar: .userPreferred(startWeekOnMonday: AppGroup.startWeekOnMonday)
+            )
+            guard let checkIn else {
+                completionHandler()
+                return
+            }
+            Task {
+                await NotificationService.shared.markDone(habitID: checkIn.habitID, on: checkIn.date)
+                completionHandler()
+            }
+            return
+        }
+
         AppOpenAdPolicy.skipNextReturn()
         let destination = AppRouter.destination(
             userInfo: response.notification.request.content.userInfo,

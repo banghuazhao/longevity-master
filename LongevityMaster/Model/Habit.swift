@@ -261,5 +261,41 @@ extension Habit.Draft {
 }
 
 extension Habit.Draft: Hashable {
-    
+
+}
+
+/// Where the user put a habit in their own order. Kept out of `habits` itself: the widget,
+/// Control Center and Siri read the database without migrating it, and a new column on
+/// `habits` would break every one of their reads between an update and the app's next launch.
+/// A missing table is something they can simply do without.
+@Table
+struct HabitPosition: Identifiable {
+    let id: Int
+    var habitID: Habit.ID
+    var position: Int
+}
+
+extension Habit {
+    /// The order every list of habits is shown in. Habits the user has placed come first, in
+    /// their order; the rest follow favourites first and then oldest first — the order the app
+    /// has always used, so nothing moves for anyone who never rearranges.
+    static func inUserOrder(_ habits: [Habit], positions: [HabitPosition]) -> [Habit] {
+        let positionByHabit = Dictionary(
+            positions.map { ($0.habitID, $0.position) },
+            uniquingKeysWith: { first, _ in first }
+        )
+        return habits.sorted { lhs, rhs in
+            switch (positionByHabit[lhs.id], positionByHabit[rhs.id]) {
+            case let (left?, right?):
+                return left != right ? left < right : lhs.id < rhs.id
+            case (.some, .none):
+                return true
+            case (.none, .some):
+                return false
+            case (.none, .none):
+                if lhs.isFavorite != rhs.isFavorite { return lhs.isFavorite }
+                return lhs.id < rhs.id
+            }
+        }
+    }
 }

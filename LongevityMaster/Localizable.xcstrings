@@ -436,6 +436,16 @@
         }
       }
     },
+    "1 day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 天"
+          }
+        }
+      }
+    },
     "1 day each month" : {
       "localizations" : {
         "zh-Hans" : {
@@ -966,6 +976,16 @@
         }
       }
     },
+    "Actions for %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 的操作"
+          }
+        }
+      }
+    },
     "Active" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1212,6 +1232,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今天的 %lld 个习惯全部完成，太棒了！"
+          }
+        }
+      }
+    },
+    "All Habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有习惯"
           }
         }
       }
@@ -2677,6 +2707,16 @@
         }
       }
     },
+    "Days off never break a streak. Days you already checked in stay checked in." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "休息日不会中断连续记录，已打卡的日子仍保持已打卡。"
+          }
+        }
+      }
+    },
     "Days per month" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2743,6 +2783,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "删除"
+          }
+        }
+      }
+    },
+    "Delete %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除 %@"
+          }
+        }
+      }
+    },
+    "Delete Habit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除习惯"
           }
         }
       }
@@ -3287,6 +3347,16 @@
         }
       }
     },
+    "Favorites come first, then the rest in the order you added them." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收藏的习惯排在最前，其余按添加顺序排列。"
+          }
+        }
+      }
+    },
     "Feedback" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3487,6 +3557,16 @@
         }
       }
     },
+    "From" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始"
+          }
+        }
+      }
+    },
     "Gallery" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3563,6 +3643,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "臀桥"
+          }
+        }
+      }
+    },
+    "Go back to the default order?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复默认顺序？"
           }
         }
       }
@@ -4414,6 +4504,26 @@
         }
       }
     },
+    "Mark Rest Day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标记为休息日"
+          }
+        }
+      }
+    },
+    "Mark as Done" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标记为已完成"
+          }
+        }
+      }
+    },
     "Mark one of your habits as done for today." : {
       "localizations" : {
         "zh-Hans" : {
@@ -4675,12 +4785,32 @@
         }
       }
     },
+    "Move Down" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下移"
+          }
+        }
+      }
+    },
     "Move More, Sit Less" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "多动少坐"
+          }
+        }
+      }
+    },
+    "Move Up" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上移"
           }
         }
       }
@@ -4921,6 +5051,16 @@
         }
       }
     },
+    "No habits to arrange yet." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没有可排序的习惯。"
+          }
+        }
+      }
+    },
     "No habits yet" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4997,6 +5137,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今天没有安排习惯。"
+          }
+        }
+      }
+    },
+    "Nothing planned." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无安排。"
           }
         }
       }
@@ -5211,6 +5361,16 @@
         }
       }
     },
+    "Plan Time Off" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安排休假"
+          }
+        }
+      }
+    },
     "Plank" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5237,6 +5397,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "请在下方描述您的问题"
+          }
+        }
+      }
+    },
+    "Position %lld of %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Position %1$lld of %2$lld"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第 %1$lld 位，共 %2$lld 位"
           }
         }
       }
@@ -5571,6 +5747,26 @@
         }
       }
     },
+    "Remove" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除"
+          }
+        }
+      }
+    },
+    "Remove Rest Day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消休息日"
+          }
+        }
+      }
+    },
     "Remove from Favorites" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5587,6 +5783,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重新打开以完成"
+          }
+        }
+      }
+    },
+    "Reorder Habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "调整习惯顺序"
           }
         }
       }
@@ -5627,6 +5833,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重置"
+          }
+        }
+      }
+    },
+    "Reset Order" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复默认顺序"
           }
         }
       }
@@ -6121,6 +6337,16 @@
         }
       }
     },
+    "Sort and Filter" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "排序与筛选"
+          }
+        }
+      }
+    },
     "Spend 10 minutes outside within an hour of waking. Morning light sets your body clock and improves sleep at night." : {
       "localizations" : {
         "zh-Hans" : {
@@ -6561,6 +6787,26 @@
         }
       }
     },
+    "Take %lld Days Off" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "休息 %lld 天"
+          }
+        }
+      }
+    },
+    "Take 1 Day Off" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "休息 1 天"
+          }
+        }
+      }
+    },
     "Take a short nap" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6861,6 +7107,16 @@
         }
       }
     },
+    "Time Off" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "休假"
+          }
+        }
+      }
+    },
     "Time to check in" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6931,6 +7187,16 @@
         }
       }
     },
+    "To" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "结束"
+          }
+        }
+      }
+    },
     "To receive timely reminders, please set notification method on your phone to \"Immediate Push.\"" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6977,6 +7243,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今日进度"
+          }
+        }
+      }
+    },
+    "Today, the Habits tab and the widgets follow this order. On Today, habits stay grouped by category. New habits are added at the end." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天页面、习惯标签页和小组件都按此顺序显示。在今天页面中，习惯仍按类别分组。新习惯会添加到末尾。"
           }
         }
       }
@@ -7167,6 +7443,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "接下来"
+          }
+        }
+      }
+    },
+    "Upcoming Time Off" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即将到来的休假"
           }
         }
       }

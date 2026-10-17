@@ -119,6 +119,18 @@ class HabitDetailViewModel {
         )
     }
 
+    /// The figures under the habit's tile: its streaks, its check-ins, and how the last month
+    /// went.
+    var stats: HabitStats {
+        HabitStats.make(
+            habit: habit,
+            checkIns: checkIns,
+            restDays: RestDays(allSkippedDays, in: userCalendar),
+            now: Date(),
+            calendar: userCalendar
+        )
+    }
+
     var reminders: [Reminder.Draft] {
         allReminders.filter { $0.habitID == habit.id }.map(Reminder.Draft.init)
     }
@@ -474,6 +486,8 @@ struct HabitDetailView: View {
                 if !viewModel.habit.note.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     NoteSection(note: viewModel.habit.note)
                 }
+
+                HabitStatsCard(stats: viewModel.stats)
 
                 // Segmented control for calendar mode
                 Picker("Mode", selection: $viewModel.calendarMode) {
@@ -909,6 +923,56 @@ private struct ArchivedToggleWithInfo: View {
                 .onTapGesture { showInfo = false }
             }
         }
+    }
+}
+
+/// Four figures in a row, each with what it measures underneath.
+private struct HabitStatsCard: View {
+    let stats: HabitStats
+    @Dependency(\.themeManager) private var themeManager
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.smallMedium) {
+            HStack(alignment: .top, spacing: AppSpacing.small) {
+                tile(value: "\(stats.currentStreak)", label: "day streak")
+                tile(value: "\(stats.bestStreak)", label: "best streak")
+                tile(value: "\(stats.totalCheckIns)", label: "check-ins")
+                tile(
+                    value: stats.recentAdherencePercent.map { "\(min($0, 100))%" } ?? "–",
+                    label: "on track (30 days)"
+                )
+            }
+            // One label wrapping onto a second line should make every tile taller, not that
+            // one alone.
+            .fixedSize(horizontal: false, vertical: true)
+            if let first = stats.firstCheckIn {
+                Text("Tracking since \(first.formatted(date: .abbreviated, time: .omitted))")
+                    .font(AppFont.footnote)
+                    .foregroundStyle(themeManager.current.textSecondary)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .appCardStyle(theme: themeManager.current)
+    }
+
+    private func tile(value: String, label: LocalizedStringKey) -> some View {
+        VStack(spacing: 2) {
+            Text(verbatim: value)
+                .font(.system(size: 20, weight: .bold, design: .rounded))
+                .foregroundStyle(themeManager.current.primaryColor)
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
+            Text(label)
+                .font(AppFont.footnote)
+                .foregroundStyle(themeManager.current.textSecondary)
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .minimumScaleFactor(0.7)
+        }
+        .padding(.vertical, AppSpacing.small)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .background(themeManager.current.background, in: RoundedRectangle(cornerRadius: AppCornerRadius.button))
+        .accessibilityElement(children: .combine)
     }
 }
 

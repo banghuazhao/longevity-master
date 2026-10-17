@@ -105,6 +105,23 @@ struct SettingView: View {
                         Spacer()
                     }
                 }
+                settingsSection(title: "Your Data") {
+                    NavigationLink {
+                        ExportDataView()
+                    } label: {
+                        HStack {
+                            Text("Export Data")
+                                .font(AppFont.body)
+                                .foregroundColor(themeManager.current.textPrimary)
+                            Spacer()
+                            Image(systemName: "square.and.arrow.up")
+                                .foregroundColor(themeManager.current.primaryColor)
+                        }
+                        .padding(.vertical, AppSpacing.small)
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                }
                 settingsSection(title: "Privacy") {
                     // Whole-row buttons: the consent row comes and goes depending on region, and
                     // an identified collection keeps each row pinned to its own action as the

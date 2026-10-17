@@ -229,7 +229,21 @@ struct UserStatsView: View {
                 // Header Section
                 headerSection
 
-                weeklyReviewLink
+                reviewLink(
+                    "Weekly Review",
+                    subtitle: "How your week went, habit by habit",
+                    systemImage: "calendar.badge.checkmark"
+                ) {
+                    WeeklyReviewView()
+                }
+
+                reviewLink(
+                    "Year in Review",
+                    subtitle: "Your year in habits, month by month",
+                    systemImage: "sparkles"
+                ) {
+                    YearReviewView()
+                }
                 
                 // Longevity Rating Section
                 longevityRatingSection
@@ -279,22 +293,27 @@ struct UserStatsView: View {
         .appCardStyle()
     }
     
-    private var weeklyReviewLink: some View {
+    private func reviewLink<Destination: View>(
+        _ title: LocalizedStringKey,
+        subtitle: LocalizedStringKey,
+        systemImage: String,
+        @ViewBuilder destination: @escaping () -> Destination
+    ) -> some View {
         let theme = viewModel.themeManager.current
         return NavigationLink {
-            WeeklyReviewView()
+            destination()
         } label: {
             HStack(spacing: AppSpacing.medium) {
-                Image(systemName: "calendar.badge.checkmark")
+                Image(systemName: systemImage)
                     .font(.title2)
                     .foregroundStyle(theme.primaryColor)
                     .frame(width: 44, height: 44)
                     .background(theme.primaryColor.opacity(0.12), in: RoundedRectangle(cornerRadius: 12))
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Weekly Review")
+                    Text(title)
                         .font(AppFont.headline)
                         .foregroundStyle(theme.textPrimary)
-                    Text("How your week went, habit by habit")
+                    Text(subtitle)
                         .font(AppFont.footnote)
                         .foregroundStyle(theme.textSecondary)
                 }

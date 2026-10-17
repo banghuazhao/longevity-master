@@ -154,6 +154,33 @@ extension ShareCardContent {
     }
 }
 
+extension ShareCardContent {
+    static func yearReview(_ review: YearReview) -> ShareCardContent {
+        let badge = switch review.activeDayShare ?? 0 {
+        case 0.8...: "🏆"
+        case 0.5..<0.8: "💪"
+        default: "🌱"
+        }
+        // The year as text: an interpolated number is formatted for the locale, as "2,026".
+        let year = String(review.year)
+        return ShareCardContent(
+            eyebrow: String(localized: "My \(year) in habits"),
+            badge: .emoji(badge),
+            headline: review.checkInCount == 1
+                ? String(localized: "1 check-in")
+                : String(localized: "\(review.checkInCount) check-ins"),
+            detail: review.verdict,
+            stats: [
+                Stat(value: "\(review.activeDayCount)", label: String(localized: "active days")),
+                Stat(value: "\(review.longestStreak)", label: String(localized: "best streak")),
+                Stat(value: "\(review.habits.count)", label: String(localized: "habits")),
+            ],
+            date: min(Date(), review.yearEnd),
+            message: String(localized: "My \(year) in habits: \(review.checkInCount) check-ins on \(review.activeDayCount) days with Longevity Master 💪") + "\n" + appStoreURL
+        )
+    }
+}
+
 // MARK: - Card
 
 /// The shareable image: a portrait card sized for stories and chats, in the user's theme

@@ -436,6 +436,16 @@
         }
       }
     },
+    "1 check-in" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 次打卡"
+          }
+        }
+      }
+    },
     "1 day" : {
       "localizations" : {
         "zh-Hans" : {
@@ -932,6 +942,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "基础不错。下周守住一个习惯，再从那里继续。"
+          }
+        }
+      }
+    },
+    "A solid foundation. Small steps add up." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打下了扎实的基础，积少成多。"
+          }
+        }
+      }
+    },
+    "A strong year. You showed up more days than not." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "很棒的一年，大多数日子你都坚持了下来。"
           }
         }
       }
@@ -1526,6 +1556,32 @@
         }
       }
     },
+    "Best month: %@, with %lld check-ins" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Best month: %1$@, with %2$lld check-ins"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最佳月份：%1$@，共 %2$lld 次打卡"
+          }
+        }
+      }
+    },
+    "Best month: %@, with 1 check-in" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最佳月份：%@，共 1 次打卡"
+          }
+        }
+      }
+    },
     "Blue" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1652,6 +1708,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正在养成习惯"
+          }
+        }
+      }
+    },
+    "Busiest day of the week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打卡最多的星期"
           }
         }
       }
@@ -1907,6 +1973,16 @@
         }
       }
     },
+    "Check in on a habit and your year will start to take shape here." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成一次习惯打卡，你的年度回顾就会在这里逐渐成形。"
+          }
+        }
+      }
+    },
     "Check off today's habits without opening the app." : {
       "localizations" : {
         "zh-Hans" : {
@@ -1943,6 +2019,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打卡"
+          }
+        }
+      }
+    },
+    "Check-ins (CSV)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打卡记录（CSV）"
           }
         }
       }
@@ -2625,6 +2711,16 @@
         }
       }
     },
+    "Date" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日期"
+          }
+        }
+      }
+    },
     "Day" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2737,6 +2833,16 @@
         }
       }
     },
+    "Days with a check-in" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有打卡的天数占比"
+          }
+        }
+      }
+    },
     "Dead hang" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2843,6 +2949,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "描述"
+          }
+        }
+      }
+    },
+    "Diet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "饮食"
           }
         }
       }
@@ -3257,6 +3373,16 @@
         }
       }
     },
+    "Every check-in counts. Keep showing up." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每一次打卡都算数，继续坚持。"
+          }
+        }
+      }
+    },
     "Every day is a new beginning. Take a deep breath and start again." : {
       "localizations" : {
         "zh-Hans" : {
@@ -3277,12 +3403,32 @@
         }
       }
     },
+    "Every habit, check-in, rest day, reminder and program, in one file." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有习惯、打卡、休息日、提醒和计划，都在一个文件里。"
+          }
+        }
+      }
+    },
     "Every week is a fresh start. Pick one small habit and begin there." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "每周都是新的开始。挑一个小习惯，从它开始。"
+          }
+        }
+      }
+    },
+    "Exercise" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "锻炼"
           }
         }
       }
@@ -3303,6 +3449,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "专家"
+          }
+        }
+      }
+    },
+    "Export Data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出数据"
           }
         }
       }
@@ -3563,6 +3719,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "开始"
+          }
+        }
+      }
+    },
+    "Full Backup (JSON)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完整备份（JSON）"
           }
         }
       }
@@ -3828,6 +3994,22 @@
         }
       }
     },
+    "Habits: %lld  ·  Check-ins: %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Habits: %1$lld  ·  Check-ins: %2$lld"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "习惯：%1$lld  ·  打卡：%2$lld"
+          }
+        }
+      }
+    },
     "Hang from a bar for 30–60 seconds. Builds grip strength and decompresses the shoulders and spine." : {
       "localizations" : {
         "zh-Hans" : {
@@ -3904,6 +4086,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "β-胡萝卜素、维生素 E 等高剂量抗氧化补充剂并未降低死亡率，甚至可能升高。请从食物中获取抗氧化物。"
+          }
+        }
+      }
+    },
+    "Highlights" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "亮点"
           }
         }
       }
@@ -4354,6 +4546,16 @@
         }
       }
     },
+    "Longevity Master keeps your habits on this device. Export a copy to keep somewhere safe, or to look at in a spreadsheet." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抗衰习惯家将你的习惯保存在这台设备上。导出一份副本妥善保管，或在电子表格中查看。"
+          }
+        }
+      }
+    },
     "Longevity Rating" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4624,6 +4826,16 @@
         }
       }
     },
+    "Mental Health" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "心理健康"
+          }
+        }
+      }
+    },
     "Mental Health Guru" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4694,12 +4906,32 @@
         }
       }
     },
+    "Month" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "月份"
+          }
+        }
+      }
+    },
     "Month Master" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "月度大师"
+          }
+        }
+      }
+    },
+    "Month by month" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逐月概况"
           }
         }
       }
@@ -4811,6 +5043,32 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "上移"
+          }
+        }
+      }
+    },
+    "My %@ in habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的 %@ 年习惯回顾"
+          }
+        }
+      }
+    },
+    "My %@ in habits: %lld check-ins on %lld days with Longevity Master 💪" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "My %1$@ in habits: %2$lld check-ins on %3$lld days with Longevity Master 💪"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的 %1$@ 年习惯回顾：在抗衰习惯家打卡 %2$lld 次，活跃 %3$lld 天 💪"
           }
         }
       }
@@ -4961,6 +5219,16 @@
         }
       }
     },
+    "New habits started" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新开始的习惯"
+          }
+        }
+      }
+    },
     "Next >" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4977,6 +5245,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "下一周"
+          }
+        }
+      }
+    },
+    "Next year" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一年"
           }
         }
       }
@@ -5017,6 +5295,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今天没有习惯"
+          }
+        }
+      }
+    },
+    "No check-ins in %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 年没有打卡记录"
           }
         }
       }
@@ -5241,6 +5529,16 @@
         }
       }
     },
+    "One row per check-in, to open in Numbers, Excel or Google Sheets." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每次打卡一行，可用 Numbers、Excel 或 Google 表格打开。"
+          }
+        }
+      }
+    },
     "Open Longevity Master" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5287,6 +5585,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "出色的一周！持久的改变就是这样发生的。"
+          }
+        }
+      }
+    },
+    "Outstanding. Healthy habits are part of who you are now." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非常出色！健康习惯已经成为你的一部分。"
           }
         }
       }
@@ -5467,6 +5775,16 @@
         }
       }
     },
+    "Preventive Health" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预防保健"
+          }
+        }
+      }
+    },
     "Preview" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5483,6 +5801,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "上一周"
+          }
+        }
+      }
+    },
+    "Previous year" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上一年"
           }
         }
       }
@@ -5917,6 +6245,16 @@
         }
       }
     },
+    "Rest days taken" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "休息天数"
+          }
+        }
+      }
+    },
     "Restore Purchases" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6207,6 +6545,16 @@
         }
       }
     },
+    "Share My Year" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享我的一年"
+          }
+        }
+      }
+    },
     "Share Progress" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6263,6 +6611,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不喝含糖饮料"
+          }
+        }
+      }
+    },
+    "Sleep" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睡眠"
           }
         }
       }
@@ -6957,6 +7315,16 @@
         }
       }
     },
+    "The export could not be prepared. Please try again." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出文件准备失败，请重试。"
+          }
+        }
+      }
+    },
     "The first wealth is health." : {
       "localizations" : {
         "zh-Hans" : {
@@ -7073,6 +7441,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "这将永久删除习惯 '%@' 及其所有签到历史。此操作无法撤销。您确定要继续吗？"
+          }
+        }
+      }
+    },
+    "This year so far" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今年至今"
           }
         }
       }
@@ -7257,6 +7635,26 @@
         }
       }
     },
+    "Top category" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最常打卡的类别"
+          }
+        }
+      }
+    },
+    "Top habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最常打卡的习惯"
+          }
+        }
+      }
+    },
     "Total Check-ins" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7313,6 +7711,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "跟踪您的进度以保持动力"
+          }
+        }
+      }
+    },
+    "Tracking since %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自 %@ 开始记录"
+          }
+        }
+      }
+    },
+    "Try Again" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重试"
           }
         }
       }
@@ -7797,6 +8215,26 @@
         }
       }
     },
+    "Year in Review" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年度回顾"
+          }
+        }
+      }
+    },
+    "Year in review" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年度回顾"
+          }
+        }
+      }
+    },
     "Yearly" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -7954,6 +8392,16 @@
         }
       }
     },
+    "Your Data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的数据"
+          }
+        }
+      }
+    },
     "Your Name" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7970,6 +8418,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您的统计"
+          }
+        }
+      }
+    },
+    "Your data, your copy" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的数据，由你保管"
           }
         }
       }
@@ -8044,6 +8502,16 @@
         }
       }
     },
+    "Your year in habits, month by month" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逐月回顾你这一年的习惯"
+          }
+        }
+      }
+    },
     "Zone 2 cardio" : {
       "localizations" : {
         "zh-Hans" : {
@@ -8090,6 +8558,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最长连续"
+          }
+        }
+      }
+    },
+    "check-in" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次打卡"
           }
         }
       }
@@ -8150,6 +8628,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "天最大"
+          }
+        }
+      }
+    },
+    "habits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "习惯"
           }
         }
       }
@@ -8220,6 +8708,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "完成度"
+          }
+        }
+      }
+    },
+    "on track (30 days)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "近 30 天完成度"
           }
         }
       }

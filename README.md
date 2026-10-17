@@ -63,13 +63,14 @@ Build powerful daily habits to extend your lifespan. Longevity Master helps you 
 - **GRDB Database**: Robust local data storage with SQLite
 - **Calendar Integration**: Monthly and yearly habit tracking views
 - **Streak Calculation**: Automatic streak tracking with flexible settings
-- **Data Export**: Built-in data export capabilities
+- **Data Export**: Check-ins as a CSV for spreadsheets, and a full JSON backup of habits, check-ins, rest days, reminders and programs
 
 ### 📊 Analytics & Insights
-- **Habit Statistics**: Detailed analytics for each habit
+- **Habit Statistics**: Current and best streak, total check-ins and 30-day on-track rate on each habit's page
 - **Progress Visualization**: Calendar views showing completion patterns
 - **Category Analysis**: Performance breakdown by habit category
 - **Achievement Progress**: Visual progress tracking for all achievements
+- **Weekly Review and Year in Review**: A look back at each week and each year, with a card to share
 
 ### 🔧 Advanced Features
 - **Habit Archiving**: Archive habits without losing data

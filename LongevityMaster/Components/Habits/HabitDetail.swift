@@ -234,6 +234,14 @@ class HabitDetailViewModel {
         return days
     }
 
+    /// A day can be checked in once it has begun. The Today tab's date picker already stops at
+    /// today; this calendar let a tap on next week count as done, which then fed the best
+    /// streak and the achievements. Days off ahead are still fine — planning time off is what
+    /// they are for.
+    static func canCheckIn(on day: Date, now: Date, calendar: Calendar) -> Bool {
+        calendar.startOfDay(for: day) <= calendar.startOfDay(for: now)
+    }
+
     func isCurrentMonth(day: Date?) -> Bool {
         guard let day = day else { return false }
         return userCalendar.isDate(day, equalTo: selectedMonth, toGranularity: .month)
@@ -252,7 +260,7 @@ class HabitDetailViewModel {
     }
 
     func toggleCheckIn(for day: Date?) {
-        guard let day, isCurrentMonth(day: day) else { return }
+        guard let day, isCurrentMonth(day: day), Self.canCheckIn(on: day, now: Date(), calendar: userCalendar) else { return }
         let startOfDay = day.startOfDay(for: userCalendar)
         let endOfDay = day.endOfDay(for: userCalendar)
         if let checkIn = checkIns.first(

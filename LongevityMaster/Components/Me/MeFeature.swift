@@ -277,12 +277,15 @@ struct MeView: View {
 struct SupportEmail {
     let toAddress = "appsbayarea@gmail.com"
     let subject: String = String(localized: "\("LongevityMaster") - \("Feedback")")
+    /// Anything else support should see, such as the error behind a screen the user is
+    /// writing in about. Left out of the email when empty.
+    var details: String = ""
     var body: String { """
       Application Name: \(Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "Unknown")
       iOS Version: \(UIDevice.current.systemVersion)
       Device Model: \(UIDevice.current.model)
       App Version: \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "no app version")
-      App Build: \(Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "no app build version")
+      App Build: \(Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "no app build version")\(details.isEmpty ? "" : "\n  \(details)")
 
       \(String(localized: "Please describe your issue below"))
       ------------------------------------

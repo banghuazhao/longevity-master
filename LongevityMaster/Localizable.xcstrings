@@ -1496,6 +1496,36 @@
         }
       }
     },
+    "Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份"
+          }
+        }
+      }
+    },
+    "Backup from %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 的备份"
+          }
+        }
+      }
+    },
+    "Backup restored" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份已恢复"
+          }
+        }
+      }
+    },
     "Balance and strength for healthy aging" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1608,6 +1638,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每小时站立或走动 2–3 分钟，打断久坐。久坐与更高的死亡率相关。"
+          }
+        }
+      }
+    },
+    "Bring back a backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复备份"
           }
         }
       }
@@ -2099,6 +2139,16 @@
         }
       }
     },
+    "Choose Backup File" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择备份文件"
+          }
+        }
+      }
+    },
     "Choose Habit" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2145,6 +2195,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择您的习惯"
+          }
+        }
+      }
+    },
+    "Choose a Different File" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择其他文件"
+          }
+        }
+      }
+    },
+    "Choose a Full Backup (JSON) made with Export Data. Restoring replaces everything in the app with what the backup holds." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择用“导出数据”生成的完整备份（JSON）。恢复后，App 中的所有内容都会被替换为备份中的内容。"
           }
         }
       }
@@ -2556,6 +2626,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "联系支持"
+          }
+        }
+      }
+    },
+    "Contact Us" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "联系我们"
           }
         }
       }
@@ -3463,6 +3543,16 @@
         }
       }
     },
+    "Export your current data first" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先导出当前数据"
+          }
+        }
+      }
+    },
     "Falls are a leading cause of injury as we get older, and many are preventable. This plan trains balance and leg strength — the two things that keep you on your feet." : {
       "localizations" : {
         "zh-Hans" : {
@@ -4010,6 +4100,22 @@
         }
       }
     },
+    "Habits: %lld  ·  Check-ins: %lld  ·  Reminders: %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Habits: %1$lld  ·  Check-ins: %2$lld  ·  Reminders: %3$lld"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "习惯：%1$lld  ·  打卡：%2$lld  ·  提醒：%3$lld"
+          }
+        }
+      }
+    },
     "Hang from a bar for 30–60 seconds. Builds grip strength and decompresses the shoulders and spine." : {
       "localizations" : {
         "zh-Hans" : {
@@ -4312,6 +4418,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它可能已被退出或删除。"
+          }
+        }
+      }
+    },
+    "It still couldn't be opened. If this keeps happening, contact us and we'll help you get your data back." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仍然无法打开。如果问题持续出现，请联系我们，我们会帮你找回数据。"
           }
         }
       }
@@ -5419,6 +5535,16 @@
         }
       }
     },
+    "Nothing has been deleted. Longevity Master couldn't open the data it keeps on this device. Closing the app and opening it again often fixes this." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有任何数据被删除。Longevity Master 无法打开保存在此设备上的数据。关闭 App 后重新打开通常可以解决。"
+          }
+        }
+      }
+    },
     "Nothing is scheduled for today." : {
       "localizations" : {
         "zh-Hans" : {
@@ -6125,6 +6251,26 @@
         }
       }
     },
+    "Replace My Data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "替换我的数据"
+          }
+        }
+      }
+    },
+    "Replace all your data?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "替换你的所有数据？"
+          }
+        }
+      }
+    },
     "Replace butter and other cooking fats with extra virgin olive oil." : {
       "localizations" : {
         "zh-Hans" : {
@@ -6261,6 +6407,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "恢复购买"
+          }
+        }
+      }
+    },
+    "Restore This Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复此备份"
+          }
+        }
+      }
+    },
+    "Restore from Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从备份恢复"
           }
         }
       }
@@ -6451,6 +6617,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择您喜欢的应用程序主色调"
+          }
+        }
+      }
+    },
+    "Send Data File" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "发送数据文件"
           }
         }
       }
@@ -7275,6 +7451,16 @@
         }
       }
     },
+    "The backup couldn't be restored. Your data hasn't changed." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法恢复此备份。你的数据没有任何改动。"
+          }
+        }
+      }
+    },
     "The best-studied way to eat" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7321,6 +7507,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "导出文件准备失败，请重试。"
+          }
+        }
+      }
+    },
+    "The file couldn't be opened. Your data hasn't changed." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法打开该文件。你的数据没有任何改动。"
           }
         }
       }
@@ -7415,12 +7611,42 @@
         }
       }
     },
+    "This backup is damaged and can't be restored. Your data hasn't changed." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此备份已损坏，无法恢复。你的数据没有任何改动。"
+          }
+        }
+      }
+    },
+    "This backup was made by a newer version of Longevity Master. Update the app, then try again." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此备份由更新版本的 Longevity Master 生成。请更新 App 后重试。"
+          }
+        }
+      }
+    },
     "This is how your selected theme color will look throughout the app." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "这是您选择的主题颜色在应用中的显示效果。"
+          }
+        }
+      }
+    },
+    "This isn't a Longevity Master backup. Choose the Full Backup (JSON) file made with Export Data." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这不是 Longevity Master 的备份。请选择用“导出数据”生成的完整备份（JSON）文件。"
           }
         }
       }
@@ -8422,6 +8648,26 @@
         }
       }
     },
+    "Your current habits, check-ins, rest days, reminders and programs will be replaced by this backup. This can't be undone." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你当前的习惯、打卡、休息日、提醒和计划都会被此备份替换。此操作无法撤销。"
+          }
+        }
+      }
+    },
+    "Your data opened this time. Close Longevity Master and open it again to carry on." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这次数据已能打开。请关闭 Longevity Master 并重新打开以继续使用。"
+          }
+        }
+      }
+    },
     "Your data, your copy" : {
       "localizations" : {
         "zh-Hans" : {
@@ -8468,6 +8714,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的习惯和打卡记录都会保留，只删除这个计划及其进度。"
+          }
+        }
+      }
+    },
+    "Your habits couldn't be opened" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法打开你的习惯数据"
+          }
+        }
+      }
+    },
+    "Your habits, check-ins and reminders are back." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的习惯、打卡和提醒都回来了。"
           }
         }
       }

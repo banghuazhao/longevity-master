@@ -45,7 +45,27 @@ private func liveDatabaseURL() -> URL {
     return sharedURL
 }
 
-func appDatabase() throws -> any DatabaseWriter {
+/// The files the live database is kept in, wherever they are now — the shared container or
+/// the app's own Documents — so the app can hand them over when it cannot open them itself.
+/// Only looks: unlike `liveDatabaseURL()`, it never moves anything.
+func liveDatabaseFiles() -> [URL] {
+    var candidates = [URL.documentsDirectory.appending(component: "db.sqlite")]
+    if let containerURL = AppGroup.containerURL {
+        candidates.insert(containerURL.appending(component: "db.sqlite"), at: 0)
+    }
+    let fileManager = FileManager.default
+    guard let database = candidates.first(where: { fileManager.fileExists(atPath: $0.path()) }) else { return [] }
+    return ["", "-wal", "-shm"]
+        .map { URL(filePath: database.path() + $0) }
+        .filter { fileManager.fileExists(atPath: $0.path()) }
+}
+
+/// Opens the app's database and brings its schema up to date.
+///
+/// `inMemory` builds a throwaway database with the same schema even in the live app — what
+/// the app runs on while its real one cannot be opened, so nothing that touches the database
+/// at launch has to cope with there being none.
+func appDatabase(inMemory: Bool = false) throws -> any DatabaseWriter {
     @Dependency(\.context) var context
 
     let database: any DatabaseWriter
@@ -69,11 +89,11 @@ func appDatabase() throws -> any DatabaseWriter {
     configuration.busyMode = .timeout(5)
 
     switch context {
-    case .live:
+    case .live where !inMemory:
         let path = liveDatabaseURL().path()
         logger.info("open \(path)")
         database = try DatabasePool(path: path, configuration: configuration)
-    case .preview, .test:
+    case .live, .preview, .test:
         database = try DatabaseQueue(configuration: configuration)
     }
 

@@ -14,6 +14,17 @@ class NotificationService {
 
     private init() {}
 
+    /// Set at launch when the database could not be opened. The app is then running on an
+    /// empty stand-in, and re-deriving the reminders from that would remove every one of them,
+    /// so nothing here touches the notification centre for the rest of the run.
+    var isSuspended = false
+
+    /// iOS keeps at most this many pending notifications for an app and silently drops the
+    /// rest. A reminder on a habit with set days of the month registers one per day, so a
+    /// few of those were enough to lose reminders — including ones due tomorrow — without
+    /// any sign of it. `syncAllReminders()` registers only this many, soonest first.
+    static let pendingLimit = 64
+
     @discardableResult
     func requestPermission() async -> Bool {
         do {
@@ -47,14 +58,31 @@ class NotificationService {
     /// before. Safe to call as often as you like — the result depends only on the reminder,
     /// its habit's schedule, and what is still outstanding today, so re-running it just
     /// brings the notification centre back in line.
+    ///
+    /// This is the quick path for a reminder just edited, and does not count against
+    /// `pendingLimit`; the next `syncAllReminders()` puts the whole set back within it.
     func scheduleReminder(_ reminder: Reminder) async {
+        guard !isSuspended else { return }
         // Remove existing notifications first
         removeReminder(reminder)
 
+        let schedule = requests(for: reminder, now: Date(), calendar: .current)
+        for request in schedule {
+            do {
+                try await UNUserNotificationCenter.current().add(request)
+            } catch {
+                debugLog("Failed to schedule notification \(request.identifier): \(error)")
+            }
+        }
+        debugLog("Scheduled \(schedule.count) notification(s) for reminder: \(reminder.id)")
+    }
+
+    /// What `reminder` should have registered right now.
+    private func requests(for reminder: Reminder, now: Date, calendar: Calendar) -> [UNNotificationRequest] {
         // An archived habit is off the Today list, so its reminder has nothing to ask for.
         // Unarchiving it and the next sync bring the reminder back.
         if let habitID = reminder.habitID, habit(withID: habitID)?.isArchived == true {
-            return
+            return []
         }
 
         let content = UNMutableNotificationContent()
@@ -66,35 +94,24 @@ class NotificationService {
             content.userInfo = [Self.habitIDKey: habitID]
         }
 
-        let calendar = Calendar.current
         let schedule = Self.requests(
             notificationID: reminder.notificationID,
             time: calendar.dateComponents([.hour, .minute], from: reminder.time),
             days: days(for: reminder),
-            isSatisfiedToday: isSatisfiedToday(reminder, now: Date(), calendar: calendar),
-            now: Date(),
+            isSatisfiedToday: isSatisfiedToday(reminder, now: now, calendar: calendar),
+            now: now,
             calendar: calendar
         )
 
-        for entry in schedule {
+        return schedule.map { entry in
             let trigger = switch entry.trigger {
             case let .repeating(components):
                 UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
             case let .once(components):
                 UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
             }
-            let request = UNNotificationRequest(
-                identifier: entry.id,
-                content: content,
-                trigger: trigger
-            )
-            do {
-                try await UNUserNotificationCenter.current().add(request)
-            } catch {
-                debugLog("Failed to schedule notification \(entry.id): \(error)")
-            }
+            return UNNotificationRequest(identifier: entry.id, content: content, trigger: trigger)
         }
-        debugLog("Scheduled \(schedule.count) notification(s) for reminder: \(reminder.id)")
     }
 
     /// Re-derives every reminder's schedule. Call this after anything that changes whether a
@@ -103,18 +120,73 @@ class NotificationService {
     ///
     /// This is also what restores a slot that was stepped over: a one-off request is spent
     /// once it fires, and the next sync registers the repeating one again.
+    ///
+    /// Works out every notification the app should have pending — reminders, the weekly
+    /// review, program completions — and registers the `pendingLimit` that fire soonest.
+    /// Anything else still pending is removed, which also clears requests left behind by
+    /// reminders that no longer exist, such as after restoring a backup. The ones left out
+    /// come back as the sooner ones fire and the app re-syncs on its next trip to the
+    /// foreground.
     func syncAllReminders() async {
-        await withErrorReporting {
-            @Dependency(\.defaultDatabase) var database
-            let reminders = try await database.read { db in
-                try Reminder.all.fetchAll(db)
-            }
-            for reminder in reminders {
-                await scheduleReminder(reminder)
+        guard !isSuspended else { return }
+        @Dependency(\.defaultDatabase) var database
+        let now = Date()
+        let calendar = Calendar.current
+
+        // Without the reminders there is no knowing what should stay, so leave things as
+        // they are rather than clearing out what may still be right.
+        let reminders: [Reminder]
+        do {
+            reminders = try await database.read { db in try Reminder.all.fetchAll(db) }
+        } catch {
+            reportIssue(error)
+            return
+        }
+
+        var planned = reminders.flatMap { requests(for: $0, now: now, calendar: calendar) }
+        if let weeklyReview = weeklyReviewRequest() {
+            planned.append(weeklyReview)
+        }
+        planned += programCompletionRequests(now: now)
+
+        let kept = Self.soonestFirst(planned, limit: Self.pendingLimit)
+        let keptIDs = Set(kept.map(\.identifier))
+        if kept.count < planned.count {
+            debugLog("Registering \(kept.count) of \(planned.count) notifications, soonest first")
+        }
+
+        let center = UNUserNotificationCenter.current()
+        let pending = await center.pendingNotificationRequests()
+        center.removePendingNotificationRequests(
+            withIdentifiers: pending.map(\.identifier).filter { !keptIDs.contains($0) }
+        )
+        // Adding a request under an identifier already pending replaces it.
+        for request in kept {
+            do {
+                try await center.add(request)
+            } catch {
+                debugLog("Failed to schedule notification \(request.identifier): \(error)")
             }
         }
-        await syncWeeklyReview()
-        await syncProgramCompletions()
+    }
+
+    /// The first `limit` of `requests` by when they next fire. A request that will never fire
+    /// again goes last; ties keep their original order, so the result is stable.
+    static func soonestFirst(_ requests: [UNNotificationRequest], limit: Int) -> [UNNotificationRequest] {
+        let ranked = requests.enumerated().map { index, request in
+            (index: index, request: request, next: (request.trigger as? UNCalendarNotificationTrigger)?.nextTriggerDate())
+        }
+        return ranked
+            .sorted { lhs, rhs in
+                switch (lhs.next, rhs.next) {
+                case let (left?, right?) where left != right: return left < right
+                case (.some, .none): return true
+                case (.none, .some): return false
+                default: return lhs.index < rhs.index
+                }
+            }
+            .prefix(limit)
+            .map(\.request)
     }
 
     // MARK: - Mark as done
@@ -185,9 +257,20 @@ class NotificationService {
     /// it fires, and any number in it would be out of date by then. The review it opens is
     /// worked out when it is read.
     func syncWeeklyReview() async {
+        guard !isSuspended else { return }
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: [Self.weeklyReviewID])
-        guard Self.isWeeklyReviewEnabled else { return }
+        guard let request = weeklyReviewRequest() else { return }
+        do {
+            try await center.add(request)
+        } catch {
+            debugLog("Failed to schedule weekly review: \(error)")
+        }
+    }
+
+    /// The weekly review's request, or `nil` when there should be none.
+    private func weeklyReviewRequest() -> UNNotificationRequest? {
+        guard Self.isWeeklyReviewEnabled else { return nil }
 
         @Dependency(\.defaultDatabase) var database
         let hasHabits = withErrorReporting {
@@ -196,7 +279,7 @@ class NotificationService {
             }
         } ?? false
         // Nothing to look back on yet.
-        guard hasHabits else { return }
+        guard hasHabits else { return nil }
 
         let startWeekOnMonday = UserDefaults.standard.object(forKey: "startWeekOnMonday") as? Bool ?? true
         let calendar = Calendar.userPreferred(startWeekOnMonday: startWeekOnMonday)
@@ -211,11 +294,7 @@ class NotificationService {
             dateMatching: DateComponents(hour: 19, minute: 0, weekday: WeeklyReview.lastWeekday(of: calendar)),
             repeats: true
         )
-        do {
-            try await center.add(UNNotificationRequest(identifier: Self.weeklyReviewID, content: content, trigger: trigger))
-        } catch {
-            debugLog("Failed to schedule weekly review: \(error)")
-        }
+        return UNNotificationRequest(identifier: Self.weeklyReviewID, content: content, trigger: trigger)
     }
 
     // MARK: - Program completion
@@ -226,12 +305,23 @@ class NotificationService {
     /// Re-derived from the enrollments every time, so leaving a program, or deleting the custom
     /// program behind it, takes its notification with it.
     func syncProgramCompletions(now: Date = Date()) async {
+        guard !isSuspended else { return }
         let center = UNUserNotificationCenter.current()
         let pending = await center.pendingNotificationRequests()
         center.removePendingNotificationRequests(
             withIdentifiers: pending.map(\.identifier).filter { $0.hasPrefix(Self.programCompletionPrefix) }
         )
+        for request in programCompletionRequests(now: now) {
+            do {
+                try await center.add(request)
+            } catch {
+                debugLog("Failed to schedule program completion \(request.identifier): \(error)")
+            }
+        }
+    }
 
+    /// One request for each program run still under way.
+    private func programCompletionRequests(now: Date) -> [UNNotificationRequest] {
         @Dependency(\.defaultDatabase) var database
         let runs = withErrorReporting {
             try database.read { db in
@@ -241,19 +331,19 @@ class NotificationService {
                 )
             }
         }
-        guard let runs else { return }
+        guard let runs else { return [] }
         let (enrollments, customPrograms) = runs
         let customByID = Dictionary(
             uniqueKeysWithValues: customPrograms.map { (Program.id(forCustom: $0.id), Program(custom: $0)) }
         )
 
         let calendar = Calendar.current
-        for enrollment in enrollments {
+        return enrollments.compactMap { enrollment in
             guard let program = ProgramsDataStore.program(id: enrollment.programID) ?? customByID[enrollment.programID],
                   let finishDay = calendar.date(byAdding: .day, value: program.durationDays, to: calendar.startOfDay(for: enrollment.startDate)),
                   let fireDate = calendar.date(bySettingHour: 9, minute: 0, second: 0, of: finishDay),
                   fireDate > now
-            else { continue }
+            else { return nil }
 
             let content = UNMutableNotificationContent()
             content.title = String(localized: "🎉 Program complete")
@@ -267,15 +357,11 @@ class NotificationService {
                 dateMatching: calendar.dateComponents([.year, .month, .day, .hour, .minute], from: fireDate),
                 repeats: false
             )
-            do {
-                try await center.add(UNNotificationRequest(
-                    identifier: Self.programCompletionPrefix + String(enrollment.id),
-                    content: content,
-                    trigger: trigger
-                ))
-            } catch {
-                debugLog("Failed to schedule program completion \(enrollment.id): \(error)")
-            }
+            return UNNotificationRequest(
+                identifier: Self.programCompletionPrefix + String(enrollment.id),
+                content: content,
+                trigger: trigger
+            )
         }
     }
 

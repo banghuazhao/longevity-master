@@ -17,15 +17,37 @@ struct LongevityMasterApp: App {
     @StateObject private var openAd = OpenAd()
     @Environment(\.scenePhase) private var scenePhase
 
+    /// Why the database could not be opened at launch, or `nil` when it opened. While it is
+    /// set the app shows `DatabaseUnavailableView` instead of its tabs.
+    private let databaseFailure: String?
+
     init() {
         // The ad SDK is deliberately not started here. `ConsentManager` starts it only once
         // consent has resolved, so no ad request can precede the user's answer.
         AppearanceMode.migrateFromLegacyDarkModeFlag()
         AppGroup.mirrorStartWeekOnMondayFromAppDefaults()
         ThemeManager.shared.mirrorAccentColorToWidget()
-        prepareDependencies {
-            $0.defaultDatabase = try! appDatabase()
+
+        // A database that will not open — a full disk, a damaged file, a migration that
+        // throws — used to crash here, on every launch, with no way back in short of deleting
+        // the app and everything in it. Run on an empty stand-in instead, and say so.
+        let opened = Result { try Self.openDatabase() }
+        switch opened {
+        case let .success(database):
+            databaseFailure = nil
+            prepareDependencies { $0.defaultDatabase = database }
+        case let .failure(error):
+            databaseFailure = String(describing: error)
+            // Reminders are worked out from the database; working them out from an empty one
+            // would take down every reminder the user has.
+            NotificationService.shared.isSuspended = true
+            if let standIn = try? appDatabase(inMemory: true) {
+                prepareDependencies { $0.defaultDatabase = standIn }
+            }
+            WidgetRefresher.reload()
+            return
         }
+
         // Siri and Shortcuts run their intents in this process; send their writes through the
         // connection the screens observe, and settle the reminders after them.
         @Dependency(\.defaultDatabase) var database
@@ -39,45 +61,63 @@ struct LongevityMasterApp: App {
         WidgetRefresher.reload()
     }
 
+    private static func openDatabase() throws -> any DatabaseWriter {
+        #if DEBUG
+            // Shows the screen below without having to damage a real database to see it.
+            if ProcessInfo.processInfo.arguments.contains("-simulateDatabaseFailure") {
+                throw DatabaseUnavailableView.SimulatedFailure()
+            }
+        #endif
+        return try appDatabase()
+    }
+
     var body: some Scene {
         WindowGroup {
-            RootView()
-                .overlay {
-                    if let achievementToShow = achievementService.achievementToShow {
-                        AchievementPopupView(
-                            achievement: achievementToShow,
-                            isPresented: Binding(
-                                get: { achievementService.achievementToShow != nil },
-                                set: { if !$0 { achievementService.achievementToShow = nil } }
-                            )
-                        )
-                    }
-                }
-                .task {
-                    // Deliberately sequential: the notification alert makes the app inactive,
-                    // and ATT asked during that window never reaches the screen. Consent runs
-                    // once the user has dealt with notifications.
-                    await requestNotificationPermissions()
-                    await consentManager.resolve()
-                }
-                .task {
-                    await purchaseManager.checkPurchaseStatus()
-                }
-                .onChange(of: scenePhase) { _, newPhase in
-                    if newPhase == .active {
-                        Task { await purchaseManager.checkPurchaseStatus() }
-                        // A new day, or a check-in made from the widget while the app was
-                        // away, changes what the reminders still have to ask for.
-                        Task { await notificationService.syncAllReminders() }
-                        if !purchaseManager.isPremiumUserPurchased {
-                            openAd.tryToPresentAd()
-                        }
-                        openAd.appHasEnterBackgroundBefore = false
-                    } else if newPhase == .background {
-                        openAd.appHasEnterBackgroundBefore = true
-                    }
-                }
+            if let databaseFailure {
+                DatabaseUnavailableView(failure: databaseFailure)
+            } else {
+                mainApp
+            }
         }
+    }
+
+    private var mainApp: some View {
+        RootView()
+            .overlay {
+                if let achievementToShow = achievementService.achievementToShow {
+                    AchievementPopupView(
+                        achievement: achievementToShow,
+                        isPresented: Binding(
+                            get: { achievementService.achievementToShow != nil },
+                            set: { if !$0 { achievementService.achievementToShow = nil } }
+                        )
+                    )
+                }
+            }
+            .task {
+                // Deliberately sequential: the notification alert makes the app inactive,
+                // and ATT asked during that window never reaches the screen. Consent runs
+                // once the user has dealt with notifications.
+                await requestNotificationPermissions()
+                await consentManager.resolve()
+            }
+            .task {
+                await purchaseManager.checkPurchaseStatus()
+            }
+            .onChange(of: scenePhase) { _, newPhase in
+                if newPhase == .active {
+                    Task { await purchaseManager.checkPurchaseStatus() }
+                    // A new day, or a check-in made from the widget while the app was
+                    // away, changes what the reminders still have to ask for.
+                    Task { await notificationService.syncAllReminders() }
+                    if !purchaseManager.isPremiumUserPurchased {
+                        openAd.tryToPresentAd()
+                    }
+                    openAd.appHasEnterBackgroundBefore = false
+                } else if newPhase == .background {
+                    openAd.appHasEnterBackgroundBefore = true
+                }
+            }
     }
     
     private func requestNotificationPermissions() async {

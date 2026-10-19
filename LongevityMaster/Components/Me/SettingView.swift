@@ -121,6 +121,21 @@ struct SettingView: View {
                         .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
+                    NavigationLink {
+                        RestoreBackupView()
+                    } label: {
+                        HStack {
+                            Text("Restore from Backup")
+                                .font(AppFont.body)
+                                .foregroundColor(themeManager.current.textPrimary)
+                            Spacer()
+                            Image(systemName: "clock.arrow.circlepath")
+                                .foregroundColor(themeManager.current.primaryColor)
+                        }
+                        .padding(.vertical, AppSpacing.small)
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
                 }
                 settingsSection(title: "Privacy") {
                     // Whole-row buttons: the consent row comes and goes depending on region, and

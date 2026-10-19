@@ -20,10 +20,19 @@ struct DatabaseUnavailableView: View {
 
     @Environment(\.openURL) private var openURL
     @State private var retry: RetryResult?
+    @State private var latestBackup = AutoBackup.entries().first
+    @State private var isConfirmingRestore = false
+    @State private var restore: RestoreResult?
 
     private enum RetryResult {
         case opened
         case stillFailing
+    }
+
+    private enum RestoreResult {
+        case restoring
+        case restored
+        case failed
     }
 
     private let theme = ThemeManager.shared.current
@@ -60,6 +69,10 @@ struct DatabaseUnavailableView: View {
                         .appCardStyle(theme: theme)
                 }
 
+                if let latestBackup {
+                    automaticBackupCard(latestBackup)
+                }
+
                 VStack(spacing: AppSpacing.smallMedium) {
                     Button {
                         tryAgain()
@@ -92,6 +105,76 @@ struct DatabaseUnavailableView: View {
             .padding()
         }
         .background(theme.background.ignoresSafeArea())
+        .confirmationDialog(
+            "Restore the automatic backup?",
+            isPresented: $isConfirmingRestore,
+            titleVisibility: .visible
+        ) {
+            Button("Restore Backup") {
+                if let latestBackup {
+                    Task { await restore(from: latestBackup) }
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Anything recorded since the backup was made will be missing. The data that couldn't be opened is kept aside, not deleted.")
+        }
+    }
+
+    /// The way back for someone who never exported anything: yesterday's automatic backup, or
+    /// thereabouts, in place of the database that will not open.
+    private func automaticBackupCard(_ backup: AutoBackup.Entry) -> some View {
+        VStack(alignment: .leading, spacing: AppSpacing.small) {
+            switch restore {
+            case .restored:
+                Label("Backup restored", systemImage: "checkmark.circle.fill")
+                    .font(AppFont.headline)
+                    .foregroundStyle(theme.primaryColor)
+                Text("Close Longevity Master and open it again to carry on.")
+                    .font(AppFont.subheadline)
+                    .foregroundStyle(theme.textSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            case .restoring:
+                ProgressView()
+                    .frame(maxWidth: .infinity)
+            case nil, .failed:
+                Text("Automatic backup from \(backup.day.formatted(date: .long, time: .omitted))")
+                    .font(AppFont.headline)
+                    .foregroundStyle(theme.textPrimary)
+                Text(restore == .failed
+                    ? "The backup couldn't be restored. Nothing has been changed."
+                    : "If trying again doesn't help, you can start again from this backup.")
+                    .font(AppFont.subheadline)
+                    .foregroundStyle(theme.textSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                Button {
+                    isConfirmingRestore = true
+                } label: {
+                    Text("Restore Backup")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.bordered)
+                .tint(theme.primaryColor)
+                .padding(.top, AppSpacing.small)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .appCardStyle(theme: theme)
+    }
+
+    private func restore(from backup: AutoBackup.Entry) async {
+        withAnimation { restore = .restoring }
+        let succeeded = await Task.detached(priority: .userInitiated) {
+            do {
+                let plan = try DataRestore.plan(from: Data(contentsOf: backup.url), calendar: .current, now: Date())
+                try DatabaseRecovery.rebuild(from: plan)
+                return true
+            } catch {
+                debugLog("recovery from automatic backup failed: \(error)")
+                return false
+            }
+        }.value
+        withAnimation { restore = succeeded ? .restored : .failed }
     }
 
     /// Opening the file again is all a retry can do: everything else in the app is already

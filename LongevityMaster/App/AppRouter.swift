@@ -24,6 +24,13 @@ final class AppRouter {
 
     var presented: Destination?
 
+    /// A tab something outside the views wants shown, such as a Home Screen quick action.
+    /// `RootView` switches to it and clears it.
+    var requestedTab: AppTab?
+
+    /// Set by the "New Habit" quick action; the Habits tab opens its form and clears it.
+    var wantsNewHabit = false
+
     private init() {}
 
     /// Keys a notification's `userInfo` uses to say where its tap should lead.

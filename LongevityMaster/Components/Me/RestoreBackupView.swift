@@ -27,6 +27,7 @@ struct RestoreBackupView: View {
     @State private var status: Status = .idle
     @State private var isChoosingFile = false
     @State private var isConfirming = false
+    @State private var automaticBackups: [AutoBackup.Entry] = []
 
     var body: some View {
         ScrollView {
@@ -36,6 +37,7 @@ struct RestoreBackupView: View {
                 switch status {
                 case .idle:
                     chooseFileButton
+                    automaticBackupsCard
                 case .reading, .restoring:
                     ProgressView()
                         .frame(maxWidth: .infinity)
@@ -47,6 +49,7 @@ struct RestoreBackupView: View {
                 case .failed(let message):
                     messageCard(message)
                     chooseFileButton
+                    automaticBackupsCard
                 }
             }
             .padding()
@@ -54,6 +57,9 @@ struct RestoreBackupView: View {
         .appBackground()
         .navigationTitle("Restore from Backup")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            automaticBackups = AutoBackup.entries()
+        }
         .fileImporter(isPresented: $isChoosingFile, allowedContentTypes: [.json]) { result in
             switch result {
             case .success(let url):
@@ -117,6 +123,42 @@ struct RestoreBackupView: View {
                 .frame(maxWidth: .infinity)
         }
         .appRectButtonStyle()
+    }
+
+    /// The backups the app writes on its own each day, for someone who never exported one.
+    @ViewBuilder
+    private var automaticBackupsCard: some View {
+        if !automaticBackups.isEmpty {
+            VStack(alignment: .leading, spacing: AppSpacing.small) {
+                Text("Automatic Backups")
+                    .font(AppFont.headline)
+                    .foregroundStyle(themeManager.current.textPrimary)
+                Text("Longevity Master keeps a backup of each of the last 7 days you opened it, on this device.")
+                    .font(AppFont.footnote)
+                    .foregroundStyle(themeManager.current.textSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                ForEach(automaticBackups) { entry in
+                    Button {
+                        Task { await read(entry.url) }
+                    } label: {
+                        HStack {
+                            Text(entry.day.formatted(date: .complete, time: .omitted))
+                                .font(AppFont.body)
+                                .foregroundStyle(themeManager.current.textPrimary)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.footnote)
+                                .foregroundStyle(themeManager.current.textSecondary)
+                        }
+                        .padding(.vertical, AppSpacing.small)
+                        .contentShape(.rect)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .appCardStyle(theme: themeManager.current)
+        }
     }
 
     private func planCard(_ plan: DataRestore.Plan) -> some View {

@@ -11,17 +11,6 @@
         }
       }
     },
-    "%@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@"
-          }
-        }
-      }
-    },
     "%@ %@" : {
       "localizations" : {
         "en" : {
@@ -122,17 +111,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 次打卡"
-          }
-        }
-      }
-    },
-    "%lld day" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 天"
           }
         }
       }
@@ -323,17 +301,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "比上周变化 %lld 个百分点"
-          }
-        }
-      }
-    },
-    "%lld times" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 次"
           }
         }
       }
@@ -1356,6 +1323,16 @@
         }
       }
     },
+    "Anything recorded since the backup was made will be missing. The data that couldn't be opened is kept aside, not deleted." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份之后记录的内容将会丢失。无法打开的数据会被另外保留，不会删除。"
+          }
+        }
+      }
+    },
     "Appearance" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1432,6 +1409,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最多允许 64 个通知。目前已设置 %lld 个。"
+          }
+        }
+      }
+    },
+    "Automatic Backups" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动备份"
+          }
+        }
+      }
+    },
+    "Automatic backup from %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 的自动备份"
           }
         }
       }
@@ -1912,23 +1909,22 @@
         }
       }
     },
-    "Change" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "更改"
-          }
-        }
-      }
-    },
     "Change icon" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "更换图标"
+          }
+        }
+      }
+    },
+    "Check In" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打卡"
           }
         }
       }
@@ -2269,6 +2265,16 @@
         }
       }
     },
+    "Close Longevity Master and open it again to carry on." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请关闭 Longevity Master 并重新打开以继续使用。"
+          }
+        }
+      }
+    },
     "Close the app and open it again to finish changing the language." : {
       "localizations" : {
         "zh-Hans" : {
@@ -2519,17 +2525,6 @@
         }
       }
     },
-    "Complete new habits to increase your score" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "创建新习惯以提高您的分数"
-          }
-        }
-      }
-    },
     "Complete various challenges to earn achievement points" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2776,17 +2771,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "深色"
-          }
-        }
-      }
-    },
-    "Dark Mode" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "黑夜模式"
           }
         }
       }
@@ -3953,17 +3937,6 @@
         }
       }
     },
-    "Got it!" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "明白了！"
-          }
-        }
-      }
-    },
     "Green" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4342,6 +4315,16 @@
         }
       }
     },
+    "If trying again doesn't help, you can start again from this backup." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果重试没有用，可以从这个备份重新开始。"
+          }
+        }
+      }
+    },
     "Improve flexibility and reduce stress." : {
       "localizations" : {
         "zh-Hans" : {
@@ -4658,6 +4641,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "抗衰习惯家 | 健康长寿的习惯"
+          }
+        }
+      }
+    },
+    "Longevity Master keeps a backup of each of the last 7 days you opened it, on this device." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Longevity Master 会在此设备上保留你最近 7 次打开 App 那几天的备份。"
           }
         }
       }
@@ -6191,6 +6184,16 @@
         }
       }
     },
+    "Remind Me in 1 Hour" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 小时后提醒我"
+          }
+        }
+      }
+    },
     "Reminders" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6401,6 +6404,16 @@
         }
       }
     },
+    "Restore Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复备份"
+          }
+        }
+      }
+    },
     "Restore Purchases" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6427,6 +6440,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "从备份恢复"
+          }
+        }
+      }
+    },
+    "Restore the automatic backup?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复自动备份？"
           }
         }
       }
@@ -7447,6 +7470,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "应用会保持当前语言，直到你关闭并重新打开它。"
+          }
+        }
+      }
+    },
+    "The backup couldn't be restored. Nothing has been changed." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法恢复此备份。没有任何改动。"
           }
         }
       }

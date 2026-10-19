@@ -14,7 +14,9 @@ struct LongevityMasterApp: App {
     @Dependency(\.purchaseManager) private var purchaseManager
     @Dependency(\.consentManager) private var consentManager
     @Dependency(\.notificationService) private var notificationService
+    @Dependency(\.defaultDatabase) private var database
     @StateObject private var openAd = OpenAd()
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @Environment(\.scenePhase) private var scenePhase
 
     /// Why the database could not be opened at launch, or `nil` when it opened. While it is
@@ -104,12 +106,20 @@ struct LongevityMasterApp: App {
             .task {
                 await purchaseManager.checkPurchaseStatus()
             }
+            .task {
+                await AutoBackup.runIfDue(database: database)
+            }
+            .task {
+                QuickAction.install()
+            }
             .onChange(of: scenePhase) { _, newPhase in
                 if newPhase == .active {
                     Task { await purchaseManager.checkPurchaseStatus() }
                     // A new day, or a check-in made from the widget while the app was
                     // away, changes what the reminders still have to ask for.
                     Task { await notificationService.syncAllReminders() }
+                    // The first trip to the foreground on a new day writes that day's backup.
+                    Task { await AutoBackup.runIfDue(database: database) }
                     if !purchaseManager.isPremiumUserPurchased {
                         openAd.tryToPresentAd()
                     }
@@ -160,6 +170,13 @@ struct RootView: View {
             .background(themeManager.current.background)
             .tint(themeManager.current.primaryColor)
             .environment(\.selectTab) { selectedTab = $0 }
+            // A Home Screen quick action asking for a tab, including the one that launched
+            // the app before this view existed.
+            .onChange(of: router.requestedTab, initial: true) { _, tab in
+                guard let tab else { return }
+                selectedTab = tab
+                router.requestedTab = nil
+            }
             // Every SwiftUI link and `openURL` call leaves the app on purpose — a study, an
             // email, the App Store — so the ad stays away when the user comes back.
             .environment(\.openURL, OpenURLAction { _ in

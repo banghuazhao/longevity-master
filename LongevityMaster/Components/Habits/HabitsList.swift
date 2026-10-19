@@ -198,6 +198,7 @@ class HabitsListViewModel {
 
 struct HabitsListView: View {
     @State var viewModel = HabitsListViewModel()
+    @State private var router = AppRouter.shared
     @State private var isReordering = false
 
     var body: some View {
@@ -325,6 +326,13 @@ struct HabitsListView: View {
                     }
                     .accessibilityLabel(Text("Add Habit"))
                 }
+            }
+            // The "New Habit" quick action on the app icon.
+            .onChange(of: router.wantsNewHabit, initial: true) { _, wantsNewHabit in
+                guard wantsNewHabit else { return }
+                router.wantsNewHabit = false
+                guard viewModel.route == nil else { return }
+                viewModel.onTapCreateHabit()
             }
             .sheet(item: $viewModel.route.createHabit, id: \.self) { habitFormViewModel in
                 HabitFormView(viewModel: habitFormViewModel)

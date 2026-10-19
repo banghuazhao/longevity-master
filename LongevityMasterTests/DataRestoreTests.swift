@@ -150,6 +150,51 @@ struct DataRestoreTests {
         }
     }
 
+    @Test("Achievements are found by what they are, whatever language their titles are in")
+    func achievementsAcrossLanguages() async throws {
+        try await withTestDatabase { database in
+            try await fillDatabase(database)
+            let data = try await backupJSON(database)
+            // As if this device had set its achievements up in another language.
+            try await database.write { db in
+                for var achievement in try Achievement.all.fetchAll(db) {
+                    achievement.title = "译 " + achievement.title
+                    achievement.isUnlocked = false
+                    achievement.unlockedDate = nil
+                    try Achievement.update(achievement).execute(db)
+                }
+            }
+            try await restore(data, into: database)
+            let unlocked = try await database.read { db in
+                try Achievement.where { $0.isUnlocked }.fetchAll(db)
+            }
+            #expect(unlocked.count == 1)
+            #expect(unlocked.first?.unlockedDate == testDate("2026-10-02 07:30"))
+        }
+    }
+
+    @Test("A version 1 backup still finds achievements by title")
+    func versionOneAchievements() async throws {
+        try await withTestDatabase { database in
+            try await fillDatabase(database)
+            var backup = try JSONDecoder().decode(DataExport.Backup.self, from: try await backupJSON(database))
+            backup.version = 1
+            for index in backup.achievements.indices {
+                backup.achievements[index].kind = nil
+                backup.achievements[index].target = nil
+                backup.achievements[index].category = nil
+            }
+            try await database.write { db in
+                try Achievement.update { $0.isUnlocked = false }.execute(db)
+            }
+            try await restore(try JSONEncoder().encode(backup), into: database)
+            let unlocked = try await database.read { db in
+                try Achievement.where { $0.isUnlocked }.fetchCount(db)
+            }
+            #expect(unlocked == 1)
+        }
+    }
+
     // MARK: - Files that are not backups
 
     @Test("A file that is not a backup is turned away as one")

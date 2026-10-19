@@ -54,10 +54,10 @@ func liveDatabaseFiles() -> [URL] {
         candidates.insert(containerURL.appending(component: "db.sqlite"), at: 0)
     }
     let fileManager = FileManager.default
-    guard let database = candidates.first(where: { fileManager.fileExists(atPath: $0.path()) }) else { return [] }
+    guard let database = candidates.first(where: { fileManager.fileExists(atPath: $0.path(percentEncoded: false)) }) else { return [] }
     return ["", "-wal", "-shm"]
-        .map { URL(filePath: database.path() + $0) }
-        .filter { fileManager.fileExists(atPath: $0.path()) }
+        .map { URL(filePath: database.path(percentEncoded: false) + $0) }
+        .filter { fileManager.fileExists(atPath: $0.path(percentEncoded: false)) }
 }
 
 /// Opens the app's database and brings its schema up to date.

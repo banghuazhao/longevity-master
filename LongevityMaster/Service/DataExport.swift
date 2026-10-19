@@ -122,7 +122,9 @@ enum DataExport {
     // MARK: - JSON
 
     static let formatName = "longevity-master-backup"
-    static let formatVersion = 1
+    /// 2 added which achievement each unlocked one is, beside its title. Version 1 files have
+    /// titles only, and restore still reads them.
+    static let formatVersion = 2
 
     /// The backup file. Its own types rather than the tables', so the file keeps its shape
     /// when the schema moves on. Values are stored the way the database stores them —
@@ -200,8 +202,15 @@ enum DataExport {
     }
 
     struct AchievementRecord: Codable, Equatable {
+        /// In the language the app was in when the achievements were first set up.
         var title: String
         var unlockedAt: String?
+        /// Which achievement this is, whatever its title is in: its `AchievementType` and the
+        /// criteria's target and category, which between them tell all of them apart. Absent
+        /// in version 1 files.
+        var kind: Int? = nil
+        var target: Int? = nil
+        var category: Int? = nil
     }
 
     static func backup(_ snapshot: Snapshot, now: Date, calendar: Calendar, appVersion: String) -> Backup {
@@ -280,7 +289,10 @@ enum DataExport {
             achievements: snapshot.achievements.sorted { $0.id < $1.id }.map { achievement in
                 AchievementRecord(
                     title: achievement.title,
-                    unlockedAt: achievement.unlockedDate.map(moments.string(from:))
+                    unlockedAt: achievement.unlockedDate.map(moments.string(from:)),
+                    kind: achievement.type.rawValue,
+                    target: achievement.criteria.targetValue,
+                    category: achievement.criteria.category?.rawValue
                 )
             }
         )

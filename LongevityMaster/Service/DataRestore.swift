@@ -34,10 +34,17 @@ enum DataRestore {
         var reminders: [Reminder.Draft] = []
         var customPrograms: [CustomProgram] = []
         var programRuns: [ProgramRun] = []
-        /// Unlocked achievements, by the title they were stored under, and when.
-        var unlockedAchievements: [String: Date] = [:]
+        /// The achievements the backup has unlocked, and when.
+        var unlockedAchievements: [UnlockedAchievement] = []
         /// When the backup was made, if the file says.
         var exportedAt: Date?
+
+        struct UnlockedAchievement: Equatable {
+            var title: String
+            /// `nil` from a version 1 backup, which has only the title to go on.
+            var identity: AchievementIdentity?
+            var date: Date
+        }
 
         struct ProgramRun {
             var enrollment: ProgramEnrollment.Draft
@@ -172,8 +179,15 @@ enum DataRestore {
             )
         }
 
-        for record in backup.achievements {
-            plan.unlockedAchievements[record.title] = try record.unlockedAt.map(moment) ?? now
+        plan.unlockedAchievements = try backup.achievements.map { record in
+            let identity = record.kind.flatMap { kind in
+                record.target.map { AchievementIdentity(kind: kind, target: $0, category: record.category) }
+            }
+            return Plan.UnlockedAchievement(
+                title: record.title,
+                identity: identity,
+                date: try record.unlockedAt.map(moment) ?? now
+            )
         }
 
         return plan
@@ -182,10 +196,11 @@ enum DataRestore {
     /// Replaces everything the user has recorded with `plan`. Run it inside one write so a
     /// failure part-way through rolls the whole thing back.
     ///
-    /// Achievements are matched by the title they were stored under, which is in the language
-    /// the app was in when they were first set up. One a backup names that this device has
-    /// under another title stays locked here, and is earned again by the next check-in that
-    /// meets it.
+    /// Achievements are matched by what they are — their kind, target and category — so a
+    /// backup made with the app in another language still finds them. A version 1 backup has
+    /// only their titles, which are in the language the app was in when they were first set
+    /// up; one this device has under another title stays locked here, and is earned again by
+    /// the next check-in that meets it.
     static func replaceAll(with plan: Plan, in db: Database) throws {
         try ProgramHabit.all.delete().execute(db)
         try ProgramEnrollment.all.delete().execute(db)
@@ -225,8 +240,16 @@ enum DataRestore {
             }
         }
 
+        let byIdentity = Dictionary(
+            plan.unlockedAchievements.compactMap { unlock in unlock.identity.map { ($0, unlock.date) } },
+            uniquingKeysWith: { first, _ in first }
+        )
+        let byTitle = Dictionary(
+            plan.unlockedAchievements.filter { $0.identity == nil }.map { ($0.title, $0.date) },
+            uniquingKeysWith: { first, _ in first }
+        )
         for var achievement in try Achievement.all.fetchAll(db) {
-            let unlockedDate = plan.unlockedAchievements[achievement.title]
+            let unlockedDate = byIdentity[AchievementIdentity(achievement)] ?? byTitle[achievement.title]
             guard achievement.isUnlocked || unlockedDate != nil else { continue }
             achievement.isUnlocked = unlockedDate != nil
             achievement.unlockedDate = unlockedDate
@@ -244,5 +267,23 @@ enum DataRestore {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = format
         return formatter
+    }
+}
+
+/// What makes an achievement the one it is, independent of the language its title was stored
+/// in. No two of `AchievementDefinitions.all` share one.
+struct AchievementIdentity: Hashable {
+    var kind: Int
+    var target: Int
+    var category: Int?
+}
+
+extension AchievementIdentity {
+    init(_ achievement: Achievement) {
+        self.init(
+            kind: achievement.type.rawValue,
+            target: achievement.criteria.targetValue,
+            category: achievement.criteria.category?.rawValue
+        )
     }
 }

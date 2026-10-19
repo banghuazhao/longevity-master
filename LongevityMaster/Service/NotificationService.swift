@@ -89,9 +89,13 @@ class NotificationService {
         content.title = reminder.displayTitle
         content.body = reminder.displayBody
         content.sound = .default
+        // Which reminder this is travels with it, so a snoozed copy can be tied back to it.
+        content.userInfo = [Self.reminderKey: reminder.notificationID]
         if let habitID = reminder.habitID {
             content.categoryIdentifier = Self.habitReminderCategory
-            content.userInfo = [Self.habitIDKey: habitID]
+            content.userInfo[Self.habitIDKey] = habitID
+        } else {
+            content.categoryIdentifier = Self.generalReminderCategory
         }
 
         let schedule = Self.requests(
@@ -149,14 +153,26 @@ class NotificationService {
         }
         planned += programCompletionRequests(now: now)
 
-        let kept = Self.soonestFirst(planned, limit: Self.pendingLimit)
-        let keptIDs = Set(kept.map(\.identifier))
+        let center = UNUserNotificationCenter.current()
+        let pending = await center.pendingNotificationRequests()
+
+        // A snooze is not worked out from the reminders, so it would go with everything else
+        // not planned. It stays while its reminder still has something to ask for, and goes
+        // once that is settled — checked in, rested — or the reminder itself is gone.
+        let remindersByKey = Dictionary(reminders.map { ($0.notificationID, $0) }, uniquingKeysWith: { first, _ in first })
+        let snoozes = pending.filter { $0.identifier.hasPrefix(Self.snoozePrefix) }.filter { snooze in
+            guard let key = snooze.content.userInfo[Self.reminderKey] as? String else { return true }
+            guard let reminder = remindersByKey[key] else { return false }
+            return !requests(for: reminder, now: now, calendar: calendar).isEmpty
+                && !isSatisfiedToday(reminder, now: now, calendar: calendar)
+        }
+
+        let kept = Self.soonestFirst(planned, limit: max(0, Self.pendingLimit - snoozes.count))
+        let keptIDs = Set(kept.map(\.identifier) + snoozes.map(\.identifier))
         if kept.count < planned.count {
             debugLog("Registering \(kept.count) of \(planned.count) notifications, soonest first")
         }
 
-        let center = UNUserNotificationCenter.current()
-        let pending = await center.pendingNotificationRequests()
         center.removePendingNotificationRequests(
             withIdentifiers: pending.map(\.identifier).filter { !keptIDs.contains($0) }
         )
@@ -194,10 +210,18 @@ class NotificationService {
     static let habitReminderCategory = "HABIT_REMINDER"
     static let markDoneAction = "MARK_DONE"
     static let habitIDKey = "habitID"
+    static let generalReminderCategory = "GENERAL_REMINDER"
+    static let snoozeAction = "SNOOZE"
+    /// The reminder a notification came from, by its `notificationID`.
+    static let reminderKey = "reminderID"
+    /// When the reminder a snoozed copy stands in for first arrived.
+    static let firstDeliveredKey = "firstDelivered"
+    static let snoozePrefix = "snooze_"
+    static let snoozeInterval: TimeInterval = 60 * 60
 
-    /// The "Mark as Done" button on a habit's reminder. Registered at every launch: the
-    /// category is looked up when a notification is shown, not when it was scheduled, and its
-    /// title has to follow the app's language.
+    /// The buttons on a reminder: "Mark as Done" on a habit's, and "Remind Me in 1 Hour" on
+    /// every one. Registered at every launch: the category is looked up when a notification
+    /// is shown, not when it was scheduled, and the titles have to follow the app's language.
     static func registerNotificationActions() {
         let markDone = UNNotificationAction(
             identifier: markDoneAction,
@@ -205,13 +229,54 @@ class NotificationService {
             options: [],
             icon: UNNotificationActionIcon(systemImageName: "checkmark.circle")
         )
-        let category = UNNotificationCategory(
+        let snooze = UNNotificationAction(
+            identifier: snoozeAction,
+            title: String(localized: "Remind Me in 1 Hour"),
+            options: [],
+            icon: UNNotificationActionIcon(systemImageName: "clock.arrow.circlepath")
+        )
+        let habitCategory = UNNotificationCategory(
             identifier: habitReminderCategory,
-            actions: [markDone],
+            actions: [markDone, snooze],
             intentIdentifiers: [],
             options: []
         )
-        UNUserNotificationCenter.current().setNotificationCategories([category])
+        let generalCategory = UNNotificationCategory(
+            identifier: generalReminderCategory,
+            actions: [snooze],
+            intentIdentifiers: [],
+            options: []
+        )
+        UNUserNotificationCenter.current().setNotificationCategories([habitCategory, generalCategory])
+    }
+
+    /// What a snooze of `request` registers: the same notification an hour from now. One per
+    /// reminder — snoozing again moves it rather than adding another — and it remembers when
+    /// the original arrived, so "Mark as Done" on it still files the day it was about.
+    static func snoozeRequest(
+        for request: UNNotificationRequest,
+        deliveredAt delivered: Date,
+        interval: TimeInterval = snoozeInterval
+    ) -> UNNotificationRequest? {
+        guard let content = request.content.mutableCopy() as? UNMutableNotificationContent else { return nil }
+        if content.userInfo[firstDeliveredKey] == nil {
+            content.userInfo[firstDeliveredKey] = delivered.timeIntervalSince1970
+        }
+        let key = content.userInfo[reminderKey] as? String ?? request.identifier
+        return UNNotificationRequest(
+            identifier: snoozePrefix + key,
+            content: content,
+            trigger: UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
+        )
+    }
+
+    func snooze(_ request: UNNotificationRequest, deliveredAt delivered: Date) async {
+        guard !isSuspended, let snoozed = Self.snoozeRequest(for: request, deliveredAt: delivered) else { return }
+        do {
+            try await UNUserNotificationCenter.current().add(snoozed)
+        } catch {
+            debugLog("Failed to snooze \(request.identifier): \(error)")
+        }
     }
 
     /// Which habit a "Mark as Done" press checks in, and for which moment. The reminder is
@@ -225,6 +290,8 @@ class NotificationService {
         calendar: Calendar
     ) -> (habitID: Habit.ID, date: Date)? {
         guard let habitID = userInfo[habitIDKey] as? Int else { return nil }
+        // A snoozed copy is about the day the reminder first came.
+        let delivered = (userInfo[firstDeliveredKey] as? TimeInterval).map(Date.init(timeIntervalSince1970:)) ?? delivered
         let date = calendar.isDate(delivered, inSameDayAs: now) ? now : delivered
         return (habitID, date)
     }
@@ -552,6 +619,7 @@ class NotificationService {
         var identifiers = [reminder.notificationID]
         identifiers += (1 ... 7).map { "\(reminder.notificationID)-w\($0)" }
         identifiers += (1 ... 31).map { "\(reminder.notificationID)-d\($0)" }
+        identifiers.append(Self.snoozePrefix + reminder.notificationID)
         return identifiers
     }
 
@@ -660,6 +728,18 @@ final class ReminderTapObserver: NSObject, UNUserNotificationCenterDelegate {
             }
             Task {
                 await NotificationService.shared.markDone(habitID: checkIn.habitID, on: checkIn.date)
+                completionHandler()
+            }
+            return
+        }
+
+        // So does "Remind Me in 1 Hour".
+        if response.actionIdentifier == NotificationService.snoozeAction {
+            Task {
+                await NotificationService.shared.snooze(
+                    response.notification.request,
+                    deliveredAt: response.notification.date
+                )
                 completionHandler()
             }
             return

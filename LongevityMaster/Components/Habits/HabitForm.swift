@@ -46,7 +46,6 @@ class HabitFormViewModel: HashableObject {
     @Dependency(\.notificationService) var notificationService
     
     @ObservationIgnored
-    @Dependency(\.appRatingService) var appRatingService
 
     var showTitleEmptyToast = false
     let isEdit: Bool
@@ -176,9 +175,6 @@ class HabitFormViewModel: HashableObject {
             }
             onSaveHabit?(updatedHabit)
             WidgetRefresher.reload()
-
-            // Increment habit modification count for rating prompts
-            appRatingService.incrementHabitModificationCount()
         }
         return true
     }

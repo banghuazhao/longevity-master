@@ -833,6 +833,16 @@
         }
       }
     },
+    "A backup of each of the last 7 days you opened the app is kept on this device, ready to restore." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你最近 7 次打开 App 那几天的备份都会保存在此设备上，随时可以恢复。"
+          }
+        }
+      }
+    },
     "A handful of nuts a day (about 28 g) was associated with a 22% lower risk of death from all causes." : {
       "localizations" : {
         "zh-Hans" : {
@@ -1645,6 +1655,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "恢复备份"
+          }
+        }
+      }
+    },
+    "Bring back a backup made with Export Data — on a new phone, or after starting over. Settings → Your Data." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复用“导出数据”生成的备份——无论是在新手机上，还是重新开始之后。前往 设置 → 我的数据。"
           }
         }
       }
@@ -5528,6 +5548,16 @@
         }
       }
     },
+    "Not the right moment? Press and hold a reminder to be reminded again in an hour." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现在不方便？长按提醒，一小时后会再提醒你。"
+          }
+        }
+      }
+    },
     "Nothing has been deleted. Longevity Master couldn't open the data it keeps on this device. Closing the app and opening it again often fixes this." : {
       "localizations" : {
         "zh-Hans" : {
@@ -5874,6 +5904,16 @@
         }
       }
     },
+    "Press and hold the app icon to check in, add a habit, or look back on your week." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长按 App 图标即可打卡、添加习惯，或回顾你的一周。"
+          }
+        }
+      }
+    },
     "Prevent gum disease and inflammation." : {
       "localizations" : {
         "zh-Hans" : {
@@ -6080,6 +6120,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "睡前一小时放下手机和屏幕，帮助更快入睡。"
+          }
+        }
+      }
+    },
+    "Quick Actions" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快捷操作"
           }
         }
       }
@@ -8440,6 +8490,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你要做的"
+          }
+        }
+      }
+    },
+    "What's New" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新功能"
           }
         }
       }

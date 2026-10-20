@@ -14,6 +14,7 @@ struct LongevityMasterApp: App {
     @Dependency(\.purchaseManager) private var purchaseManager
     @Dependency(\.consentManager) private var consentManager
     @Dependency(\.notificationService) private var notificationService
+    @Dependency(\.appRatingService) private var appRatingService
     @Dependency(\.defaultDatabase) private var database
     @StateObject private var openAd = OpenAd()
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
@@ -91,7 +92,12 @@ struct LongevityMasterApp: App {
                         achievement: achievementToShow,
                         isPresented: Binding(
                             get: { achievementService.achievementToShow != nil },
-                            set: { if !$0 { achievementService.achievementToShow = nil } }
+                            set: {
+                                guard !$0 else { return }
+                                achievementService.achievementToShow = nil
+                                // Just earned something: a good moment to ask for a rating.
+                                appRatingService.noteHappyMoment()
+                            }
                         )
                     )
                 }
@@ -102,6 +108,7 @@ struct LongevityMasterApp: App {
                 // once the user has dealt with notifications.
                 await requestNotificationPermissions()
                 await consentManager.resolve()
+                WhatsNew.presentIfDue()
             }
             .task {
                 await purchaseManager.checkPurchaseStatus()
@@ -198,6 +205,8 @@ struct RootView: View {
                 }
             case let .programCompletion(enrollmentID):
                 ProgramCompletionSheet(enrollmentID: enrollmentID)
+            case .whatsNew:
+                WhatsNewView()
             }
         }
         // Text follows the reader's size setting, up to a limit the fixed-size tiles and

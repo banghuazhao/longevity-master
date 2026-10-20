@@ -18,6 +18,8 @@ final class AppRouter {
         /// The week containing this date.
         case weeklyReview(weekOf: Date)
         case programCompletion(enrollmentID: ProgramEnrollment.ID)
+        /// What the latest release added, shown once after updating.
+        case whatsNew
 
         var id: Self { self }
     }

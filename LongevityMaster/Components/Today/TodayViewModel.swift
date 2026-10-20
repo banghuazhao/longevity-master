@@ -105,6 +105,9 @@ class TodayViewModel {
     @Dependency(\.achievementService) var achievementService
 
     @ObservationIgnored
+    @Dependency(\.appRatingService) private var appRatingService
+
+    @ObservationIgnored
     @Shared(.appStorage("startWeekOnMonday")) private var startWeekOnMonday: Bool = true
 
     @ObservationIgnored
@@ -235,6 +238,11 @@ class TodayViewModel {
                     await soundPlayer.playCancelCheckinSound()
                 }
             } else {
+                // Ticking off the last of today's habits is a good moment, and the one time
+                // asking for a rating is not an interruption. An earlier day being filled in
+                // after the fact is not the same thing.
+                let finishesToday = userCalendar.isDate(selectedDate, inSameDayAs: Date())
+                    && todayHabits.allSatisfy { $0.isCompleted || $0.habit.id == todayHabit.habit.id }
                 try dataBase.write { [selectedDate, userCalendar] db in
                     // A habit cannot be both done and rested on the same day. The day off from
                     // everything is left alone: doing one habit anyway does not contradict it.
@@ -258,8 +266,13 @@ class TodayViewModel {
 
                     // Check for achievements after adding check-in
                     if let savedCheckIn {
-                        Task {
+                        Task { [appRatingService] in
                             await achievementService.checkAchievementsAndShow(for: savedCheckIn)
+                            // An achievement popping up counts once it is dismissed instead,
+                            // so the prompt never lands on top of it.
+                            if finishesToday, achievementService.achievementToShow == nil {
+                                appRatingService.noteHappyMoment()
+                            }
                         }
                     }
                 }

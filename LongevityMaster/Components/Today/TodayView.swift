@@ -14,93 +14,29 @@ struct TodayView: View {
     @State private var isPlanningTimeOff = false
 
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Dependency(\.themeManager) var themeManager
     
     var body: some View {
         let todayHabits = viewModel.todayHabits
         let completedCount = todayHabits.filter(\.isCompleted).count
-        let completionText = "\(completedCount) / \(todayHabits.count)"
         let habitsByCategory = Dictionary(grouping: todayHabits, by: \.habit.category)
 
         NavigationStack {
             ScrollView {
                 VStack(spacing: .zero) {
+                    TodayHeaderView(
+                        viewModel: viewModel,
+                        done: completedCount,
+                        total: todayHabits.count,
+                        isPlanningTimeOff: $isPlanningTimeOff
+                    )
+
                     if viewModel.showMotivationalQuote, let quote = viewModel.currentQuote {
                         MotivationalQuoteView(quote: quote) {
                             viewModel.dismissMotivationalQuote()
                         }
-                        .padding(.bottom, AppSpacing.medium)
-                        .padding(.horizontal, AppSpacing.medium)
-                    }
-                    
-                    HStack {
-                        Image(systemName: "calendar")
-                            .font(.headline)
-
-                        DatePicker(
-                            "",
-                            selection: Binding(
-                                get: { viewModel.selectedDate },
-                                set: { newDate in
-                                    withAnimation {
-                                        viewModel.selectedDate = newDate
-                                    }
-                                }
-                            ),
-                            in: ...Date(),
-                            displayedComponents: .date
-                        )
-                        .environment(\.calendar, viewModel.userCalendar)
-                        .labelsHidden()
-                        .datePickerStyle(.compact)
-                        .tint(ThemeManager.shared.current.primaryColor)
-                        
-                        if todayHabits.allSatisfy(\.isCompleted) {
-                            Text(String(localized: "✅"))
-                                .font(AppFont.subheadline)
-                        } else {
-                            Text(completionText)
-                                .font(AppFont.subheadline)
-                        }
-                        
-                        Spacer()
-
-                        Button {
-                            withAnimation {
-                                viewModel.toggleRestDay()
-                            }
-                        } label: {
-                            Image(systemName: viewModel.isRestDay ? "moon.zzz.fill" : "moon.zzz")
-                                .appCircularButtonStyle()
-                        }
-                        .accessibilityLabel(
-                            viewModel.isRestDay
-                                ? Text("Rest day on. Tap to turn off.")
-                                : Text("Mark today a rest day")
-                        )
-                        .contextMenu {
-                            Button {
-                                isPlanningTimeOff = true
-                            } label: {
-                                Label("Plan Time Off", systemImage: "calendar.badge.clock")
-                            }
-                        }
-                        .accessibilityAction(named: Text("Plan Time Off")) {
-                            isPlanningTimeOff = true
-                        }
-                    }
-
-                    if viewModel.isRestDay {
-                        HStack(spacing: AppSpacing.small) {
-                            Text("😌")
-                            Text("Rest day — nothing missed today counts against your streak.")
-                                .font(AppFont.footnote)
-                                .foregroundColor(themeManager.current.textSecondary)
-                                .fixedSize(horizontal: false, vertical: true)
-                            Spacer(minLength: 0)
-                        }
-                        .padding(.top, AppSpacing.small)
-                        .transition(.opacity)
+                        .padding(.top, AppSpacing.medium)
                     }
 
                     ProgramsTodaySection(viewModel: programsViewModel)
@@ -115,18 +51,13 @@ struct TodayView: View {
                             viewModel.onTapAddHabit()
                         }
                     } else {
-                        VStack {
+                        VStack(alignment: .leading, spacing: AppSpacing.small) {
                             ForEach(HabitCategory.allCases, id: \.rawValue) { category in
                                 let subHabits = habitsByCategory[category] ?? []
                                 if !subHabits.isEmpty {
-                                    HStack {
-                                        Spacer()
-                                        Text(category.title)
-                                            .font(AppFont.headline)
-                                        Spacer()
-                                    }
-                                    
-                                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 12) {
+                                    categoryHeader(category, habits: subHabits)
+
+                                    LazyVGrid(columns: gridColumns, spacing: 12) {
                                         ForEach(subHabits, id: \.habit.id) { todayHabit in
                                             HabitItemView(
                                                 todayHabit: todayHabit
@@ -153,21 +84,21 @@ struct TodayView: View {
                                             } label: {
                                                 Image(systemName: "plus")
                                                     .font(AppFont.title)
-                                                    .padding(.horizontal, AppSpacing.medium)
-                                                    .frame(width: 160, height: 90)
+                                                    .frame(maxWidth: .infinity, minHeight: 84)
                                                     .background(themeManager.current.primaryColor.opacity(0.1))
                                                     .foregroundColor(themeManager.current.primaryColor)
                                                     .clipShape(
-                                                        RoundedRectangle(cornerRadius: 20)
+                                                        RoundedRectangle(cornerRadius: AppCornerRadius.card, style: .continuous)
                                                     )
                                             }
                                             .accessibilityLabel(Text("Add Habit"))
                                         }
                                     }
-                                    .padding(.vertical, 8)
+                                    .padding(.bottom, AppSpacing.small)
                                 }
                             }
                         }
+                        .padding(.top, AppSpacing.medium)
                     }
                 }
                 .padding()
@@ -251,6 +182,35 @@ struct TodayView: View {
                 viewModel.catchUpWithClock()
             }
         }
+    }
+
+    /// Two tiles a row until the text is too large for them to share it.
+    private var gridColumns: [GridItem] {
+        dynamicTypeSize >= .xxLarge
+            ? [GridItem(.flexible())]
+            : [GridItem(.adaptive(minimum: 150), spacing: 12)]
+    }
+
+    private func categoryHeader(_ category: HabitCategory, habits: [TodayHabit]) -> some View {
+        let done = habits.filter(\.isCompleted).count
+        return HStack(alignment: .firstTextBaseline) {
+            Text(category.title)
+                .font(AppFont.headline)
+                .foregroundStyle(themeManager.current.textPrimary)
+            Spacer()
+            Text(verbatim: "\(done)/\(habits.count)")
+                .font(AppFont.subheadline.weight(.semibold))
+                .monospacedDigit()
+                .foregroundStyle(
+                    done == habits.count ? themeManager.current.primaryColor : themeManager.current.textSecondary
+                )
+                .contentTransition(.numericText(value: Double(done)))
+                .animation(.snappy, value: done)
+                .accessibilityLabel(Text("\(done) of \(habits.count) done"))
+        }
+        .padding(.top, AppSpacing.small)
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isHeader)
     }
 }
 

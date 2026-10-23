@@ -19,4 +19,13 @@ struct Haptics {
             generator.impactOccurred()
         }
     }
+
+    /// The stronger "done" pattern, for finishing something rather than a single tap.
+    func successIfEnabled() {
+        if vibrateEnabled {
+            let generator = UINotificationFeedbackGenerator()
+            generator.prepare()
+            generator.notificationOccurred(.success)
+        }
+    }
 }

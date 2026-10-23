@@ -73,6 +73,9 @@ class TodayViewModel {
     var route: Route?
 
     var isEditing: Bool = false
+
+    /// Goes up each time a check-in finishes off the selected day, for the screen to celebrate.
+    var celebrationCount = 0
     var currentQuote: MotivationalQuote?
     var showMotivationalQuote: Bool = false
 
@@ -158,6 +161,91 @@ class TodayViewModel {
         }
     }
 
+    // MARK: - Week strip
+
+    /// One day of the week strip: how much of it was done, and whether it was a day off.
+    struct DayProgress: Identifiable, Equatable {
+        let date: Date
+        let done: Int
+        let due: Int
+        let isRestDay: Bool
+        let isFuture: Bool
+
+        var id: Date { date }
+
+        var fraction: Double {
+            due == 0 ? 0 : Double(done) / Double(due)
+        }
+
+        var isComplete: Bool {
+            due > 0 && done == due
+        }
+    }
+
+    /// The seven days of the week the selected day falls in, starting on the user's first
+    /// day of the week.
+    var week: [DayProgress] {
+        Self.weekProgress(
+            containing: selectedDate,
+            habits: habits,
+            checkIns: checkIns,
+            skippedDays: skippedDays,
+            calendar: userCalendar
+        )
+    }
+
+    static func weekProgress(
+        containing date: Date,
+        habits: [Habit],
+        checkIns: [CheckIn],
+        skippedDays: [SkippedDay],
+        calendar: Calendar,
+        now: Date = Date()
+    ) -> [DayProgress] {
+        let startOfWeek = date.startOfWeek(for: calendar)
+        let endOfToday = now.endOfDay(for: calendar)
+        let restDays = RestDays(skippedDays, in: calendar)
+
+        return (0..<7).compactMap { offset in
+            guard let day = calendar.date(byAdding: .day, value: offset, to: startOfWeek) else { return nil }
+            let isFuture = day > endOfToday
+            // Nothing is owed on a day that has not come yet, so its count would only mislead.
+            let scheduled = isFuture
+                ? []
+                : HabitSchedule.habitsDue(on: day, habits: habits, checkIns: checkIns, calendar: calendar)
+            return DayProgress(
+                date: day,
+                done: scheduled.filter(\.isCompleted).count,
+                due: scheduled.count,
+                isRestDay: restDays.isEveryHabitRestDay(day, in: calendar),
+                isFuture: isFuture
+            )
+        }
+    }
+
+    /// Moves to a day picked on the strip or the calendar. Days still to come cannot be
+    /// picked.
+    func select(_ date: Date) {
+        guard date <= Date().endOfDay(for: userCalendar) else { return }
+        withAnimation(.snappy) {
+            selectedDate = date
+        }
+    }
+
+    /// Steps the strip a week back or forward, never past today.
+    func shiftWeek(by weeks: Int) {
+        guard let moved = userCalendar.date(byAdding: .weekOfYear, value: weeks, to: selectedDate) else { return }
+        select(min(moved, Date()))
+    }
+
+    func goToToday() {
+        select(Date())
+    }
+
+    var isShowingToday: Bool {
+        userCalendar.isDate(selectedDate, inSameDayAs: Date())
+    }
+
     private var cancelable = Set<AnyCancellable>()
 
     func updateMotivationalQuote() {
@@ -219,7 +307,15 @@ class TodayViewModel {
 
     func onTapHabitItem(_ todayHabit: TodayHabit) {
         guard !isSelectedDateInFuture else { return }
-        Haptics.shared.vibrateIfEnabled()
+        // Ticking off the last habit of the day gets the stronger success tap and the
+        // celebration; anything else, the usual light one.
+        let completesDay = !todayHabit.isCompleted
+            && todayHabits.allSatisfy { $0.isCompleted || $0.habit.id == todayHabit.habit.id }
+        if completesDay {
+            Haptics.shared.successIfEnabled()
+        } else {
+            Haptics.shared.vibrateIfEnabled()
+        }
         withErrorReporting {
             if todayHabit.isCompleted {
                 try dataBase.write { [selectedDate, userCalendar] db in
@@ -241,8 +337,7 @@ class TodayViewModel {
                 // Ticking off the last of today's habits is a good moment, and the one time
                 // asking for a rating is not an interruption. An earlier day being filled in
                 // after the fact is not the same thing.
-                let finishesToday = userCalendar.isDate(selectedDate, inSameDayAs: Date())
-                    && todayHabits.allSatisfy { $0.isCompleted || $0.habit.id == todayHabit.habit.id }
+                let finishesToday = userCalendar.isDate(selectedDate, inSameDayAs: Date()) && completesDay
                 try dataBase.write { [selectedDate, userCalendar] db in
                     // A habit cannot be both done and rested on the same day. The day off from
                     // everything is left alone: doing one habit anyway does not contradict it.
@@ -278,6 +373,9 @@ class TodayViewModel {
                 }
                 Task {
                     await soundPlayer.playCheckinSound()
+                }
+                if completesDay {
+                    celebrationCount += 1
                 }
             }
             WidgetRefresher.reload()

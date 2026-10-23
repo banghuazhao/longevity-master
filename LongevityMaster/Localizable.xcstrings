@@ -227,6 +227,22 @@
         }
       }
     },
+    "%lld of %lld done" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld done"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已完成 %1$lld/%2$lld"
+          }
+        }
+      }
+    },
     "%lld of %lld done. Still to go: %@." : {
       "localizations" : {
         "en" : {
@@ -1253,12 +1269,32 @@
         }
       }
     },
+    "All done for today!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天全部完成！"
+          }
+        }
+      }
+    },
     "All done today 🎉" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "今日全部完成 🎉"
+          }
+        }
+      }
+    },
+    "All done!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部完成！"
           }
         }
       }
@@ -2211,6 +2247,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择您的习惯"
+          }
+        }
+      }
+    },
+    "Choose a Day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择日期"
           }
         }
       }
@@ -5368,6 +5414,16 @@
         }
       }
     },
+    "Next Week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一周"
+          }
+        }
+      }
+    },
     "Next week" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5584,6 +5640,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "暂无安排。"
+          }
+        }
+      }
+    },
+    "Nothing scheduled" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天没有安排"
           }
         }
       }
@@ -5950,6 +6016,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "预览"
+          }
+        }
+      }
+    },
+    "Previous Week" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上一周"
           }
         }
       }
@@ -8565,6 +8641,16 @@
         }
       }
     },
+    "Yesterday" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "昨天"
+          }
+        }
+      }
+    },
     "Yoga or stretching" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9188,6 +9274,7 @@
       "shouldTranslate" : false
     },
     "✅" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

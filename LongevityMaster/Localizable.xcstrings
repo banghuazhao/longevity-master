@@ -849,6 +849,16 @@
         }
       }
     },
+    "A New Today Screen" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全新的“今天”页面"
+          }
+        }
+      }
+    },
     "A backup of each of the last 7 days you opened the app is kept on this device, ready to restore." : {
       "localizations" : {
         "zh-Hans" : {
@@ -6746,6 +6756,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "看看今天还有哪些习惯没完成。"
+          }
+        }
+      }
+    },
+    "See your day's progress at a glance, tap through the week, and get a little celebration when everything is done." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当天进度一目了然，轻点即可切换一周中的每一天，全部完成时还有小小的庆祝。"
           }
         }
       }

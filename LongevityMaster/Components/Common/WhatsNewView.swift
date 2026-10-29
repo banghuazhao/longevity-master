@@ -23,6 +23,11 @@ enum WhatsNew {
 
     static let items: [Item] = [
         Item(
+            systemImage: "checkmark.circle",
+            title: "A New Today Screen",
+            detail: "See your day's progress at a glance, tap through the week, and get a little celebration when everything is done."
+        ),
+        Item(
             systemImage: "clock.arrow.circlepath",
             title: "Restore from Backup",
             detail: "Bring back a backup made with Export Data — on a new phone, or after starting over. Settings → Your Data."

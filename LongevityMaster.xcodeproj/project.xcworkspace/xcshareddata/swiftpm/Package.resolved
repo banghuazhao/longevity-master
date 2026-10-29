@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-sharing",
       "state" : {
-        "revision" : "bc27f8322bc30f6ce7d864d137dc77a6de8b57eb",
-        "version" : "2.8.0"
+        "revision" : "e47a2f545bafa3c0c702600f3e6ce02b3d566b6f",
+        "version" : "2.8.2"
       }
     },
     {
@@ -176,8 +176,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",
       "state" : {
-        "revision" : "dfd70507def84cb5fb821278448a262c6ff2bbad",
-        "version" : "1.9.0"
+        "revision" : "401bf70d95bfe8db2a1dc619f9e175a85c089321",
+        "version" : "1.10.1"
       }
     }
   ],

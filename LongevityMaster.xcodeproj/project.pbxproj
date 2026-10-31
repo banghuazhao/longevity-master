@@ -12,7 +12,7 @@
 		318007FABDD419627C344981 /* HabitSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7DDAE6F234D511053781F3 /* HabitSchedule.swift */; };
 		39C9F829B90B972D0E594D77 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333F8B25C188559D63963815 /* Color+Extensions.swift */; };
 		41449E722E166E9B00DEB393 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41449E712E166E9B00DEB393 /* StoreKit.framework */; };
-		41FFF2722E14E9FC004ACA97 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 41FFF2712E14E9FC004ACA97 /* GoogleMobileAds */; };
+		41FFF2722E14E9FC004ACA97 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = 41FFF2712E14E9FC004ACA97 /* GoogleMobileAds */; };
 		5A1C0F3E9B7D4E2A8C6B1D01 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5A1C0F3E9B7D4E2A8C6B1D00 /* PrivacyInfo.xcprivacy */; };
 		68366BDAAC253E15C09CB8FD /* WidgetDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C8D913018BDA3DB18C7BB9 /* WidgetDatabase.swift */; };
 		7D0620E0F7A1A291F5702E8A /* CheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958AA33B7C8D73DA90D57F62 /* CheckIn.swift */; };
@@ -437,8 +437,10 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = LongevityWidget/LongevityWidget.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = LongevityWidget/LongevityWidget-macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.9.0.1;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LongevityWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Longevity Master";
@@ -451,6 +453,8 @@
 				MARKETING_VERSION = 1.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appsbayarea.longevityMaster.LongevityWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -599,8 +603,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LongevityMaster/LongevityMaster.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = LongevityMaster/LongevityMaster-macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.9.0.1;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_ASSET_PATHS = "\"LongevityMaster/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -620,6 +626,8 @@
 				MARKETING_VERSION = 1.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appsbayarea.longevityMaster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -634,8 +642,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LongevityMaster/LongevityMaster.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = LongevityMaster/LongevityMaster-macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.9.0.1;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_ASSET_PATHS = "\"LongevityMaster/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -655,6 +665,8 @@
 				MARKETING_VERSION = 1.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appsbayarea.longevityMaster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -702,8 +714,10 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = LongevityWidget/LongevityWidget.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = LongevityWidget/LongevityWidget-macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.9.0.1;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LongevityWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Longevity Master";
@@ -716,6 +730,8 @@
 				MARKETING_VERSION = 1.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appsbayarea.longevityMaster.LongevityWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;

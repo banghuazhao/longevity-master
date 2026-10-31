@@ -131,7 +131,7 @@ struct MeView: View {
                         
                     }
                 }
-                if !purchaseManager.isPremiumUserPurchased {
+                if AdManager.isAvailable && !purchaseManager.isPremiumUserPurchased {
                     BannerView()
                         .frame(height: 50)
                 }

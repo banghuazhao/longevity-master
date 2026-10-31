@@ -3,17 +3,22 @@
 // Copyright Apps Bay Limited. All rights reserved.
 //
 
-import AppTrackingTransparency
 import Dependencies
-import GoogleMobileAds
 import Observation
 import SwiftUI
+#if !targetEnvironment(macCatalyst)
+import AppTrackingTransparency
+import GoogleMobileAds
 import UserMessagingPlatform
+#endif
 
 /// The single place that decides whether we may serve ads at all, and whether those ads may be
 /// personalised. Nothing else in the app is allowed to read ATT or UMP and reach its own
 /// conclusion — every ad load and every SDK start goes through `canRequestAds` /
 /// `canUsePersonalizedAds` here, so a denial in either prompt is impossible to route around.
+///
+/// The Mac app has no ads (Google's SDK has no Mac Catalyst build), so there it asks for nothing:
+/// `resolve()` only marks itself done, and every "may we" answer is no.
 @Observable
 final class ConsentManager {
     static let shared = ConsentManager()
@@ -31,6 +36,20 @@ final class ConsentManager {
 
     private init() {}
 
+#if targetEnvironment(macCatalyst)
+    let canRequestAds = false
+    let canUsePersonalizedAds = false
+
+    @MainActor
+    func resolve() async {
+        hasResolved = true
+    }
+
+    func startMobileAdsIfAllowed() {}
+
+    @MainActor
+    func presentPrivacyOptionsForm() async {}
+#else
     // MARK: - The resolver
 
     /// UMP's own view of whether any ad request is lawful. Outside regulated regions UMP reports
@@ -235,6 +254,7 @@ final class ConsentManager {
         }
         return top
     }
+#endif
 }
 
 // MARK: - DependencyKey for ConsentManager

@@ -5,7 +5,6 @@
 
 import SQLiteData
 import SwiftUI
-import GoogleMobileAds
 import UserNotifications
 
 @main

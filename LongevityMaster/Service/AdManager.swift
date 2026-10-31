@@ -1,7 +1,31 @@
-import GoogleMobileAds
 import SwiftUI
 
+// Google's ad SDK has no Mac Catalyst build, so the Mac app carries no ads at all: the SDK is
+// linked for iOS only (see the platform filter on GoogleMobileAds in the project), and on the
+// Mac the types below are replaced by stand-ins that never load anything.
+#if targetEnvironment(macCatalyst)
+
+enum AdManager {
+    static let isAvailable = false
+    static let canRequestAds = false
+}
+
+final class OpenAd: ObservableObject {
+    var appHasEnterBackgroundBefore = false
+    func tryToPresentAd() {}
+}
+
+struct BannerView: View {
+    var body: some View { EmptyView() }
+}
+
+#else
+
+import GoogleMobileAds
+
 class AdManager {
+    static let isAvailable = true
+
     struct GoogleAdsID {
         static let bannerViewAdUnitID = Bundle.main.object(forInfoDictionaryKey: "bannerViewAdUnitID") as? String ?? ""
         static let appOpenAdID = Bundle.main.object(forInfoDictionaryKey: "appOpenAdID") as? String ?? ""
@@ -186,4 +210,6 @@ class BannerViewController: UIViewController {
                 self, didUpdate: self.view.frame.inset(by: self.view.safeAreaInsets).size.width)
         }
     }
-} 
+}
+
+#endif

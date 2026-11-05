@@ -18,28 +18,28 @@ private func liveDatabaseURL() -> URL {
 
     let sharedURL = containerURL.appending(component: "db.sqlite")
     let fileManager = FileManager.default
-    guard !fileManager.fileExists(atPath: sharedURL.path()) else { return sharedURL }
-    guard fileManager.fileExists(atPath: legacyURL.path()) else { return sharedURL }
+    guard !fileManager.fileExists(atPath: sharedURL.path(percentEncoded: false)) else { return sharedURL }
+    guard fileManager.fileExists(atPath: legacyURL.path(percentEncoded: false)) else { return sharedURL }
 
     // Copy the whole set before deleting anything: a database moved without its write-ahead
     // log is a database missing its most recent transactions.
     let suffixes = ["", "-wal", "-shm"]
     do {
         for suffix in suffixes {
-            let source = URL(filePath: legacyURL.path() + suffix)
-            guard fileManager.fileExists(atPath: source.path()) else { continue }
-            try fileManager.copyItem(at: source, to: URL(filePath: sharedURL.path() + suffix))
+            let source = URL(filePath: legacyURL.path(percentEncoded: false) + suffix)
+            guard fileManager.fileExists(atPath: source.path(percentEncoded: false)) else { continue }
+            try fileManager.copyItem(at: source, to: URL(filePath: sharedURL.path(percentEncoded: false) + suffix))
         }
     } catch {
         logger.error("failed to move database into app group: \(error.localizedDescription)")
         for suffix in suffixes {
-            try? fileManager.removeItem(at: URL(filePath: sharedURL.path() + suffix))
+            try? fileManager.removeItem(at: URL(filePath: sharedURL.path(percentEncoded: false) + suffix))
         }
         return legacyURL
     }
 
     for suffix in suffixes {
-        try? fileManager.removeItem(at: URL(filePath: legacyURL.path() + suffix))
+        try? fileManager.removeItem(at: URL(filePath: legacyURL.path(percentEncoded: false) + suffix))
     }
     logger.info("moved database into app group container")
     return sharedURL
@@ -90,7 +90,7 @@ func appDatabase(inMemory: Bool = false) throws -> any DatabaseWriter {
 
     switch context {
     case .live where !inMemory:
-        let path = liveDatabaseURL().path()
+        let path = liveDatabaseURL().path(percentEncoded: false)
         logger.info("open \(path)")
         database = try DatabasePool(path: path, configuration: configuration)
     case .live, .preview, .test:

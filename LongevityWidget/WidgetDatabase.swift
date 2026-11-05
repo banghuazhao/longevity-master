@@ -33,13 +33,13 @@ enum WidgetDatabase {
         if let inAppDatabase { return inAppDatabase }
         guard let containerURL = AppGroup.containerURL else { throw Failure.unavailable }
         let url = containerURL.appending(component: "db.sqlite")
-        guard FileManager.default.fileExists(atPath: url.path()) else { throw Failure.unavailable }
+        guard FileManager.default.fileExists(atPath: url.path(percentEncoded: false)) else { throw Failure.unavailable }
 
         var configuration = Configuration()
         configuration.foreignKeysEnabled = true
         // The app holds the same file open, so wait rather than fail when writes overlap.
         configuration.busyMode = .timeout(5)
-        return try DatabasePool(path: url.path(), configuration: configuration)
+        return try DatabasePool(path: url.path(percentEncoded: false), configuration: configuration)
     }
 
     /// Habits due on `date`, in the same order and by the same rules as the app's Today tab.

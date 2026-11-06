@@ -440,7 +440,7 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = LongevityWidget/LongevityWidget-macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.9.0.1;
-				"CURRENT_PROJECT_VERSION[sdk=macosx*]" = 10900.2;
+				"CURRENT_PROJECT_VERSION[sdk=macosx*]" = 10900.3;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LongevityWidget/Info.plist;
@@ -607,7 +607,7 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = LongevityMaster/LongevityMaster-macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.9.0.1;
-				"CURRENT_PROJECT_VERSION[sdk=macosx*]" = 10900.2;
+				"CURRENT_PROJECT_VERSION[sdk=macosx*]" = 10900.3;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_ASSET_PATHS = "\"LongevityMaster/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -647,7 +647,7 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = LongevityMaster/LongevityMaster-macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.9.0.1;
-				"CURRENT_PROJECT_VERSION[sdk=macosx*]" = 10900.2;
+				"CURRENT_PROJECT_VERSION[sdk=macosx*]" = 10900.3;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_ASSET_PATHS = "\"LongevityMaster/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -720,7 +720,7 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = LongevityWidget/LongevityWidget-macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.9.0.1;
-				"CURRENT_PROJECT_VERSION[sdk=macosx*]" = 10900.2;
+				"CURRENT_PROJECT_VERSION[sdk=macosx*]" = 10900.3;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LongevityWidget/Info.plist;

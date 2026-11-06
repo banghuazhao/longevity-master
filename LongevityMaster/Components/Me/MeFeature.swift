@@ -76,11 +76,15 @@ struct MeView: View {
                             }
                             .padding(.top, AppSpacing.small)
                             if !purchaseManager.isPremiumUserPurchased {
-                                Button(action: {
-                                    showPurchaseSheet = true
-                                }) {
-                                    Text(String(localized: "Upgrade to Premium"))
-                                        .appButtonStyle(theme: themeManager.current)
+                                // Premium removes ads, and the Mac app has none, so there is
+                                // nothing to sell there.
+                                if AdManager.isAvailable {
+                                    Button(action: {
+                                        showPurchaseSheet = true
+                                    }) {
+                                        Text(String(localized: "Upgrade to Premium"))
+                                            .appButtonStyle(theme: themeManager.current)
+                                    }
                                 }
                             } else {
                                 HStack(spacing: 8) {

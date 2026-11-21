@@ -31,109 +31,31 @@ struct MeView: View {
     @AppStorage("userAvatar") private var userAvatar: String = "😀"
     @State private var showPurchaseSheet = false
     @State private var showEmojiPicker = false
-    
+
+    private var theme: AppTheme { themeManager.current }
+
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack(spacing: 0) {
                 ScrollView {
-                    VStack(spacing: AppSpacing.large) {
-                        // Me Section
-                        VStack(alignment: .leading, spacing: AppSpacing.medium) {
-                            HStack(spacing: AppSpacing.medium) {
-                                Button(action: { showEmojiPicker = true }) {
-                                    Text(userAvatar)
-                                        .font(.system(size: 40))
-                                        .frame(width: 50, height: 50)
-                                        .background(themeManager.current.card)
-                                        .clipShape(Circle())
-                                }
-                                .buttonStyle(PlainButtonStyle())
-                                .sheet(isPresented: $showEmojiPicker) {
-                                    EmojiPickerView(selectedEmoji: $userAvatar, title: "Choose your avatar")
-                                    .presentationDetents([.medium])
-                                    .presentationDragIndicator(.visible)
-                                }
-                                VStack(alignment: .leading, spacing: 4) {
-                                    TextField("Your Name", text: $userName)
-                                        .font(AppFont.headline)
-                                        .fontWeight(.bold)
-                                        .padding(AppSpacing.small)
-                                        .background(themeManager.current.background)
-                                        .cornerRadius(AppCornerRadius.button)
-                                        .lineLimit(1)
-                                }
-                                Spacer()
-                            }
-                            // Stats Section
-                            HStack(spacing: AppSpacing.small) {
-                                statView(title: String(localized: "Habits"), value: "\(activeHabitCount)/\(habitCount)")
-                                Divider()
-                                statView(title: String(localized: "Check-ins"), value: "\(checkInCount)")
-                                Divider()
-                                statView(title: String(localized: "Reminders"), value: "\(reminderCount)")
-                                Divider()
-                                statView(title: String(localized: "Achievements"), value: "\(unlockedAchievementCount)/\(achievementCount)")
-                            }
-                            .padding(.top, AppSpacing.small)
-                            if !purchaseManager.isPremiumUserPurchased {
-                                // Premium removes ads, and the Mac app has none, so there is
-                                // nothing to sell there.
-                                if AdManager.isAvailable {
-                                    Button(action: {
-                                        showPurchaseSheet = true
-                                    }) {
-                                        Text(String(localized: "Upgrade to Premium"))
-                                            .appButtonStyle(theme: themeManager.current)
-                                    }
-                                }
-                            } else {
-                                HStack(spacing: 8) {
-                                    Image(systemName: "crown.fill")
-                                        .foregroundColor(.yellow)
-                                        .font(.title3)
-                                    Text(String(localized: "Welcome, Premium user!"))
-                                        .font(.headline)
-                                        .foregroundColor(themeManager.current.primaryColor)
-                                }
-                                .padding(.vertical, 8)
-                                .padding(.horizontal, 16)
-                                .background(themeManager.current.card)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: AppCornerRadius.button)
-                                        .stroke(themeManager.current.primaryColor, lineWidth: 1.5)
-                                )
-                                .cornerRadius(AppCornerRadius.button)
-                                .shadow(color: AppShadow.card.color, radius: 4, x: 0, y: 2)
-                            }
+                    VStack(alignment: .leading, spacing: AppSpacing.large) {
+                        profileCard
+
+                        // Premium removes ads, and the Mac app has none, so there is nothing
+                        // to sell there.
+                        if !purchaseManager.isPremiumUserPurchased && AdManager.isAvailable {
+                            premiumBanner
                         }
-                        .appCardStyle(theme: themeManager.current)
-                        .padding(.horizontal)
-                        moreFeatureView
-                        othersView
-                        
-                        Spacer().frame(height: 10)
-                        
-                        VStack(spacing: 4) {
-                            Text(String(localized: "Longevity Master  |  Healthy Habits for Long Life"))
-                                .font(AppFont.footnote)
-                                .fontWeight(.semibold)
-                                .foregroundColor(themeManager.current.textSecondary)
-                            
-                            Button {
-                                if let url = URL(string: "https://apps.apple.com/app/id\(Constants.AppID.longevityMasterID)") {
-                                    openURL(url)
-                                }
-                            } label: {
-                                Text("v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")  Check for Updates")
-                                    .font(AppFont.footnote)
-                                    .foregroundColor(themeManager.current.textSecondary)
-                                    .underline()
-                            }
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.bottom, 50)
-                        
+
+                        progressSection
+                        habitsSection
+                        personalizeSection
+                        supportSection
+                        footer
                     }
+                    .padding(.horizontal)
+                    .padding(.top, AppSpacing.small)
+                    .padding(.bottom, AppSpacing.large)
                 }
                 if AdManager.isAvailable && !purchaseManager.isPremiumUserPurchased {
                     BannerView()
@@ -143,134 +65,240 @@ struct MeView: View {
             .sheet(isPresented: $showPurchaseSheet) {
                 PurchaseSheet()
             }
-            .background(themeManager.current.background)
+            .background(theme.background)
             .scrollDismissesKeyboard(.immediately)
             .navigationTitle("Me")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
 
-    private func statView(title: String, value: String) -> some View {
-        VStack {
-            Text(value)
-                .font(AppFont.subheadline)
-                .fontWeight(.bold)
-                .foregroundColor(themeManager.current.primaryColor)
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
-            Text(title)
-                .font(AppFont.caption)
-                .foregroundColor(themeManager.current.textSecondary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
+    // MARK: - Profile
+
+    private var profileCard: some View {
+        VStack(spacing: AppSpacing.medium) {
+            HStack(spacing: AppSpacing.medium) {
+                avatarButton
+
+                VStack(alignment: .leading, spacing: 2) {
+                    HStack(spacing: AppSpacing.small) {
+                        TextField("Your Name", text: $userName)
+                            .font(.title3.weight(.bold))
+                            .foregroundStyle(theme.textPrimary)
+                            .submitLabel(.done)
+                            .lineLimit(1)
+                        Image(systemName: "pencil")
+                            .font(.footnote.weight(.semibold))
+                            .foregroundStyle(theme.textSecondary.opacity(0.7))
+                            .accessibilityHidden(true)
+                    }
+
+                    if purchaseManager.isPremiumUserPurchased {
+                        Label("Welcome, Premium user!", systemImage: "crown.fill")
+                            .font(AppFont.footnote.weight(.semibold))
+                            .foregroundStyle(Color(red: 0.85, green: 0.62, blue: 0.10))
+                    }
+                }
+            }
+
+            Rectangle()
+                .fill(theme.separator)
+                .frame(height: 1)
+                .accessibilityHidden(true)
+
+            HStack(spacing: 0) {
+                AppStatView(value: "\(activeHabitCount)/\(habitCount)", title: "Habits")
+                AppStatDivider()
+                AppStatView(value: "\(checkInCount)", title: "Check-ins")
+                AppStatDivider()
+                AppStatView(value: "\(reminderCount)", title: "Reminders")
+                AppStatDivider()
+                AppStatView(value: "\(unlockedAchievementCount)/\(achievementCount)", title: "Achievements")
+            }
+        }
+        .appCardStyle(theme: theme)
+    }
+
+    private var avatarButton: some View {
+        Button {
+            showEmojiPicker = true
+        } label: {
+            Text(userAvatar)
+                .font(.system(size: 34))
+                .frame(width: 64, height: 64)
+                .background(Circle().fill(theme.primaryColor.opacity(0.12)))
+                .overlay(Circle().strokeBorder(theme.primaryColor.opacity(0.3), lineWidth: 1.5))
+                .overlay(alignment: .bottomTrailing) {
+                    Image(systemName: "pencil")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundStyle(.white)
+                        .frame(width: 22, height: 22)
+                        .background(Circle().fill(theme.primaryColor))
+                        .overlay(Circle().strokeBorder(theme.card, lineWidth: 2))
+                }
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text("Choose your avatar"))
+        .sheet(isPresented: $showEmojiPicker) {
+            EmojiPickerView(selectedEmoji: $userAvatar, title: "Choose your avatar")
+                .presentationDetents([.medium])
+                .presentationDragIndicator(.visible)
         }
     }
 
-    private var othersView: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text(String(localized: "Others"))
-                .appSectionHeader(theme: themeManager.current)
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: AppSpacing.large) {
-                // The package opens the App Store itself, out of reach of the app's `openURL`.
-                NavigationLink(destination: MoreAppsView().onAppear { AppOpenAdPolicy.skipNextReturn() }) {
-                    moreItem(icon: "storefront", title: String(localized: "More Apps"))
+    private var premiumBanner: some View {
+        Button {
+            showPurchaseSheet = true
+        } label: {
+            HStack(spacing: AppSpacing.smallMedium) {
+                Image(systemName: "crown.fill")
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(width: 40, height: 40)
+                    .background(Color.white.opacity(0.22), in: Circle())
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Upgrade to Premium")
+                        .font(AppFont.headline)
+                    Text("Ad-free experience")
+                        .font(AppFont.footnote)
+                        .opacity(0.85)
                 }
-                if let url = URL(string: "https://itunes.apple.com/app/id\(Constants.AppID.longevityMasterID)?action=write-review") {
-                    Button {
-                        openURL(url)
-                    } label: {
-                        moreItem(icon: "star.fill", title: String(localized: "Rate Us"))
-                    }
-                }
+                .foregroundStyle(.white)
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.right")
+                    .font(.footnote.weight(.bold))
+                    .foregroundStyle(.white.opacity(0.8))
+            }
+            .padding(AppSpacing.medium)
+            .background(
+                LinearGradient(
+                    colors: [theme.primaryColor, theme.accent],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ),
+                in: RoundedRectangle(cornerRadius: AppCornerRadius.card, style: .continuous)
+            )
+            .shadow(color: theme.primaryColor.opacity(0.3), radius: 12, x: 0, y: 6)
+            .contentShape(.rect)
+        }
+        .buttonStyle(PressableTileStyle())
+    }
+
+    // MARK: - Sections
+
+    private var progressSection: some View {
+        section("Progress") {
+            NavigationLink(destination: UserStatsView()) {
+                AppRow("My Stats", systemImage: "chart.bar.fill", color: .blue)
+            }
+            AppRowDivider()
+            NavigationLink(destination: AchievementsView()) {
+                AppRow("Achievements", systemImage: "trophy.fill", color: .orange)
+            }
+            AppRowDivider()
+            NavigationLink(destination: CheckInHistoryView()) {
+                AppRow("Checkin History", systemImage: "clock.arrow.circlepath", color: .teal)
+            }
+        }
+    }
+
+    private var habitsSection: some View {
+        section("Habits") {
+            NavigationLink(destination: RemindersView()) {
+                AppRow("Reminders", systemImage: "bell.fill", color: .red)
+            }
+            AppRowDivider()
+            NavigationLink(destination: TimeOffView()) {
+                AppRow("Time Off", systemImage: "moon.zzz.fill", color: .indigo)
+            }
+        }
+    }
+
+    private var personalizeSection: some View {
+        section("Personalize") {
+            NavigationLink(destination: ThemeColorView()) {
+                AppRow("Theme Color", systemImage: "paintbrush.fill", color: .pink)
+            }
+            AppRowDivider()
+            NavigationLink(destination: LanguageView()) {
+                AppRow("Language", systemImage: "globe", color: .cyan)
+            }
+            AppRowDivider()
+            NavigationLink(destination: SettingView()) {
+                AppRow("Settings", systemImage: "gearshape.fill", color: .gray)
+            }
+        }
+    }
+
+    private var supportSection: some View {
+        section("Support") {
+            if let url = URL(string: "https://itunes.apple.com/app/id\(Constants.AppID.longevityMasterID)?action=write-review") {
                 Button {
-                    let email = SupportEmail()
-                    email.send(openURL: openURL)
+                    openURL(url)
                 } label: {
-                    moreItem(icon: "envelope.fill", title: String(localized: "Feedback"))
-                }
-                if let appURL = URL(string: "https://itunes.apple.com/app/id\(Constants.AppID.longevityMasterID)") {
-                    ShareLink(item: appURL) {
-                        moreItem(icon: "square.and.arrow.up", title: String(localized: "Share App"))
+                    AppRow("Rate Us", systemImage: "star.fill", color: .yellow) {
+                        AppRowChevron(isExternal: true)
                     }
-                    .simultaneousGesture(TapGesture().onEnded { AppOpenAdPolicy.skipNextReturn() })
                 }
-                NavigationLink(destination: LanguageView()) {
-                    moreItem(icon: "globe", title: String(localized: "Language"))
+                AppRowDivider()
+            }
+            Button {
+                let email = SupportEmail()
+                email.send(openURL: openURL)
+            } label: {
+                AppRow("Feedback", systemImage: "envelope.fill", color: .green) {
+                    AppRowChevron(isExternal: true)
                 }
             }
-        }
-        .padding(.horizontal)
-    }
-
-    private var moreFeatureView: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text(String(localized: "More Features"))
-                .appSectionHeader(theme: themeManager.current)
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: AppSpacing.large) {
-                NavigationLink(destination: SettingView()) {
-                    featureItem(icon: "gear", title: String(localized: "Settings"))
+            if let appURL = URL(string: "https://itunes.apple.com/app/id\(Constants.AppID.longevityMasterID)") {
+                AppRowDivider()
+                ShareLink(item: appURL) {
+                    AppRow("Share App", systemImage: "square.and.arrow.up", color: .blue) {
+                        EmptyView()
+                    }
                 }
-                NavigationLink(destination: CheckInHistoryView()) {
-                    featureItem(icon: "clock", title: String(localized: "Checkin History"))
-                }
-                NavigationLink(destination: RemindersView()) {
-                    featureItem(icon: "bell", title: String(localized: "Reminders"))
-                }
-                NavigationLink(destination: AchievementsView()) {
-                    featureItem(icon: "trophy", title: String(localized: "Achievements"))
-                }
-                NavigationLink(destination: ThemeColorView()) {
-                    featureItem(icon: "paintbrush.fill", title: String(localized: "Theme Color"))
-                }
-                NavigationLink(destination: UserStatsView()) {
-                    featureItem(icon: "chart.bar.fill", title: String(localized: "My Stats"))
-                }
-                NavigationLink(destination: TimeOffView()) {
-                    featureItem(icon: "moon.zzz.fill", title: String(localized: "Time Off"))
-                }
+                .simultaneousGesture(TapGesture().onEnded { AppOpenAdPolicy.skipNextReturn() })
+            }
+            AppRowDivider()
+            // The package opens the App Store itself, out of reach of the app's `openURL`.
+            NavigationLink(destination: MoreAppsView().onAppear { AppOpenAdPolicy.skipNextReturn() }) {
+                AppRow("More Apps", systemImage: "square.grid.2x2.fill", color: .purple)
             }
         }
-        .padding(.horizontal)
-    }
-    
-    private func moreItem(icon: String, title: String) -> some View {
-        VStack(spacing: AppSpacing.small) {
-            Image(systemName: icon)
-                .font(.title2)
-                .foregroundColor(themeManager.current.primaryColor)
-                .frame(width: 36, height: 36)
-                .clipShape(Circle())
-            Text(title)
-                .font(AppFont.caption)
-                .foregroundColor(themeManager.current.textPrimary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(AppSpacing.small)
-        .background(themeManager.current.card)
-        .cornerRadius(AppCornerRadius.card)
-        .shadow(color: AppShadow.card.color, radius: AppShadow.card.radius, x: AppShadow.card.x, y: AppShadow.card.y)
     }
 
-    private func featureItem(icon: String, title: String) -> some View {
-        VStack(spacing: AppSpacing.small) {
-            Image(systemName: icon)
-                .font(.title2)
-                .foregroundColor(themeManager.current.primaryColor)
-                .frame(width: 36, height: 36)
-                .clipShape(Circle())
-            Text(title)
-                .font(AppFont.caption)
-                .foregroundColor(themeManager.current.textPrimary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
+    private func section<Content: View>(
+        _ title: LocalizedStringKey,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        VStack(alignment: .leading, spacing: AppSpacing.small) {
+            AppSectionHeader(title)
+            AppGroupedCard {
+                content()
+            }
+            .buttonStyle(AppRowButtonStyle())
+        }
+    }
+
+    private var footer: some View {
+        VStack(spacing: AppSpacing.xSmall) {
+            Text("Longevity Master  |  Healthy Habits for Long Life")
+                .font(AppFont.footnote)
+                .fontWeight(.semibold)
+                .foregroundColor(theme.textSecondary)
+
+            Button {
+                if let url = URL(string: "https://apps.apple.com/app/id\(Constants.AppID.longevityMasterID)") {
+                    openURL(url)
+                }
+            } label: {
+                Text("v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")  Check for Updates")
+                    .font(AppFont.footnote)
+                    .foregroundColor(theme.textSecondary)
+                    .underline()
+            }
         }
         .frame(maxWidth: .infinity)
-        .padding(AppSpacing.small)
-        .background(themeManager.current.card)
-        .cornerRadius(AppCornerRadius.card)
-        .shadow(color: AppShadow.card.color, radius: AppShadow.card.radius, x: AppShadow.card.x, y: AppShadow.card.y)
+        .padding(.top, AppSpacing.small)
     }
 }
 

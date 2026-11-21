@@ -53,6 +53,11 @@ protocol AppTheme {
     var error: Color { get }
     var textPrimary: Color { get }
     var textSecondary: Color { get }
+    /// A hairline around cards. Shadows all but vanish on a dark background, so in dark mode
+    /// this edge is what separates a card from the page.
+    var cardBorder: Color { get }
+    /// The rule between rows inside a grouped card.
+    var separator: Color { get }
 }
 
 // MARK: - Theme Colors
@@ -128,8 +133,10 @@ struct BaseTheme: AppTheme {
     let warning = Color(red: 1.0, green: 0.80, blue: 0.0) // #FFCC00
     let error = Color(red: 1.0, green: 0.23, blue: 0.19) // #FF3B30
     let textPrimary = Color(red: 0.11, green: 0.11, blue: 0.12) // #1C1C1E
-    let textSecondary = Color(red: 0.56, green: 0.56, blue: 0.58) // #8E8E93
-    
+    let textSecondary = Color(red: 0.47, green: 0.47, blue: 0.50) // #78787F, a shade darker than #8E8E93 so small text keeps its contrast on white
+    let cardBorder = Color.black.opacity(0.05)
+    let separator = Color.black.opacity(0.08)
+
     init(themeColor: ThemeColor) {
         self.primaryColor = themeColor.primaryColor
         self.accent = themeColor.accentColor
@@ -139,15 +146,17 @@ struct BaseTheme: AppTheme {
 struct DarkBaseTheme: AppTheme {
     let primaryColor: Color
     let secondaryGray = Color(red: 0.56, green: 0.56, blue: 0.58)
-    let background = Color(red: 0.10, green: 0.10, blue: 0.12) // #1A1A1F
-    let card = Color(red: 0.16, green: 0.16, blue: 0.18) // #29292E
+    let background = Color(red: 0.06, green: 0.06, blue: 0.07) // #0F0F12
+    let card = Color(red: 0.11, green: 0.11, blue: 0.13) // #1C1C21
     let accent: Color
     let success = Color(red: 0.20, green: 0.78, blue: 0.35)
     let warning = Color(red: 1.0, green: 0.80, blue: 0.0)
     let error = Color(red: 1.0, green: 0.23, blue: 0.19)
     let textPrimary = Color.white
-    let textSecondary = Color(red: 0.7, green: 0.7, blue: 0.75)
-    
+    let textSecondary = Color(red: 0.62, green: 0.62, blue: 0.67) // #9E9EAB
+    let cardBorder = Color.white.opacity(0.07)
+    let separator = Color.white.opacity(0.09)
+
     init(themeColor: ThemeColor) {
         self.primaryColor = themeColor.primaryColor
         self.accent = themeColor.accentColor
@@ -243,6 +252,7 @@ struct AppFont {
 
 // MARK: - Spacing & Layout
 struct AppSpacing {
+    static let xSmall: CGFloat = 4
     static let small: CGFloat = 8
     static let smallMedium: CGFloat = 12
     static let medium: CGFloat = 16
@@ -251,14 +261,17 @@ struct AppSpacing {
 
 struct AppCornerRadius {
     static let info: CGFloat = 12
-    static let card: CGFloat = 16
+    static let card: CGFloat = 18
     static let button: CGFloat = 12
     static let avatar: CGFloat = 25
+    /// The small square behind a row's symbol.
+    static let iconBadge: CGFloat = 8
 }
 
 // MARK: - Shadows
 struct AppShadow {
-    static let card = ShadowStyle(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 4)
+    /// Wide and faint: it lifts a card off the page without drawing a visible edge.
+    static let card = ShadowStyle(color: Color.black.opacity(0.05), radius: 12, x: 0, y: 4)
 }
 
 struct ShadowStyle {
@@ -270,14 +283,24 @@ struct ShadowStyle {
 
 // MARK: - Reusable Modifiers
 extension View {
-    func appCardStyle(theme: AppTheme = ThemeManager.shared.current) -> some View {
+    func appCardStyle(theme: AppTheme = ThemeManager.shared.current, padding: CGFloat = AppSpacing.medium) -> some View {
         self
-            .padding(AppSpacing.medium)
-            .background(theme.card)
-            .cornerRadius(AppCornerRadius.card)
-            .shadow(color: AppShadow.card.color, radius: AppShadow.card.radius, x: AppShadow.card.x, y: AppShadow.card.y)
+            .padding(padding)
+            .appCardBackground(theme: theme)
     }
-    
+
+    /// The card surface alone — fill, hairline and shadow — for content that sets its own
+    /// padding, such as a grouped list whose rows run edge to edge.
+    func appCardBackground(theme: AppTheme = ThemeManager.shared.current) -> some View {
+        background {
+            let shape = RoundedRectangle(cornerRadius: AppCornerRadius.card, style: .continuous)
+            shape
+                .fill(theme.card)
+                .overlay(shape.strokeBorder(theme.cardBorder, lineWidth: 1))
+                .shadow(color: AppShadow.card.color, radius: AppShadow.card.radius, x: AppShadow.card.x, y: AppShadow.card.y)
+        }
+    }
+
     func appSectionHeader(theme: AppTheme = ThemeManager.shared.current) -> some View {
         self
             .font(AppFont.headline)
@@ -288,11 +311,13 @@ extension View {
     func appButtonStyle(theme: AppTheme = ThemeManager.shared.current, filled: Bool = true) -> some View {
         self
             .font(AppFont.headline)
-            .padding(.vertical, AppSpacing.small)
+            .padding(.vertical, AppSpacing.smallMedium)
             .padding(.horizontal, AppSpacing.large)
-            .background(filled ? theme.primaryColor : Color.clear)
+            .background(
+                filled ? theme.primaryColor : Color.clear,
+                in: RoundedRectangle(cornerRadius: AppCornerRadius.button, style: .continuous)
+            )
             .foregroundColor(filled ? .white : theme.primaryColor)
-            .cornerRadius(AppCornerRadius.button)
     }
     
     func appCircularButtonStyle(theme: AppTheme = ThemeManager.shared.current, overrideColor: Color? = nil) -> some View {
@@ -327,8 +352,10 @@ extension View {
         self
             .padding(.vertical, AppSpacing.small)
             .padding(.horizontal, AppSpacing.medium)
-            .background(theme.secondaryGray.opacity(0.1))
-            .cornerRadius(AppCornerRadius.info)
+            .background(
+                theme.secondaryGray.opacity(0.1),
+                in: RoundedRectangle(cornerRadius: AppCornerRadius.info, style: .continuous)
+            )
     }
 }
 

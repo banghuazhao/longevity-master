@@ -229,22 +229,31 @@ struct UserStatsView: View {
                 // Header Section
                 headerSection
 
-                reviewLink(
-                    "Weekly Review",
-                    subtitle: "How your week went, habit by habit",
-                    systemImage: "calendar.badge.checkmark"
-                ) {
-                    WeeklyReviewView()
+                AppGroupedCard {
+                    NavigationLink {
+                        WeeklyReviewView()
+                    } label: {
+                        AppRow(
+                            "Weekly Review",
+                            subtitle: "How your week went, habit by habit",
+                            systemImage: "calendar.badge.checkmark",
+                            color: .green
+                        )
+                    }
+                    AppRowDivider()
+                    NavigationLink {
+                        YearReviewView()
+                    } label: {
+                        AppRow(
+                            "Year in Review",
+                            subtitle: "Your year in habits, month by month",
+                            systemImage: "sparkles",
+                            color: .purple
+                        )
+                    }
                 }
+                .buttonStyle(AppRowButtonStyle())
 
-                reviewLink(
-                    "Year in Review",
-                    subtitle: "Your year in habits, month by month",
-                    systemImage: "sparkles"
-                ) {
-                    YearReviewView()
-                }
-                
                 // Longevity Rating Section
                 longevityRatingSection
                 
@@ -279,55 +288,20 @@ struct UserStatsView: View {
     private var headerSection: some View {
         HStack(spacing: AppSpacing.medium) {
             Text(viewModel.userAvatar)
-                .font(.system(size: 60))
-                .frame(width: 80, height: 80)
-                .background(viewModel.themeManager.current.card)
-                .clipShape(Circle())
-                .shadow(color: AppShadow.card.color, radius: 8, x: 0, y: 4)
-            
+                .font(.system(size: 32))
+                .frame(width: 56, height: 56)
+                .background(Circle().fill(viewModel.themeManager.current.primaryColor.opacity(0.12)))
+                .overlay(Circle().strokeBorder(viewModel.themeManager.current.primaryColor.opacity(0.3), lineWidth: 1.5))
+
             Text(viewModel.userName)
-                .font(AppFont.title)
-                .fontWeight(.bold)
+                .font(.title3.weight(.bold))
                 .foregroundColor(viewModel.themeManager.current.textPrimary)
+
+            Spacer(minLength: 0)
         }
         .appCardStyle()
     }
     
-    private func reviewLink<Destination: View>(
-        _ title: LocalizedStringKey,
-        subtitle: LocalizedStringKey,
-        systemImage: String,
-        @ViewBuilder destination: @escaping () -> Destination
-    ) -> some View {
-        let theme = viewModel.themeManager.current
-        return NavigationLink {
-            destination()
-        } label: {
-            HStack(spacing: AppSpacing.medium) {
-                Image(systemName: systemImage)
-                    .font(.title2)
-                    .foregroundStyle(theme.primaryColor)
-                    .frame(width: 44, height: 44)
-                    .background(theme.primaryColor.opacity(0.12), in: RoundedRectangle(cornerRadius: 12))
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(title)
-                        .font(AppFont.headline)
-                        .foregroundStyle(theme.textPrimary)
-                    Text(subtitle)
-                        .font(AppFont.footnote)
-                        .foregroundStyle(theme.textSecondary)
-                }
-                Spacer(minLength: 0)
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(theme.textSecondary)
-            }
-            .contentShape(.rect)
-        }
-        .buttonStyle(.plain)
-        .appCardStyle()
-    }
-
     private var longevityRatingSection: some View {
         let score = viewModel.longevityScore
 
@@ -370,7 +344,7 @@ struct UserStatsView: View {
             Text(String(localized: "Key Statistics"))
                 .appSectionHeader(theme: viewModel.themeManager.current)
             
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: AppSpacing.medium) {
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: AppSpacing.small), count: 2), spacing: AppSpacing.small) {
                 statCard(
                     icon: "list.bullet",
                     title: String(localized: "Total Habits"),
@@ -411,7 +385,7 @@ struct UserStatsView: View {
             HStack(spacing: AppSpacing.large) {
                 VStack(spacing: AppSpacing.small) {
                     Text("🔥")
-                        .font(.system(size: 40))
+                        .font(.system(size: 28))
                     Text("\(viewModel.longestStreak)")
                         .font(AppFont.title)
                         .fontWeight(.bold)
@@ -424,7 +398,7 @@ struct UserStatsView: View {
                 
                 VStack(spacing: AppSpacing.small) {
                     Text("⚡")
-                        .font(.system(size: 40))
+                        .font(.system(size: 28))
                     Text("\(viewModel.currentStreak)")
                         .font(AppFont.title)
                         .fontWeight(.bold)
@@ -437,7 +411,7 @@ struct UserStatsView: View {
 
                 VStack(spacing: AppSpacing.small) {
                     Text("😌")
-                        .font(.system(size: 40))
+                        .font(.system(size: 28))
                     Text("\(viewModel.totalRestDays)")
                         .font(AppFont.title)
                         .fontWeight(.bold)
@@ -618,22 +592,32 @@ struct UserStatsView: View {
     }
     
     private func statCard(icon: String, title: String, value: String, color: Color) -> some View {
-        VStack(spacing: AppSpacing.small) {
-            Image(systemName: icon)
-                .font(.title2)
-                .foregroundColor(color)
-            
-            Text(value)
-                .font(AppFont.headline)
-                .fontWeight(.bold)
-                .foregroundColor(viewModel.themeManager.current.textPrimary)
-            
-            Text(title)
-                .font(AppFont.caption)
-                .foregroundColor(viewModel.themeManager.current.textSecondary)
-                .multilineTextAlignment(.center)
+        HStack(spacing: AppSpacing.smallMedium) {
+            IconBadge(systemName: icon, color: color, size: 32)
+
+            VStack(alignment: .leading, spacing: 0) {
+                Text(value)
+                    .font(.title3.weight(.bold))
+                    .fontDesign(.rounded)
+                    .monospacedDigit()
+                    .foregroundColor(viewModel.themeManager.current.textPrimary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+                Text(title)
+                    .font(AppFont.footnote)
+                    .foregroundColor(viewModel.themeManager.current.textSecondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+            }
+
+            Spacer(minLength: 0)
         }
-        .appCardStyle()
+        .padding(AppSpacing.smallMedium)
+        .background(
+            color.opacity(0.08),
+            in: RoundedRectangle(cornerRadius: AppCornerRadius.info, style: .continuous)
+        )
+        .accessibilityElement(children: .combine)
     }
     
     private func insightRow(icon: String, title: String, subtitle: String, detail: String) -> some View {

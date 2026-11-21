@@ -28,7 +28,7 @@ struct TodayHeaderView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     HStack(spacing: AppSpacing.small) {
                         dayTitle
-                            .font(AppFont.title)
+                            .font(.title2.weight(.bold))
                             .foregroundStyle(theme.textPrimary)
                             .lineLimit(1)
                             .minimumScaleFactor(0.7)

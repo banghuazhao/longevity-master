@@ -30,9 +30,22 @@ struct HabitItemView: View {
                     .background(
                         Circle().fill(isDone ? Color.white.opacity(0.45) : habitColor.opacity(0.35))
                     )
+                    // A heart on the icon rather than after the name, where it wrapped onto a
+                    // line of its own.
+                    .overlay(alignment: .bottomTrailing) {
+                        if todayHabit.habit.isFavorite {
+                            Image(systemName: "heart.fill")
+                                .font(.system(size: 9, weight: .bold))
+                                .foregroundStyle(.red)
+                                .frame(width: 17, height: 17)
+                                .background(Circle().fill(themeManager.current.card))
+                                .offset(x: 3, y: 3)
+                                .accessibilityLabel(Text("Favorite"))
+                        }
+                    }
 
                 VStack(alignment: .leading, spacing: 3) {
-                    Text(todayHabit.habit.name + (todayHabit.habit.isFavorite ? " ❤️" : ""))
+                    Text(todayHabit.habit.name)
                         .font(AppFont.subheadline.weight(.semibold))
                         .foregroundStyle(themeManager.current.textPrimary)
                         .lineLimit(dynamicTypeSize >= .xLarge ? 3 : 2)
@@ -52,12 +65,12 @@ struct HabitItemView: View {
                 Spacer(minLength: 0)
             }
             .padding(AppSpacing.smallMedium)
-            .frame(maxWidth: .infinity, minHeight: 84, alignment: .leading)
+            .frame(maxWidth: .infinity, minHeight: 80, alignment: .leading)
             .background(tileBackground)
             .overlay(
                 RoundedRectangle(cornerRadius: AppCornerRadius.card, style: .continuous)
                     .strokeBorder(
-                        isDone ? habitBorderColor.opacity(0.5) : themeManager.current.secondaryGray.opacity(0.18),
+                        isDone ? habitBorderColor.opacity(0.45) : themeManager.current.cardBorder,
                         lineWidth: 1
                     )
             )

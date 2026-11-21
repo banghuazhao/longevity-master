@@ -21,54 +21,73 @@ struct ProgramsView: View {
 
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: AppSpacing.medium) {
+                VStack(alignment: .leading, spacing: AppSpacing.large) {
                     Text("A program bundles a few habits for a set number of weeks, with a goal for each week. Follow a guided one backed by research, or make your own.")
-                        .font(AppFont.subheadline)
+                        .font(AppFont.footnote)
                         .foregroundStyle(themeManager.current.textSecondary)
                         .fixedSize(horizontal: false, vertical: true)
+                        .padding(.horizontal, AppSpacing.xSmall)
 
                     if !current.isEmpty {
-                        sectionHeader("In progress")
+                        VStack(alignment: .leading, spacing: AppSpacing.small) {
+                            AppSectionHeader("In progress")
 
-                        ForEach(current) { enrolled in
-                            NavigationLink {
-                                ProgramDetailView(program: enrolled.program, viewModel: viewModel)
-                            } label: {
-                                ProgramProgressCard(enrolled: enrolled)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-
-                    sectionHeader("My programs")
-
-                    if custom.isEmpty {
-                        createCard
-                    } else {
-                        ForEach(custom) { program in
-                            programLink(program, isActive: viewModel.active(program, in: enrolled) != nil)
-                                .contextMenu {
-                                    Button {
-                                        edit(program)
-                                    } label: {
-                                        Label("Edit Program", systemImage: "pencil")
-                                    }
-                                    Button(role: .destructive) {
-                                        programToDelete = program
-                                    } label: {
-                                        Label("Delete Program", systemImage: "trash")
-                                    }
+                            ForEach(current) { enrolled in
+                                NavigationLink {
+                                    ProgramDetailView(program: enrolled.program, viewModel: viewModel)
+                                } label: {
+                                    ProgramProgressCard(enrolled: enrolled)
                                 }
+                                .buttonStyle(PressableTileStyle())
+                            }
                         }
                     }
 
-                    sectionHeader("Guided programs")
+                    VStack(alignment: .leading, spacing: AppSpacing.small) {
+                        AppSectionHeader("My programs")
 
-                    ForEach(ProgramsDataStore.all) { program in
-                        programLink(program, isActive: viewModel.active(program, in: enrolled) != nil)
+                        if custom.isEmpty {
+                            createCard
+                        } else {
+                            AppGroupedCard {
+                                ForEach(Array(custom.enumerated()), id: \.element.id) { index, program in
+                                    if index > 0 {
+                                        AppRowDivider(leadingInset: programRowDividerInset)
+                                    }
+                                    programLink(program, isActive: viewModel.active(program, in: enrolled) != nil)
+                                        .contextMenu {
+                                            Button {
+                                                edit(program)
+                                            } label: {
+                                                Label("Edit Program", systemImage: "pencil")
+                                            }
+                                            Button(role: .destructive) {
+                                                programToDelete = program
+                                            } label: {
+                                                Label("Delete Program", systemImage: "trash")
+                                            }
+                                        }
+                                }
+                            }
+                        }
+                    }
+
+                    VStack(alignment: .leading, spacing: AppSpacing.small) {
+                        AppSectionHeader("Guided programs")
+
+                        AppGroupedCard {
+                            ForEach(Array(ProgramsDataStore.all.enumerated()), id: \.element.id) { index, program in
+                                if index > 0 {
+                                    AppRowDivider(leadingInset: programRowDividerInset)
+                                }
+                                programLink(program, isActive: viewModel.active(program, in: enrolled) != nil)
+                            }
+                        }
                     }
                 }
-                .padding()
+                .padding(.horizontal)
+                .padding(.top, AppSpacing.small)
+                .padding(.bottom, AppSpacing.large)
             }
             .appBackground()
             .navigationTitle("Programs")
@@ -112,7 +131,12 @@ struct ProgramsView: View {
         } label: {
             ProgramCard(program: program, isActive: isActive)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(AppRowButtonStyle())
+    }
+
+    /// Where a program row's divider starts: past its icon.
+    private var programRowDividerInset: CGFloat {
+        AppSpacing.medium + ProgramCard.iconSize + AppSpacing.smallMedium
     }
 
     private func edit(_ program: Program) {
@@ -120,22 +144,19 @@ struct ProgramsView: View {
         form = CustomProgramFormModel(program: row)
     }
 
-    private func sectionHeader(_ title: LocalizedStringKey) -> some View {
-        Text(title)
-            .font(AppFont.headline)
-            .padding(.top, AppSpacing.small)
-    }
-
     private var createCard: some View {
         Button {
             form = CustomProgramFormModel()
         } label: {
-            HStack(spacing: AppSpacing.medium) {
+            HStack(spacing: AppSpacing.smallMedium) {
                 Image(systemName: "plus")
-                    .font(.title2.weight(.semibold))
+                    .font(.title3.weight(.semibold))
                     .foregroundStyle(themeManager.current.primaryColor)
-                    .frame(width: 56, height: 56)
-                    .background(themeManager.current.primaryColor.opacity(0.12), in: RoundedRectangle(cornerRadius: 16))
+                    .frame(width: ProgramCard.iconSize, height: ProgramCard.iconSize)
+                    .background(
+                        themeManager.current.primaryColor.opacity(0.12),
+                        in: RoundedRectangle(cornerRadius: ProgramCard.iconSize * 0.28, style: .continuous)
+                    )
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Create your own")
                         .font(AppFont.headline)
@@ -149,53 +170,64 @@ struct ProgramsView: View {
             }
             .padding(AppSpacing.medium)
             .background(
-                RoundedRectangle(cornerRadius: AppCornerRadius.card)
-                    .strokeBorder(themeManager.current.primaryColor.opacity(0.5), style: StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
+                RoundedRectangle(cornerRadius: AppCornerRadius.card, style: .continuous)
+                    .fill(themeManager.current.primaryColor.opacity(0.04))
             )
+            .overlay(
+                RoundedRectangle(cornerRadius: AppCornerRadius.card, style: .continuous)
+                    .strokeBorder(themeManager.current.primaryColor.opacity(0.45), style: StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
+            )
+            .contentShape(.rect)
         }
         .buttonStyle(.plain)
     }
 }
 
-/// A program in the list: what it is and how long it takes.
+/// A program in a list: what it is and how long it takes. A row of a grouped card, so it
+/// draws no card of its own.
 struct ProgramCard: View {
     let program: Program
     var isActive: Bool = false
 
+    static let iconSize: CGFloat = 48
+
     @Dependency(\.themeManager) private var themeManager
 
     var body: some View {
-        HStack(spacing: AppSpacing.medium) {
-            ProgramIcon(program: program, size: 56)
+        let theme = themeManager.current
 
-            VStack(alignment: .leading, spacing: 4) {
+        HStack(spacing: AppSpacing.smallMedium) {
+            ProgramIcon(program: program, size: Self.iconSize)
+
+            VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 6) {
                     Text(program.title)
-                        .font(AppFont.headline)
-                        .foregroundStyle(themeManager.current.textPrimary)
+                        .font(AppFont.subheadline.weight(.semibold))
+                        .foregroundStyle(theme.textPrimary)
+                        .lineLimit(1)
                     if isActive {
                         Text("Active")
                             .font(.caption2.weight(.bold))
                             .foregroundStyle(.white)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
-                            .background(themeManager.current.primaryColor, in: Capsule())
+                            .background(theme.primaryColor, in: Capsule())
                     }
                 }
                 Text(program.subtitle)
-                    .font(AppFont.subheadline)
-                    .foregroundStyle(themeManager.current.textSecondary)
-                    .lineLimit(2)
+                    .font(AppFont.footnote)
+                    .foregroundStyle(theme.textSecondary)
+                    .lineLimit(1)
                 ProgramLengthLabel(program: program)
             }
 
             Spacer(minLength: 0)
 
-            Image(systemName: "chevron.right")
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(themeManager.current.textSecondary)
+            AppRowChevron()
         }
-        .appCardStyle(theme: themeManager.current)
+        .padding(.horizontal, AppSpacing.medium)
+        .padding(.vertical, AppSpacing.smallMedium)
+        .contentShape(.rect)
     }
 }
 
@@ -214,6 +246,7 @@ struct ProgramLengthLabel: View {
             Text("\(program.habits.count) habits")
         }
         .font(AppFont.footnote)
+        .imageScale(.small)
         .foregroundStyle(themeManager.current.textSecondary)
     }
 }
@@ -226,7 +259,7 @@ struct ProgramIcon: View {
         Text(program.icon)
             .font(.system(size: size * 0.5))
             .frame(width: size, height: size)
-            .background(Color(hex: program.color), in: RoundedRectangle(cornerRadius: size * 0.28))
+            .background(Color(hex: program.color), in: RoundedRectangle(cornerRadius: size * 0.28, style: .continuous))
     }
 }
 
@@ -274,8 +307,7 @@ struct ProgramProgressCard: View {
                 }
             }
 
-            ProgressView(value: progress.fractionElapsed)
-                .tint(themeManager.current.primaryColor)
+            AppProgressBar(value: progress.fractionElapsed, color: themeManager.current.primaryColor)
 
             if let focus = enrolled.program.weeklyFocus[safe: enrolled.currentWeek - 1], !focus.isEmpty {
                 HStack(alignment: .top, spacing: 6) {

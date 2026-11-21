@@ -20,19 +20,31 @@ struct SettingView: View {
     @Dependency(\.consentManager) var consentManager
     @Environment(\.openURL) private var openURL
 
+    private var theme: AppTheme { themeManager.current }
+
     var body: some View {
         ScrollView {
-            VStack(spacing: AppSpacing.large) {
-                settingsSection(title: "Week Starts On") {
-                    HStack {
-                        Spacer()
-                        Picker("Week Start", selection: $startWeekOnMonday) {
+            VStack(alignment: .leading, spacing: AppSpacing.large) {
+                section("General") {
+                    AppRow("Appearance", systemImage: "circle.lefthalf.filled", color: .indigo) {
+                        Picker("Appearance", selection: $appearanceMode) {
+                            ForEach(AppearanceMode.allCases, id: \.self) { mode in
+                                Text(mode.title).tag(mode.rawValue)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+                        .tint(theme.primaryColor)
+                    }
+                    AppRowDivider()
+                    AppRow("Week Starts On", systemImage: "calendar", color: .red) {
+                        Picker("Week Starts On", selection: $startWeekOnMonday) {
                             Text(String(localized: "Monday")).tag(true)
                             Text(String(localized: "Sunday")).tag(false)
                         }
-                        .pickerStyle(.segmented)
-                        .frame(width: 200)
-                        Spacer()
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+                        .tint(theme.primaryColor)
                     }
                     .onChange(of: startWeekOnMonday) { _, newValue in
                         // The widget works out week boundaries too, and reads this from the
@@ -43,133 +55,104 @@ struct SettingView: View {
                         Task { await NotificationService.shared.syncWeeklyReview() }
                     }
                 }
-                settingsSection(title: "Feedback") {
-                    Toggle(isOn: $buttonSoundEnabled) {
-                        Text(String(localized: "Checkin Sound"))
-                            .font(AppFont.body)
-                            .foregroundColor(themeManager.current.textPrimary)
-                    }
-                    .toggleStyle(SwitchToggleStyle(tint: themeManager.current.primaryColor))
-                    Toggle(isOn: $vibrateEnabled) {
-                        Text(String(localized: "Vibrate"))
-                            .font(AppFont.body)
-                            .foregroundColor(themeManager.current.textPrimary)
-                    }
-                    .toggleStyle(SwitchToggleStyle(tint: themeManager.current.primaryColor))
-                }
-                settingsSection(title: "Motivation") {
-                    Toggle(isOn: $motivationalQuotesEnabled) {
-                        Text(String(localized: "Daily Motivational Quotes"))
-                            .font(AppFont.body)
-                            .foregroundColor(themeManager.current.textPrimary)
-                    }
-                    .toggleStyle(SwitchToggleStyle(tint: themeManager.current.primaryColor))
 
-                    Toggle(isOn: $weeklyReviewEnabled) {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text("Weekly Review")
-                                .font(AppFont.body)
-                                .foregroundColor(themeManager.current.textPrimary)
-                            Text("A look back at your week, at 7pm on its last day")
-                                .font(AppFont.footnote)
-                                .foregroundColor(themeManager.current.textSecondary)
-                        }
-                    }
-                    .toggleStyle(SwitchToggleStyle(tint: themeManager.current.primaryColor))
+                section("Feedback") {
+                    toggleRow($buttonSoundEnabled, "Checkin Sound", systemImage: "speaker.wave.2.fill", color: .pink)
+                    AppRowDivider()
+                    toggleRow($vibrateEnabled, "Vibrate", systemImage: "iphone.radiowaves.left.and.right", color: .purple)
+                }
+
+                section("Motivation") {
+                    toggleRow($motivationalQuotesEnabled, "Daily Motivational Quotes", systemImage: "quote.bubble.fill", color: .orange)
+                    AppRowDivider()
+                    toggleRow(
+                        $weeklyReviewEnabled,
+                        "Weekly Review",
+                        subtitle: "A look back at your week, at 7pm on its last day",
+                        systemImage: "calendar.badge.checkmark",
+                        color: .green
+                    )
                     .onChange(of: weeklyReviewEnabled) { _, _ in
                         Task { await NotificationService.shared.syncWeeklyReview() }
                     }
-                    
-                    HStack {
-                        Text("Reset Today's Motivation")
-                        Spacer()
-                        
+                    AppRowDivider()
+                    AppRow("Reset Today's Motivation", systemImage: "arrow.counterclockwise", color: .teal) {
                         Button {
                             $lastQuoteDismissedDate.withLock { $0 = nil }
                         } label: {
                             Text("Reset")
-                        }
-                        .appRectButtonStyle()
-                    }
-                }
-                settingsSection(title: "Appearance") {
-                    HStack {
-                        Spacer()
-                        Picker("Appearance", selection: $appearanceMode) {
-                            ForEach(AppearanceMode.allCases, id: \.self) { mode in
-                                Text(mode.title).tag(mode.rawValue)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        .frame(width: 240)
-                        Spacer()
-                    }
-                }
-                settingsSection(title: "Your Data") {
-                    NavigationLink {
-                        ExportDataView()
-                    } label: {
-                        HStack {
-                            Text("Export Data")
-                                .font(AppFont.body)
-                                .foregroundColor(themeManager.current.textPrimary)
-                            Spacer()
-                            Image(systemName: "square.and.arrow.up")
-                                .foregroundColor(themeManager.current.primaryColor)
-                        }
-                        .padding(.vertical, AppSpacing.small)
-                        .contentShape(Rectangle())
-                    }
-                    .buttonStyle(.plain)
-                    NavigationLink {
-                        RestoreBackupView()
-                    } label: {
-                        HStack {
-                            Text("Restore from Backup")
-                                .font(AppFont.body)
-                                .foregroundColor(themeManager.current.textPrimary)
-                            Spacer()
-                            Image(systemName: "clock.arrow.circlepath")
-                                .foregroundColor(themeManager.current.primaryColor)
-                        }
-                        .padding(.vertical, AppSpacing.small)
-                        .contentShape(Rectangle())
-                    }
-                    .buttonStyle(.plain)
-                }
-                settingsSection(title: "Privacy") {
-                    // Whole-row buttons: the consent row comes and goes depending on region, and
-                    // an identified collection keeps each row pinned to its own action as the
-                    // list changes.
-                    ForEach(privacyRows) { row in
-                        Button(action: row.action) {
-                            HStack {
-                                Text(row.title)
-                                    .font(AppFont.body)
-                                    .foregroundColor(themeManager.current.textPrimary)
-                                Spacer()
-                                Image(systemName: row.icon)
-                                    .foregroundColor(themeManager.current.primaryColor)
-                            }
-                            .padding(.vertical, AppSpacing.small)
-                            // Keeps the tappable area to this row alone.
-                            .contentShape(Rectangle())
+                                .font(AppFont.subheadline.weight(.semibold))
+                                .padding(.horizontal, AppSpacing.smallMedium)
+                                .padding(.vertical, 6)
+                                .background(theme.primaryColor.opacity(0.12), in: Capsule())
+                                .foregroundStyle(theme.primaryColor)
                         }
                         .buttonStyle(.plain)
                     }
                 }
+
+                section("Your Data") {
+                    NavigationLink {
+                        ExportDataView()
+                    } label: {
+                        AppRow("Export Data", systemImage: "square.and.arrow.up", color: .blue)
+                    }
+                    AppRowDivider()
+                    NavigationLink {
+                        RestoreBackupView()
+                    } label: {
+                        AppRow("Restore from Backup", systemImage: "clock.arrow.circlepath", color: .green)
+                    }
+                }
+                .buttonStyle(AppRowButtonStyle())
+
+                section("Privacy") {
+                    // Whole-row buttons: the consent row comes and goes depending on region, and
+                    // an identified collection keeps each row pinned to its own action as the
+                    // list changes.
+                    let rows = privacyRows
+                    ForEach(rows) { row in
+                        if row.id != rows.first?.id {
+                            AppRowDivider()
+                        }
+                        Button(action: row.action) {
+                            AppRow(row.title, systemImage: row.icon, color: row.color) {
+                                AppRowChevron(isExternal: row.isExternal)
+                            }
+                        }
+                    }
+                }
+                .buttonStyle(AppRowButtonStyle())
             }
-            .padding()
+            .padding(.horizontal)
+            .padding(.top, AppSpacing.small)
+            .padding(.bottom, AppSpacing.large)
         }
-        .background(themeManager.current.background.ignoresSafeArea())
+        .background(theme.background.ignoresSafeArea())
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
     }
 
+    private func toggleRow(
+        _ isOn: Binding<Bool>,
+        _ title: LocalizedStringKey,
+        subtitle: LocalizedStringKey? = nil,
+        systemImage: String,
+        color: Color
+    ) -> some View {
+        Toggle(isOn: isOn) {
+            AppRowLabel(title, subtitle: subtitle, systemImage: systemImage, color: color)
+        }
+        .tint(theme.primaryColor)
+        .appRowPadding()
+    }
+
     private struct PrivacyRow: Identifiable {
         let id: String
-        let title: String
+        let title: LocalizedStringKey
         let icon: String
+        let color: Color
+        var isExternal = false
         let action: () -> Void
     }
 
@@ -181,8 +164,9 @@ struct SettingView: View {
             rows.append(
                 PrivacyRow(
                     id: "manage-consent",
-                    title: String(localized: "Manage Consent"),
-                    icon: "slider.horizontal.3"
+                    title: "Manage Consent",
+                    icon: "slider.horizontal.3",
+                    color: .gray
                 ) {
                     Task { await consentManager.presentPrivacyOptionsForm() }
                 }
@@ -191,8 +175,10 @@ struct SettingView: View {
         rows.append(
             PrivacyRow(
                 id: "privacy-policy",
-                title: String(localized: "Privacy Policy"),
-                icon: "arrow.up.right.square"
+                title: "Privacy Policy",
+                icon: "hand.raised.fill",
+                color: .blue,
+                isExternal: true
             ) {
                 if let url = URL(string: "https://apps-bay.github.io/Apps-Bay-Website/privacy/") {
                     openURL(url)
@@ -202,17 +188,15 @@ struct SettingView: View {
         return rows
     }
 
-    private func settingsSection<Content: View>(title: LocalizedStringKey, @ViewBuilder content: () -> Content) -> some View {
+    private func section<Content: View>(
+        _ title: LocalizedStringKey,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.small) {
-            Text(title)
-                .appSectionHeader(theme: themeManager.current)
-            VStack(spacing: AppSpacing.small) {
+            AppSectionHeader(title)
+            AppGroupedCard {
                 content()
             }
-            .padding()
-            .background(themeManager.current.card)
-            .cornerRadius(AppCornerRadius.card)
-            .shadow(color: AppShadow.card.color, radius: AppShadow.card.radius, x: AppShadow.card.x, y: AppShadow.card.y)
         }
     }
 }

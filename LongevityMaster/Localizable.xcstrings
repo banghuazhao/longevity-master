@@ -3893,6 +3893,16 @@
         }
       }
     },
+    "General" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通用"
+          }
+        }
+      }
+    },
     "General wellness information, not medical advice. Check with your doctor before starting a new exercise or diet program, especially if you have a health condition." : {
       "localizations" : {
         "zh-Hans" : {
@@ -5143,6 +5153,7 @@
       }
     },
     "More Features" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5795,6 +5806,7 @@
       }
     },
     "Others" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5870,6 +5882,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "完美一周"
+          }
+        }
+      }
+    },
+    "Personalize" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "个性化"
           }
         }
       }
@@ -7440,6 +7462,16 @@
         }
       }
     },
+    "Support" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支持"
+          }
+        }
+      }
+    },
     "Swap refined grains for whole grains, and keep the rest going." : {
       "localizations" : {
         "zh-Hans" : {
@@ -8091,6 +8123,7 @@
       }
     },
     "Total Score" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -8491,6 +8524,7 @@
       }
     },
     "Week Start" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

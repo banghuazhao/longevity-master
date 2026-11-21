@@ -3,6 +3,7 @@
 // Copyright Apps Bay Limited. All rights reserved.
 //
 
+import Dependencies
 import SwiftUI
 
 struct HabitCardView: View {
@@ -13,56 +14,59 @@ struct HabitCardView: View {
     let onToggleArchive: () -> Void
     @State private var showDeleteAlert = false
 
+    @Dependency(\.themeManager) private var themeManager
+    @ScaledMetric(relativeTo: .title) private var iconSize: CGFloat = 44
+
     var body: some View {
-        HStack {
+        let theme = themeManager.current
+
+        HStack(spacing: AppSpacing.smallMedium) {
             Text(habit.icon)
-                .font(.system(size: 32))
+                .font(.system(size: iconSize * 0.52))
+                .frame(width: iconSize, height: iconSize)
+                .background(
+                    Color(hex: habit.color),
+                    in: RoundedRectangle(cornerRadius: iconSize * 0.3, style: .continuous)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: iconSize * 0.3, style: .continuous)
+                        .strokeBorder(habit.borderColor.opacity(0.25), lineWidth: 1)
+                )
                 .accessibilityHidden(true)
 
-            VStack(alignment: .leading, spacing: 5) {
-                HStack {
+            VStack(alignment: .leading, spacing: 3) {
+                HStack(spacing: 5) {
                     Text(habit.name)
-                        .font(.subheadline).bold()
+                        .font(AppFont.subheadline.weight(.semibold))
+                        .foregroundStyle(theme.textPrimary)
                         .lineLimit(1)
 
                     if habit.isFavorite {
                         Image(systemName: "heart.fill")
-                            .foregroundColor(.red)
-                            .font(.caption)
+                            .foregroundStyle(.red)
+                            .font(.caption2)
                     }
 
                     if habit.isArchived {
                         Image(systemName: "archivebox.fill")
-                            .foregroundColor(.gray)
-                            .font(.caption)
+                            .foregroundStyle(theme.textSecondary)
+                            .font(.caption2)
                     }
-                    Spacer()
                 }
 
-                HStack {
-                    Image(systemName: "calendar")
-                        .font(.caption2)
+                HStack(spacing: AppSpacing.small) {
+                    HStack(spacing: 1.5) {
+                        ForEach(0 ..< 5, id: \.self) { index in
+                            Image(systemName: index < habit.antiAgingRating ? "star.fill" : "star")
+                                .font(.system(size: 9, weight: .semibold))
+                                .foregroundStyle(index < habit.antiAgingRating ? Color.orange : theme.textSecondary.opacity(0.4))
+                        }
+                    }
+
                     Text(habit.frequencyDescription)
-                        .font(.caption2)
+                        .font(AppFont.footnote)
+                        .foregroundStyle(theme.textSecondary)
                         .lineLimit(1)
-                }
-
-                HStack {
-                    Image(systemName: "hand.thumbsup")
-                        .font(.caption2)
-
-                    HStack(spacing: 2) {
-                        ForEach(0 ..< habit.antiAgingRating, id: \.self) { _ in
-                            Image(systemName: "star.fill")
-                                .font(.caption2)
-                                .foregroundColor(.orange)
-                        }
-                        ForEach(habit.antiAgingRating ..< 5, id: \.self) { _ in
-                            Image(systemName: "star")
-                                .font(.caption2)
-                                .foregroundColor(.orange)
-                        }
-                    }
                 }
             }
             // Read as one sentence rather than a dozen fragments — "calendar", then five
@@ -71,7 +75,7 @@ struct HabitCardView: View {
             .accessibilityLabel(accessibilityDescription)
             .accessibilityAddTraits(.isButton)
 
-            Spacer()
+            Spacer(minLength: 0)
 
             Menu {
                 Button(action: onEdit) {
@@ -103,20 +107,18 @@ struct HabitCardView: View {
                 }
             } label: {
                 Image(systemName: "ellipsis")
-                    .appCircularButtonStyle()
+                    .font(.body.weight(.semibold))
+                    .foregroundStyle(theme.textSecondary)
+                    .frame(width: 36, height: 36)
+                    .contentShape(.rect)
             }
             .accessibilityLabel(Text("Actions for \(habit.name)"))
         }
-        .padding()
-        .background(
-            Color(hex: habit.color)
-        )
-        .cornerRadius(10)
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(habit.borderColor, lineWidth: 1)
-        )
-        .opacity(habit.isArchived ? 0.6 : 1.0)
+        .padding(.leading, AppSpacing.smallMedium)
+        .padding(.trailing, AppSpacing.xSmall)
+        .padding(.vertical, 10)
+        .contentShape(.rect)
+        .opacity(habit.isArchived ? 0.55 : 1.0)
         .alert(
             "Delete ‘\(habit.truncatedName)’?",
             isPresented: $showDeleteAlert,
@@ -144,7 +146,7 @@ extension HabitCardView {
 }
 
 #Preview {
-    VStack {
+    AppGroupedCard {
         HabitCardView(
             habit: HabitsDataStore.eatSalmon.toMock,
             onEdit: {},

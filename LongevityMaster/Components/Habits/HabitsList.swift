@@ -207,16 +207,16 @@ struct HabitsListView: View {
 
         NavigationStack {
             ScrollView {
-                VStack(spacing: 16) {
+                VStack(alignment: .leading, spacing: AppSpacing.medium) {
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 12) {
+                        HStack(spacing: AppSpacing.small) {
                             // All categories option
                             CategoryFilterButton(
                                 title: String(localized: "All"),
                                 isSelected: viewModel.selectedCategory == nil,
                                 action: { viewModel.selectCategory(nil) }
                             )
-                            
+
                             // Individual category options
                             ForEach(HabitCategory.allCases, id: \.self) { category in
                                 CategoryFilterButton(
@@ -227,8 +227,9 @@ struct HabitsListView: View {
                             }
                         }
                         .padding(.horizontal)
+                        .padding(.vertical, 2)
                     }
-                    
+
                     if habits.isEmpty {
                         EmptyStateView(
                             icon: "📝",
@@ -239,21 +240,34 @@ struct HabitsListView: View {
                             viewModel.onTapCreateHabit(category: viewModel.selectedCategory)
                         }
                     } else {
-                        ForEach(habits) { habit in
-                            HabitCardView(
-                                habit: habit,
-                                onEdit: { viewModel.onTapEditHabit(habit) },
-                                onDelete: { viewModel.confirmDeleteHabit(habit) },
-                                onToggleFavorite: { viewModel.toggleFavorite(habit) },
-                                onToggleArchive: { viewModel.toggleArchive(habit) }
-                            )
-                            .padding(.horizontal)
-                            .onTapGesture {
-                                viewModel.onTapHabitItem(habit)
+                        VStack(alignment: .leading, spacing: AppSpacing.small) {
+                            AppSectionHeader("\(habits.count) habits")
+
+                            // One card for the list, rows split by hairlines: a dozen habits
+                            // fit on a screen where a card apiece fitted five.
+                            AppGroupedCard {
+                                ForEach(Array(habits.enumerated()), id: \.element.id) { index, habit in
+                                    if index > 0 {
+                                        AppRowDivider(leadingInset: AppSpacing.smallMedium * 2 + 44)
+                                    }
+                                    HabitCardView(
+                                        habit: habit,
+                                        onEdit: { viewModel.onTapEditHabit(habit) },
+                                        onDelete: { viewModel.confirmDeleteHabit(habit) },
+                                        onToggleFavorite: { viewModel.toggleFavorite(habit) },
+                                        onToggleArchive: { viewModel.toggleArchive(habit) }
+                                    )
+                                    .onTapGesture {
+                                        viewModel.onTapHabitItem(habit)
+                                    }
+                                }
                             }
                         }
+                        .padding(.horizontal)
                     }
                 }
+                .padding(.top, AppSpacing.small)
+                .padding(.bottom, AppSpacing.large)
             }
             .appBackground()
             .navigationTitle("Habits")

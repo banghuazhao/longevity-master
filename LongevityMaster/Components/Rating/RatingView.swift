@@ -8,23 +8,40 @@ import SQLiteData
 
 struct RatingView: View {
     @State private var viewModel = RatingViewModel()
-    
+    @Dependency(\.themeManager) private var themeManager
+
+    private var theme: AppTheme { themeManager.current }
+
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 20) {
-                    // Rating Card
-                    ratingCard
-                    
-                    // Score Breakdown
+                VStack(alignment: .leading, spacing: AppSpacing.large) {
+                    if let breakdown = viewModel.scoreBreakdown {
+                        ratingCard(breakdown)
+                    } else {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, minHeight: 200)
+                    }
+
                     scoreBreakdownSection
                 }
-                .padding()
+                .padding(.horizontal)
+                .padding(.top, AppSpacing.small)
+                .padding(.bottom, AppSpacing.large)
             }
             .appBackground()
             .navigationTitle(String(localized: "Longevity Rating"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        viewModel.onTapRatingCard()
+                    } label: {
+                        Image(systemName: "info")
+                            .appToolbarCircularButtonStyle()
+                    }
+                    .accessibilityLabel(Text("Longevity Rating System"))
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if let breakdown = viewModel.scoreBreakdown {
                         ShareCardLink(content: .rating(breakdown)) {
@@ -50,94 +67,93 @@ struct RatingView: View {
             }
         }
     }
-    
-    private var ratingCard: some View {
-        VStack(spacing: 16) {
-            if let breakdown = viewModel.scoreBreakdown {
-                // Rating Display
-                VStack(spacing: 8) {
-                    Text(breakdown.rating.displayName)
-                        .font(.system(size: 48, weight: .bold, design: .rounded))
-                        .foregroundColor(breakdown.rating.color)
-                    
-                    Text(breakdown.rating.description)
-                        .font(.title2)
-                        .foregroundColor(.secondary)
-                    
+
+    // MARK: - Rating
+
+    private func ratingCard(_ breakdown: LongevityScoreBreakdown) -> some View {
+        let rating = breakdown.rating
+
+        return VStack(alignment: .leading, spacing: AppSpacing.medium) {
+            HStack(spacing: AppSpacing.large) {
+                RatingGauge(
+                    rating: rating,
+                    fraction: Double(breakdown.totalScore) / 1200
+                )
+
+                VStack(alignment: .leading, spacing: AppSpacing.xSmall) {
+                    Text(rating.description)
+                        .font(.title2.weight(.bold))
+                        .foregroundStyle(theme.textPrimary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
                     Text(String(localized: "\(breakdown.totalScore) points"))
-                        .font(.headline)
-                        .foregroundColor(.primary)
+                        .font(AppFont.subheadline.weight(.semibold))
+                        .monospacedDigit()
+                        .foregroundStyle(rating.color)
+                    Text(String(localized: "\(breakdown.totalScore)/1200"))
+                        .font(AppFont.footnote)
+                        .monospacedDigit()
+                        .foregroundStyle(theme.textSecondary)
                 }
-                
-                // Score Progress Bar
-                VStack(spacing: 8) {
-                    HStack {
-                        Text(String(localized: "Total Score"))
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        Spacer()
-                        Text(String(localized: "\(breakdown.totalScore)/1200"))
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
-                    
-                    ProgressView(value: Double(breakdown.totalScore), total: 1200)
-                        .progressViewStyle(LinearProgressViewStyle(tint: breakdown.rating.color))
-                        .scaleEffect(x: 1, y: 2, anchor: .center)
-                }
-                
-                if let nextRating = viewModel.scoreBreakdown?.nextRating {
-                    progressToNextRatingCard(nextRating: nextRating)
-                }
-            } else {
-                ProgressView()
-                    .scaleEffect(1.5)
+
+                Spacer(minLength: 0)
+            }
+
+            if let nextRating = breakdown.nextRating {
+                nextRatingProgress(breakdown, nextRating: nextRating)
             }
         }
-        .padding(24)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.systemBackground))
-                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-        )
+        .appCardStyle(theme: theme)
+        .contentShape(.rect)
         .onTapGesture {
             viewModel.onTapRatingCard()
         }
     }
-    
-    private func progressToNextRatingCard(nextRating: LongevityRating) -> some View {
-        VStack(spacing: 12) {
-            HStack {
-                Image(systemName: "arrow.up.circle.fill")
-                    .foregroundColor(nextRating.color)
-                Text(String(localized: "Progress to \(nextRating.displayName)"))
-                    .font(.headline)
-                Spacer()
-            }
-            
-            if let breakdown = viewModel.scoreBreakdown {
-                HStack {
-                    Text(String(localized: "\(breakdown.scoreToNextRating) points needed"))
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                    Spacer()
-                    Text(nextRating.description)
-                        .font(.subheadline)
-                        .foregroundColor(nextRating.color)
+
+    private func nextRatingProgress(_ breakdown: LongevityScoreBreakdown, nextRating: LongevityRating) -> some View {
+        // Every level below the top one is 100 points wide.
+        let levelProgress = Double(100 - min(100, breakdown.scoreToNextRating)) / 100
+
+        return VStack(alignment: .leading, spacing: AppSpacing.small) {
+            HStack(alignment: .firstTextBaseline) {
+                Label {
+                    Text(String(localized: "Progress to \(nextRating.displayName)"))
+                } icon: {
+                    Image(systemName: "arrow.up.circle.fill")
+                        .foregroundStyle(nextRating.color)
                 }
+                .font(AppFont.subheadline.weight(.semibold))
+                .foregroundStyle(theme.textPrimary)
+
+                Spacer(minLength: AppSpacing.small)
+
+                Text(String(localized: "\(breakdown.scoreToNextRating) points needed"))
+                    .font(AppFont.footnote)
+                    .monospacedDigit()
+                    .foregroundStyle(theme.textSecondary)
             }
+
+            AppProgressBar(value: levelProgress, color: nextRating.color, height: 8)
         }
+        .padding(AppSpacing.smallMedium)
+        .background(
+            theme.secondaryGray.opacity(0.08),
+            in: RoundedRectangle(cornerRadius: AppCornerRadius.info, style: .continuous)
+        )
     }
-    
+
+    // MARK: - Breakdown
+
     private var scoreBreakdownSection: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text(String(localized: "Score Breakdown"))
-                .font(.title2)
-                .fontWeight(.bold)
-            
+        VStack(alignment: .leading, spacing: AppSpacing.small) {
+            AppSectionHeader("Score Breakdown")
+
             if let breakdownItems = viewModel.scoreBreakdownItems {
-                LazyVStack(spacing: 12) {
+                AppGroupedCard {
                     ForEach(Array(breakdownItems.enumerated()), id: \.offset) { index, item in
+                        if index > 0 {
+                            AppRowDivider()
+                        }
                         ScoreBreakdownRow(item: item)
                             .onTapGesture {
                                 viewModel.onTapScoreBreakdownItem(item)
@@ -148,69 +164,113 @@ struct RatingView: View {
                 ProgressView()
                     .frame(maxWidth: .infinity, alignment: .center)
             }
-            
         }
     }
-    
+
     struct ScoreBreakdownRow: View {
         let item: ScoreBreakdownItem
-        
+
         @State var isInfoPresented: Bool = false
-        
+        @Dependency(\.themeManager) private var themeManager
+
         var body: some View {
-            VStack(spacing: 8) {
-                HStack {
-                    Image(systemName: item.icon)
-                        .foregroundColor(item.color)
-                        .frame(width: 24)
-                    
-                    Text(item.title)
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                    
-                    Button(action: {
-                        isInfoPresented.toggle()
-                    }) {
-                        Image(systemName: "info.circle")
-                            .foregroundColor(.secondary)
-                            .font(.system(size: 16))
-                    }
-                    .buttonStyle(.borderless)
-                    .popover(isPresented: $isInfoPresented) {
-                        ScrollView {
-                            VStack(spacing: 16) {
-                                Text(String(localized: "How \(item.title) Score is Calculated"))
-                                    .font(.headline)
-                                    .multilineTextAlignment(.center)
-                                
-                                Text(item.explanation)
-                                    .font(.body)
-                                    .multilineTextAlignment(.leading)
-                            }
-                            .frame(minHeight: 150)
+            let theme = themeManager.current
+
+            HStack(spacing: AppSpacing.smallMedium) {
+                IconBadge(systemName: item.icon, color: item.color)
+
+                VStack(alignment: .leading, spacing: 7) {
+                    HStack(spacing: AppSpacing.xSmall) {
+                        Text(item.title)
+                            .font(AppFont.subheadline.weight(.semibold))
+                            .foregroundStyle(theme.textPrimary)
+                            .lineLimit(1)
+
+                        Button {
+                            isInfoPresented.toggle()
+                        } label: {
+                            Image(systemName: "info.circle")
+                                .font(.footnote)
+                                .foregroundStyle(theme.textSecondary)
                         }
-                        .padding()
-                        .presentationCompactAdaptation(.popover)
+                        .buttonStyle(.borderless)
+                        .accessibilityLabel(Text(String(localized: "How \(item.title) Score is Calculated")))
+                        .popover(isPresented: $isInfoPresented) {
+                            ScrollView {
+                                VStack(spacing: 16) {
+                                    Text(String(localized: "How \(item.title) Score is Calculated"))
+                                        .font(.headline)
+                                        .multilineTextAlignment(.center)
+
+                                    Text(item.explanation)
+                                        .font(.body)
+                                        .multilineTextAlignment(.leading)
+                                }
+                                .frame(minHeight: 150)
+                            }
+                            .padding()
+                            .presentationCompactAdaptation(.popover)
+                        }
+
+                        Spacer(minLength: AppSpacing.small)
+
+                        Text(String(localized: "\(item.score)/\(item.maxScore)"))
+                            .font(AppFont.footnote.weight(.semibold))
+                            .monospacedDigit()
+                            .foregroundStyle(theme.textSecondary)
                     }
-                    
-                    Spacer()
-                    
-                    Text(String(localized: "\(item.score)/\(item.maxScore)"))
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
+
+                    AppProgressBar(value: item.percentage, color: item.color)
                 }
-                
-                ProgressView(value: item.percentage)
-                    .progressViewStyle(LinearProgressViewStyle(tint: item.color))
-                    .scaleEffect(x: 1, y: 1.5, anchor: .center)
+
+                Image(systemName: "chevron.right")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(theme.textSecondary.opacity(0.7))
+                    .accessibilityHidden(true)
             }
-            .padding(16)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(.systemBackground))
-                    .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
-            )
+            .appRowPadding()
+            .accessibilityElement(children: .combine)
+            .accessibilityAddTraits(.isButton)
         }
+    }
+}
+
+/// The rating's letter inside a ring filled by how far the score has come out of 1,200.
+private struct RatingGauge: View {
+    let rating: LongevityRating
+    let fraction: Double
+
+    @ScaledMetric(relativeTo: .title) private var size: CGFloat = 108
+
+    var body: some View {
+        let clamped = min(max(fraction, 0), 1)
+
+        ZStack {
+            Circle()
+                .stroke(rating.color.opacity(0.15), lineWidth: 10)
+            Circle()
+                .trim(from: 0, to: clamped)
+                .stroke(
+                    AngularGradient(
+                        colors: [rating.color.opacity(0.55), rating.color],
+                        center: .center,
+                        startAngle: .degrees(0),
+                        endAngle: .degrees(360 * max(clamped, 0.01))
+                    ),
+                    style: StrokeStyle(lineWidth: 10, lineCap: .round)
+                )
+                .rotationEffect(.degrees(-90))
+            Text(rating.displayName)
+                .font(.system(size: 40, weight: .bold, design: .rounded))
+                .foregroundStyle(rating.color)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+                .padding(18)
+        }
+        .frame(width: size, height: size)
+        .animation(.spring(response: 0.6, dampingFraction: 0.85), value: clamped)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(verbatim: rating.displayName))
     }
 }
 

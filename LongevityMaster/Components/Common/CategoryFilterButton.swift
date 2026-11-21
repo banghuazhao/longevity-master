@@ -13,18 +13,29 @@ struct CategoryFilterButton: View {
     let action: () -> Void
     
     var body: some View {
+        let theme = themeManager.current
+
         Button(action: action) {
             Text(title)
-                .font(.system(size: 14, weight: .medium))
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .background(
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(isSelected ? themeManager.current.primaryColor : themeManager.current.secondaryGray.opacity(0.1))
-                )
-                .foregroundColor(isSelected ? .white : themeManager.current.textPrimary)
+                .font(AppFont.subheadline.weight(isSelected ? .semibold : .medium))
+                .lineLimit(1)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 7)
+                .background {
+                    if isSelected {
+                        Capsule().fill(theme.primaryColor)
+                    } else {
+                        Capsule()
+                            .fill(theme.card)
+                            .overlay(Capsule().strokeBorder(theme.separator, lineWidth: 1))
+                    }
+                }
+                .foregroundStyle(isSelected ? Color.white : theme.textPrimary)
+                .contentShape(Capsule())
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
+        .animation(.snappy(duration: 0.2), value: isSelected)
     }
 }
 

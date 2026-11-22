@@ -10,6 +10,8 @@
 	<string>Longevity Master uses your device's advertising identifier to choose which ads appear in the app — for example, showing you fitness gear or healthy meal-kit ads instead of ads picked at random. You can use every habit and reminder feature if you decline.</string>
 	<key>NSHealthShareUsageDescription</key>
 	<string>Longevity Master reads your steps, exercise minutes, mindful minutes and sleep to check in the habits you link to Apple Health. Your Health data stays on your device.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Longevity Master doesn't write anything to Apple Health. It only reads your steps, exercise minutes, mindful minutes and sleep to check in the habits you link.</string>
 	<key>NSSupportsLiveActivities</key>
 	<true/>
 	<key>NSPhotoLibraryAddUsageDescription</key>

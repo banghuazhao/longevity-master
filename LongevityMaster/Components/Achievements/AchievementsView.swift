@@ -18,7 +18,16 @@ class AchievementsViewModel {
     
     @ObservationIgnored
     @FetchAll(Habit.all, animation: .default) var allHabits
-    
+
+    @ObservationIgnored
+    @FetchAll(SkippedDay.all, animation: .default) var allSkippedDays
+
+    @ObservationIgnored
+    @FetchAll(ProgramEnrollment.all, animation: .default) var allEnrollments
+
+    @ObservationIgnored
+    @FetchAll(CustomProgram.all, animation: .default) var allCustomPrograms
+
     var unlockedAchievements: [Achievement] {
         allAchievements.filter { $0.isUnlocked }.sorted { $0.unlockedDate ?? Date() > $1.unlockedDate ?? Date() }
     }
@@ -62,12 +71,27 @@ class AchievementsViewModel {
         var activeDays: Set<Date> = []
         var latestDate: Date?
         var totalCheckIns = 0
+        /// The most categories covered on any one day.
+        var mostCategoriesInADay = 0
+        /// The habits rated five stars.
+        var fiveStarHabitIDs: Set<Habit.ID> = []
+        var finishedProgramCount = 0
+        var longevityScore = 0
 
-        init(checkIns: [CheckIn], habits: [Habit], calendar: Calendar) {
+        init(
+            checkIns: [CheckIn],
+            habits: [Habit],
+            skippedDays: [SkippedDay],
+            enrollments: [ProgramEnrollment],
+            customPrograms: [CustomProgram],
+            unlockedAchievementCount: Int,
+            calendar: Calendar
+        ) {
             let categoryByHabit = Dictionary(
                 habits.map { ($0.id, $0.category) },
                 uniquingKeysWith: { first, _ in first }
             )
+            var categoriesByDay: [Date: Set<HabitCategory>] = [:]
 
             for checkIn in checkIns {
                 let day = checkIn.date.startOfDay(for: calendar)
@@ -84,10 +108,26 @@ class AchievementsViewModel {
                 if let category = categoryByHabit[checkIn.habitID] {
                     countsByCategory[category, default: 0] += 1
                     categoriesTouched.insert(category)
+                    categoriesByDay[day, default: []].insert(category)
                 }
             }
 
             totalCheckIns = checkIns.count
+            mostCategoriesInADay = categoriesByDay.values.map(\.count).max() ?? 0
+            fiveStarHabitIDs = Set(habits.filter { $0.antiAgingRating >= 5 }.map(\.id))
+            finishedProgramCount = ProgramEnrollments.finishedCount(
+                enrollments,
+                customPrograms: customPrograms,
+                now: Date(),
+                calendar: calendar
+            )
+            longevityScore = RatingService.score(
+                habits: habits,
+                unlockedAchievementCount: unlockedAchievementCount,
+                checkIns: checkIns,
+                skippedDays: skippedDays,
+                calendar: calendar
+            ).totalScore
         }
     }
 
@@ -95,7 +135,15 @@ class AchievementsViewModel {
     /// per row.
     var progressByAchievement: [Achievement.ID: Double] {
         let calendar = userCalendar
-        let index = ProgressIndex(checkIns: allCheckIns, habits: allHabits, calendar: calendar)
+        let index = ProgressIndex(
+            checkIns: allCheckIns,
+            habits: allHabits,
+            skippedDays: allSkippedDays,
+            enrollments: allEnrollments,
+            customPrograms: allCustomPrograms,
+            unlockedAchievementCount: unlockedCount,
+            calendar: calendar
+        )
         return Dictionary(
             uniqueKeysWithValues: allAchievements.map {
                 ($0.id, progress(for: $0, using: index, calendar: calendar))
@@ -141,6 +189,36 @@ class AchievementsViewModel {
 
         case .milestone:
             return min(Double(index.totalCheckIns) / Double(target), 1.0)
+
+        case .comeback:
+            return 0 // A binary achievement
+
+        case .balancedDay:
+            return min(Double(index.mostCategoriesInADay) / Double(target), 1.0)
+
+        case .programGraduate:
+            return min(Double(index.finishedProgramCount) / Double(target), 1.0)
+
+        case .longevityRating:
+            return min(Double(index.longevityScore) / Double(target), 1.0)
+
+        case .anniversary:
+            guard
+                let first = index.activeDays.min(),
+                let elapsed = calendar.dateComponents([.day], from: first, to: Date()).day
+            else { return 0 }
+            return min(Double(elapsed) / Double(target), 1.0)
+
+        case .topHabitStreak:
+            let best = index.fiveStarHabitIDs.compactMap { habitID -> Int? in
+                guard let latest = index.latestDateByHabit[habitID] else { return nil }
+                return calendar.consecutiveDays(
+                    endingAt: latest,
+                    within: index.daysByHabit[habitID] ?? [],
+                    upTo: target
+                )
+            }.max() ?? 0
+            return min(Double(best) / Double(target), 1.0)
         }
     }
 }

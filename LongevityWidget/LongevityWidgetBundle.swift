@@ -14,5 +14,8 @@ struct LongevityWidgetBundle: WidgetBundle {
         if #available(iOSApplicationExtension 18.0, *) {
             HabitCheckInControl()
         }
+        #if canImport(ActivityKit) && !targetEnvironment(macCatalyst)
+            TodayLiveActivity()
+        #endif
     }
 }

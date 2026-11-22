@@ -15,6 +15,8 @@ struct SettingView: View {
     @AppStorage(AppearanceMode.storageKey) private var appearanceMode: String = AppearanceMode.system.rawValue
     @AppStorage("motivationalQuotesEnabled") private var motivationalQuotesEnabled: Bool = true
     @AppStorage(NotificationService.weeklyReviewEnabledKey) private var weeklyReviewEnabled: Bool = true
+    @AppStorage(LockScreenProgress.isEnabledKey) private var showsLockScreenProgress: Bool = false
+    @State private var showLiveActivitiesOffAlert = false
     @Shared(.appStorage("lastQuoteDismissedDate")) private var lastQuoteDismissedDate: Date? = nil
     @Dependency(\.themeManager) var themeManager
     @Dependency(\.consentManager) var consentManager
@@ -53,6 +55,22 @@ struct SettingView: View {
                         WidgetRefresher.reload()
                         // The weekly review lands on the week's last day, which just moved.
                         Task { await NotificationService.shared.syncWeeklyReview() }
+                    }
+                    if LockScreenProgress.isSupported {
+                        AppRowDivider()
+                        toggleRow(
+                            $showsLockScreenProgress,
+                            "Lock Screen Progress",
+                            subtitle: "Today's habits on the Lock Screen and in the Dynamic Island",
+                            systemImage: "lock.iphone",
+                            color: .blue
+                        )
+                        .onChange(of: showsLockScreenProgress) { _, isOn in
+                            if isOn, !LockScreenProgress.isAllowedBySystem {
+                                showLiveActivitiesOffAlert = true
+                            }
+                            LockScreenProgress.refresh()
+                        }
                     }
                 }
 
@@ -131,6 +149,16 @@ struct SettingView: View {
         .background(theme.background.ignoresSafeArea())
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
+        .alert("Live Activities Are Off", isPresented: $showLiveActivitiesOffAlert) {
+            Button("Open Settings") {
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    openURL(url)
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Turn on Live Activities for Longevity Master in Settings to see today's progress on your Lock Screen.")
+        }
     }
 
     private func toggleRow(

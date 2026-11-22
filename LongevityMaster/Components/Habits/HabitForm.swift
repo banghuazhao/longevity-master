@@ -17,6 +17,11 @@ class HabitFormViewModel: HashableObject {
     var draftReminders: [Reminder.Draft] = []
     private var originalReminderIDs: Set<Int> = []
 
+    /// What Apple Health checks this habit in for, if anything.
+    var healthMetric: HealthMetric?
+    var healthGoal = 0
+    private var originalHealthLink: HealthLink?
+
     var todayHabit: TodayDraftHabit {
         let frequencyDescription: String? = switch habit.frequency {
         case .nDaysEachWeek: String(localized: "1/\(habit.nDaysPerWeek) this week")
@@ -66,6 +71,14 @@ class HabitFormViewModel: HashableObject {
             }) {
                 self.draftReminders = reminders.map { Reminder.Draft($0) }
                 self.originalReminderIDs = Set(reminders.map { $0.id })
+            }
+            @Dependency(\.defaultDatabase) var database
+            if let link = try? database.read({ db in
+                try HealthLink.where { $0.habitID.eq(habitID) }.fetchOne(db)
+            }) {
+                originalHealthLink = link
+                healthMetric = link.metric
+                healthGoal = link.goal
             }
         } else {
             self.draftReminders = []
@@ -173,10 +186,42 @@ class HabitFormViewModel: HashableObject {
                     notificationService.removeReminder(reminderToDelete)
                 }
             }
+            try await saveHealthLink(for: updatedHabit.id)
             onSaveHabit?(updatedHabit)
             WidgetRefresher.reload()
         }
         return true
+    }
+
+    /// Turns Apple Health on, off, or over to another metric, asking to read it as soon as it
+    /// is picked so the Health sheet appears while the user is still looking at the setting.
+    func selectHealthMetric(_ metric: HealthMetric?) {
+        healthMetric = metric
+        guard let metric else { return }
+        healthGoal = originalHealthLink?.metric == metric
+            ? originalHealthLink?.goal ?? metric.defaultGoal
+            : metric.defaultGoal
+        Task { await HealthSync.requestAccess(to: metric) }
+    }
+
+    private func saveHealthLink(for habitID: Habit.ID) async throws {
+        let metric = healthMetric
+        let goal = healthGoal
+        // A goal or metric changed since is a new arrangement: today is looked at again.
+        let unchanged = originalHealthLink.map { $0.metric == metric && $0.goal == goal } ?? false
+        let lastCheckInDay = unchanged ? originalHealthLink?.lastCheckInDay : nil
+        try await database.write { db in
+            try HealthLink.where { $0.habitID.eq(habitID) }.delete().execute(db)
+            if let metric {
+                try HealthLink.insert {
+                    HealthLink.Draft(habitID: habitID, metric: metric, goal: goal, lastCheckInDay: lastCheckInDay)
+                }
+                .execute(db)
+            }
+        }
+        if metric != nil {
+            Task { await HealthSync.syncAll() }
+        }
     }
 
     func onTapGallery() {
@@ -477,7 +522,11 @@ struct HabitFormView: View {
                         }
                     }
                     .appCardStyle(theme: themeManager.current)
-                    
+
+                    if HealthSync.isAvailable {
+                        healthCard
+                    }
+
                     VStack(alignment: .leading, spacing: AppSpacing.small) {
                         HStack {
                             Image(systemName: "text.quote")
@@ -593,6 +642,64 @@ struct HabitFormView: View {
                 }
             }
         }
+    }
+}
+
+extension HabitFormView {
+    /// Lets Apple Health check the habit in: pick what to measure, then the goal.
+    var healthCard: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.small) {
+            HStack {
+                Image(systemName: "heart.fill")
+                    .foregroundStyle(.pink)
+                Text("Apple Health")
+                    .fontWeight(.semibold)
+                    .foregroundColor(themeManager.current.textPrimary)
+                Spacer()
+                Picker(
+                    "Auto Check-in",
+                    selection: Binding(
+                        get: { viewModel.healthMetric },
+                        set: { viewModel.selectHealthMetric($0) }
+                    )
+                ) {
+                    Text("Off").tag(HealthMetric?.none)
+                    ForEach(HealthMetric.allCases) { metric in
+                        Label(metric.title, systemImage: metric.systemImage)
+                            .tag(HealthMetric?.some(metric))
+                    }
+                }
+                .pickerStyle(.menu)
+                .tint(themeManager.current.primaryColor)
+                .fixedSize()
+            }
+
+            if let metric = viewModel.healthMetric {
+                Divider()
+                Stepper(
+                    value: $viewModel.healthGoal,
+                    in: metric.goalRange,
+                    step: metric.goalStep
+                ) {
+                    HStack {
+                        Text("Daily Goal")
+                            .foregroundColor(themeManager.current.textPrimary)
+                        Spacer()
+                        Text(verbatim: metric.goalText(viewModel.healthGoal))
+                            .monospacedDigit()
+                            .foregroundColor(themeManager.current.textSecondary)
+                    }
+                }
+                Text("Checked in for you once Apple Health shows you reached the goal. Make sure Longevity Master can read this in the Health app.")
+                    .font(.caption)
+                    .foregroundColor(themeManager.current.secondaryGray)
+            } else {
+                Text("Let Apple Health check this habit in for you, using your steps, exercise, mindfulness or sleep.")
+                    .font(.caption)
+                    .foregroundColor(themeManager.current.secondaryGray)
+            }
+        }
+        .appCardStyle(theme: themeManager.current)
     }
 }
 

@@ -327,6 +327,29 @@ func appDatabase(inMemory: Bool = false) throws -> any DatabaseWriter {
         .execute(db)
     }
 
+    // "Add achievements" ran once, with the definitions of the day; later ones reach existing
+    // databases here. A fresh database already has them all and gains nothing.
+    migrator.registerMigration("Add achievements for 1.10") { db in
+        try AchievementDefinitions.insertMissing(in: db)
+    }
+
+    // Habits that check themselves in from Apple Health. Its own table, like `habitPositions`,
+    // so the widget's copy of `Habit` and the backup format are left alone.
+    migrator.registerMigration("Add Apple Health links") { db in
+        try #sql(
+            """
+            CREATE TABLE "healthLinks" (
+             "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+             "habitID" INTEGER NOT NULL UNIQUE REFERENCES "habits"("id") ON DELETE CASCADE,
+             "metric" INTEGER NOT NULL DEFAULT 0,
+             "goal" INTEGER NOT NULL DEFAULT 0,
+             "lastCheckInDay" TEXT
+            ) STRICT
+            """
+        )
+        .execute(db)
+    }
+
     try migrator.migrate(database)
 
     return database

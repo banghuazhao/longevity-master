@@ -56,6 +56,7 @@ struct LongevityMasterApp: App {
         WidgetDatabase.inAppDatabase = database
         WidgetDatabase.afterCheckInChange = {
             Task { await NotificationService.shared.syncAllReminders() }
+            Task { @MainActor in LockScreenProgress.refresh() }
         }
         // Set before launch finishes, so a reminder that launched the app is seen too.
         UNUserNotificationCenter.current().delegate = ReminderTapObserver.shared
@@ -108,6 +109,12 @@ struct LongevityMasterApp: App {
                 await requestNotificationPermissions()
                 await consentManager.resolve()
                 WhatsNew.presentIfDue()
+                // The unit tests run inside this app, and by now they are under way: judging
+                // achievements here would reach a live-only dependency in the middle of them.
+                @Dependency(\.context) var context
+                if context != .test {
+                    await achievementService.checkAchievementsForLatestCheckIn()
+                }
             }
             .task {
                 await purchaseManager.checkPurchaseStatus()
@@ -118,6 +125,10 @@ struct LongevityMasterApp: App {
             .task {
                 QuickAction.install()
             }
+            .task {
+                await HealthSync.syncAll()
+                LockScreenProgress.refresh()
+            }
             .onChange(of: scenePhase) { _, newPhase in
                 if newPhase == .active {
                     Task { await purchaseManager.checkPurchaseStatus() }
@@ -126,6 +137,12 @@ struct LongevityMasterApp: App {
                     Task { await notificationService.syncAllReminders() }
                     // The first trip to the foreground on a new day writes that day's backup.
                     Task { await AutoBackup.runIfDue(database: database) }
+                    // Steps walked and nights slept while the app was away; the Live
+                    // Activity catches up with widget check-ins, or starts a new day.
+                    Task {
+                        await HealthSync.syncAll()
+                        LockScreenProgress.refresh()
+                    }
                     if !purchaseManager.isPremiumUserPurchased {
                         openAd.tryToPresentAd()
                     }

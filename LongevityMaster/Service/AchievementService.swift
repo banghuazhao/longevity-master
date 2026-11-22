@@ -63,8 +63,21 @@ class AchievementService {
         /// Days off. Streaks count through these, and a habit is not held to its schedule on
         /// one.
         let restDays: RestDays
+        /// Programs seen through to their last day.
+        let finishedProgramCount: Int
+        /// The longevity score as the Rating tab shows it.
+        var longevityScore: Int
 
-        init(checkIns: [CheckIn], habits: [Habit], skippedDays: [SkippedDay], calendar: Calendar) {
+        init(
+            checkIns: [CheckIn],
+            habits: [Habit],
+            skippedDays: [SkippedDay],
+            enrollments: [ProgramEnrollment],
+            customPrograms: [CustomProgram],
+            unlockedAchievementCount: Int,
+            now: Date,
+            calendar: Calendar
+        ) {
             self.checkIns = checkIns
             self.habits = habits
             checkInsByHabit = Dictionary(grouping: checkIns, by: \.habitID)
@@ -74,7 +87,37 @@ class AchievementService {
             )
             activeDays = Set(checkIns.map { $0.date.startOfDay(for: calendar) })
             restDays = RestDays(skippedDays, in: calendar)
+            finishedProgramCount = ProgramEnrollments.finishedCount(
+                enrollments,
+                customPrograms: customPrograms,
+                now: now,
+                calendar: calendar
+            )
+            longevityScore = RatingService.score(
+                habits: habits,
+                unlockedAchievementCount: unlockedAchievementCount,
+                checkIns: checkIns,
+                skippedDays: skippedDays,
+                calendar: calendar
+            ).totalScore
         }
+    }
+
+    /// Judges the achievements again against the most recent check-in, whichever way it was
+    /// made.
+    ///
+    /// Some are earned without a check-in in the app: a rating reached, a program run to its
+    /// last day, a year gone by — and check-ins from the widget, Control Center or Siri are
+    /// never judged where they are made. Run once the app is up, so those are not left
+    /// waiting for the next check-in on the Today tab.
+    func checkAchievementsForLatestCheckIn() async {
+        let latest = await withErrorReporting {
+            try await database.read { db in
+                try CheckIn.order { $0.date.desc() }.fetchOne(db)
+            }
+        }
+        guard let latest = latest ?? nil else { return }
+        await checkAchievementsAndShow(for: latest)
     }
 
     func checkAchievementsAndShow(for checkIn: CheckIn) async {
@@ -83,23 +126,48 @@ class AchievementService {
 
             // Locked achievements come from the same read as the rest, so an achievement
             // unlocked a moment ago cannot be unlocked again and have its date overwritten.
-            let (checkIns, habits, skippedDays, locked) = try await database.read { db in
+            let (checkIns, habits, skippedDays, enrollments, customPrograms, unlockedCount, locked) = try await database.read { db in
                 (
                     try CheckIn.all.fetchAll(db),
                     try Habit.all.fetchAll(db),
                     try SkippedDay.all.fetchAll(db),
+                    try ProgramEnrollment.all.fetchAll(db),
+                    try CustomProgram.all.fetchAll(db),
+                    try Achievement.where { $0.isUnlocked }.fetchCount(db),
                     try Achievement.where { !$0.isUnlocked }.fetchAll(db)
                 )
             }
 
-            let snapshot = Snapshot(
+            var snapshot = Snapshot(
                 checkIns: checkIns,
                 habits: habits,
                 skippedDays: skippedDays,
+                enrollments: enrollments,
+                customPrograms: customPrograms,
+                unlockedAchievementCount: unlockedCount,
+                now: Date(),
                 calendar: calendar
             )
-            let earned = locked.filter {
-                meetsCriteria($0, for: checkIn, in: snapshot, calendar: calendar)
+            // Every achievement unlocked adds to the longevity score, which can carry it past
+            // a rating that is an achievement of its own. Judge again until nothing more is
+            // earned, rather than leaving that one for the next check-in.
+            var earned: [Achievement] = []
+            var stillLocked = locked
+            while true {
+                let newlyEarned = stillLocked.filter {
+                    meetsCriteria($0, for: checkIn, in: snapshot, calendar: calendar)
+                }
+                guard !newlyEarned.isEmpty else { break }
+                earned += newlyEarned
+                let newlyEarnedIDs = Set(newlyEarned.map(\.id))
+                stillLocked.removeAll { newlyEarnedIDs.contains($0.id) }
+                snapshot.longevityScore = RatingService.score(
+                    habits: habits,
+                    unlockedAchievementCount: unlockedCount + earned.count,
+                    checkIns: checkIns,
+                    skippedDays: skippedDays,
+                    calendar: calendar
+                ).totalScore
             }
             guard !earned.isEmpty else { return }
 
@@ -192,6 +260,52 @@ class AchievementService {
 
         case .milestone:
             return snapshot.checkIns.count >= target
+
+        case .comeback:
+            // The days with nothing at all between this check-in's day and the last one
+            // before it. Only a check-in that ends the gap can earn it.
+            let day = checkIn.date.startOfDay(for: calendar)
+            guard
+                let previous = snapshot.activeDays.filter({ $0 < day }).max(),
+                let gap = calendar.dateComponents([.day], from: previous, to: day).day
+            else { return false }
+            return gap - 1 >= target
+
+        case .balancedDay:
+            let day = checkIn.date.startOfDay(for: calendar)
+            let categories = Set(
+                snapshot.checkIns
+                    .filter { $0.date.startOfDay(for: calendar) == day }
+                    .compactMap { snapshot.categoryByHabit[$0.habitID] }
+            )
+            return categories.count >= target
+
+        case .programGraduate:
+            return snapshot.finishedProgramCount >= target
+
+        case .longevityRating:
+            return snapshot.longevityScore >= target
+
+        case .anniversary:
+            let day = checkIn.date.startOfDay(for: calendar)
+            guard
+                let first = snapshot.activeDays.min(),
+                let elapsed = calendar.dateComponents([.day], from: first, to: day).day
+            else { return false }
+            return elapsed >= target
+
+        case .topHabitStreak:
+            guard
+                let habit = snapshot.habits.first(where: { $0.id == checkIn.habitID }),
+                habit.antiAgingRating >= 5
+            else { return false }
+            let days = Set((snapshot.checkInsByHabit[habit.id] ?? []).map { $0.date.startOfDay(for: calendar) })
+            return calendar.consecutiveDays(
+                endingAt: checkIn.date,
+                within: days,
+                skipping: snapshot.restDays.forHabit(habit.id),
+                upTo: target
+            ) >= target
         }
     }
 

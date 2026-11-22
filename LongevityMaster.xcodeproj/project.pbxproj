@@ -35,6 +35,9 @@
 		1B043D67DBE484B4CE286A6C /* HabitEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0CD61740FCC51997A00430 /* HabitEntity.swift */; };
 		7EE934DDA39E1692959CAD0D /* HabitEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0CD61740FCC51997A00430 /* HabitEntity.swift */; };
 		85E15132643067767F42D24B /* WidgetDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C8D913018BDA3DB18C7BB9 /* WidgetDatabase.swift */; };
+		04CAB7394EE54C8E424E62C8 /* TodayActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B69913F249DB2190ED2786D /* TodayActivityAttributes.swift */; };
+		2668DB8FC84E7649CD3684DA /* TodayActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B69913F249DB2190ED2786D /* TodayActivityAttributes.swift */; };
+		D0B60ACAE75DE36808C8F713 /* TodayLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA4E1514EA14097608B6A44 /* TodayLiveActivity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +96,8 @@
 		E73EA12F6C09D9CE505BAF51 /* TodayProgressWidget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TodayProgressWidget.swift; path = LongevityWidget/TodayProgressWidget.swift; sourceTree = SOURCE_ROOT; };
 		DC34D03C0CDB78DC01C28914 /* HabitCheckInControl.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HabitCheckInControl.swift; path = LongevityWidget/HabitCheckInControl.swift; sourceTree = SOURCE_ROOT; };
 		7E0CD61740FCC51997A00430 /* HabitEntity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HabitEntity.swift; path = LongevityWidget/HabitEntity.swift; sourceTree = SOURCE_ROOT; };
+		4B69913F249DB2190ED2786D /* TodayActivityAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TodayActivityAttributes.swift; path = LongevityWidget/TodayActivityAttributes.swift; sourceTree = SOURCE_ROOT; };
+		AEA4E1514EA14097608B6A44 /* TodayLiveActivity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TodayLiveActivity.swift; path = LongevityWidget/TodayLiveActivity.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -177,6 +182,8 @@
 				E73EA12F6C09D9CE505BAF51 /* TodayProgressWidget.swift */,
 				DC34D03C0CDB78DC01C28914 /* HabitCheckInControl.swift */,
 				7E0CD61740FCC51997A00430 /* HabitEntity.swift */,
+				4B69913F249DB2190ED2786D /* TodayActivityAttributes.swift */,
+				AEA4E1514EA14097608B6A44 /* TodayLiveActivity.swift */,
 				CBA5572CC9C6C4BDF08045AB /* Info.plist */,
 				4C7C9D3C8F803CEDB464A520 /* LongevityWidget.entitlements */,
 				5A1C0F3E9B7D4E2A8C6B1D00 /* PrivacyInfo.xcprivacy */,
@@ -383,6 +390,7 @@
 			files = (
 				7EE934DDA39E1692959CAD0D /* HabitEntity.swift in Sources */,
 				85E15132643067767F42D24B /* WidgetDatabase.swift in Sources */,
+				04CAB7394EE54C8E424E62C8 /* TodayActivityAttributes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +413,8 @@
 				8ECF797D4A3912106341D92B /* TodayProgressWidget.swift in Sources */,
 				C5FCCC7575E0127B674BEC97 /* HabitCheckInControl.swift in Sources */,
 				1B043D67DBE484B4CE286A6C /* HabitEntity.swift in Sources */,
+				2668DB8FC84E7649CD3684DA /* TodayActivityAttributes.swift in Sources */,
+				D0B60ACAE75DE36808C8F713 /* TodayLiveActivity.swift in Sources */,
 				EDCF95B50BFB0B0B2D6D0510 /* Habit.swift in Sources */,
 				7D0620E0F7A1A291F5702E8A /* CheckIn.swift in Sources */,
 				F1AE0EBC923EA5FE2F7151A0 /* TodayHabit.swift in Sources */,

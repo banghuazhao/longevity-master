@@ -16,5 +16,7 @@ enum WidgetRefresher {
         }
         // Siri matches "Check in <habit>" against the names it was last given.
         LongevityShortcuts.updateAppShortcutParameters()
+        // The Lock Screen's Live Activity shows the same list.
+        Task { @MainActor in LockScreenProgress.refresh() }
     }
 }

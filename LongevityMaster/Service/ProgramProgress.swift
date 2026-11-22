@@ -139,6 +139,30 @@ struct ProgramProgress: Equatable {
 /// Starting and leaving programs. Kept apart from the screens so onboarding, the program page
 /// and the tests all go through the same rules.
 enum ProgramEnrollments {
+    /// How many enrollments have reached their program's last day — finished by the same rule
+    /// as `ProgramProgress.isFinished`. Enrollments whose program no longer exists are left out.
+    static func finishedCount(
+        _ enrollments: [ProgramEnrollment],
+        customPrograms: [CustomProgram],
+        now: Date,
+        calendar: Calendar
+    ) -> Int {
+        let customDurations = Dictionary(
+            customPrograms.map { (Program.id(forCustom: $0.id), max($0.durationDays, 1)) },
+            uniquingKeysWith: { first, _ in first }
+        )
+        let today = calendar.startOfDay(for: now)
+        return enrollments.count { enrollment in
+            guard
+                let duration = ProgramsDataStore.program(id: enrollment.programID)?.durationDays
+                    ?? customDurations[enrollment.programID]
+            else { return false }
+            let start = calendar.startOfDay(for: enrollment.startDate)
+            let elapsed = calendar.dateComponents([.day], from: start, to: today).day ?? 0
+            return elapsed >= duration
+        }
+    }
+
     /// Enrolls the user in `program` from `date`, and returns the new enrollment.
     ///
     /// A program habit the user already has — matched by name, the way it was copied from the

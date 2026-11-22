@@ -33,7 +33,20 @@ enum AchievementType: Int, Codable, QueryBindable {
     case consistency
     case variety
     case milestone
-    
+    // Stored as their raw values, so new kinds only ever go on the end.
+    /// Checking in again after `targetValue` days or more with no check-ins at all.
+    case comeback
+    /// Habits from `targetValue` different categories checked in on the same day.
+    case balancedDay
+    /// `targetValue` programs seen through to their last day.
+    case programGraduate
+    /// A longevity score of `targetValue` or more.
+    case longevityRating
+    /// Still checking in `targetValue` days after the first check-in.
+    case anniversary
+    /// A streak of `targetValue` days on a habit rated five stars.
+    case topHabitStreak
+
     var title: String {
         switch self {
         case .streak: return String(localized: "Streak Master")
@@ -46,9 +59,15 @@ enum AchievementType: Int, Codable, QueryBindable {
         case .consistency: return String(localized: "Consistency King")
         case .variety: return String(localized: "Variety Seeker")
         case .milestone: return String(localized: "Milestone Reacher")
+        case .comeback: return String(localized: "Comeback Kid")
+        case .balancedDay: return String(localized: "Balanced Day")
+        case .programGraduate: return String(localized: "Program Graduate")
+        case .longevityRating: return String(localized: "Rising Star")
+        case .anniversary: return String(localized: "One Year Strong")
+        case .topHabitStreak: return String(localized: "Five-Star Focus")
         }
     }
-    
+
     var icon: String {
         switch self {
         case .streak: return "🔥"
@@ -61,6 +80,12 @@ enum AchievementType: Int, Codable, QueryBindable {
         case .consistency: return "📈"
         case .variety: return "🌈"
         case .milestone: return "🎯"
+        case .comeback: return "💪"
+        case .balancedDay: return "⚖️"
+        case .programGraduate: return "🎓"
+        case .longevityRating: return "🏅"
+        case .anniversary: return "🎂"
+        case .topHabitStreak: return "💎"
         }
     }
 }
@@ -355,9 +380,129 @@ struct AchievementDefinitions {
             isUnlocked: false,
             unlockedDate: nil,
             habitID: nil
-        )
+        ),
+
+        // Added in 1.10. Existing databases get these from the "Add achievements for 1.10"
+        // migration, which inserts whichever definitions are missing.
+        Achievement.Draft(
+            title: String(localized: "Comeback Kid"),
+            description: String(localized: "Check in again after a week away"),
+            icon: "💪",
+            type: .comeback,
+            criteria: AchievementCriteria(targetValue: 7),
+            isUnlocked: false,
+            unlockedDate: nil,
+            habitID: nil
+        ),
+        Achievement.Draft(
+            title: String(localized: "Balanced Day"),
+            description: String(localized: "Complete habits from 3 categories in one day"),
+            icon: "⚖️",
+            type: .balancedDay,
+            criteria: AchievementCriteria(targetValue: 3),
+            isUnlocked: false,
+            unlockedDate: nil,
+            habitID: nil
+        ),
+        Achievement.Draft(
+            title: String(localized: "Whole-Body Day"),
+            description: String(localized: "Complete habits from all 5 categories in one day"),
+            icon: "⚖️",
+            type: .balancedDay,
+            criteria: AchievementCriteria(targetValue: 5),
+            isUnlocked: false,
+            unlockedDate: nil,
+            habitID: nil
+        ),
+        Achievement.Draft(
+            title: String(localized: "Program Graduate"),
+            description: String(localized: "Finish a program"),
+            icon: "🎓",
+            type: .programGraduate,
+            criteria: AchievementCriteria(targetValue: 1),
+            isUnlocked: false,
+            unlockedDate: nil,
+            habitID: nil
+        ),
+        Achievement.Draft(
+            title: String(localized: "Program Collector"),
+            description: String(localized: "Finish 3 programs"),
+            icon: "🎓",
+            type: .programGraduate,
+            criteria: AchievementCriteria(targetValue: 3),
+            isUnlocked: false,
+            unlockedDate: nil,
+            habitID: nil
+        ),
+        Achievement.Draft(
+            title: String(localized: "Rising Star"),
+            description: String(localized: "Reach a B longevity rating"),
+            icon: "🏅",
+            type: .longevityRating,
+            criteria: AchievementCriteria(targetValue: 600),
+            isUnlocked: false,
+            unlockedDate: nil,
+            habitID: nil
+        ),
+        Achievement.Draft(
+            title: String(localized: "High Achiever"),
+            description: String(localized: "Reach an A longevity rating"),
+            icon: "🏅",
+            type: .longevityRating,
+            criteria: AchievementCriteria(targetValue: 800),
+            isUnlocked: false,
+            unlockedDate: nil,
+            habitID: nil
+        ),
+        Achievement.Draft(
+            title: String(localized: "Longevity Expert"),
+            description: String(localized: "Reach an S longevity rating"),
+            icon: "🏅",
+            type: .longevityRating,
+            criteria: AchievementCriteria(targetValue: 900),
+            isUnlocked: false,
+            unlockedDate: nil,
+            habitID: nil
+        ),
+        Achievement.Draft(
+            title: String(localized: "Five-Star Focus"),
+            description: String(localized: "Keep a 30-day streak on a 5-star habit"),
+            icon: "💎",
+            type: .topHabitStreak,
+            criteria: AchievementCriteria(targetValue: 30),
+            isUnlocked: false,
+            unlockedDate: nil,
+            habitID: nil
+        ),
+        Achievement.Draft(
+            title: String(localized: "One Year Strong"),
+            description: String(localized: "Still checking in a year after your first check-in"),
+            icon: "🎂",
+            type: .anniversary,
+            criteria: AchievementCriteria(targetValue: 365),
+            isUnlocked: false,
+            unlockedDate: nil,
+            habitID: nil
+        ),
     ]
-} 
+
+    /// Adds every definition the database does not have yet, matched by type and criteria
+    /// rather than by title, which is stored in whatever language the app was in.
+    static func insertMissing(in db: Database) throws {
+        let existing = Set(try Achievement.all.fetchAll(db).map(AchievementIdentity.init))
+        let missing = all.filter { draft in
+            !existing.contains(
+                AchievementIdentity(
+                    kind: draft.type.rawValue,
+                    target: draft.criteria.targetValue,
+                    category: draft.criteria.category?.rawValue
+                )
+            )
+        }
+        guard !missing.isEmpty else { return }
+        try Achievement.insert { missing }.execute(db)
+    }
+}
 
 // MARK: - Showing an achievement in the current language
 

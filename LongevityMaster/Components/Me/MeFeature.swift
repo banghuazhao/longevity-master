@@ -187,6 +187,10 @@ struct MeView: View {
 
     private var progressSection: some View {
         section("Progress") {
+            NavigationLink(destination: InsightsView()) {
+                AppRow("Insights", systemImage: "lightbulb.max.fill", color: .mint)
+            }
+            AppRowDivider()
             NavigationLink(destination: UserStatsView()) {
                 AppRow("My Stats", systemImage: "chart.bar.fill", color: .blue)
             }

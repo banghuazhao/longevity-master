@@ -33,68 +33,55 @@ class RatingService {
     @FetchAll(SkippedDay.all, animation: .default) var allSkippedDays
     
     func calculateLongevityScore() -> LongevityScoreBreakdown {
-        let habitsScore = calculateHabitsScore()
-        let antiAgingScore = calculateAntiAgingScore()
-        let achievementsScore = calculateAchievementsScore()
-        let checkInsScore = calculateCheckInsScore()
-        let streakScore = calculateLongestStreakScore()
-        
-        let totalScore = habitsScore + antiAgingScore + achievementsScore + checkInsScore + streakScore
-        
+        Self.score(
+            habits: allHabits,
+            unlockedAchievementCount: allAchievements.count(where: \.isUnlocked),
+            checkIns: allCheckIns,
+            skippedDays: allSkippedDays,
+            calendar: userCalendar
+        )
+    }
+
+    /// The score worked out from the data alone, so the achievement checks — which read their
+    /// own snapshot rather than this service's observed copies — arrive at the same number.
+    static func score(
+        habits: [Habit],
+        unlockedAchievementCount: Int,
+        checkIns: [CheckIn],
+        skippedDays: [SkippedDay],
+        calendar: Calendar
+    ) -> LongevityScoreBreakdown {
+        let activeHabits = habits.filter { !$0.isArchived }
+
+        // 10 points per active habit, max 300 points (30 habits).
+        let habitsScore = min(activeHabits.count * 10, ScoreCategory.activeHabits.maxScore)
+
+        // 2 points per anti-aging star across the active habits, max 300 points.
+        let totalAntiAgingRating = activeHabits.reduce(0) { $0 + $1.antiAgingRating }
+        let antiAgingScore = min(totalAntiAgingRating * 2, ScoreCategory.antiAgingRating.maxScore)
+
+        // 10 points per unlocked achievement.
+        let achievementsScore = min(unlockedAchievementCount * 10, ScoreCategory.achievements.maxScore)
+
+        // 2 points per check-in, max 200 points (100 check-ins).
+        let checkInsScore = min(checkIns.count * 2, ScoreCategory.totalCheckIns.maxScore)
+
+        // Longest run of consecutive days carrying a check-in against any habit, counting
+        // through days taken off from every habit.
+        let activeDays = Set(checkIns.map { $0.date.startOfDay(for: calendar) })
+        let restDays = RestDays(skippedDays, in: calendar).everyHabit
+        let streakScore = min(
+            calendar.longestDayStreak(in: activeDays, skipping: restDays) * 2,
+            ScoreCategory.longestStreak.maxScore
+        )
+
         return LongevityScoreBreakdown(
-            totalScore: totalScore,
+            totalScore: habitsScore + antiAgingScore + achievementsScore + checkInsScore + streakScore,
             habitsScore: habitsScore,
             antiAgingScore: antiAgingScore,
             achievementsScore: achievementsScore,
             checkInsScore: checkInsScore,
             streakScore: streakScore
-        )
-    }
-    
-    private func calculateHabitsScore() -> Int {
-        let habits = allHabits.filter { !$0.isArchived }
-        
-        // Score based on number of active habits
-        // 10 points per habit, max 300 points (30 habits)
-        return min(habits.count * 10, ScoreCategory.activeHabits.maxScore)
-    }
-    
-    private func calculateAntiAgingScore() -> Int {
-        let habits = allHabits.filter { !$0.isArchived }
-        
-        // Score based on total anti-aging rating of all habits
-        // Each habit has antiAgingRating from 1-5
-        let totalAntiAgingRating = habits.reduce(0) { $0 + $1.antiAgingRating }
-        
-        // 2 points per anti-aging rating point, max 300 points
-        return min(totalAntiAgingRating * 2, ScoreCategory.antiAgingRating.maxScore)
-    }
-    
-    private func calculateAchievementsScore() -> Int {
-        let achievements = allAchievements
-            .filter { $0.isUnlocked }
-        
-        // Score based on number of unlocked achievements
-        // 10 points per achievement
-        return min(achievements.count * 10, ScoreCategory.achievements.maxScore)
-    }
-    
-    private func calculateCheckInsScore() -> Int {
-        // Score based on total number of check-ins
-        // 2 points per check-in, max 200 points (100 check-ins)
-        return min(allCheckIns.count * 2, ScoreCategory.totalCheckIns.maxScore)
-    }
-    
-    private func calculateLongestStreakScore() -> Int {
-        // Longest run of consecutive days carrying a check-in against any habit, counting
-        // through days taken off from every habit. `userCalendar` builds a Calendar and reads
-        // UserDefaults on every access, so it is taken once.
-        let calendar = userCalendar
-        let activeDays = Set(allCheckIns.map { $0.date.startOfDay(for: calendar) })
-        let restDays = RestDays(allSkippedDays, in: calendar).everyHabit
-        return min(
-            calendar.longestDayStreak(in: activeDays, skipping: restDays) * 2,
-            ScoreCategory.longestStreak.maxScore
         )
     }
     

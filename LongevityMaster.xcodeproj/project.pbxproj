@@ -449,8 +449,8 @@
 				CODE_SIGN_ENTITLEMENTS = LongevityWidget/LongevityWidget.entitlements;
 				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = LongevityWidget/LongevityWidget-macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.9.0.1;
-				"CURRENT_PROJECT_VERSION[sdk=macosx*]" = 10900.3;
+				CURRENT_PROJECT_VERSION = 1.10.0.1;
+				"CURRENT_PROJECT_VERSION[sdk=macosx*]" = 11000.1;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LongevityWidget/Info.plist;
@@ -461,7 +461,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.9.0;
+				MARKETING_VERSION = 1.10.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appsbayarea.longevityMaster.LongevityWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
@@ -616,8 +616,8 @@
 				CODE_SIGN_ENTITLEMENTS = LongevityMaster/LongevityMaster.entitlements;
 				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = LongevityMaster/LongevityMaster-macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.9.0.1;
-				"CURRENT_PROJECT_VERSION[sdk=macosx*]" = 10900.3;
+				CURRENT_PROJECT_VERSION = 1.10.0.1;
+				"CURRENT_PROJECT_VERSION[sdk=macosx*]" = 11000.1;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_ASSET_PATHS = "\"LongevityMaster/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -635,7 +635,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.9.0;
+				MARKETING_VERSION = 1.10.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appsbayarea.longevityMaster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
@@ -656,8 +656,8 @@
 				CODE_SIGN_ENTITLEMENTS = LongevityMaster/LongevityMaster.entitlements;
 				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = LongevityMaster/LongevityMaster-macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.9.0.1;
-				"CURRENT_PROJECT_VERSION[sdk=macosx*]" = 10900.3;
+				CURRENT_PROJECT_VERSION = 1.10.0.1;
+				"CURRENT_PROJECT_VERSION[sdk=macosx*]" = 11000.1;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_ASSET_PATHS = "\"LongevityMaster/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -675,7 +675,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.9.0;
+				MARKETING_VERSION = 1.10.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appsbayarea.longevityMaster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
@@ -729,8 +729,8 @@
 				CODE_SIGN_ENTITLEMENTS = LongevityWidget/LongevityWidget.entitlements;
 				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = LongevityWidget/LongevityWidget-macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.9.0.1;
-				"CURRENT_PROJECT_VERSION[sdk=macosx*]" = 10900.3;
+				CURRENT_PROJECT_VERSION = 1.10.0.1;
+				"CURRENT_PROJECT_VERSION[sdk=macosx*]" = 11000.1;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LongevityWidget/Info.plist;
@@ -741,7 +741,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.9.0;
+				MARKETING_VERSION = 1.10.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appsbayarea.longevityMaster.LongevityWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
